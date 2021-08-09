@@ -1,6 +1,6 @@
 # Splitfit contribution guidelines
 
-Thanks for contributing to Splitfit!
+Thanks for contributing!
 
 ## Issue reporting/feature requests
 
