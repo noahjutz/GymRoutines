@@ -128,7 +128,7 @@ fun AppSettings(
             Divider()
             ListItem(
                 modifier = Modifier.clickable(onClick = navToAbout),
-                text = { Text("About Splitfit") },
+                text = { Text("About") },
                 icon = { Icon(Icons.Default.Help, null) }
             )
         }
