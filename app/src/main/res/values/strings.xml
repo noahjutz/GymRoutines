@@ -16,7 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   -->
 <resources>
-    <string name="app_name">Splitfit</string>
+    <string name="app_name">GymRoutines</string>
     <string name="unnamed_routine">Unnamed</string>
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>

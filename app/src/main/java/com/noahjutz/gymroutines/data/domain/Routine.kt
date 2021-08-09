@@ -16,5 +16,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-rootProject.name = "GymRoutines"
-include(":app")
+package com.noahjutz.gymroutines.data.domain
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "routine_table")
+data class Routine(
+    val name: String = "",
+    val setGroups: List<SetGroup> = emptyList(),
+
+    @PrimaryKey(autoGenerate = true)
+    var routineId: Int = 0,
+)

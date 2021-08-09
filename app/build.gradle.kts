@@ -29,7 +29,7 @@ android {
     buildToolsVersion = "30.0.3"
 
     defaultConfig {
-        applicationId = "com.noahjutz.splitfit"
+        applicationId = "com.noahjutz.gymroutines"
         minSdk = App.minSdk
         targetSdk = App.targetSdk
         versionCode = 33

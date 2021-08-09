@@ -16,5 +16,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-rootProject.name = "GymRoutines"
-include(":app")
+package com.noahjutz.gymroutines.data.domain
+
+import com.noahjutz.gymroutines.data.domain.Set
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class SetGroup(
+    val exerciseId: Int,
+    val sets: List<Set> = listOf(Set()),
+)

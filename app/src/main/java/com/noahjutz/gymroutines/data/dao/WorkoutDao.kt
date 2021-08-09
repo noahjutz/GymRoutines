@@ -16,5 +16,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-rootProject.name = "GymRoutines"
-include(":app")
+package com.noahjutz.gymroutines.data.dao
+
+import androidx.room.*
+import com.noahjutz.gymroutines.data.domain.Workout
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface WorkoutDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(workout: Workout): Long
+
+    @Query("SELECT * FROM workout_table ORDER BY startTime DESC")
+    fun getWorkouts(): Flow<List<Workout>>
+
+    @Query("SELECT * FROM workout_table WHERE workoutId == :id")
+    suspend fun getWorkout(id: Int): Workout?
+
+    @Delete
+    suspend fun delete(workout: Workout)
+}

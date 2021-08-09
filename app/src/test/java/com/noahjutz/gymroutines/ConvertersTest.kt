@@ -16,5 +16,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-rootProject.name = "GymRoutines"
-include(":app")
+package com.noahjutz.splitfit
+
+import com.noahjutz.gymroutines.data.Converters
+import com.noahjutz.gymroutines.data.domain.SetGroup
+import org.junit.Assert
+import org.junit.Test
+
+class ConvertersTest {
+    val converters: Converters = Converters()
+
+    @Test
+    fun `List of Sets can be turned into JSON and back`() {
+        val list = mutableListOf(
+            SetGroup(0),
+            SetGroup(1)
+        )
+        val json = converters.fromSetGroups(list)
+        val backToList = converters.toSetGroups(json)
+        Assert.assertEquals(list, backToList)
+    }
+}

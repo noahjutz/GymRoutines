@@ -16,5 +16,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-rootProject.name = "GymRoutines"
-include(":app")
+package com.noahjutz.gymroutines.ui.routines
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.noahjutz.gymroutines.data.RoutineRepository
+import com.noahjutz.gymroutines.data.domain.Routine
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
+
+class RoutineListViewModel(
+    private val repository: RoutineRepository,
+) : ViewModel() {
+    val routines: Flow<List<Routine>>
+        get() = repository.routines
+
+    fun deleteRoutine(routineId: Int) = viewModelScope.launch {
+        repository.getRoutine(routineId)?.let { repository.delete(it) }
+    }
+
+    fun addRoutine(): Long = repository.insert(Routine())
+}

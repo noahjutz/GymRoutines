@@ -17,10 +17,10 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.noahjutz.splitfit">
+    package="com.noahjutz.gymroutines">
 
     <application
-        android:name="com.noahjutz.splitfit.SplitfitApplication"
+        android:name=".SplitfitApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -28,7 +28,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
         <activity
-            android:name="com.noahjutz.splitfit.ui.MainActivity"
+            android:name=".ui.MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

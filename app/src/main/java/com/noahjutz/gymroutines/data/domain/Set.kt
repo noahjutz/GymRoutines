@@ -16,5 +16,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-rootProject.name = "GymRoutines"
-include(":app")
+package com.noahjutz.gymroutines.data.domain
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Set(
+    val reps: Int? = null,
+    val weight: Double? = null,
+    val time: Int? = null,
+    val distance: Double? = null,
+    val complete: Boolean = false,
+)

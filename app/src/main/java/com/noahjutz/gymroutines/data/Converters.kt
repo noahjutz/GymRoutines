@@ -16,5 +16,27 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-rootProject.name = "GymRoutines"
-include(":app")
+@file:Suppress("IllegalIdentifier")
+
+package com.noahjutz.gymroutines.data
+
+import androidx.room.TypeConverter
+import com.noahjutz.gymroutines.data.domain.SetGroup
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import java.util.*
+
+class Converters {
+    @TypeConverter
+    fun fromSetGroups(setGroups: List<SetGroup>): String = Json.encodeToString(setGroups)
+
+    @TypeConverter
+    fun toSetGroups(json: String): MutableList<SetGroup> = Json.decodeFromString(json)
+
+    @TypeConverter
+    fun fromDate(date: Date): Long = date.time
+
+    @TypeConverter
+    fun toDate(time: Long): Date = Date(time)
+}
