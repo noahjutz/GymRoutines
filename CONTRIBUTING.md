@@ -16,12 +16,11 @@ Thanks for contributing!
 
 * If you want to help out with an existing bug report or feature request, leave a comment on that issue saying you want to try your hand at it.
 * If there is no existing issue for what you want to work on, open a new one describing your changes. This gives the team and the community a chance to give feedback before you spend time on something that is already in development, should be done differently, or should be avoided completely.
-* Stick to Splitfit's style conventions of [Ktlint](https://ktlint.github.io/). Run it using `./gradlew ktlintCheck`.
 * Do not bring non-free software (e.g. binary blobs) into the project. Make sure you do not introduce Google
   libraries.
-* Stick to [F-Droid contribution guidelines](https://f-droid.org/wiki/page/Inclusion_Policy). (fdroid build flavor only)
-* Stick to [Google Play Policies](https://play.google.com/about/developer-content-policy/). (googleplay build flavor only)
-* Make changes on a separate branch with a meaningful name, not on the _master_ branch branch. This is commonly known as *feature branch workflow*. You may then send your changes as a pull request (PR) on GitHub.
+* Stick to the [F-Droid contribution guidelines](https://f-droid.org/wiki/page/Inclusion_Policy).
+* Stick to the [Google Play Policies](https://play.google.com/about/developer-content-policy/).
+* Make changes on a separate branch with a meaningful name, not on the _master_ branch branch. This is commonly known as *feature branch workflow*. You may then send your changes as a pull request (PR) on Codeberg.
 * Please test (compile and run) your code before submitting changes!
 * Make sure your PR is up-to-date with the rest of the code.
 * Please show intention to maintain your features and code after you contribute a PR. Unmaintained code is a hassle for core developers. If you do not intend to maintain features you plan to contribute, please rethink your submission, or clearly state that in the PR description.
@@ -31,7 +30,7 @@ Thanks for contributing!
 ## Communication
 
 * Contact me at noahjutz@tutanota.de
-* Post suggestions, changes, ideas etc. on GitHub
+* Post suggestions, changes, ideas etc. on Codeberg
 
 ---
 This is a modified version of [NewPipe's CONTRIBUTING.md](https://github.com/TeamNewPipe/NewPipe/blob/3ad14e4adf04d516a3e29d03268ba214c79671fa/.github/CONTRIBUTING.md)
