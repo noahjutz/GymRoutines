@@ -20,7 +20,7 @@
     package="com.noahjutz.gymroutines">
 
     <application
-        android:name=".SplitfitApplication"
+        android:name=".GymRoutinesApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

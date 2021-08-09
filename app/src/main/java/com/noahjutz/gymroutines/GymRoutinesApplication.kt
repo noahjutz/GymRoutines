@@ -29,7 +29,7 @@ import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
-class SplitfitApplication : Application() {
+class GymRoutinesApplication : Application() {
     private val preferences: DataStore<Preferences> by inject()
     private val scope = CoroutineScope(Dispatchers.Default)
 
@@ -37,7 +37,7 @@ class SplitfitApplication : Application() {
         super.onCreate()
 
         startKoin {
-            androidContext(this@SplitfitApplication)
+            androidContext(this@GymRoutinesApplication)
             modules(koinModule)
         }
 
