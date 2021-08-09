@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.noahjutz.gymroutines.BuildConfig
@@ -88,7 +89,7 @@ fun AboutApp(
                         )
                     }
                     Spacer(Modifier.width(12.dp))
-                    Text("Splitfit", style = typography.h4)
+                    Text(stringResource(R.string.app_name), style = typography.h4)
                 }
 
                 ListItem(
