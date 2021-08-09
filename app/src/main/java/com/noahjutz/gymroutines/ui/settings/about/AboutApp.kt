@@ -113,30 +113,6 @@ fun AboutApp(
                 Divider()
 
                 ListItem(
-                    modifier = Modifier.clickable { mainActivity.openUrl(Urls.contributing) },
-                    text = { Text("Contributing") },
-                    secondaryText = { Text("Find out how to contribute to Splitfit.") },
-                    icon = { Icon(Icons.Default.Forum, null) },
-                    trailing = { Icon(Icons.Default.Launch, null) },
-                )
-                if (BuildConfig.FLAVOR == "googleplay") ListItem(
-                    modifier = Modifier.clickable { mainActivity.openUrl(Urls.googlePlay) },
-                    text = { Text("Rate App") },
-                    secondaryText = { Text("On Google Play") },
-                    icon = { Icon(Icons.Default.RateReview, null) },
-                    trailing = { Icon(Icons.Default.Launch, null) },
-                )
-                if (BuildConfig.FLAVOR != "googleplay") ListItem(
-                    modifier = Modifier.clickable { mainActivity.openUrl(Urls.donateLiberapay) },
-                    text = { Text("Donate") },
-                    secondaryText = { Text("On Liberapay") },
-                    icon = { Icon(Icons.Default.CardGiftcard, null) },
-                    trailing = { Icon(Icons.Default.Launch, null) },
-                )
-
-                Divider()
-
-                ListItem(
                     text = { Text("Author") },
                     secondaryText = { Text("Noah Jutz") },
                     icon = { Icon(Icons.Default.Face, null) }

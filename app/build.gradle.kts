@@ -71,18 +71,6 @@ android {
         }
     }
 
-    flavorDimensions.add("dimension")
-    productFlavors {
-
-        create("fdroid") {
-            dimension = "dimension"
-            applicationIdSuffix = ".fdroid"
-        }
-        create("googleplay") {
-            dimension = "dimension"
-        }
-    }
-
     buildFeatures {
         compose = true
     }
