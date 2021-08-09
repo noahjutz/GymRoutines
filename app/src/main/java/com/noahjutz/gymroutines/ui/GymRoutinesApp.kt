@@ -78,7 +78,7 @@ val bottomNavItems = listOf(
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
-fun SplitfitApp(
+fun GymRoutinesApp(
     preferences: DataStore<Preferences> = get(),
 ) {
     val navController = rememberNavController()

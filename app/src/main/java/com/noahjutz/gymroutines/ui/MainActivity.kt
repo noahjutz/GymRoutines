@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
                 LocalColorTheme provides colors
             ) {
                 SplitfitTheme(colors = LocalThemePreference.current) {
-                    SplitfitApp()
+                    GymRoutinesApp()
                 }
             }
         }
