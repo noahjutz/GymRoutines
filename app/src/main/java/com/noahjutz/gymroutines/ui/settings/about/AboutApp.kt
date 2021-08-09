@@ -43,10 +43,7 @@ import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.util.openUrl
 
 private object Urls {
-    const val googlePlay = "https://play.google.com/store/apps/details?id=com.noahjutz.splitfit"
-    const val sourceCode = "https://github.com/noahjutz/Splitfit"
-    const val donateLiberapay = "https://liberapay.com/noahjutz/donate"
-    const val contributing = "https://github.com/noahjutz/Splitfit/blob/master/CONTRIBUTING.md"
+    const val sourceCode = "https://codeberg.org/noahjutz/GymRoutines"
 }
 
 @ExperimentalMaterialApi
@@ -106,18 +103,12 @@ fun AboutApp(
                 ListItem(
                     modifier = Modifier.clickable { mainActivity.openUrl(Urls.sourceCode) },
                     text = { Text("Source Code") },
-                    secondaryText = { Text("On GitHub") },
                     icon = { Icon(Icons.Default.Code, null) },
                     trailing = { Icon(Icons.Default.Launch, null) },
                 )
 
                 Divider()
 
-                ListItem(
-                    text = { Text("Author") },
-                    secondaryText = { Text("Noah Jutz") },
-                    icon = { Icon(Icons.Default.Face, null) }
-                )
                 ListItem(
                     text = { Text("Contact") },
                     secondaryText = { Text("noahjutz@tutanota.de") },
