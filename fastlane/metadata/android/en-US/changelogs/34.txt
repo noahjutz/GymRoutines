@@ -1,0 +1,14 @@
+Features:
+* Renamed app from Splitfit to GymRoutines (#41)
+* The app now has a new launcher icon
+* Simplified "About" screen (53674304, e3711b53, bc6e2025)
+
+Development:
+* Remove build flavors (#38)
+* Change package name from com.noahjutz.splitfit to com.noahjutz.gymroutines
+* Move source code to codeberg (#36)
+
+Misc:
+* Updated screenshots (0b819e6c)
+* Updated README (e9d0e97d, 60edf19b, 3a1d95b4, b4e7193d)
+* Updated CONTRIBUTING (1a49c464, a834417d)
