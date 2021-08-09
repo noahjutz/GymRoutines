@@ -20,4 +20,4 @@
     <img src="https://img.shields.io/f-droid/v/com.noahjutz.splitfit.fdroid?include_prereleases&logo=f-droid">
 </a>
 
-An Open-Source Android app for creating training plans and tracking progress. n.sly.io/gymroutines
+An Open-Source Android app for creating training plans and tracking progress. [noahjutz.github.io/gymroutines](https://noahjutz.github.io/gymroutines)
