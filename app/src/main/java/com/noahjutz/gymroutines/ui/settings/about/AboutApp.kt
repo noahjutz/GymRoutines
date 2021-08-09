@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
@@ -77,14 +78,14 @@ fun AboutApp(
                 ) {
                     Surface(
                         shape = RoundedCornerShape(4.dp),
-                        color = Color.Black,
+                        color = colorResource(id = R.color.ic_launcher_background),
                         elevation = 4.dp,
                     ) {
                         Image(
                             modifier = Modifier
                                 .padding(4.dp)
                                 .size(48.dp),
-                            imageVector = ImageVector.vectorResource(R.drawable.ic_splitfit),
+                            imageVector = ImageVector.vectorResource(R.drawable.ic_gymroutines),
                             contentDescription = null,
                         )
                     }
