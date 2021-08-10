@@ -1,7 +1,7 @@
-<a href="https://play.google.com/store/apps/details?id=com.noahjutz.splitfit">
+<a href="https://play.google.com/store/apps/details?id=com.noahjutz.gymroutines">
     <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" width="200px">
 </a>
-<a href="https://f-droid.org/packages/com.noahjutz.splitfit.fdroid">
+<a href="https://f-droid.org/packages/com.noahjutz.gymroutines">
     <img src="https://gitlab.com/fdroid/artwork/-/raw/master/badge/get-it-on-en-us.png" width="200px">
 </a>
 
