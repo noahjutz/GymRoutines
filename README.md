@@ -7,6 +7,8 @@
 
 # GymRoutines
 
+[noahjutz.codeberg.page/gymroutines](https://noahjutz.codeberg.page/gymroutines)
+
 An Open-Source Android app for creating training plans and tracking progress.
 
 ## Screenshots
