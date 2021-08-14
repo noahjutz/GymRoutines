@@ -1,1 +1,1 @@
-Save workout routines and track your progress.
+Open-Source fitness tracker for Android.
