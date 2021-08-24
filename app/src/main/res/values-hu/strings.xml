@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Splitfit</string>
     <string name="tab_settings">Beállítások</string>
     <string name="unnamed_workout">Névtelen</string>
     <string name="tab_workouts">Történelem</string>

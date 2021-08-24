@@ -19,7 +19,6 @@
     <string name="reps">Répétitions</string>
     <string name="distance">Distante</string>
     <string name="tab_routines">Règles de routine</string>
-    <string name="app_name">Splitfit</string>
     <string name="unnamed_routine">Non nommé</string>
     <string name="log_distance">Distance du journal</string>
 </resources>
