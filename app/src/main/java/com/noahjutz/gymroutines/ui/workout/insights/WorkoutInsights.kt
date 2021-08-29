@@ -19,11 +19,13 @@
 package com.noahjutz.gymroutines.ui.workout.insights
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.runtime.Composable
@@ -32,6 +34,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.noahjutz.gymroutines.R
@@ -168,9 +171,13 @@ private fun WorkoutCharts(
                 Modifier
                     .fillMaxWidth()
                     .height((100..200).random().dp)
-                    .padding(bottom = 16.dp, end = 16.dp)
+                    .padding(bottom = 16.dp, end = 16.dp),
+                shape = RoundedCornerShape(8.dp),
+                elevation = 2.dp,
             ) {
-                Text("Hello $i")
+                Column(Modifier.fillMaxWidth().padding(16.dp)) {
+                    Text("Hello $i", style = typography.body1.copy(fontWeight = FontWeight.Bold))
+                }
             }
         }
     }
