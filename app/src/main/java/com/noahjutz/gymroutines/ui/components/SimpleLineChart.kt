@@ -8,6 +8,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -22,8 +23,8 @@ fun SimpleLineChart(
 
     Canvas(modifier) {
         val minX = minOf(data.minOf { it.first }, secondaryData.minOf { it.first })
-        val maxX = minOf(data.maxOf { it.first }, secondaryData.maxOf { it.first })
-        val minY = maxOf(data.minOf { it.second }, secondaryData.minOf { it.second })
+        val maxX = maxOf(data.maxOf { it.first }, secondaryData.maxOf { it.first })
+        val minY = minOf(data.minOf { it.second }, secondaryData.minOf { it.second })
         val maxY = maxOf(data.maxOf { it.second }, secondaryData.maxOf { it.second })
 
         val offsets = data.map { (x, y) ->
@@ -38,28 +39,30 @@ fun SimpleLineChart(
             Offset(xAdjusted, yAdjusted)
         }
 
-        drawPath(
-            path = Path().apply {
-                moveTo(offsets.first().x, offsets.first().y)
-                for (offset in offsets) {
-                    lineTo(offset.x, offset.y)
-                }
-            },
-            color = color,
-            style = Stroke(width = 2.dp.toPx())
-        )
-
-        if (secondaryData.isNotEmpty()) {
+        clipRect {
             drawPath(
                 path = Path().apply {
-                    moveTo(secondaryOffsets.first().x, secondaryOffsets.first().y)
-                    for (offset in secondaryOffsets) {
+                    moveTo(offsets.first().x, offsets.first().y)
+                    for (offset in offsets) {
                         lineTo(offset.x, offset.y)
                     }
                 },
-                color = secondaryColor,
+                color = color,
                 style = Stroke(width = 2.dp.toPx())
             )
+
+            if (secondaryData.isNotEmpty()) {
+                drawPath(
+                    path = Path().apply {
+                        moveTo(secondaryOffsets.first().x, secondaryOffsets.first().y)
+                        for (offset in secondaryOffsets) {
+                            lineTo(offset.x, offset.y)
+                        }
+                    },
+                    color = secondaryColor,
+                    style = Stroke(width = 2.dp.toPx())
+                )
+            }
         }
     }
 }
