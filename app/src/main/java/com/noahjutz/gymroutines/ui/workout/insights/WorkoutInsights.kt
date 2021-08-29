@@ -19,10 +19,7 @@
 package com.noahjutz.gymroutines.ui.workout.insights
 
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -44,6 +41,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.abs
 import kotlin.time.ExperimentalTime
 
 @ExperimentalMaterialApi
@@ -166,19 +164,56 @@ private fun WorkoutCharts(
         Modifier.padding(top = 16.dp, start = 16.dp),
         maxColumnWidth = 200.dp,
     ) {
-        for (i in 0..10) {
-            Card(
-                Modifier
-                    .fillMaxWidth()
-                    .height((100..200).random().dp)
-                    .padding(bottom = 16.dp, end = 16.dp),
-                shape = RoundedCornerShape(8.dp),
-                elevation = 2.dp,
-            ) {
-                Column(Modifier.fillMaxWidth().padding(16.dp)) {
-                    Text("Hello $i", style = typography.body1.copy(fontWeight = FontWeight.Bold))
+        for (i in 0..5) {
+            ChartCard(
+                title = "Hello $i",
+                chart = {
+                    SimpleLineChart(
+                        Modifier.fillMaxWidth().height((175..225).random().dp),
+                        data = randomData()
+                    )
                 }
-            }
+            )
+        }
+    }
+}
+
+@Composable
+private fun ChartCard(
+    title: String,
+    chart: @Composable () -> Unit,
+) {
+    Card(
+        Modifier
+            .fillMaxWidth()
+            .height((100..200).random().dp)
+            .padding(bottom = 16.dp, end = 16.dp),
+        shape = RoundedCornerShape(8.dp),
+        elevation = 2.dp,
+    ) {
+        Column(Modifier.fillMaxWidth().padding(16.dp)) {
+            Text(title, style = typography.body1.copy(fontWeight = FontWeight.Bold))
+            Spacer(Modifier.height(8.dp))
+            chart()
+        }
+    }
+}
+
+@OptIn(ExperimentalStdlibApi::class)
+fun randomData(
+    yMin: Int = 0,
+    yMax: Int = 100,
+): List<Pair<Float, Float>> {
+    return buildList(500) {
+        val yRange = abs(yMin) + abs(yMax)
+        for (i in 0..500) {
+            add(
+                Pair(
+                    first = i.toFloat(),
+                    second = if (i == 0) (yMin..yMax).random().toFloat()
+                    else this[i - 1].second + (-(yRange / 5)..(yRange / 5)).random()
+                )
+            )
         }
     }
 }
