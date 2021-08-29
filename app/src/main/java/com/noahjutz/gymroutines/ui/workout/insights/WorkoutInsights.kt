@@ -19,12 +19,12 @@
 package com.noahjutz.gymroutines.ui.workout.insights
 
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -35,17 +35,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.noahjutz.gymroutines.R
-import com.noahjutz.gymroutines.data.ColorTheme
 import com.noahjutz.gymroutines.data.domain.Workout
-import com.noahjutz.gymroutines.ui.LocalColorTheme
-import com.noahjutz.gymroutines.ui.components.NormalDialog
-import com.noahjutz.gymroutines.ui.components.NothingHereYet
-import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
-import com.noahjutz.gymroutines.ui.components.TopBar
-import com.noahjutz.gymroutines.util.average
-import com.noahjutz.gymroutines.util.currentDailyStreak
-import com.noahjutz.gymroutines.util.minus
-import com.noahjutz.gymroutines.util.total
+import com.noahjutz.gymroutines.ui.components.*
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import java.text.SimpleDateFormat
@@ -78,7 +69,7 @@ fun WorkoutInsightsContent(
     Scaffold(topBar = { TopBar(title = stringResource(R.string.tab_insights)) }) {
         LazyColumn {
             item {
-                InfoTiles(workouts)
+                WorkoutCharts(workouts)
                 Text(
                     "History",
                     Modifier.padding(bottom = 8.dp, start = 16.dp, end = 16.dp),
@@ -165,53 +156,22 @@ private fun DeleteConfirmation(
 
 @ExperimentalTime
 @Composable
-private fun InfoTiles(
+private fun WorkoutCharts(
     workouts: List<Workout>
 ) {
-    Card(
-        Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        elevation = if (LocalColorTheme.current == ColorTheme.White) 2.dp else 0.dp,
-        border = BorderStroke(2.dp, colors.onSurface.copy(alpha = 0.12f))
-            .takeIf { LocalColorTheme.current == ColorTheme.Black }
+    StaggeredVerticalGrid(
+        Modifier.padding(top = 16.dp, start = 16.dp),
+        maxColumnWidth = 200.dp,
     ) {
-        Column {
-            Row {
-                InfoTile(
-                    text = workouts.map { it.startTime }.currentDailyStreak.toString(),
-                    secondaryText = "Streak"
-                )
-                InfoTile(
-                    text = workouts.map { it.endTime - it.startTime }.average.toString(),
-                    secondaryText = "Average Duration"
-                )
-            }
-            Row {
-                InfoTile(
-                    text = workouts.size.toString(),
-                    secondaryText = "Total Workouts"
-                )
-                InfoTile(
-                    text = workouts.map { it.endTime - it.startTime }.total.toString(),
-                    secondaryText = "Total duration"
-                )
+        for (i in 0..10) {
+            Card(
+                Modifier
+                    .fillMaxWidth()
+                    .height((100..200).random().dp)
+                    .padding(bottom = 16.dp, end = 16.dp)
+            ) {
+                Text("Hello $i")
             }
         }
-    }
-}
-
-@Composable
-private fun RowScope.InfoTile(
-    text: String,
-    secondaryText: String,
-) {
-    Column(
-        Modifier
-            .weight(1f)
-            .padding(16.dp)
-    ) {
-        Text(text, style = typography.h6)
-        Text(secondaryText, style = typography.body2)
     }
 }
