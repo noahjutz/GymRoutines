@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.Workout
+import com.noahjutz.gymroutines.data.domain.duration
 import com.noahjutz.gymroutines.ui.components.*
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
@@ -164,16 +165,15 @@ private fun WorkoutCharts(
         Modifier.padding(top = 16.dp, start = 16.dp),
         maxColumnWidth = 200.dp,
     ) {
-        for (i in 0..5) {
-            ChartCard(
-                title = "Hello $i",
-                chart = {
-                    SimpleLineChart(
-                        Modifier.fillMaxWidth().height((175..225).random().dp),
-                        data = randomData()
-                    )
-                }
-            )
+        ChartCard(title = "Average duration") {
+            if (workouts.isNotEmpty()) {
+                SimpleLineChart(
+                    Modifier.fillMaxWidth().height((200..300).random().dp),
+                    data = workouts.mapIndexed { i, workout ->
+                        Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
+                    }
+                )
+            }
         }
     }
 }
@@ -191,29 +191,13 @@ private fun ChartCard(
         shape = RoundedCornerShape(8.dp),
         elevation = 2.dp,
     ) {
-        Column(Modifier.fillMaxWidth().padding(16.dp)) {
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp)) {
             Text(title, style = typography.body1.copy(fontWeight = FontWeight.Bold))
             Spacer(Modifier.height(8.dp))
             chart()
-        }
-    }
-}
-
-@OptIn(ExperimentalStdlibApi::class)
-fun randomData(
-    yMin: Int = 0,
-    yMax: Int = 100,
-): List<Pair<Float, Float>> {
-    return buildList(500) {
-        val yRange = abs(yMin) + abs(yMax)
-        for (i in 0..500) {
-            add(
-                Pair(
-                    first = i.toFloat(),
-                    second = if (i == 0) (yMin..yMax).random().toFloat()
-                    else this[i - 1].second + (-(yRange / 5)..(yRange / 5)).random()
-                )
-            )
         }
     }
 }
