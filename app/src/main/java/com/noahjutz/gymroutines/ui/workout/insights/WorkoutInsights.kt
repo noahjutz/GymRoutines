@@ -42,7 +42,6 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.abs
 import kotlin.time.ExperimentalTime
 
 @ExperimentalMaterialApi
@@ -168,10 +167,21 @@ private fun WorkoutCharts(
         ChartCard(title = "Average duration") {
             if (workouts.isNotEmpty()) {
                 SimpleLineChart(
-                    Modifier.fillMaxWidth().height((200..300).random().dp),
-                    data = workouts.mapIndexed { i, workout ->
-                        Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
-                    }
+                    Modifier
+                        .fillMaxWidth()
+                        .height((200..300).random().dp),
+                    data = workouts
+                        .mapIndexed { i, workout ->
+                            Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
+                        }
+                        .chunked(3) {
+                            val avg = it.map { it.second }.average()
+                            Pair(it.first().first, avg.toFloat())
+                        },
+                    secondaryData = workouts
+                        .mapIndexed { i, workout ->
+                            Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
+                        }
                 )
             }
         }
@@ -194,7 +204,8 @@ private fun ChartCard(
         Column(
             Modifier
                 .fillMaxWidth()
-                .padding(16.dp)) {
+                .padding(16.dp)
+        ) {
             Text(title, style = typography.body1.copy(fontWeight = FontWeight.Bold))
             Spacer(Modifier.height(8.dp))
             chart()
