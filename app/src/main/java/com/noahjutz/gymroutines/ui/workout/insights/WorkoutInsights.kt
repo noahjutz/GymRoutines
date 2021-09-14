@@ -169,7 +169,7 @@ private fun WorkoutCharts(
                 SimpleLineChart(
                     Modifier
                         .fillMaxWidth()
-                        .height((200..300).random().dp),
+                        .height(350.dp),
                     data = workouts
                         .mapIndexed { i, workout ->
                             Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
