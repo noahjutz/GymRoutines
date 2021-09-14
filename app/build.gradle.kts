@@ -98,7 +98,6 @@ dependencies {
     kapt(Libs.Lifecycle.lifecycle)
     implementation(Libs.Lifecycle.livedata)
 
-    implementation(Libs.Navigation.navigation)
     implementation(Libs.Navigation.compose)
 
     testImplementation(TestLibs.Junit4.junit4)
