@@ -160,16 +160,15 @@ private fun DeleteConfirmation(
 private fun WorkoutCharts(
     workouts: List<Workout>
 ) {
-    StaggeredVerticalGrid(
-        Modifier.padding(top = 16.dp, start = 16.dp),
-        maxColumnWidth = 200.dp,
+    Box(
+        Modifier.padding(16.dp),
     ) {
         ChartCard(title = "Average duration") {
             if (workouts.isNotEmpty()) {
                 SimpleLineChart(
                     Modifier
                         .fillMaxWidth()
-                        .height(350.dp),
+                        .height(100.dp),
                     data = workouts
                         .reversed()
                         .mapIndexed { i, workout ->
@@ -198,7 +197,6 @@ private fun ChartCard(
     Card(
         Modifier
             .fillMaxWidth()
-            .height((100..200).random().dp)
             .padding(bottom = 16.dp, end = 16.dp),
         shape = RoundedCornerShape(8.dp),
         elevation = 2.dp,
