@@ -171,6 +171,7 @@ private fun WorkoutCharts(
                         .fillMaxWidth()
                         .height(350.dp),
                     data = workouts
+                        .reversed()
                         .mapIndexed { i, workout ->
                             Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
                         }
@@ -179,6 +180,7 @@ private fun WorkoutCharts(
                             Pair(it.first().first, avg.toFloat())
                         },
                     secondaryData = workouts
+                        .reversed()
                         .mapIndexed { i, workout ->
                             Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
                         }
