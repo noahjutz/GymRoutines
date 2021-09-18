@@ -17,9 +17,9 @@
  */
 
 object App {
-    const val compileSdk = 30
+    const val compileSdk = 31
     const val minSdk = 21
-    const val targetSdk = 30
+    const val targetSdk = 31
 }
 
 object Versions {
@@ -63,7 +63,7 @@ object Libs {
     }
 
     object Navigation {
-        private const val version = "2.4.0-alpha08"
+        private const val version = "2.4.0-alpha09"
         const val compose = "androidx.navigation:navigation-compose:$version"
     }
 
@@ -123,7 +123,7 @@ object TestLibs {
 
 object GradlePlugins {
     object Android {
-        private const val version = "7.1.0-alpha11"
+        private const val version = "7.1.0-alpha12"
         const val classpath = "com.android.tools.build:gradle:$version"
     }
 
