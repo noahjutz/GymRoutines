@@ -1,0 +1,9 @@
+Features
+* Added a line chart showing average workout duration in insights tab (3ef3fa50)
+
+Development
+* Upgrade dependencies (AGP, gradlew, compose, navigation) (9b1d24e5, bf8eac27, dfbd2151)
+* Target Android 12 (86e547eb)
+
+Bug fixes
+* The app now shows up as "GymRoutines" instead of "Splitfit" in other languages (c59fb733)
