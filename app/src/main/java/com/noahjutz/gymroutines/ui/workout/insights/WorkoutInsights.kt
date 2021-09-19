@@ -195,9 +195,7 @@ private fun ChartCard(
     chart: @Composable () -> Unit,
 ) {
     Card(
-        Modifier
-            .fillMaxWidth()
-            .padding(bottom = 16.dp, end = 16.dp),
+        Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(8.dp),
         elevation = 2.dp,
     ) {
