@@ -18,7 +18,6 @@
 
 package com.noahjutz.gymroutines.data.domain
 
-import com.noahjutz.gymroutines.data.domain.Set
 import kotlinx.serialization.Serializable
 
 @Serializable
