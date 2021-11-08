@@ -74,22 +74,23 @@ fun TableCellTextField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     hint: String? = null,
 ) {
-    Box(Modifier.height(48.dp), contentAlignment = Alignment.CenterStart) {
-        AutoSelectTextField(
-            value = value,
-            onValueChange = onValueChange,
-            modifier = modifier.fillMaxWidth(),
-            visualTransformation = visualTransformation,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            textStyle = LocalTextStyle.current.copy(color = colors.onSurface),
-            cursorColor = colors.onSurface,
-            maxLines = 1,
-            decorationBox = { innerTextField ->
+    AutoSelectTextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = modifier.fillMaxWidth(),
+        visualTransformation = visualTransformation,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        textStyle = LocalTextStyle.current.copy(color = colors.onSurface),
+        cursorColor = colors.onSurface,
+        maxLines = 1,
+        decorationBox = { innerTextField ->
+            Box(Modifier.height(48.dp), contentAlignment = Alignment.CenterStart) {
                 if (value.isBlank() && hint != null) Text(hint, modifier = Modifier.alpha(0.5f))
                 innerTextField()
             }
-        )
-    }
+        }
+    )
+
 }
 
 @Composable
