@@ -49,7 +49,7 @@ object Libs {
     }
 
     object Room {
-        private const val version = "2.4.0-alpha04"
+        private const val version = "2.4.0-beta01"
         const val room = "androidx.room:room-ktx:$version"
         const val compiler = "androidx.room:room-compiler:$version"
         const val runtime = "androidx.room:room-runtime:$version"
@@ -98,7 +98,7 @@ object Libs {
     }
 
     object ProcessPhoenix {
-        private const val version = "2.0.0"
+        private const val version = "2.1.2"
         const val processPhoenix = "com.jakewharton:process-phoenix:$version"
     }
 }
