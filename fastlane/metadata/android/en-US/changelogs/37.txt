@@ -1,0 +1,5 @@
+Bug fixes:
+* Increased touch target size for some text fields (d4bf0b6b)
+
+Development:
+* Upgrade dependencies (ea8c3c1e, f089ff72, 4bef476f, 139e43df)
