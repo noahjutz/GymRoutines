@@ -86,7 +86,7 @@ fun AppSettings(
                     val now = Calendar.getInstance().time
                     val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
                     val nowFormatted = formatter.format(now)
-                    exportDatabaseLauncher.launch("splitfit_$nowFormatted.db")
+                    exportDatabaseLauncher.launch("gymroutines_$nowFormatted.db")
                 },
                 text = { Text("Backup") },
                 secondaryText = { Text("Save routines, exercises and workouts in a file") },
