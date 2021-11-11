@@ -78,6 +78,24 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = Libs.Compose.version
     }
+
+    packagingOptions {
+        resources.excludes.addAll(
+            listOf(
+                "META-INF/DEPENDENCIES",
+                "META-INF/LICENSE",
+                "META-INF/LICENSE.txt",
+                "META-INF/license.txt",
+                "META-INF/NOTICE",
+                "META-INF/NOTICE.txt",
+                "META-INF/notice.txt",
+                "META-INF/ASL2.0",
+                "META-INF/AL2.0",
+                "META-INF/LGPL2.1",
+                "META-INF/*.kotlin_module"
+            )
+        )
+    }
 }
 
 dependencies {
@@ -127,6 +145,9 @@ dependencies {
     implementation(Libs.ProcessPhoenix.processPhoenix)
 
     implementation("org.ocpsoft.prettytime:prettytime:5.0.1.Final")
+
+    androidTestImplementation("androidx.test:core:1.4.0")
+    androidTestImplementation("androidx.test:core-ktx:1.4.0")
 }
 
 ktlint {
