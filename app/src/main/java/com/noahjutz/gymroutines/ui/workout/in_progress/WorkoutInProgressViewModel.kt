@@ -77,51 +77,51 @@ class WorkoutInProgressViewModel(
         }
 
         fun addSetTo(setGroup: SetGroup) {
-            val setGroups = _workout.value.setGroups.toMutableList().also {
+            val setGroups = _workout.value.sets.toMutableList().also {
                 val i = it.indexOf(setGroup)
                 val sets = it[i].sets + Set()
                 it[i] = it[i].copy(sets = sets)
             }
-            _workout.value = _workout.value.copy(setGroups = setGroups)
+            _workout.value = _workout.value.copy(sets = setGroups)
         }
 
         fun deleteSetFrom(setGroup: SetGroup, setIndex: Int) {
-            val setGroups = _workout.value.setGroups.toMutableList().also {
+            val setGroups = _workout.value.sets.toMutableList().also {
                 val i = it.indexOf(setGroup)
                 val sets = it[i].sets.toMutableList().apply { removeAt(setIndex) }
                 it[i] = it[i].copy(sets = sets)
                 it.removeAll { it.sets.isEmpty() }
             }
-            _workout.value = _workout.value.copy(setGroups = setGroups)
+            _workout.value = _workout.value.copy(sets = setGroups)
         }
 
         fun addExercises(exercises: List<Exercise>) {
-            val setGroups = _workout.value.setGroups + exercises.map { SetGroup(it.exerciseId) }
-                .filter { it.exerciseId !in _workout.value.setGroups.map { it.exerciseId } }
-            _workout.value = _workout.value.copy(setGroups = setGroups)
+            val setGroups = _workout.value.sets + exercises.map { SetGroup(it.exerciseId) }
+                .filter { it.exerciseId !in _workout.value.sets.map { it.exerciseId } }
+            _workout.value = _workout.value.copy(sets = setGroups)
         }
 
         fun swapSetGroups(i1: Int, i2: Int) {
             if (i1 < 0 || i2 < 0) return
-            val setGroups = _workout.value.setGroups.toMutableList()
+            val setGroups = _workout.value.sets.toMutableList()
                 .apply {
                     if (!(lastIndex < i1 || lastIndex < i2)) {
                         this[i1] = this[i2].also { this[i2] = this[i1] }
                     }
                 }
-            _workout.value = _workout.value.copy(setGroups = setGroups)
+            _workout.value = _workout.value.copy(sets = setGroups)
         }
 
         fun updateSet(
             setGroupIndex: Int,
             setIndex: Int,
-            reps: Int? = _workout.value.setGroups[setGroupIndex].sets[setIndex].reps,
-            weight: Double? = _workout.value.setGroups[setGroupIndex].sets[setIndex].weight,
-            time: Int? = _workout.value.setGroups[setGroupIndex].sets[setIndex].time,
-            distance: Double? = _workout.value.setGroups[setGroupIndex].sets[setIndex].distance,
-            complete: Boolean = _workout.value.setGroups[setGroupIndex].sets[setIndex].complete,
+            reps: Int? = _workout.value.sets[setGroupIndex].sets[setIndex].reps,
+            weight: Double? = _workout.value.sets[setGroupIndex].sets[setIndex].weight,
+            time: Int? = _workout.value.sets[setGroupIndex].sets[setIndex].time,
+            distance: Double? = _workout.value.sets[setGroupIndex].sets[setIndex].distance,
+            complete: Boolean = _workout.value.sets[setGroupIndex].sets[setIndex].complete,
         ) {
-            val setGroups = _workout.value.setGroups.toMutableList().apply {
+            val setGroups = _workout.value.sets.toMutableList().apply {
                 this[setGroupIndex] = this[setGroupIndex].copy(
                     sets = this[setGroupIndex].sets.toMutableList().apply {
                         this[setIndex] = this[setIndex].copy(
@@ -134,7 +134,7 @@ class WorkoutInProgressViewModel(
                     }
                 )
             }
-            _workout.value = _workout.value.copy(setGroups = setGroups)
+            _workout.value = _workout.value.copy(sets = setGroups)
         }
 
         fun deleteWorkout() {

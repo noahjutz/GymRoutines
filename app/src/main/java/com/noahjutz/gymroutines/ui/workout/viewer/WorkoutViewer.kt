@@ -69,7 +69,7 @@ fun WorkoutViewerContent(workout: Workout) {
             Spacer(Modifier.height(16.dp))
         }
 
-        items(workout.setGroups) {
+        items(workout.sets) {
             // TODO show setGroups using SetGroupCards like in WorkoutInProgress
         }
     }

@@ -137,7 +137,7 @@ fun WorkoutInProgress(
                     Spacer(Modifier.height(8.dp))
                 }
 
-                itemsIndexed(workout.setGroups) { setGroupIndex, setGroup ->
+                itemsIndexed(workout.sets) { setGroupIndex, setGroup ->
                     val exercise = viewModel.presenter.getExercise(setGroup.exerciseId)!!
                     SetGroupCard(
                         name = exercise.name.takeIf { it.isNotBlank() }
