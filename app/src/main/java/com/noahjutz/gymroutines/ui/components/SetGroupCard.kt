@@ -18,11 +18,9 @@
 
 package com.noahjutz.gymroutines.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.typography
@@ -37,7 +35,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.noahjutz.gymroutines.R
@@ -46,101 +43,6 @@ import com.noahjutz.gymroutines.util.RegexPatterns
 import com.noahjutz.gymroutines.util.formatSimple
 import com.noahjutz.gymroutines.util.toStringOrBlank
 import kotlinx.coroutines.launch
-
-@ExperimentalMaterialApi
-@ExperimentalFoundationApi
-@Preview
-@Composable
-fun SetGroupCardPreview() {
-    MaterialTheme(colors = if (isSystemInDarkTheme()) darkColors() else lightColors()) {
-        val scaffoldState = rememberScaffoldState()
-        val scope = rememberCoroutineScope()
-        fun logWithSnackbar(message: String) {
-            Log.d("SetGroupCard", message)
-            scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
-            scope.launch {
-                scaffoldState.snackbarHostState.showSnackbar(message)
-            }
-        }
-
-        var sets by remember {
-            mutableStateOf(
-                listOf(
-                    SetLegacy(1, 2.0),
-                    SetLegacy(distance = 3.0),
-                    SetLegacy(),
-                    SetLegacy()
-                )
-            )
-        }
-
-        val onMoveDown = {
-            logWithSnackbar("onMoveDown")
-        }
-        val onMoveUp = {
-            logWithSnackbar("onMoveUp")
-        }
-        val onAddSet = {
-            logWithSnackbar("onAddSet")
-            sets = sets + sets.last().copy(complete = false)
-        }
-        val onDistanceChange = { i: Int, d: String ->
-            logWithSnackbar("i: $i, d: $d")
-            sets = sets.toMutableList().apply {
-                this[i] = this[i].copy(distance = d.toDoubleOrNull())
-            }
-        }
-        val onTimeChange = { i: Int, t: String ->
-            logWithSnackbar("i: $i, t: $t")
-            sets = sets.toMutableList().apply {
-                this[i] = this[i].copy(time = t.toIntOrNull())
-            }
-        }
-        val onRepsChange = { i: Int, r: String ->
-            logWithSnackbar("i: $i, r: $r")
-            sets = sets.toMutableList().apply {
-                this[i] = this[i].copy(reps = r.toIntOrNull())
-            }
-        }
-        val onWeightChange = { i: Int, w: String ->
-            logWithSnackbar("i: $i, w: $w")
-            sets = sets.toMutableList().apply {
-                this[i] = this[i].copy(weight = w.toDoubleOrNull())
-            }
-        }
-        val onCheckboxChange = { i: Int, b: Boolean ->
-            logWithSnackbar("i: $i, b: $b")
-            sets = sets.toMutableList().apply {
-                this[i] = this[i].copy(complete = b)
-            }
-        }
-        val onDeleteSet = { i: Int ->
-            logWithSnackbar("i: $i")
-            sets = sets.toMutableList().apply { removeAt(i) }
-        }
-
-        Scaffold(scaffoldState = scaffoldState) {
-            SetGroupCard(
-                name = "Weighted Walking Lunges bla bla bla bla bla blab bla",
-                onMoveDown = onMoveDown,
-                onMoveUp = onMoveUp,
-                onAddSet = onAddSet,
-                sets = sets,
-                logReps = true,
-                logWeight = true,
-                logTime = true,
-                logDistance = true,
-                showCheckbox = true,
-                onDistanceChange = onDistanceChange,
-                onTimeChange = onTimeChange,
-                onRepsChange = onRepsChange,
-                onWeightChange = onWeightChange,
-                onCheckboxChange = onCheckboxChange,
-                onDeleteSet = onDeleteSet,
-            )
-        }
-    }
-}
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
