@@ -56,14 +56,9 @@ abstract class AppDatabase : RoomDatabase() {
  */
 val MIGRATION_36_37 = object : Migration(36, 37) {
     override fun migrate(db: SupportSQLiteDatabase) {
-        db.execSQL("ALTER TABLE routine_table RENAME COLUMN setGroups TO sets")
-        val routinesCursor = db.query("SELECT routineId, sets FROM routine_table")
-        while (routinesCursor.moveToNext()) {
-            val routineId = routinesCursor.getInt(0)
-            val setGroups = routinesCursor.getString(1)
-
-            val newSetArray = buildJsonArray {
-                for (setGroup in Json.parseToJsonElement(setGroups).jsonArray) {
+        fun setGroupsToExerciseSets(setGroups: JsonArray): JsonArray {
+            return buildJsonArray {
+                for (setGroup in setGroups) {
                     val exerciseId = setGroup.jsonObject["exerciseId"]!!.jsonPrimitive.int
                     for (set in setGroup.jsonObject["sets"]!!.jsonArray) {
                         val reps = set.jsonObject["reps"]?.jsonPrimitive?.intOrNull
@@ -82,11 +77,28 @@ val MIGRATION_36_37 = object : Migration(36, 37) {
                     }
                 }
             }
+        }
 
-            db.execSQL("UPDATE routine_table SET sets='$newSetArray' WHERE routineId=$routineId")
+        db.execSQL("ALTER TABLE routine_table RENAME COLUMN setGroups TO sets")
+        val routinesCursor = db.query("SELECT routineId, sets FROM routine_table")
+        while (routinesCursor.moveToNext()) {
+            val routineId = routinesCursor.getInt(0)
+            val setGroups = routinesCursor.getString(1)
+
+            val newSets = setGroupsToExerciseSets(Json.parseToJsonElement(setGroups).jsonArray)
+
+            db.execSQL("UPDATE routine_table SET sets='$newSets' WHERE routineId=$routineId")
         }
 
         db.execSQL("ALTER TABLE workout_table RENAME COLUMN setGroups TO sets")
-        db.execSQL("UPDATE workout_table SET sets='[{\"exerciseId\":10,\"reps\":5}]'") // TODO migrate JSON losslessly, remove testing sets data (same as routines above)
+        val workoutsCursor = db.query("SELECT workoutId, sets FROM workout_table")
+        while (workoutsCursor.moveToNext()) {
+            val workoutId = workoutsCursor.getInt(0)
+            val setGroups = workoutsCursor.getString(1)
+
+            val newSets = setGroupsToExerciseSets(Json.parseToJsonElement(setGroups).jsonArray)
+
+            db.execSQL("UPDATE workout_table SET sets='$newSets' WHERE workoutId=$workoutId")
+        }
     }
 }
