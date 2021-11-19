@@ -30,6 +30,7 @@ import com.noahjutz.gymroutines.data.dao.WorkoutDao
 import com.noahjutz.gymroutines.data.domain.Exercise
 import com.noahjutz.gymroutines.data.domain.Routine
 import com.noahjutz.gymroutines.data.domain.Workout
+import kotlinx.serialization.json.*
 
 @Database(
     entities = [
@@ -56,8 +57,36 @@ abstract class AppDatabase : RoomDatabase() {
 val MIGRATION_36_37 = object : Migration(36, 37) {
     override fun migrate(db: SupportSQLiteDatabase) {
         db.execSQL("ALTER TABLE routine_table RENAME COLUMN setGroups TO sets")
-        db.execSQL("UPDATE routine_table SET sets='[{\"exerciseId\":10,\"reps\":6}]'") // TODO migrate JSON losslessly, remove testing sets data
+        val routinesCursor = db.query("SELECT routineId, sets FROM routine_table")
+        while (routinesCursor.moveToNext()) {
+            val routineId = routinesCursor.getInt(0)
+            val setGroups = routinesCursor.getString(1)
+
+            val newSetArray = buildJsonArray {
+                for (setGroup in Json.parseToJsonElement(setGroups).jsonArray) {
+                    val exerciseId = setGroup.jsonObject["exerciseId"]!!.jsonPrimitive.int
+                    for (set in setGroup.jsonObject["sets"]!!.jsonArray) {
+                        val reps = set.jsonObject["reps"]?.jsonPrimitive?.intOrNull
+                        val weight = set.jsonObject["weight"]?.jsonPrimitive?.doubleOrNull
+                        val time = set.jsonObject["time"]?.jsonPrimitive?.intOrNull
+                        val distance = set.jsonObject["distance"]?.jsonPrimitive?.doubleOrNull
+
+                        val newSet = buildJsonObject {
+                            put("exerciseId", exerciseId)
+                            put("reps", reps)
+                            put("weight", weight)
+                            put("time", time)
+                            put("distance", distance)
+                        }
+                        add(newSet)
+                    }
+                }
+            }
+
+            db.execSQL("UPDATE routine_table SET sets='$newSetArray' WHERE routineId=$routineId")
+        }
+
         db.execSQL("ALTER TABLE workout_table RENAME COLUMN setGroups TO sets")
-        db.execSQL("UPDATE workout_table SET sets='[{\"exerciseId\":10,\"reps\":5}]'") // TODO migrate JSON losslessly, remove testing sets data
+        db.execSQL("UPDATE workout_table SET sets='[{\"exerciseId\":10,\"reps\":5}]'") // TODO migrate JSON losslessly, remove testing sets data (same as routines above)
     }
 }
