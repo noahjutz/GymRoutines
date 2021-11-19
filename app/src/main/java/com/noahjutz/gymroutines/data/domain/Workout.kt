@@ -26,7 +26,7 @@ import java.util.*
 @Entity(tableName = "workout_table")
 data class Workout(
     val name: String = "",
-    val sets: List<SetGroup> = emptyList(),
+    val sets: List<ExerciseSet> = emptyList(),
     val startTime: Date = Calendar.getInstance().time,
     val endTime: Date = startTime,
 
@@ -36,12 +36,12 @@ data class Workout(
 
 fun Routine.toWorkout() = Workout(
     name,
-    emptyList() // TODO
+    sets.map { it.copy(complete = false) }
 )
 
 fun Workout.toRoutine(routineId: Int) = Routine(
     name,
-    emptyList(), // TODO
+    sets.map { it.copy(complete = false) },
     routineId
 )
 

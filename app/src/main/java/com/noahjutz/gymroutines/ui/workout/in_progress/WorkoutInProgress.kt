@@ -76,7 +76,7 @@ fun WorkoutInProgress(
             ExercisePickerSheet(
                 onExercisesSelected = {
                     scope.launch {
-                        viewModel.editor.addExercises(it)
+                        // viewModel.editor.addExercises(it)
                         sheetState.hide()
                     }
                 },
@@ -138,62 +138,63 @@ fun WorkoutInProgress(
                 }
 
                 itemsIndexed(workout.sets) { setGroupIndex, setGroup ->
-                    val exercise = viewModel.presenter.getExercise(setGroup.exerciseId)!!
-                    SetGroupCard(
-                        name = exercise.name.takeIf { it.isNotBlank() }
-                            ?: stringResource(R.string.unnamed_exercise),
-                        sets = setGroup.sets,
-                        onMoveDown = {
-                            viewModel.editor.swapSetGroups(
-                                setGroupIndex,
-                                setGroupIndex + 1
-                            )
-                        },
-                        onMoveUp = {
-                            viewModel.editor.swapSetGroups(
-                                setGroupIndex,
-                                setGroupIndex - 1
-                            )
-                        },
-                        onAddSet = { viewModel.editor.addSetTo(setGroup) },
-                        onDeleteSet = { viewModel.editor.deleteSetFrom(setGroup, it) },
-                        logReps = exercise.logReps,
-                        logWeight = exercise.logWeight,
-                        logTime = exercise.logTime,
-                        logDistance = exercise.logDistance,
-                        showCheckbox = true,
-                        onWeightChange = { setIndex, weight ->
-                            viewModel.editor.updateSet(
-                                setGroupIndex,
-                                setIndex,
-                                weight = weight.toDoubleOrNull()
-                            )
-                        },
-                        onTimeChange = { setIndex, time ->
-                            viewModel.editor.updateSet(
-                                setGroupIndex,
-                                setIndex,
-                                time = time.toIntOrNull()
-                            )
-                        },
-                        onRepsChange = { setIndex, reps ->
-                            viewModel.editor.updateSet(
-                                setGroupIndex,
-                                setIndex,
-                                reps = reps.toIntOrNull()
-                            )
-                        },
-                        onDistanceChange = { setIndex, distance ->
-                            viewModel.editor.updateSet(
-                                setGroupIndex,
-                                setIndex,
-                                distance = distance.toDoubleOrNull()
-                            )
-                        },
-                        onCheckboxChange = { setIndex, checked ->
-                            viewModel.editor.updateSet(setGroupIndex, setIndex, complete = checked)
-                        }
-                    )
+                    // TODO reimplement with ExerciseSet instead of SetGroup
+                    // val exercise = viewModel.presenter.getExercise(setGroup.exerciseId)!!
+                    // SetGroupCard(
+                    //     name = exercise.name.takeIf { it.isNotBlank() }
+                    //         ?: stringResource(R.string.unnamed_exercise),
+                    //     sets = setGroup.sets,
+                    //     onMoveDown = {
+                    //         viewModel.editor.swapSetGroups(
+                    //             setGroupIndex,
+                    //             setGroupIndex + 1
+                    //         )
+                    //     },
+                    //     onMoveUp = {
+                    //         viewModel.editor.swapSetGroups(
+                    //             setGroupIndex,
+                    //             setGroupIndex - 1
+                    //         )
+                    //     },
+                    //     onAddSet = { viewModel.editor.addSetTo(setGroup) },
+                    //     onDeleteSet = { viewModel.editor.deleteSetFrom(setGroup, it) },
+                    //     logReps = exercise.logReps,
+                    //     logWeight = exercise.logWeight,
+                    //     logTime = exercise.logTime,
+                    //     logDistance = exercise.logDistance,
+                    //     showCheckbox = true,
+                    //     onWeightChange = { setIndex, weight ->
+                    //         viewModel.editor.updateSet(
+                    //             setGroupIndex,
+                    //             setIndex,
+                    //             weight = weight.toDoubleOrNull()
+                    //         )
+                    //     },
+                    //     onTimeChange = { setIndex, time ->
+                    //         viewModel.editor.updateSet(
+                    //             setGroupIndex,
+                    //             setIndex,
+                    //             time = time.toIntOrNull()
+                    //         )
+                    //     },
+                    //     onRepsChange = { setIndex, reps ->
+                    //         viewModel.editor.updateSet(
+                    //             setGroupIndex,
+                    //             setIndex,
+                    //             reps = reps.toIntOrNull()
+                    //         )
+                    //     },
+                    //     onDistanceChange = { setIndex, distance ->
+                    //         viewModel.editor.updateSet(
+                    //             setGroupIndex,
+                    //             setIndex,
+                    //             distance = distance.toDoubleOrNull()
+                    //         )
+                    //     },
+                    //     onCheckboxChange = { setIndex, checked ->
+                    //         viewModel.editor.updateSet(setGroupIndex, setIndex, complete = checked)
+                    //     }
+                    // )
                 }
 
                 item {
