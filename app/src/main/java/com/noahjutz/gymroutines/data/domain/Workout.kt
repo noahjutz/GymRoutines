@@ -36,24 +36,12 @@ data class Workout(
 
 fun Routine.toWorkout() = Workout(
     name,
-    sets.map {
-        it.copy(
-            sets = it.sets.toMutableList().map {
-                it.copy(complete = false)
-            }
-        )
-    }
+    emptyList() // TODO
 )
 
 fun Workout.toRoutine(routineId: Int) = Routine(
     name,
-    sets.map {
-        it.copy(
-            sets = it.sets.toMutableList().map {
-                it.copy(complete = false)
-            }
-        )
-    },
+    emptyList(), // TODO
     routineId
 )
 
