@@ -28,7 +28,6 @@ import com.noahjutz.gymroutines.data.ExerciseRepository
 import com.noahjutz.gymroutines.data.RoutineRepository
 import com.noahjutz.gymroutines.data.WorkoutRepository
 import com.noahjutz.gymroutines.data.domain.*
-import com.noahjutz.gymroutines.data.domain.SetLegacy
 import com.noahjutz.gymroutines.util.minus
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
