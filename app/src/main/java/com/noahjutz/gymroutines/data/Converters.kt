@@ -22,7 +22,6 @@ package com.noahjutz.gymroutines.data
 
 import androidx.room.TypeConverter
 import com.noahjutz.gymroutines.data.domain.ExerciseSet
-import com.noahjutz.gymroutines.data.domain.SetGroup
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
