@@ -22,9 +22,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.ExerciseRepository
 import com.noahjutz.gymroutines.data.RoutineRepository
-import com.noahjutz.gymroutines.data.domain.Exercise
-import com.noahjutz.gymroutines.data.domain.Set
-import com.noahjutz.gymroutines.data.domain.SetGroup
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -54,64 +51,7 @@ class RoutineEditorViewModel(
             _routine.value = _routine.value.copy(name = name)
         }
 
-        fun addSetTo(setGroup: SetGroup) {
-            val setGroups = _routine.value.sets.toMutableList().also {
-                val i = it.indexOf(setGroup)
-                val sets = it[i].sets + Set()
-                it[i] = it[i].copy(sets = sets)
-            }
-            _routine.value = _routine.value.copy(sets = setGroups)
-        }
-
-        fun deleteSetFrom(setGroup: SetGroup, setIndex: Int) {
-            val setGroups = _routine.value.sets.toMutableList().also {
-                val i = it.indexOf(setGroup)
-                val sets = it[i].sets.toMutableList().apply { removeAt(setIndex) }
-                it[i] = it[i].copy(sets = sets)
-                it.removeAll { it.sets.isEmpty() }
-            }
-            _routine.value = _routine.value.copy(sets = setGroups)
-        }
-
-        fun addExercises(exercises: List<Exercise>) {
-            val setGroups = _routine.value.sets + exercises.map { SetGroup(it.exerciseId) }
-                .filter { it.exerciseId !in _routine.value.sets.map { it.exerciseId } }
-            _routine.value = _routine.value.copy(sets = setGroups)
-        }
-
-        fun swapSetGroups(i1: Int, i2: Int) {
-            if (i1 < 0 || i2 < 0) return
-            val setGroups = _routine.value.sets.toMutableList()
-                .apply {
-                    if (!(lastIndex < i1 || lastIndex < i2)) {
-                        this[i1] = this[i2].also { this[i2] = this[i1] }
-                    }
-                }
-            _routine.value = _routine.value.copy(sets = setGroups)
-        }
-
-        fun updateSet(
-            setGroupIndex: Int,
-            setIndex: Int,
-            reps: Int? = _routine.value.sets[setGroupIndex].sets[setIndex].reps,
-            weight: Double? = _routine.value.sets[setGroupIndex].sets[setIndex].weight,
-            time: Int? = _routine.value.sets[setGroupIndex].sets[setIndex].time,
-            distance: Double? = _routine.value.sets[setGroupIndex].sets[setIndex].distance,
-        ) {
-            val setGroups = _routine.value.sets.toMutableList().apply {
-                this[setGroupIndex] = this[setGroupIndex].copy(
-                    sets = this[setGroupIndex].sets.toMutableList().apply {
-                        this[setIndex] = this[setIndex].copy(
-                            reps = reps,
-                            weight = weight,
-                            time = time,
-                            distance = distance,
-                        )
-                    }
-                )
-            }
-            _routine.value = _routine.value.copy(sets = setGroups)
-        }
+        // TODO reimplement editing sets with ExerciseSets instead of SetGroups
     }
 
     inner class Presenter {

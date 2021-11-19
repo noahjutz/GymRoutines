@@ -80,7 +80,7 @@ fun CreateRoutineScreen(
             ExercisePickerSheet(
                 onExercisesSelected = {
                     scope.launch {
-                        viewModel.editor.addExercises(it)
+                        // viewModel.editor.addExercises(it)
                         sheetState.hide()
                     }
                 },
@@ -146,56 +146,57 @@ fun CreateRoutineScreen(
                     )
                 }
 
-                itemsIndexed(routine.sets) { setGroupIndex, setGroup ->
-                    val exercise = viewModel.presenter.getExercise(setGroup.exerciseId)!!
-                    SetGroupCard(
-                        name = exercise.name.takeIf { it.isNotBlank() }
-                            ?: stringResource(R.string.unnamed_exercise),
-                        sets = setGroup.sets,
-                        onMoveDown = {
-                            viewModel.editor.swapSetGroups(
-                                setGroupIndex,
-                                setGroupIndex + 1
-                            )
-                        },
-                        onMoveUp = {
-                            viewModel.editor.swapSetGroups(
-                                setGroupIndex,
-                                setGroupIndex - 1
-                            )
-                        },
-                        onAddSet = { viewModel.editor.addSetTo(setGroup) },
-                        onDeleteSet = { viewModel.editor.deleteSetFrom(setGroup, it) },
-                        logReps = exercise.logReps,
-                        logWeight = exercise.logWeight,
-                        logTime = exercise.logTime,
-                        logDistance = exercise.logDistance,
-                        showCheckbox = false,
-                        onDistanceChange = { setIndex, distance ->
-                            viewModel.editor.updateSet(
-                                setGroupIndex, setIndex,
-                                distance = distance.toDoubleOrNull()
-                            )
-                        },
-                        onRepsChange = { setIndex, reps ->
-                            viewModel.editor.updateSet(
-                                setGroupIndex, setIndex,
-                                reps = reps.toIntOrNull()
-                            )
-                        },
-                        onTimeChange = { setIndex, time ->
-                            viewModel.editor.updateSet(
-                                setGroupIndex, setIndex,
-                                time = time.toIntOrNull()
-                            )
-                        },
-                        onWeightChange = { setIndex, weight ->
-                            viewModel.editor.updateSet(
-                                setGroupIndex, setIndex,
-                                weight = weight.toDoubleOrNull()
-                            )
-                        }
-                    )
+                itemsIndexed(routine.sets) { setGroupIndex, set ->
+                    // TODO reimplement this with ExerciseSets instead of SetGroups
+                    // val exercise = viewModel.presenter.getExercise(set.exerciseId)!!
+                    // SetGroupCard(
+                    //     name = exercise.name.takeIf { it.isNotBlank() }
+                    //         ?: stringResource(R.string.unnamed_exercise),
+                    //     sets = set.sets,
+                    //     onMoveDown = {
+                    //         viewModel.editor.swapSetGroups(
+                    //             setGroupIndex,
+                    //             setGroupIndex + 1
+                    //         )
+                    //     },
+                    //     onMoveUp = {
+                    //         viewModel.editor.swapSetGroups(
+                    //             setGroupIndex,
+                    //             setGroupIndex - 1
+                    //         )
+                    //     },
+                    //     onAddSet = { viewModel.editor.addSetTo(set) },
+                    //     onDeleteSet = { viewModel.editor.deleteSetFrom(set, it) },
+                    //     logReps = exercise.logReps,
+                    //     logWeight = exercise.logWeight,
+                    //     logTime = exercise.logTime,
+                    //     logDistance = exercise.logDistance,
+                    //     showCheckbox = false,
+                    //     onDistanceChange = { setIndex, distance ->
+                    //         viewModel.editor.updateSet(
+                    //             setGroupIndex, setIndex,
+                    //             distance = distance.toDoubleOrNull()
+                    //         )
+                    //     },
+                    //     onRepsChange = { setIndex, reps ->
+                    //         viewModel.editor.updateSet(
+                    //             setGroupIndex, setIndex,
+                    //             reps = reps.toIntOrNull()
+                    //         )
+                    //     },
+                    //     onTimeChange = { setIndex, time ->
+                    //         viewModel.editor.updateSet(
+                    //             setGroupIndex, setIndex,
+                    //             time = time.toIntOrNull()
+                    //         )
+                    //     },
+                    //     onWeightChange = { setIndex, weight ->
+                    //         viewModel.editor.updateSet(
+                    //             setGroupIndex, setIndex,
+                    //             weight = weight.toDoubleOrNull()
+                    //         )
+                    //     }
+                    // )
                 }
 
                 item {
