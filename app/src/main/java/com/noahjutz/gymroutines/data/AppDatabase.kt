@@ -53,7 +53,6 @@ abstract class AppDatabase : RoomDatabase() {
 /**
  * Removes SetGroup, flattening sets within routines.
  */
-@OptIn(ExperimentalStdlibApi::class)
 val MIGRATION_36_37 = object : Migration(36, 37) {
     override fun migrate(db: SupportSQLiteDatabase) {
         // TODO
