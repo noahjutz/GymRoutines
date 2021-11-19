@@ -93,7 +93,7 @@ fun AppSettings(
                 icon = { Icon(Icons.Default.SaveAlt, null) },
             )
             ListItem(
-                modifier = Modifier.clickable { importDatabaseLauncher.launch(null) },
+                modifier = Modifier.clickable { importDatabaseLauncher.launch(emptyArray()) },
                 text = { Text("Restore") },
                 secondaryText = { Text("Import a database file, overriding all data.") },
                 icon = { Icon(Icons.Default.SettingsBackupRestore, null) },
