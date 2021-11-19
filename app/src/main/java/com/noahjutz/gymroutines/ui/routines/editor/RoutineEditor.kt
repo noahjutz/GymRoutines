@@ -42,6 +42,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.AppPrefs
+import com.noahjutz.gymroutines.ui.components.SetGroupCard
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
 import kotlinx.coroutines.launch
@@ -145,57 +146,24 @@ fun CreateRoutineScreen(
                     )
                 }
 
-                itemsIndexed(routine.sets) { setGroupIndex, set ->
-                    // TODO reimplement this with ExerciseSets instead of SetGroups
-                    // val exercise = viewModel.presenter.getExercise(set.exerciseId)!!
-                    // SetGroupCard(
-                    //     name = exercise.name.takeIf { it.isNotBlank() }
-                    //         ?: stringResource(R.string.unnamed_exercise),
-                    //     sets = set.sets,
-                    //     onMoveDown = {
-                    //         viewModel.editor.swapSetGroups(
-                    //             setGroupIndex,
-                    //             setGroupIndex + 1
-                    //         )
-                    //     },
-                    //     onMoveUp = {
-                    //         viewModel.editor.swapSetGroups(
-                    //             setGroupIndex,
-                    //             setGroupIndex - 1
-                    //         )
-                    //     },
-                    //     onAddSet = { viewModel.editor.addSetTo(set) },
-                    //     onDeleteSet = { viewModel.editor.deleteSetFrom(set, it) },
-                    //     logReps = exercise.logReps,
-                    //     logWeight = exercise.logWeight,
-                    //     logTime = exercise.logTime,
-                    //     logDistance = exercise.logDistance,
-                    //     showCheckbox = false,
-                    //     onDistanceChange = { setIndex, distance ->
-                    //         viewModel.editor.updateSet(
-                    //             setGroupIndex, setIndex,
-                    //             distance = distance.toDoubleOrNull()
-                    //         )
-                    //     },
-                    //     onRepsChange = { setIndex, reps ->
-                    //         viewModel.editor.updateSet(
-                    //             setGroupIndex, setIndex,
-                    //             reps = reps.toIntOrNull()
-                    //         )
-                    //     },
-                    //     onTimeChange = { setIndex, time ->
-                    //         viewModel.editor.updateSet(
-                    //             setGroupIndex, setIndex,
-                    //             time = time.toIntOrNull()
-                    //         )
-                    //     },
-                    //     onWeightChange = { setIndex, weight ->
-                    //         viewModel.editor.updateSet(
-                    //             setGroupIndex, setIndex,
-                    //             weight = weight.toDoubleOrNull()
-                    //         )
-                    //     }
-                    // )
+                itemsIndexed(routine.sets.groupBy { it.exerciseId }
+                    .toList()) { setGroupIndex, (exerciseId, sets) ->
+                    val exercise = viewModel.presenter.getExercise(exerciseId)!!
+                    // TODO implement callbacks
+                    SetGroupCard(
+                        name = exercise.name.takeIf { it.isNotBlank() }
+                            ?: stringResource(R.string.unnamed_exercise),
+                        sets = sets,
+                        onMoveDown = { },
+                        onMoveUp = { },
+                        onAddSet = { },
+                        onDeleteSet = { },
+                        logReps = exercise.logReps,
+                        logWeight = exercise.logWeight,
+                        logTime = exercise.logTime,
+                        logDistance = exercise.logDistance,
+                        showCheckbox = false,
+                    )
                 }
 
                 item {
