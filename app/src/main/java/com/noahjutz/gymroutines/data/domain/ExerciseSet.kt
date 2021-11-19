@@ -29,12 +29,3 @@ data class ExerciseSet(
     val distance: Double? = null,
     val complete: Boolean = false,
 )
-
-@Serializable
-data class SetLegacy(
-    val reps: Int? = null,
-    val weight: Double? = null,
-    val time: Int? = null,
-    val distance: Double? = null,
-    val complete: Boolean = false,
-)
