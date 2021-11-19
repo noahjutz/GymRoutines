@@ -36,12 +36,6 @@ class Converters {
     fun toSets(json: String): List<ExerciseSet> = Json.decodeFromString(json)
 
     @TypeConverter
-    fun fromSetGroups(setGroups: List<SetGroup>): String = Json.encodeToString(setGroups)
-
-    @TypeConverter
-    fun toSetGroups(json: String): MutableList<SetGroup> = Json.decodeFromString(json)
-
-    @TypeConverter
     fun fromDate(date: Date): Long = date.time
 
     @TypeConverter
