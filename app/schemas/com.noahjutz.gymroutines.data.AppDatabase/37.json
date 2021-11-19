@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 37,
-    "identityHash": "c249183e2e51a29786fbeb13fcc0b8da",
+    "identityHash": "594326f21401e5873434a4453ffd2be3",
     "entities": [
       {
         "tableName": "exercise_table",
@@ -69,7 +69,7 @@
       },
       {
         "tableName": "routine_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `setGroups` TEXT NOT NULL, `routineId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `sets` TEXT NOT NULL, `routineId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
         "fields": [
           {
             "fieldPath": "name",
@@ -78,8 +78,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "setGroups",
-            "columnName": "setGroups",
+            "fieldPath": "sets",
+            "columnName": "sets",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -147,7 +147,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c249183e2e51a29786fbeb13fcc0b8da')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '594326f21401e5873434a4453ffd2be3')"
     ]
   }
 }

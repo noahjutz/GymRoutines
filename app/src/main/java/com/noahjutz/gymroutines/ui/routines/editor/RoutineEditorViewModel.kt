@@ -55,50 +55,50 @@ class RoutineEditorViewModel(
         }
 
         fun addSetTo(setGroup: SetGroup) {
-            val setGroups = _routine.value.setGroups.toMutableList().also {
+            val setGroups = _routine.value.sets.toMutableList().also {
                 val i = it.indexOf(setGroup)
                 val sets = it[i].sets + Set()
                 it[i] = it[i].copy(sets = sets)
             }
-            _routine.value = _routine.value.copy(setGroups = setGroups)
+            _routine.value = _routine.value.copy(sets = setGroups)
         }
 
         fun deleteSetFrom(setGroup: SetGroup, setIndex: Int) {
-            val setGroups = _routine.value.setGroups.toMutableList().also {
+            val setGroups = _routine.value.sets.toMutableList().also {
                 val i = it.indexOf(setGroup)
                 val sets = it[i].sets.toMutableList().apply { removeAt(setIndex) }
                 it[i] = it[i].copy(sets = sets)
                 it.removeAll { it.sets.isEmpty() }
             }
-            _routine.value = _routine.value.copy(setGroups = setGroups)
+            _routine.value = _routine.value.copy(sets = setGroups)
         }
 
         fun addExercises(exercises: List<Exercise>) {
-            val setGroups = _routine.value.setGroups + exercises.map { SetGroup(it.exerciseId) }
-                .filter { it.exerciseId !in _routine.value.setGroups.map { it.exerciseId } }
-            _routine.value = _routine.value.copy(setGroups = setGroups)
+            val setGroups = _routine.value.sets + exercises.map { SetGroup(it.exerciseId) }
+                .filter { it.exerciseId !in _routine.value.sets.map { it.exerciseId } }
+            _routine.value = _routine.value.copy(sets = setGroups)
         }
 
         fun swapSetGroups(i1: Int, i2: Int) {
             if (i1 < 0 || i2 < 0) return
-            val setGroups = _routine.value.setGroups.toMutableList()
+            val setGroups = _routine.value.sets.toMutableList()
                 .apply {
                     if (!(lastIndex < i1 || lastIndex < i2)) {
                         this[i1] = this[i2].also { this[i2] = this[i1] }
                     }
                 }
-            _routine.value = _routine.value.copy(setGroups = setGroups)
+            _routine.value = _routine.value.copy(sets = setGroups)
         }
 
         fun updateSet(
             setGroupIndex: Int,
             setIndex: Int,
-            reps: Int? = _routine.value.setGroups[setGroupIndex].sets[setIndex].reps,
-            weight: Double? = _routine.value.setGroups[setGroupIndex].sets[setIndex].weight,
-            time: Int? = _routine.value.setGroups[setGroupIndex].sets[setIndex].time,
-            distance: Double? = _routine.value.setGroups[setGroupIndex].sets[setIndex].distance,
+            reps: Int? = _routine.value.sets[setGroupIndex].sets[setIndex].reps,
+            weight: Double? = _routine.value.sets[setGroupIndex].sets[setIndex].weight,
+            time: Int? = _routine.value.sets[setGroupIndex].sets[setIndex].time,
+            distance: Double? = _routine.value.sets[setGroupIndex].sets[setIndex].distance,
         ) {
-            val setGroups = _routine.value.setGroups.toMutableList().apply {
+            val setGroups = _routine.value.sets.toMutableList().apply {
                 this[setGroupIndex] = this[setGroupIndex].copy(
                     sets = this[setGroupIndex].sets.toMutableList().apply {
                         this[setIndex] = this[setIndex].copy(
@@ -110,7 +110,7 @@ class RoutineEditorViewModel(
                     }
                 )
             }
-            _routine.value = _routine.value.copy(setGroups = setGroups)
+            _routine.value = _routine.value.copy(sets = setGroups)
         }
     }
 

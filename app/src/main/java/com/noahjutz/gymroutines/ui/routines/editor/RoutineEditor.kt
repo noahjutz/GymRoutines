@@ -146,7 +146,7 @@ fun CreateRoutineScreen(
                     )
                 }
 
-                itemsIndexed(routine.setGroups) { setGroupIndex, setGroup ->
+                itemsIndexed(routine.sets) { setGroupIndex, setGroup ->
                     val exercise = viewModel.presenter.getExercise(setGroup.exerciseId)!!
                     SetGroupCard(
                         name = exercise.name.takeIf { it.isNotBlank() }

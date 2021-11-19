@@ -36,7 +36,7 @@ data class Workout(
 
 fun Routine.toWorkout() = Workout(
     name,
-    setGroups.map {
+    sets.map {
         it.copy(
             sets = it.sets.toMutableList().map {
                 it.copy(complete = false)
