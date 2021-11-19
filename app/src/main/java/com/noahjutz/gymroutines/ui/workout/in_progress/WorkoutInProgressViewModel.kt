@@ -28,7 +28,7 @@ import com.noahjutz.gymroutines.data.ExerciseRepository
 import com.noahjutz.gymroutines.data.RoutineRepository
 import com.noahjutz.gymroutines.data.WorkoutRepository
 import com.noahjutz.gymroutines.data.domain.*
-import com.noahjutz.gymroutines.data.domain.Set
+import com.noahjutz.gymroutines.data.domain.SetLegacy
 import com.noahjutz.gymroutines.util.minus
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -79,7 +79,7 @@ class WorkoutInProgressViewModel(
         fun addSetTo(setGroup: SetGroup) {
             val setGroups = _workout.value.sets.toMutableList().also {
                 val i = it.indexOf(setGroup)
-                val sets = it[i].sets + Set()
+                val sets = it[i].sets + SetLegacy()
                 it[i] = it[i].copy(sets = sets)
             }
             _workout.value = _workout.value.copy(sets = setGroups)

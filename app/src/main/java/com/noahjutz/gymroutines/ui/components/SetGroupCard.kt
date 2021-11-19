@@ -41,7 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.noahjutz.gymroutines.R
-import com.noahjutz.gymroutines.data.domain.Set
+import com.noahjutz.gymroutines.data.domain.SetLegacy
 import com.noahjutz.gymroutines.util.RegexPatterns
 import com.noahjutz.gymroutines.util.formatSimple
 import com.noahjutz.gymroutines.util.toStringOrBlank
@@ -66,10 +66,10 @@ fun SetGroupCardPreview() {
         var sets by remember {
             mutableStateOf(
                 listOf(
-                    Set(1, 2.0),
-                    Set(distance = 3.0),
-                    Set(),
-                    Set()
+                    SetLegacy(1, 2.0),
+                    SetLegacy(distance = 3.0),
+                    SetLegacy(),
+                    SetLegacy()
                 )
             )
         }
@@ -151,7 +151,7 @@ fun SetGroupCard(
     shape: Shape = MaterialTheme.shapes.medium,
     border: BorderStroke? = null,
     name: String,
-    sets: List<Set>,
+    sets: List<SetLegacy>,
     onMoveDown: () -> Unit,
     onMoveUp: () -> Unit,
     onAddSet: () -> Unit,
@@ -245,7 +245,7 @@ private fun SetGroupTitle(
 @Composable
 private fun SetTable(
     modifier: Modifier = Modifier,
-    sets: List<Set>,
+    sets: List<SetLegacy>,
     logReps: Boolean,
     onRepsChange: (Int, String) -> Unit,
     logWeight: Boolean,

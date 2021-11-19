@@ -23,5 +23,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SetGroup(
     val exerciseId: Int,
-    val sets: List<Set> = listOf(Set()),
+    val sets: List<SetLegacy> = listOf(SetLegacy()),
 )
