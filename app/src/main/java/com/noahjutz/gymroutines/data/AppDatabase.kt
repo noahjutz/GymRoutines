@@ -22,6 +22,8 @@ import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.noahjutz.gymroutines.data.dao.ExerciseDao
 import com.noahjutz.gymroutines.data.dao.RoutineDao
 import com.noahjutz.gymroutines.data.dao.WorkoutDao
@@ -35,7 +37,7 @@ import com.noahjutz.gymroutines.data.domain.Workout
         Routine::class,
         Workout::class,
     ],
-    version = 36,
+    version = 37,
     autoMigrations = [
         AutoMigration(from = 35, to = 36)
     ],
@@ -46,4 +48,14 @@ abstract class AppDatabase : RoomDatabase() {
     abstract val exerciseDao: ExerciseDao
     abstract val routineDao: RoutineDao
     abstract val workoutDao: WorkoutDao
+}
+
+/**
+ * Removes SetGroup, flattening sets within routines.
+ */
+@OptIn(ExperimentalStdlibApi::class)
+val MIGRATION_36_37 = object : Migration(36, 37) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        // TODO
+    }
 }

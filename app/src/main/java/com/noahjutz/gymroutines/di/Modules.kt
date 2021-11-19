@@ -19,11 +19,7 @@
 package com.noahjutz.gymroutines.di
 
 import androidx.room.Room
-import com.noahjutz.gymroutines.data.AppDatabase
-import com.noahjutz.gymroutines.data.ExerciseRepository
-import com.noahjutz.gymroutines.data.RoutineRepository
-import com.noahjutz.gymroutines.data.WorkoutRepository
-import com.noahjutz.gymroutines.data.datastore
+import com.noahjutz.gymroutines.data.*
 import com.noahjutz.gymroutines.ui.exercises.editor.ExerciseEditorViewModel
 import com.noahjutz.gymroutines.ui.exercises.list.ExerciseListViewModel
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerViewModel
@@ -42,6 +38,7 @@ import org.koin.dsl.module
 val koinModule = module {
     single {
         Room.databaseBuilder(androidContext(), AppDatabase::class.java, "workout_routines_database")
+            .addMigrations(MIGRATION_36_37)
             .build()
     }
 

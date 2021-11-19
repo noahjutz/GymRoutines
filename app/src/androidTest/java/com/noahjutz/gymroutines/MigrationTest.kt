@@ -1,4 +1,4 @@
-package com.noahjutz.splitfit
+package com.noahjutz.gymroutines
 
 import androidx.room.testing.MigrationTestHelper
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
@@ -31,5 +31,11 @@ class MigrationTest {
         }
 
         db = helper.runMigrationsAndValidate(TEST_DB, 36, true)
+    }
+
+    @Test
+    @Throws(IOException::class)
+    fun migrate36To37() {
+        // TODO
     }
 }
