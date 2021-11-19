@@ -16,24 +16,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.noahjutz.splitfit
+package com.noahjutz.gymroutines
 
 import com.noahjutz.gymroutines.data.Converters
-import com.noahjutz.gymroutines.data.domain.SetGroup
+import com.noahjutz.gymroutines.data.domain.ExerciseSet
 import org.junit.Assert
 import org.junit.Test
 
 class ConvertersTest {
-    val converters: Converters = Converters()
+    private val converters: Converters = Converters()
 
     @Test
-    fun `List of Sets can be turned into JSON and back`() {
+    fun `List of ExerciseSets can be turned into JSON and back`() {
         val list = mutableListOf(
-            SetGroup(0),
-            SetGroup(1)
+            ExerciseSet(exerciseId = 0)
         )
-        val json = converters.fromSetGroups(list)
-        val backToList = converters.toSetGroups(json)
+        val json = converters.fromSets(list)
+        val backToList = converters.toSets(json)
         Assert.assertEquals(list, backToList)
     }
 }
