@@ -65,6 +65,7 @@ val MIGRATION_36_37 = object : Migration(36, 37) {
                         val weight = set.jsonObject["weight"]?.jsonPrimitive?.doubleOrNull
                         val time = set.jsonObject["time"]?.jsonPrimitive?.intOrNull
                         val distance = set.jsonObject["distance"]?.jsonPrimitive?.doubleOrNull
+                        val complete = set.jsonObject["complete"]?.jsonPrimitive?.booleanOrNull ?: false
 
                         val newSet = buildJsonObject {
                             put("exerciseId", exerciseId)
@@ -72,6 +73,7 @@ val MIGRATION_36_37 = object : Migration(36, 37) {
                             put("weight", weight)
                             put("time", time)
                             put("distance", distance)
+                            put("complete", complete)
                         }
                         add(newSet)
                     }
