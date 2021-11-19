@@ -58,6 +58,6 @@ val MIGRATION_36_37 = object : Migration(36, 37) {
         db.execSQL("ALTER TABLE routine_table RENAME COLUMN setGroups TO sets")
         db.execSQL("UPDATE routine_table SET sets='[]'") // TODO migrate JSON losslessly
         db.execSQL("ALTER TABLE workout_table RENAME COLUMN setGroups TO sets")
-        db.execSQL("UPDATE routine_table SET sets='[]'") // TODO migrate JSON losslessly
+        db.execSQL("UPDATE workout_table SET sets='[]'") // TODO migrate JSON losslessly
     }
 }
