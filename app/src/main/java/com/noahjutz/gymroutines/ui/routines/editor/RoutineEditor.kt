@@ -146,23 +146,30 @@ fun CreateRoutineScreen(
                     )
                 }
 
-                itemsIndexed(routine.sets.groupBy { it.exerciseId }
-                    .toList()) { setGroupIndex, (exerciseId, sets) ->
+                itemsIndexed(
+                    routine.sets
+                        .groupBy { it.exerciseId }
+                        .toList()
+                ) { setGroupIndex, (exerciseId, sets) ->
                     val exercise = viewModel.presenter.getExercise(exerciseId)!!
-                    // TODO implement callbacks
                     SetGroupCard(
                         name = exercise.name.takeIf { it.isNotBlank() }
                             ?: stringResource(R.string.unnamed_exercise),
                         sets = sets,
-                        onMoveDown = { },
-                        onMoveUp = { },
-                        onAddSet = { },
-                        onDeleteSet = { },
+                        onMoveDown = { /* TODO */ },
+                        onMoveUp = { /* TODO */ },
+                        onAddSet = { /* TODO */ },
+                        onDeleteSet = { /* TODO */ },
                         logReps = exercise.logReps,
                         logWeight = exercise.logWeight,
                         logTime = exercise.logTime,
                         logDistance = exercise.logDistance,
                         showCheckbox = false,
+                        onCheckboxChange = { i, checked -> /* TODO */ },
+                        onDistanceChange = { i, distance -> /* TODO */ },
+                        onRepsChange = { i, reps -> /* TODO */ },
+                        onTimeChange = { i, time -> /* TODO */ },
+                        onWeightChange = { i, weight -> /* TODO */ },
                     )
                 }
 
