@@ -21,6 +21,7 @@
 package com.noahjutz.gymroutines.data
 
 import androidx.room.TypeConverter
+import com.noahjutz.gymroutines.data.domain.Set
 import com.noahjutz.gymroutines.data.domain.SetGroup
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -28,6 +29,12 @@ import kotlinx.serialization.json.Json
 import java.util.*
 
 class Converters {
+    @TypeConverter
+    fun fromSets(sets: List<Set>): String = Json.encodeToString(sets)
+
+    @TypeConverter
+    fun toSets(json: String): List<Set> = Json.decodeFromString(json)
+
     @TypeConverter
     fun fromSetGroups(setGroups: List<SetGroup>): String = Json.encodeToString(setGroups)
 
