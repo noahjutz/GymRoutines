@@ -1,5 +1,6 @@
 package com.noahjutz.gymroutines.ui.workout.viewer
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,12 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.Workout
 import com.noahjutz.gymroutines.data.domain.duration
+import com.noahjutz.gymroutines.ui.components.SetGroupCard
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.util.pretty
-import com.noahjutz.splitfit.ui.workout.viewer.WorkoutViewerViewModel
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 import kotlin.time.ExperimentalTime
@@ -41,13 +44,14 @@ fun WorkoutViewer(
         }
     ) {
         val workout by viewModel.workout.collectAsState()
-        if (workout != null) WorkoutViewerContent(workout!!)
+        if (workout != null) WorkoutViewerContent(workout!!, viewModel)
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @ExperimentalTime
 @Composable
-fun WorkoutViewerContent(workout: Workout) {
+fun WorkoutViewerContent(workout: Workout, viewModel: WorkoutViewerViewModel) {
     LazyColumn {
         item {
             Spacer(Modifier.height(16.dp))
@@ -69,8 +73,23 @@ fun WorkoutViewerContent(workout: Workout) {
             Spacer(Modifier.height(16.dp))
         }
 
-        items(workout.sets) {
-            // TODO show setGroups using SetGroupCards like in WorkoutInProgress
+        items(workout.sets.groupBy { it.exerciseId }.toList()) { (exerciseId, sets) ->
+            val exercise = viewModel.getExercise(exerciseId)!!
+            // TODO make immutable (remove state)
+            SetGroupCard(
+                name = exercise.name.takeIf { it.isNotBlank() }
+                    ?: stringResource(R.string.unnamed_exercise),
+                sets = sets,
+                onMoveDown = { },
+                onMoveUp = { },
+                onAddSet = { },
+                onDeleteSet = { },
+                logReps = exercise.logReps,
+                logWeight = exercise.logWeight,
+                logTime = exercise.logTime,
+                logDistance = exercise.logDistance,
+                showCheckbox = true,
+            )
         }
     }
 }

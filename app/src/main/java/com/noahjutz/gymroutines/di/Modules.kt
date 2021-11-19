@@ -29,7 +29,7 @@ import com.noahjutz.gymroutines.ui.settings.AppSettingsViewModel
 import com.noahjutz.gymroutines.ui.workout.completed.WorkoutCompletedViewModel
 import com.noahjutz.gymroutines.ui.workout.in_progress.WorkoutInProgressViewModel
 import com.noahjutz.gymroutines.ui.workout.insights.WorkoutInsightsViewModel
-import com.noahjutz.splitfit.ui.workout.viewer.WorkoutViewerViewModel
+import com.noahjutz.gymroutines.ui.workout.viewer.WorkoutViewerViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -124,6 +124,7 @@ val koinModule = module {
         WorkoutViewerViewModel(
             workoutId = params.get(),
             workoutRepository = get(),
+            exerciseRepository = get(),
         )
     }
 
