@@ -56,6 +56,7 @@ abstract class AppDatabase : RoomDatabase() {
 val MIGRATION_36_37 = object : Migration(36, 37) {
     override fun migrate(db: SupportSQLiteDatabase) {
         db.execSQL("ALTER TABLE routine_table RENAME COLUMN setGroups TO sets")
+        db.execSQL("UPDATE routine_table SET sets='[]'") // TODO migrate JSON losslessly
         db.execSQL("ALTER TABLE workout_table RENAME COLUMN setGroups TO sets")
     }
 }
