@@ -18,82 +18,89 @@
 
 package com.noahjutz.gymroutines.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.noahjutz.gymroutines.R
+import com.noahjutz.gymroutines.data.domain.ExerciseSet
 import com.noahjutz.gymroutines.util.RegexPatterns
+import com.noahjutz.gymroutines.util.formatSimple
+import com.noahjutz.gymroutines.util.toStringOrBlank
 import kotlinx.coroutines.launch
 
-// TODO reimplement SetGroupCard using ExerciseSet instead of SetGroup
-// @ExperimentalMaterialApi
-// @ExperimentalFoundationApi
-// @Composable
-// fun SetGroupCard(
-//     modifier: Modifier = Modifier,
-//     elevation: Dp = 0.dp,
-//     shape: Shape = MaterialTheme.shapes.medium,
-//     border: BorderStroke? = null,
-//     name: String,
-//     sets: List<SetLegacy>,
-//     onMoveDown: () -> Unit,
-//     onMoveUp: () -> Unit,
-//     onAddSet: () -> Unit,
-//     onDeleteSet: (Int) -> Unit,
-//     logReps: Boolean,
-//     onRepsChange: (Int, String) -> Unit = { _, _ -> },
-//     logWeight: Boolean,
-//     onWeightChange: (Int, String) -> Unit = { _, _ -> },
-//     logTime: Boolean,
-//     onTimeChange: (Int, String) -> Unit = { _, _ -> },
-//     logDistance: Boolean,
-//     onDistanceChange: (Int, String) -> Unit = { _, _ -> },
-//     showCheckbox: Boolean,
-//     onCheckboxChange: (Int, Boolean) -> Unit = { _, _ -> },
-// ) {
-//     Card(
-//         modifier,
-//         elevation = elevation,
-//         shape = shape,
-//         border = border,
-//     ) {
-//         Column(Modifier.fillMaxWidth()) {
-//             SetGroupTitle(
-//                 name = name,
-//                 onMoveUp = onMoveUp,
-//                 onMoveDown = onMoveDown,
-//             )
-//             SetTable(
-//                 Modifier.padding(horizontal = 16.dp),
-//                 sets = sets,
-//                 logReps = logReps,
-//                 onRepsChange = onRepsChange,
-//                 logWeight = logWeight,
-//                 onWeightChange = onWeightChange,
-//                 logTime = logTime,
-//                 onTimeChange = onTimeChange,
-//                 logDistance = logDistance,
-//                 onDistanceChange = onDistanceChange,
-//                 showCheckbox = showCheckbox,
-//                 onCheckboxChange = onCheckboxChange,
-//                 onAddSet = onAddSet,
-//                 onDeleteSet = onDeleteSet,
-//             )
-//             Spacer(Modifier.height(8.dp))
-//         }
-//     }
-// }
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
+@Composable
+fun SetGroupCard(
+    modifier: Modifier = Modifier,
+    elevation: Dp = 0.dp,
+    shape: Shape = MaterialTheme.shapes.medium,
+    border: BorderStroke? = null,
+    name: String,
+    sets: List<ExerciseSet>,
+    onMoveDown: () -> Unit,
+    onMoveUp: () -> Unit,
+    onAddSet: () -> Unit,
+    onDeleteSet: (Int) -> Unit,
+    logReps: Boolean,
+    onRepsChange: (Int, String) -> Unit = { _, _ -> },
+    logWeight: Boolean,
+    onWeightChange: (Int, String) -> Unit = { _, _ -> },
+    logTime: Boolean,
+    onTimeChange: (Int, String) -> Unit = { _, _ -> },
+    logDistance: Boolean,
+    onDistanceChange: (Int, String) -> Unit = { _, _ -> },
+    showCheckbox: Boolean,
+    onCheckboxChange: (Int, Boolean) -> Unit = { _, _ -> },
+) {
+    Card(
+        modifier,
+        elevation = elevation,
+        shape = shape,
+        border = border,
+    ) {
+        Column(Modifier.fillMaxWidth()) {
+            SetGroupTitle(
+                name = name,
+                onMoveUp = onMoveUp,
+                onMoveDown = onMoveDown,
+            )
+            SetTable(
+                Modifier.padding(horizontal = 16.dp),
+                sets = sets,
+                logReps = logReps,
+                onRepsChange = onRepsChange,
+                logWeight = logWeight,
+                onWeightChange = onWeightChange,
+                logTime = logTime,
+                onTimeChange = onTimeChange,
+                logDistance = logDistance,
+                onDistanceChange = onDistanceChange,
+                showCheckbox = showCheckbox,
+                onCheckboxChange = onCheckboxChange,
+                onAddSet = onAddSet,
+                onDeleteSet = onDeleteSet,
+            )
+            Spacer(Modifier.height(8.dp))
+        }
+    }
+}
 
 @Composable
 private fun SetGroupTitle(
@@ -135,90 +142,89 @@ private fun SetGroupTitle(
     }
 }
 
-// TODO reimplement SetTable with ExerciseSet instead of SetLegacy
-// @ExperimentalMaterialApi
-// @ExperimentalFoundationApi
-// @Composable
-// private fun SetTable(
-//     modifier: Modifier = Modifier,
-//     sets: List<SetLegacy>,
-//     logReps: Boolean,
-//     onRepsChange: (Int, String) -> Unit,
-//     logWeight: Boolean,
-//     onWeightChange: (Int, String) -> Unit,
-//     logTime: Boolean,
-//     onTimeChange: (Int, String) -> Unit,
-//     logDistance: Boolean,
-//     onDistanceChange: (Int, String) -> Unit,
-//     showCheckbox: Boolean,
-//     onCheckboxChange: (Int, Boolean) -> Unit,
-//     onAddSet: () -> Unit,
-//     onDeleteSet: (Int) -> Unit,
-// ) {
-//     Table(modifier) {
-//         SetTableHeader(
-//             logReps = logReps,
-//             logWeight = logWeight,
-//             logTime = logTime,
-//             logDistance = logDistance,
-//             showCheckbox = showCheckbox,
-//         )
-//         Divider()
-//
-//         sets.forEachIndexed { i, set ->
-//             var reps by remember { mutableStateOf(set.reps.toStringOrBlank()) }
-//             var weight by remember { mutableStateOf(set.weight.formatSimple()) }
-//             var time by remember { mutableStateOf(set.time.toStringOrBlank()) }
-//             var distance by remember { mutableStateOf(set.distance.formatSimple()) }
-//
-//             TableSetRow(
-//                 logReps = logReps,
-//                 reps = reps,
-//                 onRepsChange = {
-//                     reps = it
-//                     onRepsChange(i, it)
-//                 },
-//                 logWeight = logWeight,
-//                 weight = weight,
-//                 onWeightChange = {
-//                     weight = it
-//                     onWeightChange(i, it)
-//                 },
-//                 logDuration = logTime,
-//                 duration = time,
-//                 onDurationChange = {
-//                     time = it
-//                     onTimeChange(i, it)
-//                 },
-//                 logDistance = logDistance,
-//                 distance = distance,
-//                 onDistanceChange = {
-//                     distance = it
-//                     onDistanceChange(i, it)
-//                 },
-//                 showCheckbox = showCheckbox,
-//                 checkboxChecked = set.complete,
-//                 onCheckboxChange = { onCheckboxChange(i, it) },
-//                 onDeleteSet = { onDeleteSet(i) }
-//             )
-//             Divider()
-//         }
-//
-//         TableRow {
-//             TextButton(
-//                 modifier = Modifier
-//                     .height(52.dp)
-//                     .fillMaxWidth(),
-//                 shape = RectangleShape,
-//                 onClick = onAddSet,
-//             ) {
-//                 Icon(Icons.Default.Add, null)
-//                 Spacer(Modifier.height(8.dp))
-//                 Text("Add Set")
-//             }
-//         }
-//     }
-// }
+@ExperimentalMaterialApi
+@ExperimentalFoundationApi
+@Composable
+private fun SetTable(
+    modifier: Modifier = Modifier,
+    sets: List<ExerciseSet>,
+    logReps: Boolean,
+    onRepsChange: (Int, String) -> Unit,
+    logWeight: Boolean,
+    onWeightChange: (Int, String) -> Unit,
+    logTime: Boolean,
+    onTimeChange: (Int, String) -> Unit,
+    logDistance: Boolean,
+    onDistanceChange: (Int, String) -> Unit,
+    showCheckbox: Boolean,
+    onCheckboxChange: (Int, Boolean) -> Unit,
+    onAddSet: () -> Unit,
+    onDeleteSet: (Int) -> Unit,
+) {
+    Table(modifier) {
+        SetTableHeader(
+            logReps = logReps,
+            logWeight = logWeight,
+            logTime = logTime,
+            logDistance = logDistance,
+            showCheckbox = showCheckbox,
+        )
+        Divider()
+
+        sets.forEachIndexed { i, set ->
+            var reps by remember { mutableStateOf(set.reps.toStringOrBlank()) }
+            var weight by remember { mutableStateOf(set.weight.formatSimple()) }
+            var time by remember { mutableStateOf(set.time.toStringOrBlank()) }
+            var distance by remember { mutableStateOf(set.distance.formatSimple()) }
+
+            TableSetRow(
+                logReps = logReps,
+                reps = reps,
+                onRepsChange = {
+                    reps = it
+                    onRepsChange(i, it)
+                },
+                logWeight = logWeight,
+                weight = weight,
+                onWeightChange = {
+                    weight = it
+                    onWeightChange(i, it)
+                },
+                logDuration = logTime,
+                duration = time,
+                onDurationChange = {
+                    time = it
+                    onTimeChange(i, it)
+                },
+                logDistance = logDistance,
+                distance = distance,
+                onDistanceChange = {
+                    distance = it
+                    onDistanceChange(i, it)
+                },
+                showCheckbox = showCheckbox,
+                checkboxChecked = set.complete,
+                onCheckboxChange = { onCheckboxChange(i, it) },
+                onDeleteSet = { onDeleteSet(i) }
+            )
+            Divider()
+        }
+
+        TableRow {
+            TextButton(
+                modifier = Modifier
+                    .height(52.dp)
+                    .fillMaxWidth(),
+                shape = RectangleShape,
+                onClick = onAddSet,
+            ) {
+                Icon(Icons.Default.Add, null)
+                Spacer(Modifier.height(8.dp))
+                Text("Add Set")
+            }
+        }
+    }
+}
 
 @Composable
 private fun ColumnScope.SetTableHeader(
