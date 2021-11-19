@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 37,
-    "identityHash": "637bcf14925a25819f0e09ced754c133",
+    "identityHash": "c249183e2e51a29786fbeb13fcc0b8da",
     "entities": [
       {
         "tableName": "exercise_table",
@@ -69,11 +69,17 @@
       },
       {
         "tableName": "routine_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `routineId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `setGroups` TEXT NOT NULL, `routineId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
         "fields": [
           {
             "fieldPath": "name",
             "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "setGroups",
+            "columnName": "setGroups",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -95,11 +101,17 @@
       },
       {
         "tableName": "workout_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `workoutId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `setGroups` TEXT NOT NULL, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `workoutId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
         "fields": [
           {
             "fieldPath": "name",
             "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "setGroups",
+            "columnName": "setGroups",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -135,7 +147,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '637bcf14925a25819f0e09ced754c133')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c249183e2e51a29786fbeb13fcc0b8da')"
     ]
   }
 }
