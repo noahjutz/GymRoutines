@@ -24,7 +24,7 @@ object App {
 
 object Versions {
     const val ktlintPlugin = "9.4.1"
-    const val ktlint = "0.39.0"
+    const val ktlint = "0.43.0"
 }
 
 object Libs {
@@ -123,7 +123,7 @@ object TestLibs {
 
 object GradlePlugins {
     object Android {
-        private const val version = "7.2.0-alpha03"
+        private const val version = "7.0.3"
         const val classpath = "com.android.tools.build:gradle:$version"
     }
 
