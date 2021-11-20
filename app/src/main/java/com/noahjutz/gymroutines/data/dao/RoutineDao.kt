@@ -20,12 +20,17 @@ package com.noahjutz.gymroutines.data.dao
 
 import androidx.room.*
 import com.noahjutz.gymroutines.data.domain.Routine
+import com.noahjutz.gymroutines.data.domain.RoutineSet
+import com.noahjutz.gymroutines.data.domain.RoutineWithSets
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RoutineDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(routine: Routine): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(routineSet: RoutineSet): Long
 
     @Delete
     suspend fun delete(routine: Routine)
@@ -35,4 +40,8 @@ interface RoutineDao {
 
     @Query("SELECT * FROM routine_table WHERE routineId == :routineId")
     suspend fun getRoutine(routineId: Int): Routine?
+
+    @Transaction
+    @Query("SELECT * FROM routine_table WHERE routineId == :routineId")
+    suspend fun getRoutineWithSets(routineId: Int): RoutineWithSets?
 }

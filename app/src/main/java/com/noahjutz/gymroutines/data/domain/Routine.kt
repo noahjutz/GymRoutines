@@ -31,9 +31,6 @@ data class Routine(
     var routineId: Int = 0,
 )
 
-// TODO remove this (temporary)
-val Routine.sets get() = emptyList<ExerciseSetLegacy>()
-
 data class RoutineWithSets(
     @Embedded val routine: Routine,
     @Relation(

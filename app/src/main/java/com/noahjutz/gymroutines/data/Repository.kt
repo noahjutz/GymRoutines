@@ -23,6 +23,7 @@ import com.noahjutz.gymroutines.data.dao.RoutineDao
 import com.noahjutz.gymroutines.data.dao.WorkoutDao
 import com.noahjutz.gymroutines.data.domain.Exercise
 import com.noahjutz.gymroutines.data.domain.Routine
+import com.noahjutz.gymroutines.data.domain.RoutineWithSets
 import com.noahjutz.gymroutines.data.domain.Workout
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -50,9 +51,18 @@ class RoutineRepository(private val routineDao: RoutineDao) {
     val routines = routineDao.getRoutines()
 
     suspend fun getRoutine(routineId: Int): Routine? = routineDao.getRoutine(routineId)
+    suspend fun getRoutineWithSets(routineId: Int): RoutineWithSets? =
+        routineDao.getRoutineWithSets(routineId)
 
     fun insert(routine: Routine): Long = runBlocking {
         routineDao.insert(routine)
+    }
+
+    suspend fun insert(routine: RoutineWithSets): Long = withContext(IO) {
+        for (set in routine.sets) {
+            routineDao.insert(set)
+        }
+        routineDao.insert(routine.routine)
     }
 
     fun delete(routine: Routine) {

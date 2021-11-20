@@ -42,7 +42,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.AppPrefs
-import com.noahjutz.gymroutines.data.domain.sets
+import com.noahjutz.gymroutines.data.domain.ExerciseSetLegacy
 import com.noahjutz.gymroutines.ui.components.SetGroupCard
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
@@ -98,7 +98,7 @@ fun CreateRoutineScreen(
                         val currentWorkout =
                             preferencesData?.get(AppPrefs.CurrentWorkout.key)
                         if (currentWorkout == null || currentWorkout < 0) {
-                            startWorkout(viewModel.presenter.routine.value.routineId)
+                            startWorkout(viewModel.presenter.routine.value.routine.routineId)
                         } else {
                             scope.launch {
                                 scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
@@ -139,7 +139,7 @@ fun CreateRoutineScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp),
-                        value = routine.name,
+                        value = routine.routine.name,
                         onValueChange = viewModel.editor::setName,
                         label = { Text("Routine Name") },
                         placeholder = { Text(stringResource(R.string.unnamed_routine)) },
@@ -156,7 +156,15 @@ fun CreateRoutineScreen(
                     SetGroupCard(
                         name = exercise.name.takeIf { it.isNotBlank() }
                             ?: stringResource(R.string.unnamed_exercise),
-                        sets = sets,
+                        sets = sets.map { (_, exerciseId, reps, weight, time, distance) ->
+                            ExerciseSetLegacy(
+                                exerciseId = exerciseId,
+                                reps = reps,
+                                weight = weight,
+                                time = time,
+                                distance = distance,
+                            )
+                        },
                         onMoveDown = { /* TODO */ },
                         onMoveUp = { /* TODO */ },
                         onAddSet = { /* TODO */ },
