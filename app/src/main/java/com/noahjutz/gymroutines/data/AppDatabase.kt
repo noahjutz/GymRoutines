@@ -126,7 +126,35 @@ val MIGRATION_37_38 = object : Migration(37, 38) {
             )
             """.trimIndent()
         )
-        // TODO: Transfer sets from routine_table column 'sets' to routine_set_table
+
+        // Transfer sets column in routine_table to routine_set_table
+        val routinesCursor = db.query("SELECT routineId, sets FROM routine_table")
+        while (routinesCursor.moveToNext()) {
+            val routineId = routinesCursor.getInt(0)
+            val sets = routinesCursor.getString(1)
+
+            for (set in Json.parseToJsonElement(sets).jsonArray) {
+                val exerciseId = set.jsonObject["exerciseId"]?.jsonPrimitive?.int
+                val reps = set.jsonObject["reps"]?.jsonPrimitive?.intOrNull
+                val weight = set.jsonObject["weight"]?.jsonPrimitive?.doubleOrNull
+                val time = set.jsonObject["time"]?.jsonPrimitive?.intOrNull
+                val distance = set.jsonObject["distance"]?.jsonPrimitive?.doubleOrNull
+
+                db.execSQL(
+                    """
+                        INSERT INTO routine_set_table VALUES (
+                            $routineId,
+                            $exerciseId,
+                            $reps,
+                            $weight,
+                            $time,
+                            $distance,
+                            NULL
+                        )
+                    """.trimIndent()
+                )
+            }
+        }
 
         // This is the same as "ALTER TABLE routine_table DROP COLUMN sets" (not supported)
         db.execSQL("ALTER TABLE routine_table RENAME TO routine_table_old")
