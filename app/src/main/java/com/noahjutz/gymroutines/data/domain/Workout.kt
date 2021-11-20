@@ -26,7 +26,7 @@ import java.util.*
 @Entity(tableName = "workout_table")
 data class Workout(
     val name: String = "",
-    val sets: List<ExerciseSet> = emptyList(),
+    val sets: List<ExerciseSetLegacy> = emptyList(),
     val startTime: Date = Calendar.getInstance().time,
     val endTime: Date = startTime,
 

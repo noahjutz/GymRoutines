@@ -21,7 +21,7 @@ package com.noahjutz.gymroutines.data.domain
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ExerciseSet(
+data class ExerciseSetLegacy(
     val exerciseId: Int,
     val reps: Int? = null,
     val weight: Double? = null,

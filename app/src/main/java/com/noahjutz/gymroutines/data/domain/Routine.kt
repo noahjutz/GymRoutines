@@ -24,7 +24,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "routine_table")
 data class Routine(
     val name: String = "",
-    val sets: List<ExerciseSet> = emptyList(),
+    val sets: List<ExerciseSetLegacy> = emptyList(),
 
     @PrimaryKey(autoGenerate = true)
     var routineId: Int = 0,

@@ -19,7 +19,7 @@
 package com.noahjutz.gymroutines
 
 import com.noahjutz.gymroutines.data.Converters
-import com.noahjutz.gymroutines.data.domain.ExerciseSet
+import com.noahjutz.gymroutines.data.domain.ExerciseSetLegacy
 import org.junit.Assert
 import org.junit.Test
 
@@ -29,7 +29,7 @@ class ConvertersTest {
     @Test
     fun `List of ExerciseSets can be turned into JSON and back`() {
         val list = mutableListOf(
-            ExerciseSet(exerciseId = 0)
+            ExerciseSetLegacy(exerciseId = 0)
         )
         val json = converters.fromSets(list)
         val backToList = converters.toSets(json)

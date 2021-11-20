@@ -38,7 +38,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.noahjutz.gymroutines.R
-import com.noahjutz.gymroutines.data.domain.ExerciseSet
+import com.noahjutz.gymroutines.data.domain.ExerciseSetLegacy
 import com.noahjutz.gymroutines.util.RegexPatterns
 import com.noahjutz.gymroutines.util.formatSimple
 import com.noahjutz.gymroutines.util.toStringOrBlank
@@ -53,7 +53,7 @@ fun SetGroupCard(
     shape: Shape = MaterialTheme.shapes.medium,
     border: BorderStroke? = null,
     name: String,
-    sets: List<ExerciseSet>,
+    sets: List<ExerciseSetLegacy>,
     onMoveDown: () -> Unit,
     onMoveUp: () -> Unit,
     onAddSet: () -> Unit,
@@ -147,7 +147,7 @@ private fun SetGroupTitle(
 @Composable
 private fun SetTable(
     modifier: Modifier = Modifier,
-    sets: List<ExerciseSet>,
+    sets: List<ExerciseSetLegacy>,
     logReps: Boolean,
     onRepsChange: (Int, String) -> Unit,
     logWeight: Boolean,
