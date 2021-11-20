@@ -38,7 +38,7 @@ import kotlinx.serialization.json.*
         Routine::class,
         Workout::class,
     ],
-    version = 37,
+    version = 38,
     autoMigrations = [
         AutoMigration(from = 35, to = 36)
     ],
@@ -102,5 +102,16 @@ val MIGRATION_36_37 = object : Migration(36, 37) {
 
             db.execSQL("UPDATE workout_table SET sets='$newSets' WHERE workoutId=$workoutId")
         }
+    }
+}
+
+/**
+ * Instead of saving routine and workout sets as a json string in the sets column of routine_table
+ * and workout_table, routine and workout sets now have their own table. They are associated with
+ * their routine/workout by one-to-many relationship.
+ */
+val MIGRATION_37_38 = object : Migration(37, 38) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        // TODO
     }
 }

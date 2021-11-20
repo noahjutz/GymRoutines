@@ -6,6 +6,7 @@ import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.platform.app.InstrumentationRegistry
 import com.noahjutz.gymroutines.data.AppDatabase
 import com.noahjutz.gymroutines.data.MIGRATION_36_37
+import com.noahjutz.gymroutines.data.MIGRATION_37_38
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -40,7 +41,7 @@ class MigrationTest {
                 AppDatabase::class.java,
                 TEST_DB
             )
-            .addMigrations(MIGRATION_36_37)
+            .addMigrations(MIGRATION_36_37, MIGRATION_37_38)
             .build()
             .apply {
                 openHelper.writableDatabase
@@ -67,5 +68,16 @@ class MigrationTest {
             it
         }
         db = helper.runMigrationsAndValidate(TEST_DB, 37, true, MIGRATION_36_37)
+    }
+
+    @Test
+    @Throws(IOException::class)
+    fun migrate37to38() {
+        var db = helper.createDatabase(TEST_DB, 37).use {
+            it.execSQL("INSERT INTO exercise_table VALUES ('Squat', '', 'true', 'true', 'false', 'false', 'false', 0)")
+            it.execSQL("INSERT INTO routine_table VALUES ('Legs', '[{\"exerciseId\":0,\"reps\":6}]', 0)")
+            it
+        }
+        db = helper.runMigrationsAndValidate(TEST_DB, 38, true, MIGRATION_37_38)
     }
 }
