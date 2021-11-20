@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 38,
-    "identityHash": "a9dce012596a3a9b19d23124189d0b72",
+    "identityHash": "b7c68d3f1773777dae9d94e46c7ea1d3",
     "entities": [
       {
         "tableName": "exercise_table",
@@ -142,12 +142,130 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "routine_set_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`routineId` INTEGER NOT NULL, `exerciseId` INTEGER NOT NULL, `reps` INTEGER, `weight` REAL, `time` INTEGER, `distance` REAL, `routineSetId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "routineId",
+            "columnName": "routineId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "exerciseId",
+            "columnName": "exerciseId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reps",
+            "columnName": "reps",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "weight",
+            "columnName": "weight",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "distance",
+            "columnName": "distance",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "routineSetId",
+            "columnName": "routineSetId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "routineSetId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "workout_set_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`workoutId` INTEGER NOT NULL, `exerciseId` INTEGER NOT NULL, `reps` INTEGER, `weight` REAL, `time` INTEGER, `distance` REAL, `complete` INTEGER NOT NULL, `workoutSetId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "workoutId",
+            "columnName": "workoutId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "exerciseId",
+            "columnName": "exerciseId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reps",
+            "columnName": "reps",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "weight",
+            "columnName": "weight",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "distance",
+            "columnName": "distance",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "complete",
+            "columnName": "complete",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "workoutSetId",
+            "columnName": "workoutSetId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "workoutSetId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a9dce012596a3a9b19d23124189d0b72')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b7c68d3f1773777dae9d94e46c7ea1d3')"
     ]
   }
 }

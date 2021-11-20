@@ -27,9 +27,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.noahjutz.gymroutines.data.dao.ExerciseDao
 import com.noahjutz.gymroutines.data.dao.RoutineDao
 import com.noahjutz.gymroutines.data.dao.WorkoutDao
-import com.noahjutz.gymroutines.data.domain.Exercise
-import com.noahjutz.gymroutines.data.domain.Routine
-import com.noahjutz.gymroutines.data.domain.Workout
+import com.noahjutz.gymroutines.data.domain.*
 import kotlinx.serialization.json.*
 
 @Database(
@@ -37,6 +35,8 @@ import kotlinx.serialization.json.*
         Exercise::class,
         Routine::class,
         Workout::class,
+        RoutineSet::class,
+        WorkoutSet::class,
     ],
     version = 38,
     autoMigrations = [
@@ -65,7 +65,8 @@ val MIGRATION_36_37 = object : Migration(36, 37) {
                         val weight = set.jsonObject["weight"]?.jsonPrimitive?.doubleOrNull
                         val time = set.jsonObject["time"]?.jsonPrimitive?.intOrNull
                         val distance = set.jsonObject["distance"]?.jsonPrimitive?.doubleOrNull
-                        val complete = set.jsonObject["complete"]?.jsonPrimitive?.booleanOrNull ?: false
+                        val complete =
+                            set.jsonObject["complete"]?.jsonPrimitive?.booleanOrNull ?: false
 
                         val newSet = buildJsonObject {
                             put("exerciseId", exerciseId)
@@ -111,7 +112,33 @@ val MIGRATION_36_37 = object : Migration(36, 37) {
  * their routine/workout by one-to-many relationship.
  */
 val MIGRATION_37_38 = object : Migration(37, 38) {
-    override fun migrate(database: SupportSQLiteDatabase) {
-        // TODO
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            """
+            CREATE TABLE routine_set_table (
+                routineId INTEGER NOT NULL,
+                exerciseId INTEGER NOT NULL,
+                reps INTEGER DEFAULT NULL,
+                weight REAL DEFAULT NULL,
+                time INTEGER DEFAULT NULL,
+                distance REAL DEFAULT NULL,
+                routineSetId INTEGER PRIMARY KEY NOT NULL
+            )
+            """.trimIndent()
+        )
+        db.execSQL(
+            """
+            CREATE TABLE workout_set_table (
+                workoutId INTEGER NOT NULL,
+                exerciseId INTEGER NOT NULL,
+                reps INTEGER DEFAULT NULL,
+                weight REAL DEFAULT NULL,
+                time INTEGER DEFAULT NULL,
+                distance REAL DEFAULT NULL,
+                complete INTEGER NOT NULL DEFAULT 0,
+                workoutSetId INTEGER PRIMARY KEY NOT NULL
+            )
+            """.trimIndent()
+        )
     }
 }
