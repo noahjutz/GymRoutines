@@ -126,6 +126,21 @@ val MIGRATION_37_38 = object : Migration(37, 38) {
             )
             """.trimIndent()
         )
+        // TODO: Transfer sets from routine_table column 'sets' to routine_set_table
+
+        // This is the same as "ALTER TABLE routine_table DROP COLUMN sets" (not supported)
+        db.execSQL("ALTER TABLE routine_table RENAME TO routine_table_old")
+        db.execSQL(
+            """
+            CREATE TABLE routine_table (
+                name TEXT NOT NULL,
+                routineId INTEGER PRIMARY KEY NOT NULL
+            )
+            """.trimIndent()
+        )
+        db.execSQL("INSERT INTO routine_table SELECT name, routineId FROM routine_table_old")
+        db.execSQL("DROP TABLE routine_table_old")
+
         db.execSQL(
             """
             CREATE TABLE workout_set_table (

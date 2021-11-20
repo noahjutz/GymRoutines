@@ -18,14 +18,26 @@
 
 package com.noahjutz.gymroutines.data.domain
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 
 @Entity(tableName = "routine_table")
 data class Routine(
     val name: String = "",
-    val sets: List<ExerciseSetLegacy> = emptyList(),
 
     @PrimaryKey(autoGenerate = true)
     var routineId: Int = 0,
+)
+
+// TODO remove this (temporary)
+val Routine.sets get() = emptyList<ExerciseSetLegacy>()
+
+data class RoutineWithSets(
+    @Embedded val routine: Routine,
+    @Relation(
+        parentColumn = "routineId",
+        entityColumn = "routineId"
+    ) val sets: List<RoutineSet>
 )

@@ -34,14 +34,15 @@ data class Workout(
     val workoutId: Int = 0,
 )
 
+// TODO replace with RoutineWithSets.toWorkout()
 fun Routine.toWorkout() = Workout(
     name,
-    sets.map { it.copy(complete = false) }
+    emptyList() // temp
 )
 
+// TODO ???
 fun Workout.toRoutine(routineId: Int) = Routine(
     name,
-    sets.map { it.copy(complete = false) },
     routineId
 )
 
