@@ -1,0 +1,10 @@
+Bug fixes:
+* Renamed backups from splitfit_... to gymroutines_... (8af1b2cd)
+
+Development:
+* Update database structure (830954dc..65bed184, 462cc0ef..df670b1c)
+  * Removed SetGroups
+  * Use database relationships instead of serialization for sets
+* Update Dependencies (9f9e58f0)
+* Add Roboto Slab font (41a2eccf)
+* Simplify SetGroupCard (00a02b42)
