@@ -17,9 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.noahjutz.gymroutines.R
-import com.noahjutz.gymroutines.data.domain.Workout
+import com.noahjutz.gymroutines.data.domain.ExerciseSetLegacy
+import com.noahjutz.gymroutines.data.domain.WorkoutWithSets
 import com.noahjutz.gymroutines.data.domain.duration
-import com.noahjutz.gymroutines.data.domain.sets
 import com.noahjutz.gymroutines.ui.components.SetGroupCard
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.util.pretty
@@ -52,21 +52,21 @@ fun WorkoutViewer(
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @ExperimentalTime
 @Composable
-fun WorkoutViewerContent(workout: Workout, viewModel: WorkoutViewerViewModel) {
+fun WorkoutViewerContent(workout: WorkoutWithSets, viewModel: WorkoutViewerViewModel) {
     LazyColumn {
         item {
             Spacer(Modifier.height(16.dp))
             Text(
-                text = workout.name,
+                text = workout.workout.name,
                 modifier = Modifier.padding(horizontal = 16.dp),
                 style = typography.h4,
             )
             Text(
-                text = workout.endTime.pretty(),
+                text = workout.workout.endTime.pretty(),
                 modifier = Modifier.padding(horizontal = 16.dp),
             )
             Text(
-                text = workout.duration.pretty(),
+                text = workout.workout.duration.pretty(),
                 modifier = Modifier.padding(horizontal = 16.dp),
             )
             Spacer(Modifier.height(16.dp))
@@ -80,7 +80,9 @@ fun WorkoutViewerContent(workout: Workout, viewModel: WorkoutViewerViewModel) {
             SetGroupCard(
                 name = exercise.name.takeIf { it.isNotBlank() }
                     ?: stringResource(R.string.unnamed_exercise),
-                sets = sets,
+                sets = sets.map { (workoutId, exerciseId, reps, weight, time, distance, complete) ->
+                    ExerciseSetLegacy(exerciseId, reps, weight, time, distance, complete)
+                },
                 onMoveDown = { },
                 onMoveUp = { },
                 onAddSet = { },
