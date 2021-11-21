@@ -18,8 +18,10 @@
 
 package com.noahjutz.gymroutines.data.domain
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 import com.noahjutz.gymroutines.util.minus
 import java.util.*
 
@@ -31,6 +33,14 @@ data class Workout(
 
     @PrimaryKey(autoGenerate = true)
     val workoutId: Int = 0,
+)
+
+data class WorkoutWithSets(
+    @Embedded val workout: Workout,
+    @Relation(
+        parentColumn = "workoutId",
+        entityColumn = "workoutId"
+    ) val sets: List<WorkoutSet>
 )
 
 // TODO remove this temporary line
