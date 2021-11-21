@@ -31,6 +31,8 @@ data class ExerciseSetLegacy(
     val time: Int? = null,
     val distance: Double? = null,
     val complete: Boolean = false,
+    val position: Int,
+    val setId: Int,
 )
 
 @Entity(tableName = "routine_set_table")
