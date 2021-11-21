@@ -4,9 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.RoutineRepository
 import com.noahjutz.gymroutines.data.WorkoutRepository
-import com.noahjutz.gymroutines.data.domain.Routine
-import com.noahjutz.gymroutines.data.domain.Workout
-import com.noahjutz.gymroutines.data.domain.toRoutine
+import com.noahjutz.gymroutines.data.domain.RoutineWithSets
+import com.noahjutz.gymroutines.data.domain.WorkoutWithSets
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,7 +20,7 @@ class WorkoutCompletedViewModel(
     sealed class State {
         object Loading : State()
         object Error : State()
-        data class Found(val routine: Routine, val workout: Workout) : State()
+        data class Found(val routine: RoutineWithSets, val workout: WorkoutWithSets) : State()
     }
 
     private val _state: MutableStateFlow<State> = MutableStateFlow(State.Loading)
@@ -29,8 +28,8 @@ class WorkoutCompletedViewModel(
 
     init {
         viewModelScope.launch {
-            val routine = routineRepository.getRoutine(routineId)
-            val workout = workoutRepository.getWorkout(workoutId)
+            val routine = routineRepository.getRoutineWithSets(routineId)
+            val workout = workoutRepository.getWorkoutWithSets(workoutId)
             _state.value =
                 if (routine == null || workout == null) State.Error
                 else State.Found(routine, workout)
@@ -39,8 +38,9 @@ class WorkoutCompletedViewModel(
 
     fun updateRoutine() {
         (state.value as? State.Found)?.let { state ->
-            val newRoutine = state.workout.toRoutine(state.routine.routineId)
-            routineRepository.insert(newRoutine)
+            viewModelScope.launch {
+                routineRepository.insertWorkoutAsRoutine(state.workout)
+            }
         }
     }
 }

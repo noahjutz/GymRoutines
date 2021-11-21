@@ -55,6 +55,23 @@ class RoutineRepository(private val routineDao: RoutineDao) {
         routineDao.insert(routine)
     }
 
+    suspend fun insertWorkoutAsRoutine(workoutWithSets: WorkoutWithSets): Long {
+        val id = insert(Routine(name = workoutWithSets.workout.name))
+        val sets = workoutWithSets.sets.map {
+            RoutineSet(
+                id.toInt(),
+                it.exerciseId,
+                it.position,
+                it.reps,
+                it.weight,
+                it.time,
+                it.distance
+            )
+        }
+        for (set in sets) routineDao.insert(set)
+        return id
+    }
+
     suspend fun insert(routine: RoutineWithSets): Long = withContext(IO) {
         for (set in routine.sets) {
             routineDao.insert(set)

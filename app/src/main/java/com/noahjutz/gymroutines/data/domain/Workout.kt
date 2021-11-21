@@ -43,10 +43,4 @@ data class WorkoutWithSets(
     ) val sets: List<WorkoutSet>
 )
 
-// TODO ???
-fun Workout.toRoutine(routineId: Int) = Routine(
-    name,
-    routineId
-)
-
 val Workout.duration get() = endTime - startTime
