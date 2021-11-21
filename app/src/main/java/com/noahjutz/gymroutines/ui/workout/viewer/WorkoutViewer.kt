@@ -80,8 +80,8 @@ fun WorkoutViewerContent(workout: WorkoutWithSets, viewModel: WorkoutViewerViewM
             SetGroupCard(
                 name = exercise.name.takeIf { it.isNotBlank() }
                     ?: stringResource(R.string.unnamed_exercise),
-                sets = sets.map { (workoutId, exerciseId, position, reps, weight, time, distance, complete) ->
-                    ExerciseSetLegacy(exerciseId, reps, weight, time, distance, complete)
+                sets = sets.map { (workoutId, exerciseId, position, reps, weight, time, distance, complete, setId) ->
+                    ExerciseSetLegacy(exerciseId, reps, weight, time, distance, complete, position, setId)
                 },
                 onMoveDown = { },
                 onMoveUp = { },

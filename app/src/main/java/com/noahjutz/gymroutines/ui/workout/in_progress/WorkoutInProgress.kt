@@ -35,7 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.noahjutz.gymroutines.data.domain.sets
 import com.noahjutz.gymroutines.ui.components.NormalDialog
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
@@ -85,7 +84,7 @@ fun WorkoutInProgress(
         Scaffold(
             topBar = {
                 TopBar(
-                    title = workout.name,
+                    title = workout.workout.name,
                     navigationIcon = {
                         IconButton(onClick = popBackStack) { Icon(Icons.Default.ArrowBack, null) }
                     }
@@ -103,7 +102,7 @@ fun WorkoutInProgress(
                     }.invokeOnCompletion {
                         navToCompleted(
                             routineId,
-                            viewModel.presenter.workout.value.workoutId
+                            workout.workout.workoutId
                         ) // TODO not always passed to WorkoutInProgress
                     }
                 }

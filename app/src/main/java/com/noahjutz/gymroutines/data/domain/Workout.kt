@@ -43,9 +43,6 @@ data class WorkoutWithSets(
     ) val sets: List<WorkoutSet>
 )
 
-// TODO remove this temporary line
-val Workout.sets get() = emptyList<ExerciseSetLegacy>()
-
 // TODO ???
 fun Routine.toWorkout() = Workout(
     name,

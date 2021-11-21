@@ -47,12 +47,12 @@ class WorkoutInProgressViewModel(
 ) : ViewModel() {
     private val _workout = MutableStateFlow(
         runBlocking {
-            workoutRepository.getWorkout(workoutId)
+            workoutRepository.getWorkoutWithSets(workoutId)
                 ?: routineRepository.getRoutine(routineId)?.let {
-                    workoutRepository.getWorkout(workoutRepository.insert(it.toWorkout()).toInt())
+                    workoutRepository.getWorkoutWithSets(workoutRepository.insert(it.toWorkout()).toInt())
                 }
                 ?: workoutRepository.insert(Workout()).let {
-                    workoutRepository.getWorkout(it.toInt())
+                    workoutRepository.getWorkoutWithSets(it.toInt())
                 }!!
         }
     )
@@ -62,7 +62,7 @@ class WorkoutInProgressViewModel(
     init {
         viewModelScope.launch {
             preferences.edit { // TODO move to CreateRoutine when "start workout" is tapped
-                it[AppPrefs.CurrentWorkout.key] = _workout.value.workoutId
+                it[AppPrefs.CurrentWorkout.key] = _workout.value.workout.workoutId
             }
             _workout.collectLatest {
                 workoutRepository.insert(_workout.value)
@@ -72,15 +72,13 @@ class WorkoutInProgressViewModel(
 
     inner class Editor {
         fun setEndTime(endTime: Date) {
-            _workout.value = _workout.value.copy(endTime = endTime)
+            // TODO
         }
 
         // TODO reimplement SetGroup update functions with ExerciseSet
 
         fun deleteWorkout() {
-            viewModelScope.launch {
-                workoutRepository.delete(_workout.value)
-            }
+            // TODO
         }
 
         suspend fun finishWorkout() {
@@ -105,7 +103,7 @@ class WorkoutInProgressViewModel(
 
         @OptIn(ExperimentalTime::class)
         val duration =
-            currentTime.map { Duration.seconds((it - workout.value.startTime).inWholeSeconds) }
+            currentTime.map { Duration.seconds((it - workout.value.workout.startTime).inWholeSeconds) }
 
         @OptIn(ExperimentalTime::class)
         val durationString = duration.map {

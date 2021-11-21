@@ -156,13 +156,15 @@ fun CreateRoutineScreen(
                     SetGroupCard(
                         name = exercise.name.takeIf { it.isNotBlank() }
                             ?: stringResource(R.string.unnamed_exercise),
-                        sets = sets.map { (_, exerciseId, position, reps, weight, time, distance) ->
+                        sets = sets.map { (_, exerciseId, position, reps, weight, time, distance, setId) ->
                             ExerciseSetLegacy(
                                 exerciseId = exerciseId,
                                 reps = reps,
                                 weight = weight,
                                 time = time,
                                 distance = distance,
+                                position = position,
+                                setId = setId
                             )
                         },
                         onMoveDown = { /* TODO */ },
