@@ -36,6 +36,7 @@ data class ExerciseSetLegacy(
 data class RoutineSet(
     val routineId: Int,
     val exerciseId: Int,
+    val position: Int,
     val reps: Int? = null,
     val weight: Double? = null,
     val time: Int? = null,
@@ -49,6 +50,7 @@ data class RoutineSet(
 data class WorkoutSet(
     val workoutId: Int,
     val exerciseId: Int,
+    val position: Int,
     val reps: Int? = null,
     val weight: Double? = null,
     val time: Int? = null,

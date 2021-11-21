@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 38,
-    "identityHash": "00202b18faced2ca152ca1928098d966",
+    "identityHash": "af0b4f0c392c809aac9aa8aa65a75983",
     "entities": [
       {
         "tableName": "exercise_table",
@@ -133,7 +133,7 @@
       },
       {
         "tableName": "routine_set_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`routineId` INTEGER NOT NULL, `exerciseId` INTEGER NOT NULL, `reps` INTEGER, `weight` REAL, `time` INTEGER, `distance` REAL, `routineSetId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`routineId` INTEGER NOT NULL, `exerciseId` INTEGER NOT NULL, `position` INTEGER NOT NULL, `reps` INTEGER, `weight` REAL, `time` INTEGER, `distance` REAL, `routineSetId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
         "fields": [
           {
             "fieldPath": "routineId",
@@ -144,6 +144,12 @@
           {
             "fieldPath": "exerciseId",
             "columnName": "exerciseId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "position",
+            "columnName": "position",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -189,7 +195,7 @@
       },
       {
         "tableName": "workout_set_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`workoutId` INTEGER NOT NULL, `exerciseId` INTEGER NOT NULL, `reps` INTEGER, `weight` REAL, `time` INTEGER, `distance` REAL, `complete` INTEGER NOT NULL, `workoutSetId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`workoutId` INTEGER NOT NULL, `exerciseId` INTEGER NOT NULL, `position` INTEGER NOT NULL, `reps` INTEGER, `weight` REAL, `time` INTEGER, `distance` REAL, `complete` INTEGER NOT NULL, `workoutSetId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
         "fields": [
           {
             "fieldPath": "workoutId",
@@ -200,6 +206,12 @@
           {
             "fieldPath": "exerciseId",
             "columnName": "exerciseId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "position",
+            "columnName": "position",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -253,7 +265,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '00202b18faced2ca152ca1928098d966')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'af0b4f0c392c809aac9aa8aa65a75983')"
     ]
   }
 }

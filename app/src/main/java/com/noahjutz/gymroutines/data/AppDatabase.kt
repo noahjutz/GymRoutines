@@ -118,6 +118,7 @@ val MIGRATION_37_38 = object : Migration(37, 38) {
             CREATE TABLE routine_set_table (
                 routineId INTEGER NOT NULL,
                 exerciseId INTEGER NOT NULL,
+                position INTEGER NOT NULL,
                 reps INTEGER DEFAULT NULL,
                 weight REAL DEFAULT NULL,
                 time INTEGER DEFAULT NULL,
@@ -133,7 +134,7 @@ val MIGRATION_37_38 = object : Migration(37, 38) {
             val routineId = routinesCursor.getInt(0)
             val sets = routinesCursor.getString(1)
 
-            for (set in Json.parseToJsonElement(sets).jsonArray) {
+            Json.parseToJsonElement(sets).jsonArray.forEachIndexed { i, set ->
                 val exerciseId = set.jsonObject["exerciseId"]?.jsonPrimitive?.int
                 val reps = set.jsonObject["reps"]?.jsonPrimitive?.intOrNull
                 val weight = set.jsonObject["weight"]?.jsonPrimitive?.doubleOrNull
@@ -142,15 +143,16 @@ val MIGRATION_37_38 = object : Migration(37, 38) {
 
                 db.execSQL(
                     """
-                        INSERT INTO routine_set_table VALUES (
-                            $routineId,
-                            $exerciseId,
-                            $reps,
-                            $weight,
-                            $time,
-                            $distance,
-                            NULL
-                        )
+                    INSERT INTO routine_set_table VALUES (
+                        $routineId,
+                        $exerciseId,
+                        $i,
+                        $reps,
+                        $weight,
+                        $time,
+                        $distance,
+                        NULL
+                    )
                     """.trimIndent()
                 )
             }
@@ -174,6 +176,7 @@ val MIGRATION_37_38 = object : Migration(37, 38) {
             CREATE TABLE workout_set_table (
                 workoutId INTEGER NOT NULL,
                 exerciseId INTEGER NOT NULL,
+                position INTEGER NOT NULL,
                 reps INTEGER DEFAULT NULL,
                 weight REAL DEFAULT NULL,
                 time INTEGER DEFAULT NULL,
@@ -190,7 +193,7 @@ val MIGRATION_37_38 = object : Migration(37, 38) {
             val workoutId = workoutCursor.getInt(0)
             val sets = workoutCursor.getString(1)
 
-            for (set in Json.parseToJsonElement(sets).jsonArray) {
+            Json.parseToJsonElement(sets).jsonArray.forEachIndexed { i, set ->
                 val exerciseId = set.jsonObject["exerciseId"]?.jsonPrimitive?.int
                 val reps = set.jsonObject["reps"]?.jsonPrimitive?.intOrNull
                 val weight = set.jsonObject["weight"]?.jsonPrimitive?.doubleOrNull
@@ -200,16 +203,17 @@ val MIGRATION_37_38 = object : Migration(37, 38) {
 
                 db.execSQL(
                     """
-                        INSERT INTO workout_set_table VALUES (
-                            $workoutId,
-                            $exerciseId,
-                            $reps,
-                            $weight,
-                            $time,
-                            $distance,
-                            $complete,
-                            NULL
-                        )
+                    INSERT INTO workout_set_table VALUES (
+                        $workoutId,
+                        $exerciseId,
+                        $i,
+                        $reps,
+                        $weight,
+                        $time,
+                        $distance,
+                        $complete,
+                        NULL
+                    )
                     """.trimIndent()
                 )
             }
