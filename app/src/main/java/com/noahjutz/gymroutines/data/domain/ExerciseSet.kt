@@ -22,6 +22,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
 
+// Temporary class for SetGroupCard. TODO remove and use RoutineSet/WorkoutSet
 @Serializable
 data class ExerciseSetLegacy(
     val exerciseId: Int,
