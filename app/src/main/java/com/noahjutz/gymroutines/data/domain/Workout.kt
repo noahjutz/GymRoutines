@@ -44,11 +44,6 @@ data class WorkoutWithSets(
 )
 
 // TODO ???
-fun Routine.toWorkout() = Workout(
-    name,
-)
-
-// TODO ???
 fun Workout.toRoutine(routineId: Int) = Routine(
     name,
     routineId
