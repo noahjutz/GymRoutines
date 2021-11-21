@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.Workout
 import com.noahjutz.gymroutines.data.domain.duration
+import com.noahjutz.gymroutines.data.domain.sets
 import com.noahjutz.gymroutines.ui.components.SetGroupCard
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.util.pretty

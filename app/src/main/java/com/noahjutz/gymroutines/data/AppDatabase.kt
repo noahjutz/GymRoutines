@@ -183,5 +183,22 @@ val MIGRATION_37_38 = object : Migration(37, 38) {
             )
             """.trimIndent()
         )
+
+        // TODO transfer sets from workout_table to workout_set_table
+
+        // This is the same as "ALTER TABLE workout_table DROP COLUMN sets" (not supported)
+        db.execSQL("ALTER TABLE workout_table RENAME TO workout_table_old")
+        db.execSQL(
+            """
+            CREATE TABLE workout_table (
+                name TEXT NOT NULL,
+                startTime INTEGER NOT NULL,
+                endTime INTEGER NOT NULL,
+                workoutId INTEGER PRIMARY KEY NOT NULL
+            )
+            """.trimIndent()
+        )
+        db.execSQL("INSERT INTO workout_table SELECT name, startTime, endTime, workoutId FROM workout_table_old")
+        db.execSQL("DROP TABLE workout_table_old")
     }
 }

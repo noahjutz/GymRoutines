@@ -26,7 +26,6 @@ import java.util.*
 @Entity(tableName = "workout_table")
 data class Workout(
     val name: String = "",
-    val sets: List<ExerciseSetLegacy> = emptyList(),
     val startTime: Date = Calendar.getInstance().time,
     val endTime: Date = startTime,
 
@@ -34,10 +33,12 @@ data class Workout(
     val workoutId: Int = 0,
 )
 
-// TODO replace with RoutineWithSets.toWorkout()
+// TODO remove this temporary line
+val Workout.sets get() = emptyList<ExerciseSetLegacy>()
+
+// TODO ???
 fun Routine.toWorkout() = Workout(
     name,
-    emptyList() // temp
 )
 
 // TODO ???
