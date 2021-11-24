@@ -35,8 +35,7 @@ class RoutineEditorViewModel(
 ) : ViewModel() {
     private val _routine =
         MutableStateFlow(runBlocking { routineRepository.getRoutineWithSets(routineId)!! })
-    val editor = Editor()
-    val presenter = Presenter()
+    val routine = _routine.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -46,17 +45,5 @@ class RoutineEditorViewModel(
         }
     }
 
-    inner class Editor {
-        fun setName(name: String) {
-            // TODO
-        }
-
-        // TODO reimplement editing sets with ExerciseSets instead of SetGroups
-    }
-
-    inner class Presenter {
-        val routine = _routine.asStateFlow()
-
-        fun getExercise(exerciseId: Int) = exerciseRepository.getExercise(exerciseId)
-    }
+    fun getExercise(exerciseId: Int) = exerciseRepository.getExercise(exerciseId)
 }

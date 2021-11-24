@@ -98,7 +98,7 @@ fun CreateRoutineScreen(
                         val currentWorkout =
                             preferencesData?.get(AppPrefs.CurrentWorkout.key)
                         if (currentWorkout == null || currentWorkout < 0) {
-                            startWorkout(viewModel.presenter.routine.value.routine.routineId)
+                            startWorkout(viewModel.routine.value.routine.routineId)
                         } else {
                             scope.launch {
                                 scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
@@ -131,7 +131,7 @@ fun CreateRoutineScreen(
                 )
             }
         ) {
-            val routine by viewModel.presenter.routine.collectAsState()
+            val routine by viewModel.routine.collectAsState()
             LazyColumn(Modifier.fillMaxHeight(), contentPadding = PaddingValues(bottom = 70.dp)) {
 
                 item {
@@ -140,7 +140,7 @@ fun CreateRoutineScreen(
                             .fillMaxWidth()
                             .padding(16.dp),
                         value = routine.routine.name,
-                        onValueChange = viewModel.editor::setName,
+                        onValueChange = { /* TODO */ },
                         label = { Text("Routine Name") },
                         placeholder = { Text(stringResource(R.string.unnamed_routine)) },
                         singleLine = true,
@@ -153,7 +153,7 @@ fun CreateRoutineScreen(
                         .groupBy { it.exerciseId }
                         .toList()
                 ) { (exerciseId, sets) ->
-                    val exercise = viewModel.presenter.getExercise(exerciseId)!!
+                    val exercise = viewModel.getExercise(exerciseId)!!
                     SetGroupCard(
                         name = exercise.name.takeIf { it.isNotBlank() }
                             ?: stringResource(R.string.unnamed_exercise),
