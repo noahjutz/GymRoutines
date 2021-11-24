@@ -38,7 +38,7 @@ import kotlinx.serialization.json.*
         RoutineSet::class,
         WorkoutSet::class,
     ],
-    version = 38,
+    version = 39,
     autoMigrations = [
         AutoMigration(from = 35, to = 36)
     ],
@@ -234,4 +234,14 @@ val MIGRATION_37_38 = object : Migration(37, 38) {
         db.execSQL("INSERT INTO workout_table SELECT name, startTime, endTime, workoutId FROM workout_table_old")
         db.execSQL("DROP TABLE workout_table_old")
     }
+}
+
+/**
+ * Adds workout_set_group_table and routine_set_group_table, grouping sets by exercise.
+ */
+val MIGRATION_38_39 = object : Migration(38, 39) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        // TODO
+    }
+
 }

@@ -7,6 +7,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.noahjutz.gymroutines.data.AppDatabase
 import com.noahjutz.gymroutines.data.MIGRATION_36_37
 import com.noahjutz.gymroutines.data.MIGRATION_37_38
+import com.noahjutz.gymroutines.data.MIGRATION_38_39
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -79,5 +80,15 @@ class MigrationTest {
             it
         }
         db = helper.runMigrationsAndValidate(TEST_DB, 38, true, MIGRATION_37_38)
+    }
+
+    @Test
+    @Throws(IOException::class)
+    fun migrate38to39() {
+        var db = helper.createDatabase(TEST_DB, 38).use {
+            it.execSQL("INSERT INTO routine_table VALUES ('Legs', 0)")
+            it
+        }
+        db = helper.runMigrationsAndValidate(TEST_DB, 39, true, MIGRATION_38_39)
     }
 }
