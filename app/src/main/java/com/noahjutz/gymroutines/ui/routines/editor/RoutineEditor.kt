@@ -23,7 +23,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -147,11 +147,12 @@ fun CreateRoutineScreen(
                     )
                 }
 
-                itemsIndexed(
+                items(
                     routine.sets
+                        .sortedBy { it.position }
                         .groupBy { it.exerciseId }
                         .toList()
-                ) { setGroupIndex, (exerciseId, sets) ->
+                ) { (exerciseId, sets) ->
                     val exercise = viewModel.presenter.getExercise(exerciseId)!!
                     SetGroupCard(
                         name = exercise.name.takeIf { it.isNotBlank() }
