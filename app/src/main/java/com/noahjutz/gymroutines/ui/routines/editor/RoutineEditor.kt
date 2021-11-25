@@ -150,16 +150,17 @@ fun CreateRoutineScreen(
                 items(
                     routine.sets
                         .sortedBy { it.position }
-                        .groupBy { it.exerciseId }
-                        .toList()
-                ) { (exerciseId, sets) ->
-                    val exercise = viewModel.getExercise(exerciseId)!!
+                        //.groupBy { it.exerciseId }
+                        //.toList()
+                ) { sets ->
+                    //val exercise = viewModel.getExercise(exerciseId)!!
                     SetGroupCard(
-                        name = exercise.name.takeIf { it.isNotBlank() }
+                        name = "TODO"//exercise.name.takeIf { it.isNotBlank() } TODO
                             ?: stringResource(R.string.unnamed_exercise),
-                        sets = sets.map { (_, exerciseId, position, reps, weight, time, distance, setId) ->
+                        sets = sets.let { (_, position, reps, weight, time, distance, setId) ->
+                            listOf(
                             ExerciseSetLegacy(
-                                exerciseId = exerciseId,
+                                exerciseId = 0,
                                 reps = reps,
                                 weight = weight,
                                 time = time,
@@ -167,11 +168,12 @@ fun CreateRoutineScreen(
                                 position = position,
                                 setId = setId
                             )
+                            )
                         },
-                        logReps = exercise.logReps,
-                        logWeight = exercise.logWeight,
-                        logTime = exercise.logTime,
-                        logDistance = exercise.logDistance,
+                        logReps = true, // TODO exercise.logReps,
+                        logWeight = true, // TODO exercise.logWeight,
+                        logTime = true, // TODO exercise.logTime,
+                        logDistance = true, // TODO exercise.logDistance,
                         showCheckbox = false,
                         onMoveDown = { /* TODO */ },
                         onMoveUp = { /* TODO */ },

@@ -36,6 +36,7 @@ import kotlinx.serialization.json.*
         Routine::class,
         Workout::class,
         RoutineSet::class,
+        RoutineSetGroup::class,
         WorkoutSet::class,
     ],
     version = 39,

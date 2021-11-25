@@ -21,6 +21,7 @@ package com.noahjutz.gymroutines.data.dao
 import androidx.room.*
 import com.noahjutz.gymroutines.data.domain.Routine
 import com.noahjutz.gymroutines.data.domain.RoutineSet
+import com.noahjutz.gymroutines.data.domain.RoutineWithSetGroups
 import com.noahjutz.gymroutines.data.domain.RoutineWithSets
 import kotlinx.coroutines.flow.Flow
 
@@ -43,5 +44,5 @@ interface RoutineDao {
 
     @Transaction
     @Query("SELECT * FROM routine_table WHERE routineId == :routineId")
-    suspend fun getRoutineWithSets(routineId: Int): RoutineWithSets?
+    suspend fun getRoutineWithSetGroups(routineId: Int): RoutineWithSetGroups
 }

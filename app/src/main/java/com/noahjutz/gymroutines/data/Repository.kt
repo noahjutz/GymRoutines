@@ -48,8 +48,14 @@ class RoutineRepository(private val routineDao: RoutineDao) {
     val routines = routineDao.getRoutines()
 
     suspend fun getRoutine(routineId: Int): Routine? = routineDao.getRoutine(routineId)
+    // TODO replace with RoutineWithSetGroups
     suspend fun getRoutineWithSets(routineId: Int): RoutineWithSets? =
-        routineDao.getRoutineWithSets(routineId)
+        routineDao.getRoutine(routineId)?.let {
+            RoutineWithSets(
+                routine = it,
+                sets = emptyList() // temporary workaround
+            )
+        }
 
     fun insert(routine: Routine): Long = runBlocking {
         routineDao.insert(routine)
@@ -57,18 +63,19 @@ class RoutineRepository(private val routineDao: RoutineDao) {
 
     suspend fun insertWorkoutAsRoutine(workoutWithSets: WorkoutWithSets): Long {
         val id = insert(Routine(name = workoutWithSets.workout.name))
-        val sets = workoutWithSets.sets.map {
-            RoutineSet(
-                id.toInt(),
-                it.exerciseId,
-                it.position,
-                it.reps,
-                it.weight,
-                it.time,
-                it.distance
-            )
-        }
-        for (set in sets) routineDao.insert(set)
+        //TODO adapt this code for new routine_set_table structure
+        //val sets = workoutWithSets.sets.map {
+        //    RoutineSet(
+        //        id.toInt(),
+        //        it.exerciseId,
+        //        it.position,
+        //        it.reps,
+        //        it.weight,
+        //        it.time,
+        //        it.distance
+        //    )
+        //}
+        //for (set in sets) routineDao.insert(set)
         return id
     }
 
@@ -100,19 +107,20 @@ class WorkoutRepository(private val workoutDao: WorkoutDao) {
     suspend fun insertRoutineAsWorkout(routine: RoutineWithSets): Long {
         val workout = Workout(name = routine.routine.name)
         val id = insert(workout)
-        val sets = routine.sets.map {
-            WorkoutSet(
-                id.toInt(),
-                it.exerciseId,
-                it.position,
-                it.reps,
-                it.weight,
-                it.time,
-                it.distance,
-                false
-            )
-        }
-        for (set in sets) workoutDao.insert(set)
+        //TODO adapt this code for new workout_set_table structure
+        //val sets = routine.sets.map {
+        //    WorkoutSet(
+        //        id.toInt(),
+        //        it.exerciseId,
+        //        it.position,
+        //        it.reps,
+        //        it.weight,
+        //        it.time,
+        //        it.distance,
+        //        false
+        //    )
+        //}
+        //for (set in sets) workoutDao.insert(set)
         return id
     }
 }

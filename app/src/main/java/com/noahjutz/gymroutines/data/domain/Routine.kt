@@ -31,10 +31,17 @@ data class Routine(
     var routineId: Int = 0,
 )
 
+// temporary, TODO remove
 data class RoutineWithSets(
+    val routine: Routine,
+    val sets: List<RoutineSet> = emptyList(),
+)
+
+data class RoutineWithSetGroups(
     @Embedded val routine: Routine,
     @Relation(
+        entity = RoutineSetGroup::class,
         parentColumn = "routineId",
         entityColumn = "routineId"
-    ) val sets: List<RoutineSet>
+    ) val setGroups: List<RoutineSetGroupWithSets>
 )
