@@ -253,6 +253,38 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
             """.trimIndent()
         )
 
+        val setCursor =
+            db.query("SELECT routineId, exerciseId FROM routine_set_table ORDER BY position")
+
+        // Populates routine_set_group_table
+        var previousRoutineId = -1
+        var previousExerciseId = -1
+        var position = 0
+        while (setCursor.moveToNext()) {
+            // TODO assign sets in routine_set_table to routine set groups
+            val routineId = setCursor.getInt(0)
+            val exerciseId = setCursor.getInt(1)
+            if (routineId != previousRoutineId) {
+                previousExerciseId = -1
+                position = 0
+            }
+            if (exerciseId != previousExerciseId) {
+                db.execSQL(
+                    """
+                    INSERT INTO routine_set_group_table (
+                        $routineId,
+                        $exerciseId,
+                        $position,
+                        NULL
+                    )
+                    """.trimIndent()
+                )
+                position++
+            }
+            previousExerciseId = exerciseId
+            previousRoutineId = routineId
+        }
+
         // This is the same as:
         // ALTER TABLE routine_set_table DROP COLUMN routineId, exerciseId;
         // ALTER TABLE routine_set_table ADD groupId INTEGER NOT NULL;
@@ -278,7 +310,4 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
         )
         db.execSQL("DROP TABLE routine_set_table_old ")
     }
-
-    // TODO populate routine_set_group_table and connect to routine_set_table via groupId
-    //  currently, the groupId column in routine_set_table is empty.
 }
