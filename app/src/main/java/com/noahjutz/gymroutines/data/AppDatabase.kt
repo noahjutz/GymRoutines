@@ -242,7 +242,16 @@ val MIGRATION_37_38 = object : Migration(37, 38) {
  */
 val MIGRATION_38_39 = object : Migration(38, 39) {
     override fun migrate(db: SupportSQLiteDatabase) {
-        // TODO
+        db.execSQL(
+            """
+            CREATE TABLE routine_set_group_table (
+                routineId INTEGER NOT NULL,
+                exerciseId INTEGER NOT NULL,
+                position INTEGER NOT NULL,
+                id INTEGER PRIMARY KEY NOT NULL
+            )
+            """.trimIndent()
+        )
     }
 
 }
