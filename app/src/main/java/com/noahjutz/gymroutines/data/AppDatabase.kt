@@ -252,6 +252,33 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
             )
             """.trimIndent()
         )
+
+        // This is the same as:
+        // ALTER TABLE routine_set_table DROP COLUMN routineId, exerciseId;
+        // ALTER TABLE routine_set_table ADD groupId INTEGER NOT NULL;
+        db.execSQL("ALTER TABLE routine_set_table RENAME TO routine_set_table_old")
+        db.execSQL(
+            """
+            CREATE TABLE routine_set_table (
+                groupId INTEGER NOT NULL,
+                position INTEGER NOT NULL,
+                reps INTEGER,
+                weight REAL,
+                time INTEGER,
+                distance REAL,
+                routineSetId INTEGER PRIMARY KEY NOT NULL
+            )
+            """.trimIndent()
+        )
+        db.execSQL(
+            """
+            INSERT INTO routine_set_table (position, reps, weight, time, distance, routineSetId)
+            SELECT position, reps, weight, time, distance, routineSetId FROM routine_set_table_old
+            """.trimIndent()
+        )
+        db.execSQL("DROP TABLE routine_set_table_old ")
     }
 
+    // TODO populate routine_set_group_table and connect to routine_set_table via groupId
+    //  currently, the groupId column in routine_set_table is empty.
 }
