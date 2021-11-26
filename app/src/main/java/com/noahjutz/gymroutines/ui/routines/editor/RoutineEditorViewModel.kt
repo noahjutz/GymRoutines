@@ -18,7 +18,6 @@
 
 package com.noahjutz.gymroutines.ui.routines.editor
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.ExerciseRepository
@@ -87,5 +86,10 @@ class RoutineEditorViewModel(
 
     fun deleteSet(set: RoutineSet) {
         sets.value = sets.value.filterNot { it.routineSetId == set.routineSetId }
+        if (
+            setGroups.value.find { it.id == set.groupId }?.id !in sets.value.map { it.groupId }
+        ) {
+            setGroups.value = setGroups.value.filterNot { it.id == set.groupId }
+        }
     }
 }
