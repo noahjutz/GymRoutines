@@ -47,9 +47,7 @@ import androidx.compose.ui.unit.sp
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.noahjutz.gymroutines.R
-import com.noahjutz.gymroutines.data.domain.Routine
-import com.noahjutz.gymroutines.data.domain.RoutineSet
-import com.noahjutz.gymroutines.data.domain.RoutineSetGroup
+import com.noahjutz.gymroutines.data.domain.*
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
 import com.noahjutz.gymroutines.util.toStringOrBlank
@@ -139,9 +137,7 @@ fun CreateRoutineScreen(
                 )
             }
         ) {
-            val routine by viewModel.routine.collectAsState(initial = null)
-            val setGroups by viewModel.setGroups.collectAsState(initial = emptyList())
-            val sets by viewModel.sets.collectAsState(initial = emptyList())
+            val routine by viewModel.routineWithSets.collectAsState(initial = null)
             Crossfade(routine == null) { isNotReady ->
                 if (isNotReady) {
                     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -149,9 +145,8 @@ fun CreateRoutineScreen(
                     }
                 } else {
                     RoutineEditorContent(
-                        routine = routine!!,
-                        setGroups = setGroups,
-                        sets = sets,
+                        routine = routine!!.routine,
+                        setGroups = routine!!.setGroups,
                         viewModel = viewModel,
                         sheetState = sheetState
                     )
@@ -165,8 +160,7 @@ fun CreateRoutineScreen(
 @Composable
 private fun RoutineEditorContent(
     routine: Routine,
-    setGroups: List<RoutineSetGroup>,
-    sets: List<RoutineSet>,
+    setGroups: List<RoutineSetGroupWithSets>,
     viewModel: RoutineEditorViewModel,
     sheetState: ModalBottomSheetState
 ) {
@@ -204,8 +198,7 @@ private fun RoutineEditorContent(
         }
 
         items(setGroups) { setGroup ->
-            val exercise = viewModel.getExercise(setGroup.exerciseId)!!
-            val sets = sets.filter { it.groupId == setGroup.id }
+            val exercise = viewModel.getExercise(setGroup.group.exerciseId)!!
             Card(
                 Modifier
                     .fillMaxWidth()
@@ -295,7 +288,7 @@ private fun RoutineEditorContent(
                                 )
                             }
                         }
-                        for (set in sets) {
+                        for (set in setGroup.sets) {
                             val dismissState = rememberDismissState()
                             LaunchedEffect(dismissState.targetValue) {
                                 // TODO delete set

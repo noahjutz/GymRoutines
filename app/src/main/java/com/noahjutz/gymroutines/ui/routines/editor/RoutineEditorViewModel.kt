@@ -22,12 +22,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.ExerciseRepository
 import com.noahjutz.gymroutines.data.RoutineRepository
-import com.noahjutz.gymroutines.data.domain.Routine
-import com.noahjutz.gymroutines.data.domain.RoutineSet
-import com.noahjutz.gymroutines.data.domain.RoutineSetGroup
+import com.noahjutz.gymroutines.data.domain.*
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class RoutineEditorViewModel(
@@ -35,18 +33,29 @@ class RoutineEditorViewModel(
     private val exerciseRepository: ExerciseRepository,
     routineId: Int,
 ) : ViewModel() {
-    private val _routine = MutableStateFlow<Routine?>(null)
-    val routine = _routine.asStateFlow()
-    private val _setGroups = MutableStateFlow<List<RoutineSetGroup>>(emptyList())
-    val setGroups = _setGroups.asStateFlow()
-    private val _sets = MutableStateFlow<List<RoutineSet>>(emptyList())
-    val sets = _sets.asStateFlow()
+    private val routine = MutableStateFlow<Routine?>(null)
+    private val setGroups = MutableStateFlow<List<RoutineSetGroup>>(emptyList())
+    private val sets = MutableStateFlow<List<RoutineSet>>(emptyList())
+
+    val routineWithSets = combine(routine, setGroups, sets) { routine, setGroups, sets ->
+        if (routine != null) {
+            RoutineWithSetGroups(
+                routine = routine,
+                setGroups = setGroups.map { group ->
+                    RoutineSetGroupWithSets(
+                        group = group,
+                        sets = sets.filter { it.groupId == group.id }
+                    )
+                }
+            )
+        } else null
+    }
 
     init {
         viewModelScope.launch {
-            _routine.value = routineRepository.getRoutine(routineId)
-            _setGroups.value = routineRepository.getSetGroups(routineId)
-            _sets.value = routineRepository.getSets(routineId)
+            routine.value = routineRepository.getRoutine(routineId)
+            setGroups.value = routineRepository.getSetGroups(routineId)
+            sets.value = routineRepository.getSets(routineId)
 
             routine.collect { routine ->
                 if (routine != null) {
@@ -66,7 +75,7 @@ class RoutineEditorViewModel(
 
     fun updateName(name: String) {
         viewModelScope.launch {
-            _routine.value = _routine.value?.copy(name = name)
+            routine.value = routine.value?.copy(name = name)
         }
     }
 }
