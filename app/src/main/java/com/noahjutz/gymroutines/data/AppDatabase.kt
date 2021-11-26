@@ -253,46 +253,7 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
             """.trimIndent()
         )
 
-        val setCursor =
-            db.query("SELECT routineId, exerciseId, routineSetId FROM routine_set_table ORDER BY position")
-
-        // Populates routine_set_group_table
-        var previousRoutineId = -1
-        var previousExerciseId = -1
-        var position = 0
-        var groupId = 1
-
-        val groupIdSetIdMap = mutableMapOf<Int, Int>()
-        while (setCursor.moveToNext()) {
-            val routineId = setCursor.getInt(0)
-            val exerciseId = setCursor.getInt(1)
-            val setId = setCursor.getInt(2)
-            if (routineId != previousRoutineId) {
-                previousExerciseId = -1
-                position = 0
-            }
-            if (exerciseId != previousExerciseId) {
-                db.execSQL(
-                    """
-                    INSERT INTO routine_set_group_table VALUES (
-                        $routineId,
-                        $exerciseId,
-                        $position,
-                        $groupId
-                    )
-                    """.trimIndent()
-                )
-                groupIdSetIdMap[setId] = groupId
-                position++
-                groupId++
-            }
-            previousExerciseId = exerciseId
-            previousRoutineId = routineId
-        }
-
-        // This is the same as:
-        // ALTER TABLE routine_set_table DROP COLUMN routineId, exerciseId;
-        // ALTER TABLE routine_set_table ADD groupId INTEGER NOT NULL;
+        // Drop columns routineId, exerciseId; Add column groupId
         db.execSQL("ALTER TABLE routine_set_table RENAME TO routine_set_table_old")
         db.execSQL(
             """
@@ -307,17 +268,42 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
             )
             """.trimIndent()
         )
-        // Assign sets to set groups while re-inserting values
+        // Insert sets from routine_set_table_old to routine_set_table
+        // Insert set groups to routine_set_group_table
+        var setGroupPosition = 0
+        var setGroupId = 1
+
         val routineSetCursor =
-            db.query("SELECT position, reps, weight, time, distance, routineSetId FROM routine_set_table_old")
+            db.query("SELECT routineId, exerciseId, position, reps, weight, time, distance, routineSetId FROM routine_set_table_old")
         while (routineSetCursor.moveToNext()) {
-            val position = routineSetCursor.getInt(0)
-            val reps = routineSetCursor.getInt(1)
-            val weight = routineSetCursor.getInt(2)
-            val time = routineSetCursor.getInt(3)
-            val distance = routineSetCursor.getInt(4)
-            val setId = routineSetCursor.getInt(5)
-            val groupId = groupIdSetIdMap[setId]
+            val routineId = routineSetCursor.getInt(0)
+            val exerciseId = routineSetCursor.getInt(1)
+            val position = routineSetCursor.getInt(2)
+            val reps = routineSetCursor.getInt(3)
+            val weight = routineSetCursor.getInt(4)
+            val time = routineSetCursor.getInt(5)
+            val distance = routineSetCursor.getInt(6)
+            val setId = routineSetCursor.getInt(7)
+
+            val setGroupIds =
+                db.query("SELECT id FROM routine_set_group_table WHERE routineId=$routineId AND exerciseId=$exerciseId")
+
+            val groupId = if (setGroupIds.count == 0) {
+                if (db.query("SELECT id FROM routine_set_group_table WHERE routineId=$routineId").count == 0) {
+                    setGroupPosition = 0
+                }
+                // Insert new routine set group
+                val newGroupId = setGroupId
+                db.execSQL("INSERT INTO routine_set_group_table VALUES ($routineId, $exerciseId, $setGroupPosition, $newGroupId)")
+                setGroupPosition++
+                setGroupId++
+                newGroupId
+            } else {
+                // Use existing routine set group
+                setGroupIds.moveToFirst()
+                val id = setGroupIds.getInt(0)
+                id
+            }
 
             db.execSQL("INSERT INTO routine_set_table VALUES ($groupId, $position, $reps, $weight, $time, $distance, $setId)")
         }
