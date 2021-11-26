@@ -355,7 +355,8 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
             val weight = workoutSetCursor.getInt(4)
             val time = workoutSetCursor.getInt(5)
             val distance = workoutSetCursor.getInt(6)
-            val setId = workoutSetCursor.getInt(7)
+            val complete = workoutSetCursor.getInt(7)
+            val setId = workoutSetCursor.getInt(8)
 
             val setGroupIds =
                 db.query("SELECT id FROM workout_set_group_table WHERE workoutId=$workoutId AND exerciseId=$exerciseId")
@@ -377,7 +378,7 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
                 id
             }
 
-            db.execSQL("INSERT INTO workout_set_table VALUES ($groupId, $position, $reps, $weight, $time, $distance, $setId)")
+            db.execSQL("INSERT INTO workout_set_table VALUES ($groupId, $position, $reps, $weight, $time, $distance, $complete, $setId)")
         }
         db.execSQL("DROP TABLE workout_set_table_old ")
     }
