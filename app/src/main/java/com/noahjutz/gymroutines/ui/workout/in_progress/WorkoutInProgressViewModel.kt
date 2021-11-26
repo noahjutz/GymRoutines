@@ -27,7 +27,6 @@ import com.noahjutz.gymroutines.data.AppPrefs
 import com.noahjutz.gymroutines.data.ExerciseRepository
 import com.noahjutz.gymroutines.data.RoutineRepository
 import com.noahjutz.gymroutines.data.WorkoutRepository
-import com.noahjutz.gymroutines.data.domain.Workout
 import com.noahjutz.gymroutines.util.minus
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -48,7 +47,7 @@ class WorkoutInProgressViewModel(
     private val _workout = MutableStateFlow(
         runBlocking {
             workoutRepository.getWorkout(workoutId)
-                ?: routineRepository.getRoutineWithSetGroups(routineId)?.let {
+                ?: routineRepository.getRoutineWithSetGroupsOld(routineId)?.let {
                     workoutRepository.getWorkout(
                         workoutRepository.insertRoutineAsWorkout(it).toInt()
                     )

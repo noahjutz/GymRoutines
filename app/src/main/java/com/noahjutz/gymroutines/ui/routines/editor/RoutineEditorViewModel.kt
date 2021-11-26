@@ -22,28 +22,51 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.ExerciseRepository
 import com.noahjutz.gymroutines.data.RoutineRepository
+import com.noahjutz.gymroutines.data.domain.Routine
+import com.noahjutz.gymroutines.data.domain.RoutineSet
+import com.noahjutz.gymroutines.data.domain.RoutineSetGroup
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class RoutineEditorViewModel(
     private val routineRepository: RoutineRepository,
     private val exerciseRepository: ExerciseRepository,
     routineId: Int,
 ) : ViewModel() {
-    private val _routine =
-        MutableStateFlow(runBlocking { routineRepository.getRoutineWithSetGroups(routineId)!! })
+    private val _routine = MutableStateFlow<Routine?>(null)
     val routine = _routine.asStateFlow()
+    private val _setGroups = MutableStateFlow<List<RoutineSetGroup>>(emptyList())
+    val setGroups = _setGroups.asStateFlow()
+    private val _sets = MutableStateFlow<List<RoutineSet>>(emptyList())
+    val sets = _sets.asStateFlow()
 
     init {
         viewModelScope.launch {
-            _routine.collectLatest {
-                routineRepository.insert(it)
+            _routine.value = routineRepository.getRoutine(routineId)
+            _setGroups.value = routineRepository.getSetGroups(routineId)
+            _sets.value = routineRepository.getSets(routineId)
+
+            routine.collect { routine ->
+                if (routine != null) {
+                    routineRepository.insert(routine)
+                }
+            }
+            setGroups.collect { setGroups ->
+                routineRepository.insertSetGroups(setGroups)
+            }
+            sets.collect { sets ->
+                routineRepository.insertSets(sets)
             }
         }
     }
 
     fun getExercise(exerciseId: Int) = exerciseRepository.getExercise(exerciseId)
+
+    fun updateName(name: String) {
+        viewModelScope.launch {
+            _routine.value = _routine.value?.copy(name = name)
+        }
+    }
 }

@@ -21,6 +21,7 @@ package com.noahjutz.gymroutines.data.dao
 import androidx.room.*
 import com.noahjutz.gymroutines.data.domain.Routine
 import com.noahjutz.gymroutines.data.domain.RoutineSet
+import com.noahjutz.gymroutines.data.domain.RoutineSetGroup
 import com.noahjutz.gymroutines.data.domain.RoutineWithSetGroups
 import kotlinx.coroutines.flow.Flow
 
@@ -32,6 +33,12 @@ interface RoutineDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(routineSet: RoutineSet): Long
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSetGroups(setGroups: List<RoutineSetGroup>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSets(sets: List<RoutineSet>)
+
     @Delete
     suspend fun delete(routine: Routine)
 
@@ -39,9 +46,22 @@ interface RoutineDao {
     fun getRoutines(): Flow<List<Routine>>
 
     @Query("SELECT * FROM routine_table WHERE routineId == :routineId")
-    suspend fun getRoutine(routineId: Int): Routine?
+    suspend fun getRoutineOld(routineId: Int): Routine?
+
+    @Query("SELECT * FROM routine_table WHERE routineId == :routineId")
+    fun getRoutine(routineId: Int): Flow<Routine?>
+
+    @Query("SELECT * FROM routine_set_group_table WHERE routineId == :routineId")
+    suspend fun getSetGroups(routineId: Int): List<RoutineSetGroup>
+
+    @Query("SELECT * FROM routine_set_table WHERE groupId IN (SELECT id FROM routine_set_group_table WHERE routineId == :routineId)")
+    suspend fun getSets(routineId: Int): List<RoutineSet>
 
     @Transaction
     @Query("SELECT * FROM routine_table WHERE routineId == :routineId")
-    suspend fun getRoutineWithSetGroups(routineId: Int): RoutineWithSetGroups?
+    suspend fun getRoutineWithSetGroupsOld(routineId: Int): RoutineWithSetGroups?
+
+    @Transaction
+    @Query("SELECT * FROM routine_table WHERE routineId == :routineId")
+    fun getRoutineWithSetGroups(routineId: Int): Flow<RoutineWithSetGroups?>
 }

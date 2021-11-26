@@ -19,8 +19,8 @@
 package com.noahjutz.gymroutines.ui.routines.editor
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -36,7 +36,6 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
@@ -47,10 +46,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import com.noahjutz.gymroutines.R
-import com.noahjutz.gymroutines.data.AppPrefs
-import com.noahjutz.gymroutines.data.domain.RoutineWithSetGroups
+import com.noahjutz.gymroutines.data.domain.Routine
+import com.noahjutz.gymroutines.data.domain.RoutineSet
+import com.noahjutz.gymroutines.data.domain.RoutineSetGroup
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
 import com.noahjutz.gymroutines.util.toStringOrBlank
@@ -103,26 +102,27 @@ fun CreateRoutineScreen(
             floatingActionButton = {
                 ExtendedFloatingActionButton(
                     onClick = {
-                        val currentWorkout =
-                            preferencesData?.get(AppPrefs.CurrentWorkout.key)
-                        if (currentWorkout == null || currentWorkout < 0) {
-                            startWorkout(viewModel.routine.value.routine.routineId)
-                        } else {
-                            scope.launch {
-                                scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
-                                val snackbarResult =
-                                    scaffoldState.snackbarHostState.showSnackbar(
-                                        "A workout is already in progress.",
-                                        "Stop current"
-                                    )
-                                if (snackbarResult == SnackbarResult.ActionPerformed) {
-                                    preferences.edit {
-                                        it[AppPrefs.CurrentWorkout.key] = -1
-                                    }
-                                    scaffoldState.snackbarHostState.showSnackbar("Current workout finished.")
-                                }
-                            }
-                        }
+                        // TODO start workout
+                        //val currentWorkout =
+                        //    preferencesData?.get(AppPrefs.CurrentWorkout.key)
+                        //if (currentWorkout == null || currentWorkout < 0) {
+                        //    startWorkout(viewModel.routine.value.routine.routineId)
+                        //} else {
+                        //    scope.launch {
+                        //        scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
+                        //        val snackbarResult =
+                        //            scaffoldState.snackbarHostState.showSnackbar(
+                        //                "A workout is already in progress.",
+                        //                "Stop current"
+                        //            )
+                        //        if (snackbarResult == SnackbarResult.ActionPerformed) {
+                        //            preferences.edit {
+                        //                it[AppPrefs.CurrentWorkout.key] = -1
+                        //            }
+                        //            scaffoldState.snackbarHostState.showSnackbar("Current workout finished.")
+                        //        }
+                        //    }
+                        //}
                     },
                     icon = { Icon(Icons.Default.PlayArrow, null) },
                     text = { Text("Start Workout") },
@@ -139,266 +139,292 @@ fun CreateRoutineScreen(
                 )
             }
         ) {
-            val routine: RoutineWithSetGroups by viewModel.routine.collectAsState()
-            LazyColumn(Modifier.fillMaxHeight(), contentPadding = PaddingValues(bottom = 70.dp)) {
-
-                item {
-                    BasicTextField(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 24.dp, start = 24.dp, end = 24.dp),
-                        value = routine.routine.name,
-                        onValueChange = { /* TODO */ },
-                        singleLine = true,
-                        textStyle = typography.h3.copy(color = colors.onSurface),
-                        cursorBrush = SolidColor(colors.onSurface),
-                        decorationBox = { innerTextField ->
-                            Surface(
-                                color = colors.onSurface.copy(alpha = 0.1f),
-                                shape = RoundedCornerShape(24.dp)
-                            ) {
-                                Box(Modifier.padding(24.dp)) {
-                                    if (routine.routine.name.isEmpty()) {
-                                        Text(
-                                            "Unnamed",
-                                            style = typography.h3.copy(
-                                                color = colors.onSurface.copy(alpha = 0.12f)
-                                            )
-                                        )
-                                    }
-                                    innerTextField()
-                                }
-                            }
-                        }
+            val routine by viewModel.routine.collectAsState(initial = null)
+            val setGroups by viewModel.setGroups.collectAsState(initial = emptyList())
+            val sets by viewModel.sets.collectAsState(initial = emptyList())
+            Crossfade(routine == null) { isNotReady ->
+                if (isNotReady) {
+                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator()
+                    }
+                } else {
+                    RoutineEditorContent(
+                        routine = routine!!,
+                        setGroups = setGroups,
+                        sets = sets,
+                        viewModel = viewModel,
+                        sheetState = sheetState
                     )
                 }
+            }
+        }
+    }
+}
 
-                items(
-                    routine.setGroups
-                ) { sets ->
-                    val exercise = viewModel.getExercise(sets.group.exerciseId)!!
-                    Card(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(top = 24.dp),
-                        shape = RoundedCornerShape(24.dp),
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun RoutineEditorContent(
+    routine: Routine,
+    setGroups: List<RoutineSetGroup>,
+    sets: List<RoutineSet>,
+    viewModel: RoutineEditorViewModel,
+    sheetState: ModalBottomSheetState
+) {
+    val scope = rememberCoroutineScope()
+    LazyColumn(Modifier.fillMaxHeight(), contentPadding = PaddingValues(bottom = 70.dp)) {
+
+        item {
+            BasicTextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp, start = 24.dp, end = 24.dp),
+                value = routine.name,
+                onValueChange = { viewModel.updateName(it) },
+                textStyle = typography.h3.copy(color = colors.onSurface),
+                cursorBrush = SolidColor(colors.onSurface),
+                decorationBox = { innerTextField ->
+                    Surface(
+                        color = colors.onSurface.copy(alpha = 0.1f),
+                        shape = RoundedCornerShape(24.dp)
                     ) {
-                        Column {
-                            Surface(Modifier.fillMaxWidth(), color = colors.primary) {
-                                Row(
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(
-                                        exercise.name,
-                                        style = typography.h5,
-                                        modifier = Modifier
-                                            .padding(16.dp)
-                                            .weight(1f)
+                        Box(Modifier.padding(24.dp)) {
+                            if (routine.name.isEmpty()) {
+                                Text(
+                                    "Unnamed",
+                                    style = typography.h3.copy(
+                                        color = colors.onSurface.copy(alpha = 0.12f)
                                     )
-
-                                    IconButton(
-                                        modifier = Modifier.padding(16.dp),
-                                        onClick = {/* TODO */ }
-                                    ) {
-                                        Icon(Icons.Default.DragHandle, "More")
-                                    }
-                                }
+                                )
                             }
-                            Column(Modifier.padding(vertical = 16.dp)) {
-                                Row(Modifier.padding(horizontal = 4.dp)) {
-                                    val headerTextStyle = TextStyle(
-                                        color = colors.onSurface,
-                                        fontSize = 16.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        textAlign = TextAlign.Center
-                                    )
-                                    if (exercise.logReps) Surface(
-                                        Modifier
-                                            .padding(4.dp)
-                                            .weight(1f),
-                                        color = colors.primary.copy(alpha = 0.1f),
-                                        shape = RoundedCornerShape(8.dp)
-                                    ) {
-                                        Text(
-                                            "Reps",
-                                            Modifier.padding(vertical = 16.dp),
-                                            style = headerTextStyle
-                                        )
-                                    }
-                                    if (exercise.logWeight) Surface(
-                                        Modifier
-                                            .padding(4.dp)
-                                            .weight(1f),
-                                        color = colors.primary.copy(alpha = 0.1f),
-                                        shape = RoundedCornerShape(8.dp)
-                                    ) {
-                                        Text(
-                                            "Weight",
-                                            Modifier.padding(vertical = 16.dp),
-                                            style = headerTextStyle
-                                        )
-                                    }
-                                    if (exercise.logTime) Surface(
-                                        Modifier
-                                            .padding(4.dp)
-                                            .weight(1f),
-                                        color = colors.primary.copy(alpha = 0.1f),
-                                        shape = RoundedCornerShape(8.dp)
-                                    ) {
-                                        Text(
-                                            "Time",
-                                            Modifier.padding(vertical = 16.dp),
-                                            style = headerTextStyle
-                                        )
-                                    }
-                                    if (exercise.logDistance) Surface(
-                                        Modifier
-                                            .padding(4.dp)
-                                            .weight(1f),
-                                        color = colors.primary.copy(alpha = 0.1f),
-                                        shape = RoundedCornerShape(8.dp)
-                                    ) {
-                                        Text(
-                                            "Distance",
-                                            Modifier.padding(vertical = 16.dp),
-                                            style = headerTextStyle
-                                        )
-                                    }
-                                }
-                                for (set in sets.sets) {
-                                    val dismissState = rememberDismissState()
-                                    LaunchedEffect(dismissState.targetValue) {
-                                        // TODO delete set
-                                    }
-                                    SwipeToDismiss(
-                                        state = dismissState,
-                                        background = {
-                                            val alignment = when (dismissState.dismissDirection) {
-                                                DismissDirection.StartToEnd -> Alignment.CenterStart
-                                                DismissDirection.EndToStart -> Alignment.CenterEnd
-                                                else -> Alignment.Center
-                                            }
-                                            Box(
-                                                modifier = Modifier
-                                                    .fillMaxSize()
-                                                    .background(colors.secondary)
-                                                    .padding(horizontal = 20.dp),
-                                                contentAlignment = alignment
-                                            ) {
-                                                Icon(
-                                                    Icons.Default.Delete,
-                                                    null,
-                                                    tint = colors.onSecondary
-                                                )
-                                            }
-                                        },
-                                    ) {
-                                        Row(
-                                            Modifier
-                                                .clip(RoundedCornerShape(animateDpAsState(if (dismissState.dismissDirection == null) 0.dp else 8.dp).value))
-                                                .background(colors.surface)
-                                                .padding(horizontal = 4.dp)
-                                        ) {
-                                            val textFieldStyle = typography.body1.copy(
-                                                textAlign = TextAlign.Center,
-                                                color = colors.onSurface
-                                            )
-                                            val decorationBox: @Composable (@Composable () -> Unit) -> Unit =
-                                                { innerTextField ->
-                                                    Surface(
-                                                        color = colors.onSurface.copy(alpha = 0.1f),
-                                                        shape = RoundedCornerShape(8.dp),
-                                                    ) {
-                                                        Box(
-                                                            Modifier.padding(
-                                                                vertical = 16.dp,
-                                                                horizontal = 4.dp
-                                                            ),
-                                                            contentAlignment = Alignment.Center
-                                                        ) {
-                                                            innerTextField()
-                                                        }
-                                                    }
-
-                                                }
-                                            if (exercise.logReps) BasicTextField(
-                                                modifier = Modifier
-                                                    .weight(1f)
-                                                    .padding(4.dp),
-                                                value = set.reps.toStringOrBlank(),
-                                                onValueChange = { /* TODO */ },
-                                                textStyle = textFieldStyle,
-                                                cursorBrush = SolidColor(colors.onSurface),
-                                                decorationBox = decorationBox,
-                                            )
-                                            if (exercise.logWeight) BasicTextField(
-                                                modifier = Modifier
-                                                    .weight(1f)
-                                                    .padding(4.dp),
-                                                value = set.weight.toStringOrBlank(),
-                                                onValueChange = { /* TODO */ },
-                                                textStyle = textFieldStyle,
-                                                cursorBrush = SolidColor(colors.onSurface),
-                                                decorationBox = decorationBox
-                                            )
-                                            if (exercise.logTime) BasicTextField(
-                                                modifier = Modifier
-                                                    .weight(1f)
-                                                    .padding(4.dp),
-                                                value = set.time.toStringOrBlank(),
-                                                onValueChange = { /* TODO */ },
-                                                textStyle = textFieldStyle,
-                                                cursorBrush = SolidColor(colors.onSurface),
-                                                decorationBox = decorationBox
-                                            )
-                                            if (exercise.logDistance) BasicTextField(
-                                                modifier = Modifier
-                                                    .weight(1f)
-                                                    .padding(4.dp),
-                                                value = set.distance.toStringOrBlank(),
-                                                onValueChange = { /* TODO */ },
-                                                textStyle = textFieldStyle,
-                                                cursorBrush = SolidColor(colors.onSurface),
-                                                decorationBox = decorationBox
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                            TextButton(
-                                modifier = Modifier
-                                    .align(Alignment.CenterHorizontally)
-                                    .fillMaxWidth()
-                                    .height(64.dp),
-                                onClick = { /* TODO */ },
-                            ) {
-                                Icon(Icons.Default.Add, null)
-                                Spacer(Modifier.width(12.dp))
-                                Text("Add Set")
-                            }
+                            innerTextField()
                         }
                     }
                 }
+            )
+        }
 
-                item {
-                    Button(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(24.dp)
-                            .height(120.dp),
-                        shape = RoundedCornerShape(24.dp),
-                        onClick = {
-                            scope.launch {
-                                sheetState.show()
+        items(setGroups) { setGroup ->
+            val exercise = viewModel.getExercise(setGroup.exerciseId)!!
+            val sets = sets.filter { it.groupId == setGroup.id }
+            Card(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp),
+                shape = RoundedCornerShape(24.dp),
+            ) {
+                Column {
+                    Surface(Modifier.fillMaxWidth(), color = colors.primary) {
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                exercise.name,
+                                style = typography.h5,
+                                modifier = Modifier
+                                    .padding(16.dp)
+                                    .weight(1f)
+                            )
+
+                            IconButton(
+                                modifier = Modifier.padding(16.dp),
+                                onClick = {/* TODO */ }
+                            ) {
+                                Icon(Icons.Default.DragHandle, "More")
                             }
                         }
+                    }
+                    Column(Modifier.padding(vertical = 16.dp)) {
+                        Row(Modifier.padding(horizontal = 4.dp)) {
+                            val headerTextStyle = TextStyle(
+                                color = colors.onSurface,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center
+                            )
+                            if (exercise.logReps) Surface(
+                                Modifier
+                                    .padding(4.dp)
+                                    .weight(1f),
+                                color = colors.primary.copy(alpha = 0.1f),
+                                shape = RoundedCornerShape(8.dp)
+                            ) {
+                                Text(
+                                    "Reps",
+                                    Modifier.padding(vertical = 16.dp),
+                                    style = headerTextStyle
+                                )
+                            }
+                            if (exercise.logWeight) Surface(
+                                Modifier
+                                    .padding(4.dp)
+                                    .weight(1f),
+                                color = colors.primary.copy(alpha = 0.1f),
+                                shape = RoundedCornerShape(8.dp)
+                            ) {
+                                Text(
+                                    "Weight",
+                                    Modifier.padding(vertical = 16.dp),
+                                    style = headerTextStyle
+                                )
+                            }
+                            if (exercise.logTime) Surface(
+                                Modifier
+                                    .padding(4.dp)
+                                    .weight(1f),
+                                color = colors.primary.copy(alpha = 0.1f),
+                                shape = RoundedCornerShape(8.dp)
+                            ) {
+                                Text(
+                                    "Time",
+                                    Modifier.padding(vertical = 16.dp),
+                                    style = headerTextStyle
+                                )
+                            }
+                            if (exercise.logDistance) Surface(
+                                Modifier
+                                    .padding(4.dp)
+                                    .weight(1f),
+                                color = colors.primary.copy(alpha = 0.1f),
+                                shape = RoundedCornerShape(8.dp)
+                            ) {
+                                Text(
+                                    "Distance",
+                                    Modifier.padding(vertical = 16.dp),
+                                    style = headerTextStyle
+                                )
+                            }
+                        }
+                        for (set in sets) {
+                            val dismissState = rememberDismissState()
+                            LaunchedEffect(dismissState.targetValue) {
+                                // TODO delete set
+                            }
+                            SwipeToDismiss(
+                                state = dismissState,
+                                background = {
+                                    val alignment = when (dismissState.dismissDirection) {
+                                        DismissDirection.StartToEnd -> Alignment.CenterStart
+                                        DismissDirection.EndToStart -> Alignment.CenterEnd
+                                        else -> Alignment.Center
+                                    }
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .background(colors.secondary)
+                                            .padding(horizontal = 20.dp),
+                                        contentAlignment = alignment
+                                    ) {
+                                        Icon(
+                                            Icons.Default.Delete,
+                                            null,
+                                            tint = colors.onSecondary
+                                        )
+                                    }
+                                },
+                            ) {
+                                Row(
+                                    Modifier
+                                        .background(colors.surface)
+                                        .padding(horizontal = 4.dp)
+                                ) {
+                                    val textFieldStyle = typography.body1.copy(
+                                        textAlign = TextAlign.Center,
+                                        color = colors.onSurface
+                                    )
+                                    val decorationBox: @Composable (@Composable () -> Unit) -> Unit =
+                                        { innerTextField ->
+                                            Surface(
+                                                color = colors.onSurface.copy(alpha = 0.1f),
+                                                shape = RoundedCornerShape(8.dp),
+                                            ) {
+                                                Box(
+                                                    Modifier.padding(
+                                                        vertical = 16.dp,
+                                                        horizontal = 4.dp
+                                                    ),
+                                                    contentAlignment = Alignment.Center
+                                                ) {
+                                                    innerTextField()
+                                                }
+                                            }
+
+                                        }
+                                    if (exercise.logReps) BasicTextField(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .padding(4.dp),
+                                        value = set.reps.toStringOrBlank(),
+                                        onValueChange = { /* TODO */ },
+                                        textStyle = textFieldStyle,
+                                        cursorBrush = SolidColor(colors.onSurface),
+                                        decorationBox = decorationBox,
+                                    )
+                                    if (exercise.logWeight) BasicTextField(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .padding(4.dp),
+                                        value = set.weight.toStringOrBlank(),
+                                        onValueChange = { /* TODO */ },
+                                        textStyle = textFieldStyle,
+                                        cursorBrush = SolidColor(colors.onSurface),
+                                        decorationBox = decorationBox
+                                    )
+                                    if (exercise.logTime) BasicTextField(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .padding(4.dp),
+                                        value = set.time.toStringOrBlank(),
+                                        onValueChange = { /* TODO */ },
+                                        textStyle = textFieldStyle,
+                                        cursorBrush = SolidColor(colors.onSurface),
+                                        decorationBox = decorationBox
+                                    )
+                                    if (exercise.logDistance) BasicTextField(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .padding(4.dp),
+                                        value = set.distance.toStringOrBlank(),
+                                        onValueChange = { /* TODO */ },
+                                        textStyle = textFieldStyle,
+                                        cursorBrush = SolidColor(colors.onSurface),
+                                        decorationBox = decorationBox
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    TextButton(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .fillMaxWidth()
+                            .height(64.dp),
+                        onClick = { /* TODO */ },
                     ) {
                         Icon(Icons.Default.Add, null)
                         Spacer(Modifier.width(12.dp))
-                        Text("Add Exercise")
+                        Text("Add Set")
                     }
                 }
+            }
+        }
+
+        item {
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp)
+                    .height(120.dp),
+                shape = RoundedCornerShape(24.dp),
+                onClick = {
+                    scope.launch {
+                        sheetState.show()
+                    }
+                }
+            ) {
+                Icon(Icons.Default.Add, null)
+                Spacer(Modifier.width(12.dp))
+                Text("Add Exercise")
             }
         }
     }

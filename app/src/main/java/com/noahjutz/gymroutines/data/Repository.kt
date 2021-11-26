@@ -24,6 +24,7 @@ import com.noahjutz.gymroutines.data.dao.WorkoutDao
 import com.noahjutz.gymroutines.data.domain.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -48,10 +49,30 @@ class RoutineRepository(private val routineDao: RoutineDao) {
     val routines = routineDao.getRoutines()
 
     suspend fun getRoutine(routineId: Int): Routine? {
-        return routineDao.getRoutine(routineId)
+        return routineDao.getRoutineOld(routineId)
     }
 
-    suspend fun getRoutineWithSetGroups(routineId: Int): RoutineWithSetGroups? {
+    suspend fun getSetGroups(routineId: Int): List<RoutineSetGroup> {
+        return routineDao.getSetGroups(routineId)
+    }
+
+    suspend fun getSets(routineId: Int): List<RoutineSet> {
+        return routineDao.getSets(routineId)
+    }
+
+    suspend fun getRoutineWithSetGroupsOld(routineId: Int): RoutineWithSetGroups? {
+        return routineDao.getRoutineWithSetGroupsOld(routineId)
+    }
+
+    suspend fun insertSetGroups(setGroups: List<RoutineSetGroup>) {
+        routineDao.insertSetGroups(setGroups)
+    }
+
+    suspend fun insertSets(sets: List<RoutineSet>) {
+        routineDao.insertSets(sets)
+    }
+
+    fun getRoutineWithSetGroups(routineId: Int): Flow<RoutineWithSetGroups?> {
         return routineDao.getRoutineWithSetGroups(routineId)
     }
 

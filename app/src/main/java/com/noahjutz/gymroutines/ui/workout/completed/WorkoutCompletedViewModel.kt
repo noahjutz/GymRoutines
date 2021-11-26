@@ -28,7 +28,7 @@ class WorkoutCompletedViewModel(
 
     init {
         viewModelScope.launch {
-            val routine = routineRepository.getRoutineWithSetGroups(routineId)
+            val routine = routineRepository.getRoutineWithSetGroupsOld(routineId)
             val workout = workoutRepository.getWorkout(workoutId)
             _state.value =
                 if (routine == null || workout == null) State.Error
