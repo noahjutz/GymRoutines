@@ -26,6 +26,7 @@ import com.noahjutz.gymroutines.data.domain.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
 class RoutineEditorViewModel(
@@ -91,5 +92,10 @@ class RoutineEditorViewModel(
         ) {
             setGroups.value = setGroups.value.filterNot { it.id == set.groupId }
         }
+    }
+
+    fun addSet(setGroup: RoutineSetGroup) {
+        val position = sets.value.filter { it.groupId == setGroup.id }.size
+        sets.value = sets.value + RoutineSet(setGroup.id, position)
     }
 }

@@ -393,10 +393,9 @@ private fun RoutineEditorContent(
                     }
                     TextButton(
                         modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
                             .fillMaxWidth()
                             .height(64.dp),
-                        onClick = { /* TODO */ },
+                        onClick = { viewModel.addSet(setGroup.group) },
                     ) {
                         Icon(Icons.Default.Add, null)
                         Spacer(Modifier.width(12.dp))
