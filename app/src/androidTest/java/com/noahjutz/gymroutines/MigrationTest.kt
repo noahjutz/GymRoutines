@@ -42,7 +42,7 @@ class MigrationTest {
                 AppDatabase::class.java,
                 TEST_DB
             )
-            .addMigrations(MIGRATION_36_37, MIGRATION_37_38)
+            .addMigrations(MIGRATION_36_37, MIGRATION_37_38, MIGRATION_38_39)
             .build()
             .apply {
                 openHelper.writableDatabase
