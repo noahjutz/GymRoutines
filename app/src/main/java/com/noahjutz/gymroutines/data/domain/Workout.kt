@@ -35,12 +35,6 @@ data class Workout(
     val workoutId: Int = 0,
 )
 
-// TODO remove temporary class
-data class WorkoutWithSets(
-    val workout: Workout = Workout(),
-    val sets: List<WorkoutSet> = emptyList()
-)
-
 data class WorkoutWithSetGroups(
     @Embedded val workout: Workout,
     @Relation(
