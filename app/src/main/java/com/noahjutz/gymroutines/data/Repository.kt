@@ -95,7 +95,7 @@ class WorkoutRepository(private val workoutDao: WorkoutDao) {
     }
 
     suspend fun getWorkout(workoutId: Int) = workoutDao.getWorkout(workoutId)
-    suspend fun getWorkoutWithSets(workoutId: Int) = workoutDao.getWorkoutWithSets(workoutId)
+    suspend fun getWorkoutWithSets(workoutId: Int) = WorkoutWithSets() // TODO
     suspend fun delete(workout: Workout) = workoutDao.delete(workout)
     fun getWorkouts() = workoutDao.getWorkouts()
     suspend fun insertRoutineAsWorkout(routine: RoutineWithSets): Long {

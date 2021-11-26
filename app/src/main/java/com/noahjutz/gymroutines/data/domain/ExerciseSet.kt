@@ -70,8 +70,7 @@ data class RoutineSetGroupWithSets(
 
 @Entity(tableName = "workout_set_table")
 data class WorkoutSet(
-    val workoutId: Int,
-    val exerciseId: Int,
+    val groupId: Int,
     val position: Int,
     val reps: Int? = null,
     val weight: Double? = null,
@@ -81,4 +80,22 @@ data class WorkoutSet(
 
     @PrimaryKey(autoGenerate = true)
     val workoutSetId: Int = 0
+)
+
+@Entity(tableName = "workout_set_group_table")
+data class WorkoutSetGroup(
+    val workoutId: Int,
+    val exerciseId: Int,
+    val position: Int,
+
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+)
+
+data class WorkoutSetGroupWithSets(
+    @Embedded val group: WorkoutSetGroup,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "groupId"
+    ) val sets: List<WorkoutSet>
 )

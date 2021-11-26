@@ -21,7 +21,6 @@ package com.noahjutz.gymroutines.data.dao
 import androidx.room.*
 import com.noahjutz.gymroutines.data.domain.Workout
 import com.noahjutz.gymroutines.data.domain.WorkoutSet
-import com.noahjutz.gymroutines.data.domain.WorkoutWithSets
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -37,9 +36,6 @@ interface WorkoutDao {
 
     @Query("SELECT * FROM workout_table WHERE workoutId == :id")
     suspend fun getWorkout(id: Int): Workout?
-
-    @Query("SELECT * FROM workout_table WHERE workoutId == :id")
-    suspend fun getWorkoutWithSets(id: Int): WorkoutWithSets?
 
     @Delete
     suspend fun delete(workout: Workout)

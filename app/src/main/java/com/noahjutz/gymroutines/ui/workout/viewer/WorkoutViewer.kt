@@ -74,25 +74,26 @@ fun WorkoutViewerContent(workout: WorkoutWithSets, viewModel: WorkoutViewerViewM
             Spacer(Modifier.height(16.dp))
         }
 
-        items(workout.sets.groupBy { it.exerciseId }.toList()) { (exerciseId, sets) ->
-            val exercise = viewModel.getExercise(exerciseId)!!
-            // TODO make immutable (remove state)
-            SetGroupCard(
-                name = exercise.name.takeIf { it.isNotBlank() }
-                    ?: stringResource(R.string.unnamed_exercise),
-                sets = sets.map { (workoutId, exerciseId, position, reps, weight, time, distance, complete, setId) ->
-                    ExerciseSetLegacy(exerciseId, reps, weight, time, distance, complete, position, setId)
-                },
-                onMoveDown = { },
-                onMoveUp = { },
-                onAddSet = { },
-                onDeleteSet = { },
-                logReps = exercise.logReps,
-                logWeight = exercise.logWeight,
-                logTime = exercise.logTime,
-                logDistance = exercise.logDistance,
-                showCheckbox = true,
-            )
-        }
+        //TODO
+        //items(workout.sets.groupBy { it.exerciseId }.toList()) { (exerciseId, sets) ->
+        //    val exercise = viewModel.getExercise(exerciseId)!!
+        //    // TODO make immutable (remove state)
+        //    SetGroupCard(
+        //        name = exercise.name.takeIf { it.isNotBlank() }
+        //            ?: stringResource(R.string.unnamed_exercise),
+        //        sets = sets.map { (workoutId, exerciseId, position, reps, weight, time, distance, complete, setId) ->
+        //            ExerciseSetLegacy(exerciseId, reps, weight, time, distance, complete, position, setId)
+        //        },
+        //        onMoveDown = { },
+        //        onMoveUp = { },
+        //        onAddSet = { },
+        //        onDeleteSet = { },
+        //        logReps = exercise.logReps,
+        //        logWeight = exercise.logWeight,
+        //        logTime = exercise.logTime,
+        //        logDistance = exercise.logDistance,
+        //        showCheckbox = true,
+        //    )
+        //}
     }
 }

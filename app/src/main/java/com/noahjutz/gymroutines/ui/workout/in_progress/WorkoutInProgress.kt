@@ -138,39 +138,40 @@ fun WorkoutInProgress(
                     Spacer(Modifier.height(8.dp))
                 }
 
-                items(workout.sets.groupBy { it.exerciseId }.toList()) { (exerciseId, sets) ->
-                    val exercise = viewModel.presenter.getExercise(exerciseId)!!
-                    SetGroupCard(
-                        name = exercise.name.takeIf { it.isNotBlank() }
-                            ?: stringResource(R.string.unnamed_exercise),
-                        sets = sets.map { (workoutId, exerciseId, position, reps, weight, time, distance, complete, setId) ->
-                            ExerciseSetLegacy(
-                                exerciseId,
-                                reps,
-                                weight,
-                                time,
-                                distance,
-                                complete,
-                                position,
-                                setId,
-                            )
-                        },
-                        onMoveDown = { },
-                        onMoveUp = { },
-                        onAddSet = { },
-                        onDeleteSet = { },
-                        logReps = exercise.logReps,
-                        logWeight = exercise.logWeight,
-                        logTime = exercise.logTime,
-                        logDistance = exercise.logDistance,
-                        showCheckbox = true,
-                        onWeightChange = { _, _ -> },
-                        onTimeChange = { _, _ -> },
-                        onRepsChange = { _, _ -> },
-                        onDistanceChange = { _, _ -> },
-                        onCheckboxChange = { _, _ -> }
-                    )
-                }
+                //TODO
+                //items(workout.sets.groupBy { it.exerciseId }.toList()) { (exerciseId, sets) ->
+                //    val exercise = viewModel.presenter.getExercise(exerciseId)!!
+                //    SetGroupCard(
+                //        name = exercise.name.takeIf { it.isNotBlank() }
+                //            ?: stringResource(R.string.unnamed_exercise),
+                //        sets = sets.map { (workoutId, exerciseId, position, reps, weight, time, distance, complete, setId) ->
+                //            ExerciseSetLegacy(
+                //                exerciseId,
+                //                reps,
+                //                weight,
+                //                time,
+                //                distance,
+                //                complete,
+                //                position,
+                //                setId,
+                //            )
+                //        },
+                //        onMoveDown = { },
+                //        onMoveUp = { },
+                //        onAddSet = { },
+                //        onDeleteSet = { },
+                //        logReps = exercise.logReps,
+                //        logWeight = exercise.logWeight,
+                //        logTime = exercise.logTime,
+                //        logDistance = exercise.logDistance,
+                //        showCheckbox = true,
+                //        onWeightChange = { _, _ -> },
+                //        onTimeChange = { _, _ -> },
+                //        onRepsChange = { _, _ -> },
+                //        onDistanceChange = { _, _ -> },
+                //        onCheckboxChange = { _, _ -> }
+                //    )
+                //}
 
                 item {
                     Spacer(Modifier.height(16.dp))

@@ -35,12 +35,19 @@ data class Workout(
     val workoutId: Int = 0,
 )
 
+// TODO remove temporary class
 data class WorkoutWithSets(
-    @Embedded val workout: Workout,
+    val workout: Workout = Workout(),
+    val sets: List<WorkoutSet> = emptyList()
+)
+
+data class WorkoutWithSetGroups(
+    @Embedded val routine: Routine,
     @Relation(
+        entity = WorkoutSetGroup::class,
         parentColumn = "workoutId",
         entityColumn = "workoutId"
-    ) val sets: List<WorkoutSet>
+    ) val setGroups: List<WorkoutSetGroupWithSets>
 )
 
 val Workout.duration get() = endTime - startTime
