@@ -70,7 +70,7 @@ fun WorkoutInsightsContent(
     Scaffold(topBar = { TopBar(title = stringResource(R.string.tab_insights)) }) {
         LazyColumn {
             item {
-                WorkoutCharts(workouts)
+                WorkoutCharts(workouts.map { it.workout })
                 Text(
                     "History",
                     Modifier.padding(bottom = 8.dp, start = 16.dp, end = 16.dp),
@@ -85,7 +85,7 @@ fun WorkoutInsightsContent(
                     background = { SwipeToDeleteBackground(dismissState) }
                 ) {
                     Card(
-                        onClick = { navToWorkoutEditor(workout.workoutId) },
+                        onClick = { navToWorkoutEditor(workout.workout.workoutId) },
                         elevation = animateDpAsState(
                             if (dismissState.dismissDirection != null) 4.dp else 0.dp
                         ).value,
@@ -93,7 +93,7 @@ fun WorkoutInsightsContent(
                         ListItem(
                             text = {
                                 Text(
-                                    text = workout.name.takeIf { it.isNotBlank() }
+                                    text = workout.workout.name.takeIf { it.isNotBlank() }
                                         ?: stringResource(R.string.unnamed_workout),
                                     maxLines = 2,
                                     overflow = TextOverflow.Ellipsis,
@@ -101,7 +101,7 @@ fun WorkoutInsightsContent(
                             },
                             secondaryText = {
                                 val day = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                                    .format(workout.startTime)
+                                    .format(workout.workout.startTime)
                                 Text(day)
                             }
                         )
@@ -110,9 +110,9 @@ fun WorkoutInsightsContent(
 
                 if (dismissState.targetValue != DismissValue.Default) {
                     DeleteConfirmation(
-                        workout = workout,
+                        workout = workout.workout,
                         onConfirm = {
-                            viewModel.editor.delete(workout)
+                            viewModel.editor.delete(workout.workout)
                             scope.launch { dismissState.snapTo(DismissValue.Default) }
                         },
                         onDismiss = { scope.launch { dismissState.reset() } }

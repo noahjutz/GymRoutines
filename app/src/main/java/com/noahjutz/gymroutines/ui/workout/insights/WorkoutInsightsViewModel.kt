@@ -45,7 +45,7 @@ class WorkoutInsightsViewModel(
 
         val workouts = repository.workouts.map {
             it.filter {
-                preferencesData[AppPrefs.CurrentWorkout.key] != it.workoutId
+                preferencesData[AppPrefs.CurrentWorkout.key] != it.workout.workoutId
             }
         }
     }

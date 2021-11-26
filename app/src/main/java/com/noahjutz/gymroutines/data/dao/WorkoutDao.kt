@@ -32,15 +32,13 @@ interface WorkoutDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(workoutSet: WorkoutSet)
 
-    @Query("SELECT * FROM workout_table ORDER BY startTime DESC")
-    fun getWorkouts(): Flow<List<Workout>>
-
-    @Query("SELECT * FROM workout_table WHERE workoutId == :id")
-    suspend fun getWorkout(id: Int): Workout?
-
     @Transaction
     @Query("SELECT * FROM workout_table WHERE workoutId == :id")
     suspend fun getWorkoutWithSetGroups(id: Int): WorkoutWithSetGroups?
+
+    @Transaction
+    @Query("SELECT * FROM workout_table ORDER BY startTime DESC")
+    fun getWorkouts(): Flow<List<WorkoutWithSetGroups>>
 
     @Delete
     suspend fun delete(workout: Workout)
