@@ -21,6 +21,7 @@ package com.noahjutz.gymroutines.data.dao
 import androidx.room.*
 import com.noahjutz.gymroutines.data.domain.Workout
 import com.noahjutz.gymroutines.data.domain.WorkoutSet
+import com.noahjutz.gymroutines.data.domain.WorkoutSetGroup
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import kotlinx.coroutines.flow.Flow
 
@@ -30,7 +31,10 @@ interface WorkoutDao {
     suspend fun insert(workout: Workout): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(workoutSet: WorkoutSet)
+    suspend fun insert(workoutSet: WorkoutSet): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(workoutSetGroup: WorkoutSetGroup): Long
 
     @Transaction
     @Query("SELECT * FROM workout_table WHERE workoutId == :id")

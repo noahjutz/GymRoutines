@@ -24,7 +24,6 @@ import com.noahjutz.gymroutines.data.dao.WorkoutDao
 import com.noahjutz.gymroutines.data.domain.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -86,7 +85,12 @@ class WorkoutRepository(private val workoutDao: WorkoutDao) {
     }
 
     suspend fun insert(workout: WorkoutWithSetGroups): Long {
-        // TODO insert SetGroups
+        for (setGroup in workout.setGroups) {
+            workoutDao.insert(setGroup.group)
+            for (set in setGroup.sets) {
+                workoutDao.insert(set)
+            }
+        }
         return workoutDao.insert(workout.workout)
     }
 
