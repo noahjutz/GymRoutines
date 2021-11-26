@@ -24,6 +24,7 @@ import com.noahjutz.gymroutines.data.dao.WorkoutDao
 import com.noahjutz.gymroutines.data.domain.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -47,12 +48,8 @@ class ExerciseRepository(private val exerciseDao: ExerciseDao) {
 class RoutineRepository(private val routineDao: RoutineDao) {
     val routines = routineDao.getRoutines()
 
-    suspend fun getRoutine(routineId: Int): Routine? = routineDao.getRoutine(routineId)
-    // TODO remove
-    suspend fun getRoutineWithSets(routineId: Int): RoutineWithSets? {
-        return routineDao.getRoutine(routineId)?.let {
-            RoutineWithSets(it, emptyList())
-        }
+    suspend fun getRoutine(routineId: Int): Routine? {
+        return routineDao.getRoutine(routineId)
     }
 
     suspend fun getRoutineWithSetGroups(routineId: Int): RoutineWithSetGroups? {
@@ -73,13 +70,7 @@ class RoutineRepository(private val routineDao: RoutineDao) {
         return -1L
     }
 
-    suspend fun insert(routine: RoutineWithSets): Long = withContext(IO) {
-        for (set in routine.sets) {
-            routineDao.insert(set)
-        }
-        routineDao.insert(routine.routine)
-    }
-
+    // TODO replace with delete(routine: RoutineWithSetGroups)
     fun delete(routine: Routine) {
         CoroutineScope(IO).launch {
             routineDao.delete(routine)
@@ -88,19 +79,28 @@ class RoutineRepository(private val routineDao: RoutineDao) {
 }
 
 class WorkoutRepository(private val workoutDao: WorkoutDao) {
-    suspend fun insert(workout: Workout) = workoutDao.insert(workout)
+    suspend fun insert(workout: Workout): Long {
+        return workoutDao.insert(workout)
+    }
+
     suspend fun insert(workout: WorkoutWithSetGroups): Long {
         // TODO insert SetGroups
         return workoutDao.insert(workout.workout)
     }
 
-    suspend fun getWorkout(workoutId: Int) = workoutDao.getWorkout(workoutId)
-    suspend fun getWorkoutWithSets(workoutId: Int) = WorkoutWithSets() // TODO
     suspend fun getWorkoutWithSetGroups(workoutId: Int): WorkoutWithSetGroups? {
         return workoutDao.getWorkoutWithSetGroups(workoutId)
     }
-    suspend fun delete(workout: Workout) = workoutDao.delete(workout)
-    fun getWorkouts() = workoutDao.getWorkouts()
+
+    // TODO replace with delete(workout: WorkoutWithSetGroups)
+    suspend fun delete(workout: Workout) {
+        workoutDao.delete(workout)
+    }
+
+    fun getWorkouts(): Flow<List<Workout>> {
+        return workoutDao.getWorkouts()
+    }
+
     suspend fun insertRoutineAsWorkout(routine: RoutineWithSetGroups): Long {
         // TODO
         return -1L
