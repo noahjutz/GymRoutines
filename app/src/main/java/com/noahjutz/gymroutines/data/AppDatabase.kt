@@ -38,6 +38,7 @@ import kotlinx.serialization.json.*
         RoutineSet::class,
         RoutineSetGroup::class,
         WorkoutSet::class,
+        WorkoutSetGroup::class,
     ],
     version = 39,
     autoMigrations = [

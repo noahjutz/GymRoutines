@@ -1,0 +1,188 @@
+commit 876cc140f682a48e339225b81267fc92229fc7d0
+Author: Noah Jutz <noahjutz@tutanota.de>
+Date:   Fri Nov 26 11:33:47 2021 +0100
+
+    Use WorkoutWithSetGroups in WorkoutViewer
+
+diff --git a/app/src/main/java/com/noahjutz/gymroutines/data/Repository.kt b/app/src/main/java/com/noahjutz/gymroutines/data/Repository.kt
+index a0552933..0f960a2d 100644
+--- a/app/src/main/java/com/noahjutz/gymroutines/data/Repository.kt
++++ b/app/src/main/java/com/noahjutz/gymroutines/data/Repository.kt
+@@ -96,25 +96,13 @@ class WorkoutRepository(private val workoutDao: WorkoutDao) {
+ 
+     suspend fun getWorkout(workoutId: Int) = workoutDao.getWorkout(workoutId)
+     suspend fun getWorkoutWithSets(workoutId: Int) = WorkoutWithSets() // TODO
++    suspend fun getWorkoutWithSetGroups(workoutId: Int): WorkoutWithSetGroups? {
++        return workoutDao.getWorkoutWithSetGroups(workoutId)
++    }
+     suspend fun delete(workout: Workout) = workoutDao.delete(workout)
+     fun getWorkouts() = workoutDao.getWorkouts()
+     suspend fun insertRoutineAsWorkout(routine: RoutineWithSets): Long {
+-        val workout = Workout(name = routine.routine.name)
+-        val id = insert(workout)
+-        // TODO adapt this code for new workout_set_table structure
+-        // val sets = routine.sets.map {
+-        //    WorkoutSet(
+-        //        id.toInt(),
+-        //        it.exerciseId,
+-        //        it.position,
+-        //        it.reps,
+-        //        it.weight,
+-        //        it.time,
+-        //        it.distance,
+-        //        false
+-        //    )
+-        // }
+-        // for (set in sets) workoutDao.insert(set)
+-        return id
++        // TODO
++        return -1L
+     }
+ }
+diff --git a/app/src/main/java/com/noahjutz/gymroutines/data/dao/WorkoutDao.kt b/app/src/main/java/com/noahjutz/gymroutines/data/dao/WorkoutDao.kt
+index 00c6ccef..5846c194 100644
+--- a/app/src/main/java/com/noahjutz/gymroutines/data/dao/WorkoutDao.kt
++++ b/app/src/main/java/com/noahjutz/gymroutines/data/dao/WorkoutDao.kt
+@@ -21,6 +21,7 @@ package com.noahjutz.gymroutines.data.dao
+ import androidx.room.*
+ import com.noahjutz.gymroutines.data.domain.Workout
+ import com.noahjutz.gymroutines.data.domain.WorkoutSet
++import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
+ import kotlinx.coroutines.flow.Flow
+ 
+ @Dao
+@@ -37,6 +38,10 @@ interface WorkoutDao {
+     @Query("SELECT * FROM workout_table WHERE workoutId == :id")
+     suspend fun getWorkout(id: Int): Workout?
+ 
++    @Transaction
++    @Query("SELECT * FROM workout_table WHERE workoutId == :id")
++    suspend fun getWorkoutWithSetGroups(id: Int): WorkoutWithSetGroups?
++
+     @Delete
+     suspend fun delete(workout: Workout)
+ }
+diff --git a/app/src/main/java/com/noahjutz/gymroutines/data/domain/Workout.kt b/app/src/main/java/com/noahjutz/gymroutines/data/domain/Workout.kt
+index 45707a55..d5b43b8b 100644
+--- a/app/src/main/java/com/noahjutz/gymroutines/data/domain/Workout.kt
++++ b/app/src/main/java/com/noahjutz/gymroutines/data/domain/Workout.kt
+@@ -42,7 +42,7 @@ data class WorkoutWithSets(
+ )
+ 
+ data class WorkoutWithSetGroups(
+-    @Embedded val routine: Routine,
++    @Embedded val workout: Workout,
+     @Relation(
+         entity = WorkoutSetGroup::class,
+         parentColumn = "workoutId",
+diff --git a/app/src/main/java/com/noahjutz/gymroutines/ui/workout/viewer/WorkoutViewer.kt b/app/src/main/java/com/noahjutz/gymroutines/ui/workout/viewer/WorkoutViewer.kt
+index 356b4cdc..e3fcd1c9 100644
+--- a/app/src/main/java/com/noahjutz/gymroutines/ui/workout/viewer/WorkoutViewer.kt
++++ b/app/src/main/java/com/noahjutz/gymroutines/ui/workout/viewer/WorkoutViewer.kt
+@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
+ import androidx.compose.foundation.layout.height
+ import androidx.compose.foundation.layout.padding
+ import androidx.compose.foundation.lazy.LazyColumn
++import androidx.compose.foundation.lazy.items
+ import androidx.compose.material.*
+ import androidx.compose.material.MaterialTheme.typography
+ import androidx.compose.material.icons.Icons
+@@ -13,9 +14,13 @@ import androidx.compose.runtime.Composable
+ import androidx.compose.runtime.collectAsState
+ import androidx.compose.runtime.getValue
+ import androidx.compose.ui.Modifier
++import androidx.compose.ui.res.stringResource
+ import androidx.compose.ui.unit.dp
+-import com.noahjutz.gymroutines.data.domain.WorkoutWithSets
++import com.noahjutz.gymroutines.R
++import com.noahjutz.gymroutines.data.domain.ExerciseSetLegacy
++import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
+ import com.noahjutz.gymroutines.data.domain.duration
++import com.noahjutz.gymroutines.ui.components.SetGroupCard
+ import com.noahjutz.gymroutines.ui.components.TopBar
+ import com.noahjutz.gymroutines.util.pretty
+ import org.koin.androidx.compose.getViewModel
+@@ -47,7 +52,7 @@ fun WorkoutViewer(
+ @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
+ @ExperimentalTime
+ @Composable
+-fun WorkoutViewerContent(workout: WorkoutWithSets, viewModel: WorkoutViewerViewModel) {
++fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewerViewModel) {
+     LazyColumn {
+         item {
+             Spacer(Modifier.height(16.dp))
+@@ -69,26 +74,26 @@ fun WorkoutViewerContent(workout: WorkoutWithSets, viewModel: WorkoutViewerViewM
+             Spacer(Modifier.height(16.dp))
+         }
+ 
+-        // TODO
+-        // items(workout.sets.groupBy { it.exerciseId }.toList()) { (exerciseId, sets) ->
+-        //    val exercise = viewModel.getExercise(exerciseId)!!
+-        //    // TODO make immutable (remove state)
+-        //    SetGroupCard(
+-        //        name = exercise.name.takeIf { it.isNotBlank() }
+-        //            ?: stringResource(R.string.unnamed_exercise),
+-        //        sets = sets.map { (workoutId, exerciseId, position, reps, weight, time, distance, complete, setId) ->
+-        //            ExerciseSetLegacy(exerciseId, reps, weight, time, distance, complete, position, setId)
+-        //        },
+-        //        onMoveDown = { },
+-        //        onMoveUp = { },
+-        //        onAddSet = { },
+-        //        onDeleteSet = { },
+-        //        logReps = exercise.logReps,
+-        //        logWeight = exercise.logWeight,
+-        //        logTime = exercise.logTime,
+-        //        logDistance = exercise.logDistance,
+-        //        showCheckbox = true,
+-        //    )
+-        // }
++        items(workout.setGroups) { setGroup ->
++            val exercise = viewModel.getExercise(setGroup.group.exerciseId)!!
++            SetGroupCard(
++                name = exercise.name.takeIf { it.isNotBlank() }
++                    ?: stringResource(R.string.unnamed_workout),
++                sets = setGroup.sets.map { (_, position, reps, weight, time, distance, complete, setId) ->
++                    ExerciseSetLegacy(
++                        exercise.exerciseId, reps, weight, time, distance, complete, position, setId
++                    )
++                },
++                onMoveDown = { /* TODO */ },
++                onMoveUp = { /* TODO */ },
++                onAddSet = { /* TODO */ },
++                onDeleteSet = { /* TODO */ },
++                logReps = exercise.logReps,
++                logWeight = exercise.logWeight,
++                logTime = exercise.logTime,
++                logDistance = exercise.logDistance,
++                showCheckbox = true,
++            )
++        }
+     }
+ }
+diff --git a/app/src/main/java/com/noahjutz/gymroutines/ui/workout/viewer/WorkoutViewerViewModel.kt b/app/src/main/java/com/noahjutz/gymroutines/ui/workout/viewer/WorkoutViewerViewModel.kt
+index 7cd097dc..cd9b1a2c 100644
+--- a/app/src/main/java/com/noahjutz/gymroutines/ui/workout/viewer/WorkoutViewerViewModel.kt
++++ b/app/src/main/java/com/noahjutz/gymroutines/ui/workout/viewer/WorkoutViewerViewModel.kt
+@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
+ import com.noahjutz.gymroutines.data.ExerciseRepository
+ import com.noahjutz.gymroutines.data.WorkoutRepository
+ import com.noahjutz.gymroutines.data.domain.Exercise
++import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
+ import com.noahjutz.gymroutines.data.domain.WorkoutWithSets
+ import kotlinx.coroutines.flow.MutableStateFlow
+ import kotlinx.coroutines.flow.asStateFlow
+@@ -15,12 +16,12 @@ class WorkoutViewerViewModel(
+     private val workoutRepository: WorkoutRepository,
+     private val exerciseRepository: ExerciseRepository
+ ) : ViewModel() {
+-    private val _workout = MutableStateFlow<WorkoutWithSets?>(null)
++    private val _workout = MutableStateFlow<WorkoutWithSetGroups?>(null)
+     val workout = _workout.asStateFlow()
+ 
+     init {
+         viewModelScope.launch {
+-            _workout.value = workoutRepository.getWorkoutWithSets(workoutId)
++            _workout.value = workoutRepository.getWorkoutWithSetGroups(workoutId)
+         }
+     }
+ 
