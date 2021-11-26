@@ -242,6 +242,8 @@ val MIGRATION_37_38 = object : Migration(37, 38) {
  */
 val MIGRATION_38_39 = object : Migration(38, 39) {
     override fun migrate(db: SupportSQLiteDatabase) {
+        // Add routine_set_group_table
+
         db.execSQL(
             """
             CREATE TABLE routine_set_group_table (
@@ -308,5 +310,75 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
             db.execSQL("INSERT INTO routine_set_table VALUES ($groupId, $position, $reps, $weight, $time, $distance, $setId)")
         }
         db.execSQL("DROP TABLE routine_set_table_old ")
+
+        // Add workout_set_group_table
+
+        db.execSQL(
+            """
+            CREATE TABLE workout_set_group_table (
+                workoutId INTEGER NOT NULL,
+                exerciseId INTEGER NOT NULL,
+                position INTEGER NOT NULL,
+                id INTEGER PRIMARY KEY NOT NULL
+            )
+            """.trimIndent()
+        )
+
+        // Drop columns routineId, exerciseId; Add column groupId
+        db.execSQL("ALTER TABLE workout_set_table RENAME TO workout_set_table_old")
+        db.execSQL(
+            """
+            CREATE TABLE workout_set_table (
+                groupId INTEGER NOT NULL,
+                position INTEGER NOT NULL,
+                reps INTEGER,
+                weight REAL,
+                time INTEGER,
+                distance REAL,
+                complete INTEGER NOT NULL DEFAULT 0,
+                workoutSetId INTEGER PRIMARY KEY NOT NULL
+            )
+            """.trimIndent()
+        )
+        // Insert sets from routine_set_table_old to routine_set_table
+        // Insert set groups to routine_set_group_table
+        var workoutSetGroupPosition = 0
+        var workoutSetGroupId = 1
+
+        val workoutSetCursor =
+            db.query("SELECT workoutId, exerciseId, position, reps, weight, time, distance, complete, workoutSetId FROM workout_set_table_old")
+        while (workoutSetCursor.moveToNext()) {
+            val workoutId = workoutSetCursor.getInt(0)
+            val exerciseId = workoutSetCursor.getInt(1)
+            val position = workoutSetCursor.getInt(2)
+            val reps = workoutSetCursor.getInt(3)
+            val weight = workoutSetCursor.getInt(4)
+            val time = workoutSetCursor.getInt(5)
+            val distance = workoutSetCursor.getInt(6)
+            val setId = workoutSetCursor.getInt(7)
+
+            val setGroupIds =
+                db.query("SELECT id FROM workout_set_group_table WHERE workoutId=$workoutId AND exerciseId=$exerciseId")
+
+            val groupId = if (setGroupIds.count == 0) {
+                if (db.query("SELECT id FROM workout_set_group_table WHERE workoutId=$workoutId").count == 0) {
+                    setGroupPosition = 0
+                }
+                // Insert new workout set group
+                val newGroupId = setGroupId
+                db.execSQL("INSERT INTO workout_set_group_table VALUES ($workoutId, $exerciseId, $setGroupPosition, $newGroupId)")
+                setGroupPosition++
+                setGroupId++
+                newGroupId
+            } else {
+                // Use existing workout set group
+                setGroupIds.moveToFirst()
+                val id = setGroupIds.getInt(0)
+                id
+            }
+
+            db.execSQL("INSERT INTO workout_set_table VALUES ($groupId, $position, $reps, $weight, $time, $distance, $setId)")
+        }
+        db.execSQL("DROP TABLE workout_set_table_old ")
     }
 }
