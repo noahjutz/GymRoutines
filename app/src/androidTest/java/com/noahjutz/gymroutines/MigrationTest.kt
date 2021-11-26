@@ -87,6 +87,8 @@ class MigrationTest {
     fun migrate38to39() {
         var db = helper.createDatabase(TEST_DB, 38).use {
             it.execSQL("INSERT INTO routine_table VALUES ('Legs', 0)")
+            it.execSQL("INSERT INTO exercise_table VALUES ('Squat', '', 'true', 'false', 'true', 'false', 'false', 0)")
+            it.execSQL("INSERT INTO routine_set_table VALUES (0, 0, 0, 12, null, 10, null, 0)")
             it
         }
         db = helper.runMigrationsAndValidate(TEST_DB, 39, true, MIGRATION_38_39)

@@ -274,7 +274,7 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
             if (exerciseId != previousExerciseId) {
                 db.execSQL(
                     """
-                    INSERT INTO routine_set_group_table (
+                    INSERT INTO routine_set_group_table VALUES (
                         $routineId,
                         $exerciseId,
                         $position,
@@ -282,7 +282,7 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
                     )
                     """.trimIndent()
                 )
-                groupIdSetIdMap[groupId] = setId
+                groupIdSetIdMap[setId] = groupId
                 position++
                 groupId++
             }
@@ -307,17 +307,20 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
             )
             """.trimIndent()
         )
-        db.execSQL(
-            """
-            INSERT INTO routine_set_table (position, reps, weight, time, distance, routineSetId)
-            SELECT position, reps, weight, time, distance, routineSetId FROM routine_set_table_old
-            """.trimIndent()
-        )
-        db.execSQL("DROP TABLE routine_set_table_old ")
+        // Assign sets to set groups while re-inserting values
+        val routineSetCursor =
+            db.query("SELECT position, reps, weight, time, distance, routineSetId FROM routine_set_table_old")
+        while (routineSetCursor.moveToNext()) {
+            val position = routineSetCursor.getInt(0)
+            val reps = routineSetCursor.getInt(1)
+            val weight = routineSetCursor.getInt(2)
+            val time = routineSetCursor.getInt(3)
+            val distance = routineSetCursor.getInt(4)
+            val setId = routineSetCursor.getInt(5)
+            val groupId = groupIdSetIdMap[setId]
 
-        // Assign sets to set groups
-        for ((groupId, setId) in groupIdSetIdMap) {
-            db.execSQL("UPDATE routine_set_table SET groupId=$groupId WHERE routineSetId=$setId")
+            db.execSQL("INSERT INTO routine_set_table VALUES ($groupId, $position, $reps, $weight, $time, $distance, $setId)")
         }
+        db.execSQL("DROP TABLE routine_set_table_old ")
     }
 }
