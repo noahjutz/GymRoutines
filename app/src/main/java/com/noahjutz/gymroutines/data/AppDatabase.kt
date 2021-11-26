@@ -274,7 +274,7 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
         // Insert sets from routine_set_table_old to routine_set_table
         // Insert set groups to routine_set_group_table
         var routineSetGroupPosition = 0
-        var routineSetGroupId = 1
+        var routineSetGroupId = 0
 
         val routineSetCursor =
             db.query("SELECT routineId, exerciseId, position, reps, weight, time, distance, routineSetId FROM routine_set_table_old")
@@ -296,9 +296,9 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
                     routineSetGroupPosition = 0
                 }
                 // Insert new routine set group
+                routineSetGroupId++
                 db.execSQL("INSERT INTO routine_set_group_table VALUES ($routineId, $exerciseId, $routineSetGroupPosition, $routineSetGroupId)")
                 routineSetGroupPosition++
-                routineSetGroupId++
                 routineSetGroupId
             } else {
                 // Use existing routine set group
@@ -343,7 +343,7 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
         // Insert sets from routine_set_table_old to routine_set_table
         // Insert set groups to routine_set_group_table
         var workoutSetGroupPosition = 0
-        var workoutSetGroupId = 1
+        var workoutSetGroupId = 0
 
         val workoutSetCursor =
             db.query("SELECT workoutId, exerciseId, position, reps, weight, time, distance, complete, workoutSetId FROM workout_set_table_old")
@@ -366,9 +366,9 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
                     workoutSetGroupPosition = 0
                 }
                 // Insert new workout set group
+                workoutSetGroupId++
                 db.execSQL("INSERT INTO workout_set_group_table VALUES ($workoutId, $exerciseId, $workoutSetGroupPosition, $workoutSetGroupId)")
                 workoutSetGroupPosition++
-                workoutSetGroupId++
                 workoutSetGroupId
             } else {
                 // Use existing workout set group

@@ -157,7 +157,7 @@ fun CreateRoutineScreen(
                             ?: stringResource(R.string.unnamed_exercise),
                         sets = sets.sets.map { (_, position, reps, weight, time, distance, setId) ->
                             ExerciseSetLegacy(
-                                exerciseId = 0,
+                                exerciseId = exercise.exerciseId,
                                 reps = reps,
                                 weight = weight,
                                 time = time,
