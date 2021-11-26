@@ -272,8 +272,8 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
         )
         // Insert sets from routine_set_table_old to routine_set_table
         // Insert set groups to routine_set_group_table
-        var setGroupPosition = 0
-        var setGroupId = 1
+        var routineSetGroupPosition = 0
+        var routineSetGroupId = 1
 
         val routineSetCursor =
             db.query("SELECT routineId, exerciseId, position, reps, weight, time, distance, routineSetId FROM routine_set_table_old")
@@ -292,14 +292,13 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
 
             val groupId = if (setGroupIds.count == 0) {
                 if (db.query("SELECT id FROM routine_set_group_table WHERE routineId=$routineId").count == 0) {
-                    setGroupPosition = 0
+                    routineSetGroupPosition = 0
                 }
                 // Insert new routine set group
-                val newGroupId = setGroupId
-                db.execSQL("INSERT INTO routine_set_group_table VALUES ($routineId, $exerciseId, $setGroupPosition, $newGroupId)")
-                setGroupPosition++
-                setGroupId++
-                newGroupId
+                db.execSQL("INSERT INTO routine_set_group_table VALUES ($routineId, $exerciseId, $routineSetGroupPosition, $routineSetGroupId)")
+                routineSetGroupPosition++
+                routineSetGroupId++
+                routineSetGroupId
             } else {
                 // Use existing routine set group
                 setGroupIds.moveToFirst()
@@ -363,14 +362,13 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
 
             val groupId = if (setGroupIds.count == 0) {
                 if (db.query("SELECT id FROM workout_set_group_table WHERE workoutId=$workoutId").count == 0) {
-                    setGroupPosition = 0
+                    workoutSetGroupPosition = 0
                 }
                 // Insert new workout set group
-                val newGroupId = setGroupId
-                db.execSQL("INSERT INTO workout_set_group_table VALUES ($workoutId, $exerciseId, $setGroupPosition, $newGroupId)")
-                setGroupPosition++
-                setGroupId++
-                newGroupId
+                db.execSQL("INSERT INTO workout_set_group_table VALUES ($workoutId, $exerciseId, $workoutSetGroupPosition, $workoutSetGroupId)")
+                workoutSetGroupPosition++
+                workoutSetGroupId++
+                workoutSetGroupId
             } else {
                 // Use existing workout set group
                 setGroupIds.moveToFirst()
