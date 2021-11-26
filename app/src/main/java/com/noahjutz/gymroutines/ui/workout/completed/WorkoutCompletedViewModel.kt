@@ -5,9 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.RoutineRepository
 import com.noahjutz.gymroutines.data.WorkoutRepository
 import com.noahjutz.gymroutines.data.domain.RoutineWithSetGroups
-import com.noahjutz.gymroutines.data.domain.RoutineWithSets
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
-import com.noahjutz.gymroutines.data.domain.WorkoutWithSets
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
