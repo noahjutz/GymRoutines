@@ -22,11 +22,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.ExerciseRepository
 import com.noahjutz.gymroutines.data.RoutineRepository
-import com.noahjutz.gymroutines.data.domain.*
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.noahjutz.gymroutines.data.domain.Routine
+import com.noahjutz.gymroutines.data.domain.RoutineSet
+import com.noahjutz.gymroutines.data.domain.RoutineSetGroup
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
 class RoutineEditorViewModel(
@@ -34,47 +33,24 @@ class RoutineEditorViewModel(
     private val exerciseRepository: ExerciseRepository,
     routineId: Int,
 ) : ViewModel() {
-    private val routine = MutableStateFlow<Routine?>(null)
-    private val setGroups = MutableStateFlow<List<RoutineSetGroup>>(emptyList())
-    private val sets = MutableStateFlow<List<RoutineSet>>(emptyList())
-
-    val routineWithSets = combine(routine, setGroups, sets) { routine, setGroups, sets ->
-        if (routine != null) {
-            RoutineWithSetGroups(
-                routine = routine,
-                setGroups = setGroups.map { group ->
-                    RoutineSetGroupWithSets(
-                        group = group,
-                        sets = sets.filter { it.groupId == group.id }
-                    )
-                }
-            )
-        } else null
-    }
+    val routine = routineRepository.getRoutineWithSetGroups(routineId)
+    private val _routineFlow = routineRepository.getRoutineFlow(routineId)
+    private var _routine: Routine? = null
+    private val _setsFlow = routineRepository.getSetsFlow(routineId)
+    private var _sets = emptyList<RoutineSet>()
+    private val _setGroupsFlow = routineRepository.getSetGroupsFlow(routineId)
+    private var _setGroups = emptyList<RoutineSetGroup>()
 
     init {
         viewModelScope.launch {
-            routine.value = routineRepository.getRoutine(routineId)
-            setGroups.value = routineRepository.getSetGroups(routineId)
-            sets.value = routineRepository.getSets(routineId)
             launch {
-                sets.collect { sets ->
-                    routineRepository.deleteSets(routineId)
-                    routineRepository.insertSets(sets)
-                }
+                _routineFlow.collect { _routine = it }
             }
             launch {
-                setGroups.collect { setGroups ->
-                    routineRepository.deleteSetGroups(routineId)
-                    routineRepository.insertSetGroups(setGroups)
-                }
+                _setsFlow.collect { _sets = it }
             }
             launch {
-                routine.collect { routine ->
-                    if (routine != null) {
-                        routineRepository.insert(routine)
-                    }
-                }
+                _setGroupsFlow.collect { _setGroups = it }
             }
         }
     }
@@ -82,20 +58,21 @@ class RoutineEditorViewModel(
     fun getExercise(exerciseId: Int) = exerciseRepository.getExercise(exerciseId)
 
     fun updateName(name: String) {
-        routine.value = routine.value?.copy(name = name)
+        _routine?.let {
+            viewModelScope.launch {
+                routineRepository.insert(it.copy(name = name))
+            }
+        }
     }
 
     fun deleteSet(set: RoutineSet) {
-        sets.value = sets.value.filterNot { it.routineSetId == set.routineSetId }
-        if (
-            setGroups.value.find { it.id == set.groupId }?.id !in sets.value.map { it.groupId }
-        ) {
-            setGroups.value = setGroups.value.filterNot { it.id == set.groupId }
+        viewModelScope.launch {
+            routineRepository.delete(set)
         }
     }
 
     fun addSet(setGroup: RoutineSetGroup) {
-        val position = sets.value.filter { it.groupId == setGroup.id }.size
-        sets.value = sets.value + RoutineSet(setGroup.id, position)
+        //val position = sets.value.filter { it.groupId == setGroup.id }.size
+        //sets.value = sets.value + RoutineSet(setGroup.id, position)
     }
 }

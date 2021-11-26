@@ -53,12 +53,16 @@ class RoutineRepository(private val routineDao: RoutineDao) {
         return routineDao.getRoutineOld(routineId)
     }
 
-    suspend fun getSetGroups(routineId: Int): List<RoutineSetGroup> {
-        return routineDao.getSetGroups(routineId)
+    fun getRoutineFlow(routineId: Int): Flow<Routine?> {
+        return routineDao.getRoutineFlow(routineId)
     }
 
-    suspend fun getSets(routineId: Int): List<RoutineSet> {
-        return routineDao.getSets(routineId)
+    fun getSetGroupsFlow(routineId: Int): Flow<List<RoutineSetGroup>> {
+        return routineDao.getSetGroupsFlow(routineId)
+    }
+
+    fun getSetsFlow(routineId: Int): Flow<List<RoutineSet>> {
+        return routineDao.getSetsFlow(routineId)
     }
 
     suspend fun getRoutineWithSetGroupsOld(routineId: Int): RoutineWithSetGroups? {
@@ -88,7 +92,6 @@ class RoutineRepository(private val routineDao: RoutineDao) {
                 routineDao.insert(set)
             }
         }
-        Log.d("RoutineRepository", "Count: ${routineDao.getSets(routine.routine.routineId).size}")
         return routineDao.insert(routine.routine)
     }
 
@@ -106,6 +109,10 @@ class RoutineRepository(private val routineDao: RoutineDao) {
         CoroutineScope(IO).launch {
             routineDao.delete(routine)
         }
+    }
+
+    suspend fun delete(set: RoutineSet) {
+        routineDao.delete(set)
     }
 
     suspend fun deleteSets(routineId: Int) {

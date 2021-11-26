@@ -138,7 +138,7 @@ fun CreateRoutineScreen(
                 )
             }
         ) {
-            val routine by viewModel.routineWithSets.collectAsState(initial = null)
+            val routine by viewModel.routine.collectAsState(initial = null)
             Crossfade(routine == null) { isNotReady ->
                 if (isNotReady) {
                     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -169,12 +169,16 @@ private fun RoutineEditorContent(
     LazyColumn(Modifier.fillMaxHeight(), contentPadding = PaddingValues(bottom = 70.dp)) {
 
         item {
+            val (name, setName) = remember { mutableStateOf(routine.name) }
+            LaunchedEffect(name) {
+                viewModel.updateName(name)
+            }
             BasicTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp, start = 24.dp, end = 24.dp),
-                value = routine.name,
-                onValueChange = { viewModel.updateName(it) },
+                value = name,
+                onValueChange = setName,
                 textStyle = typography.h3.copy(color = colors.onSurface),
                 cursorBrush = SolidColor(colors.onSurface),
                 decorationBox = { innerTextField ->

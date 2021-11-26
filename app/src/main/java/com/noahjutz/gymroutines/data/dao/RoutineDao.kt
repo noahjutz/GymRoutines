@@ -57,11 +57,14 @@ interface RoutineDao {
     @Query("SELECT * FROM routine_table WHERE routineId == :routineId")
     suspend fun getRoutineOld(routineId: Int): Routine?
 
-    @Query("SELECT * FROM routine_table WHERE routineId == :routineId")
-    fun getRoutine(routineId: Int): Flow<Routine?>
+    @Query("SELECT * FROM routine_set_group_table WHERE routineId == :routineId")
+    fun getSetGroupsFlow(routineId: Int): Flow<List<RoutineSetGroup>>
 
     @Query("SELECT * FROM routine_set_group_table WHERE routineId == :routineId")
     suspend fun getSetGroups(routineId: Int): List<RoutineSetGroup>
+
+    @Query("SELECT * FROM routine_set_table WHERE groupId IN (SELECT id FROM routine_set_group_table WHERE routineId == :routineId)")
+    fun getSetsFlow(routineId: Int): Flow<List<RoutineSet>>
 
     @Query("SELECT * FROM routine_set_table WHERE groupId IN (SELECT id FROM routine_set_group_table WHERE routineId == :routineId)")
     suspend fun getSets(routineId: Int): List<RoutineSet>
@@ -73,4 +76,10 @@ interface RoutineDao {
     @Transaction
     @Query("SELECT * FROM routine_table WHERE routineId == :routineId")
     fun getRoutineWithSetGroups(routineId: Int): Flow<RoutineWithSetGroups?>
+
+    @Query("SELECT * FROM routine_table WHERE routineId == :routineId")
+    fun getRoutineFlow(routineId: Int): Flow<Routine?>
+
+    @Delete
+    suspend fun delete(set: RoutineSet)
 }
