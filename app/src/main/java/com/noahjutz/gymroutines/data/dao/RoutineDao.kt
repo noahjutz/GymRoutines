@@ -22,7 +22,6 @@ import androidx.room.*
 import com.noahjutz.gymroutines.data.domain.Routine
 import com.noahjutz.gymroutines.data.domain.RoutineSet
 import com.noahjutz.gymroutines.data.domain.RoutineWithSetGroups
-import com.noahjutz.gymroutines.data.domain.RoutineWithSets
 import kotlinx.coroutines.flow.Flow
 
 @Dao

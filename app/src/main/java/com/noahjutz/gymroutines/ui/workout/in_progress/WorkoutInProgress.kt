@@ -23,7 +23,6 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -33,13 +32,9 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.noahjutz.gymroutines.R
-import com.noahjutz.gymroutines.data.domain.ExerciseSetLegacy
 import com.noahjutz.gymroutines.ui.components.NormalDialog
-import com.noahjutz.gymroutines.ui.components.SetGroupCard
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
 import kotlinx.coroutines.launch
@@ -138,8 +133,8 @@ fun WorkoutInProgress(
                     Spacer(Modifier.height(8.dp))
                 }
 
-                //TODO
-                //items(workout.sets.groupBy { it.exerciseId }.toList()) { (exerciseId, sets) ->
+                // TODO
+                // items(workout.sets.groupBy { it.exerciseId }.toList()) { (exerciseId, sets) ->
                 //    val exercise = viewModel.presenter.getExercise(exerciseId)!!
                 //    SetGroupCard(
                 //        name = exercise.name.takeIf { it.isNotBlank() }
@@ -171,7 +166,7 @@ fun WorkoutInProgress(
                 //        onDistanceChange = { _, _ -> },
                 //        onCheckboxChange = { _, _ -> }
                 //    )
-                //}
+                // }
 
                 item {
                     Spacer(Modifier.height(16.dp))

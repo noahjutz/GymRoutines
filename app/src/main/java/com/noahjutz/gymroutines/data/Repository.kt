@@ -101,8 +101,8 @@ class WorkoutRepository(private val workoutDao: WorkoutDao) {
     suspend fun insertRoutineAsWorkout(routine: RoutineWithSets): Long {
         val workout = Workout(name = routine.routine.name)
         val id = insert(workout)
-        //TODO adapt this code for new workout_set_table structure
-        //val sets = routine.sets.map {
+        // TODO adapt this code for new workout_set_table structure
+        // val sets = routine.sets.map {
         //    WorkoutSet(
         //        id.toInt(),
         //        it.exerciseId,
@@ -113,8 +113,8 @@ class WorkoutRepository(private val workoutDao: WorkoutDao) {
         //        it.distance,
         //        false
         //    )
-        //}
-        //for (set in sets) workoutDao.insert(set)
+        // }
+        // for (set in sets) workoutDao.insert(set)
         return id
     }
 }
