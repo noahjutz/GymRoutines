@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.RoutineRepository
 import com.noahjutz.gymroutines.data.WorkoutRepository
+import com.noahjutz.gymroutines.data.domain.RoutineWithSetGroups
 import com.noahjutz.gymroutines.data.domain.RoutineWithSets
+import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSets
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +22,7 @@ class WorkoutCompletedViewModel(
     sealed class State {
         object Loading : State()
         object Error : State()
-        data class Found(val routine: RoutineWithSets, val workout: WorkoutWithSets) : State()
+        data class Found(val routine: RoutineWithSetGroups, val workout: WorkoutWithSetGroups) : State()
     }
 
     private val _state: MutableStateFlow<State> = MutableStateFlow(State.Loading)
@@ -28,8 +30,8 @@ class WorkoutCompletedViewModel(
 
     init {
         viewModelScope.launch {
-            val routine = routineRepository.getRoutineWithSets(routineId)
-            val workout = workoutRepository.getWorkoutWithSets(workoutId)
+            val routine = routineRepository.getRoutineWithSetGroups(routineId)
+            val workout = workoutRepository.getWorkoutWithSetGroups(workoutId)
             _state.value =
                 if (routine == null || workout == null) State.Error
                 else State.Found(routine, workout)

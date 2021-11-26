@@ -68,7 +68,7 @@ class RoutineRepository(private val routineDao: RoutineDao) {
         return routineDao.insert(routine)
     }
 
-    suspend fun insertWorkoutAsRoutine(workoutWithSets: WorkoutWithSets): Long {
+    suspend fun insertWorkoutAsRoutine(workoutWithSetGroups: WorkoutWithSetGroups): Long {
         // TODO
         return -1L
     }
