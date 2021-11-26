@@ -20,33 +20,40 @@ package com.noahjutz.gymroutines.ui.routines.editor
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.colors
+import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material.icons.filled.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.AppPrefs
-import com.noahjutz.gymroutines.data.domain.ExerciseSetLegacy
 import com.noahjutz.gymroutines.data.domain.RoutineWithSetGroups
-import com.noahjutz.gymroutines.ui.components.SetGroupCard
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
+import com.noahjutz.gymroutines.util.toStringOrBlank
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
@@ -136,15 +143,33 @@ fun CreateRoutineScreen(
             LazyColumn(Modifier.fillMaxHeight(), contentPadding = PaddingValues(bottom = 70.dp)) {
 
                 item {
-                    TextField(
+                    BasicTextField(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(16.dp),
+                            .padding(top = 24.dp, start = 24.dp, end = 24.dp),
                         value = routine.routine.name,
                         onValueChange = { /* TODO */ },
-                        label = { Text("Routine Name") },
-                        placeholder = { Text(stringResource(R.string.unnamed_routine)) },
                         singleLine = true,
+                        textStyle = typography.h3.copy(color = colors.onSurface),
+                        cursorBrush = SolidColor(colors.onSurface),
+                        decorationBox = { innerTextField ->
+                            Surface(
+                                color = colors.onSurface.copy(alpha = 0.1f),
+                                shape = RoundedCornerShape(24.dp)
+                            ) {
+                                Box(Modifier.padding(24.dp)) {
+                                    if (routine.routine.name.isEmpty()) {
+                                        Text(
+                                            "Unnamed",
+                                            style = typography.h3.copy(
+                                                color = colors.onSurface.copy(alpha = 0.12f)
+                                            )
+                                        )
+                                    }
+                                    innerTextField()
+                                }
+                            }
+                        }
                     )
                 }
 
@@ -152,43 +177,217 @@ fun CreateRoutineScreen(
                     routine.setGroups
                 ) { sets ->
                     val exercise = viewModel.getExercise(sets.group.exerciseId)!!
-                    SetGroupCard(
-                        name = exercise.name.takeIf { it.isNotBlank() }
-                            ?: stringResource(R.string.unnamed_exercise),
-                        sets = sets.sets.map { (_, position, reps, weight, time, distance, setId) ->
-                            ExerciseSetLegacy(
-                                exerciseId = exercise.exerciseId,
-                                reps = reps,
-                                weight = weight,
-                                time = time,
-                                distance = distance,
-                                position = position,
-                                setId = setId
-                            )
-                        },
-                        logReps = exercise.logReps,
-                        logWeight = exercise.logWeight,
-                        logTime = exercise.logTime,
-                        logDistance = exercise.logDistance,
-                        showCheckbox = false,
-                        onMoveDown = { /* TODO */ },
-                        onMoveUp = { /* TODO */ },
-                        onAddSet = { /* TODO */ },
-                        onDeleteSet = { /* TODO */ },
-                        onCheckboxChange = { i, checked -> /* TODO */ },
-                        onDistanceChange = { i, distance -> /* TODO */ },
-                        onRepsChange = { i, reps -> /* TODO */ },
-                        onTimeChange = { i, time -> /* TODO */ },
-                        onWeightChange = { i, weight -> /* TODO */ },
-                    )
+                    Card(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 24.dp),
+                        shape = RoundedCornerShape(24.dp),
+                    ) {
+                        Column {
+                            Surface(Modifier.fillMaxWidth(), color = colors.primary) {
+                                Row(
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        exercise.name,
+                                        style = typography.h5,
+                                        modifier = Modifier
+                                            .padding(16.dp)
+                                            .weight(1f)
+                                    )
+
+                                    IconButton(
+                                        modifier = Modifier.padding(16.dp),
+                                        onClick = {/* TODO */ }
+                                    ) {
+                                        Icon(Icons.Default.DragHandle, "More")
+                                    }
+                                }
+                            }
+                            Column(Modifier.padding(vertical = 16.dp)) {
+                                Row(Modifier.padding(horizontal = 4.dp)) {
+                                    val headerTextStyle = TextStyle(
+                                        color = colors.onSurface,
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        textAlign = TextAlign.Center
+                                    )
+                                    if (exercise.logReps) Surface(
+                                        Modifier
+                                            .padding(4.dp)
+                                            .weight(1f),
+                                        color = colors.primary.copy(alpha = 0.1f),
+                                        shape = RoundedCornerShape(8.dp)
+                                    ) {
+                                        Text(
+                                            "Reps",
+                                            Modifier.padding(vertical = 16.dp),
+                                            style = headerTextStyle
+                                        )
+                                    }
+                                    if (exercise.logWeight) Surface(
+                                        Modifier
+                                            .padding(4.dp)
+                                            .weight(1f),
+                                        color = colors.primary.copy(alpha = 0.1f),
+                                        shape = RoundedCornerShape(8.dp)
+                                    ) {
+                                        Text(
+                                            "Weight",
+                                            Modifier.padding(vertical = 16.dp),
+                                            style = headerTextStyle
+                                        )
+                                    }
+                                    if (exercise.logTime) Surface(
+                                        Modifier
+                                            .padding(4.dp)
+                                            .weight(1f),
+                                        color = colors.primary.copy(alpha = 0.1f),
+                                        shape = RoundedCornerShape(8.dp)
+                                    ) {
+                                        Text(
+                                            "Time",
+                                            Modifier.padding(vertical = 16.dp),
+                                            style = headerTextStyle
+                                        )
+                                    }
+                                    if (exercise.logDistance) Surface(
+                                        Modifier
+                                            .padding(4.dp)
+                                            .weight(1f),
+                                        color = colors.primary.copy(alpha = 0.1f),
+                                        shape = RoundedCornerShape(8.dp)
+                                    ) {
+                                        Text(
+                                            "Distance",
+                                            Modifier.padding(vertical = 16.dp),
+                                            style = headerTextStyle
+                                        )
+                                    }
+                                }
+                                for (set in sets.sets) {
+                                    val dismissState = rememberDismissState()
+                                    LaunchedEffect(dismissState.targetValue) {
+                                        // TODO delete set
+                                    }
+                                    SwipeToDismiss(
+                                        state = dismissState,
+                                        background = {
+                                            val alignment = when (dismissState.dismissDirection) {
+                                                DismissDirection.StartToEnd -> Alignment.CenterStart
+                                                DismissDirection.EndToStart -> Alignment.CenterEnd
+                                                else -> Alignment.Center
+                                            }
+                                            Box(
+                                                modifier = Modifier
+                                                    .fillMaxSize()
+                                                    .background(colors.secondary)
+                                                    .padding(horizontal = 20.dp),
+                                                contentAlignment = alignment
+                                            ) {
+                                                Icon(
+                                                    Icons.Default.Delete,
+                                                    null,
+                                                    tint = colors.onSecondary
+                                                )
+                                            }
+                                        },
+                                    ) {
+                                        Row(
+                                            Modifier
+                                                .clip(RoundedCornerShape(animateDpAsState(if (dismissState.dismissDirection == null) 0.dp else 8.dp).value))
+                                                .background(colors.surface)
+                                                .padding(horizontal = 4.dp)
+                                        ) {
+                                            val textFieldStyle = typography.body1.copy(
+                                                textAlign = TextAlign.Center,
+                                                color = colors.onSurface
+                                            )
+                                            val decorationBox: @Composable (@Composable () -> Unit) -> Unit =
+                                                { innerTextField ->
+                                                    Surface(
+                                                        color = colors.onSurface.copy(alpha = 0.1f),
+                                                        shape = RoundedCornerShape(8.dp),
+                                                    ) {
+                                                        Box(
+                                                            Modifier.padding(
+                                                                vertical = 16.dp,
+                                                                horizontal = 4.dp
+                                                            ),
+                                                            contentAlignment = Alignment.Center
+                                                        ) {
+                                                            innerTextField()
+                                                        }
+                                                    }
+
+                                                }
+                                            if (exercise.logReps) BasicTextField(
+                                                modifier = Modifier
+                                                    .weight(1f)
+                                                    .padding(4.dp),
+                                                value = set.reps.toStringOrBlank(),
+                                                onValueChange = { /* TODO */ },
+                                                textStyle = textFieldStyle,
+                                                cursorBrush = SolidColor(colors.onSurface),
+                                                decorationBox = decorationBox,
+                                            )
+                                            if (exercise.logWeight) BasicTextField(
+                                                modifier = Modifier
+                                                    .weight(1f)
+                                                    .padding(4.dp),
+                                                value = set.weight.toStringOrBlank(),
+                                                onValueChange = { /* TODO */ },
+                                                textStyle = textFieldStyle,
+                                                cursorBrush = SolidColor(colors.onSurface),
+                                                decorationBox = decorationBox
+                                            )
+                                            if (exercise.logTime) BasicTextField(
+                                                modifier = Modifier
+                                                    .weight(1f)
+                                                    .padding(4.dp),
+                                                value = set.time.toStringOrBlank(),
+                                                onValueChange = { /* TODO */ },
+                                                textStyle = textFieldStyle,
+                                                cursorBrush = SolidColor(colors.onSurface),
+                                                decorationBox = decorationBox
+                                            )
+                                            if (exercise.logDistance) BasicTextField(
+                                                modifier = Modifier
+                                                    .weight(1f)
+                                                    .padding(4.dp),
+                                                value = set.distance.toStringOrBlank(),
+                                                onValueChange = { /* TODO */ },
+                                                textStyle = textFieldStyle,
+                                                cursorBrush = SolidColor(colors.onSurface),
+                                                decorationBox = decorationBox
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                            TextButton(
+                                modifier = Modifier
+                                    .align(Alignment.CenterHorizontally)
+                                    .fillMaxWidth()
+                                    .height(64.dp),
+                                onClick = { /* TODO */ },
+                            ) {
+                                Icon(Icons.Default.Add, null)
+                                Spacer(Modifier.width(12.dp))
+                                Text("Add Set")
+                            }
+                        }
+                    }
                 }
 
                 item {
-                    OutlinedButton(
+                    Button(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                            .padding(24.dp)
                             .height(120.dp),
+                        shape = RoundedCornerShape(24.dp),
                         onClick = {
                             scope.launch {
                                 sheetState.show()
