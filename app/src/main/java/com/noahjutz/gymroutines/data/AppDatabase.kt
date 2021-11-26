@@ -94,6 +94,7 @@ val MIGRATION_36_37 = object : Migration(36, 37) {
 
             db.execSQL("UPDATE routine_table SET sets='$newSets' WHERE routineId=$routineId")
         }
+        routinesCursor.close()
 
         db.execSQL("ALTER TABLE workout_table RENAME COLUMN setGroups TO sets")
         val workoutsCursor = db.query("SELECT workoutId, sets FROM workout_table")
@@ -105,6 +106,7 @@ val MIGRATION_36_37 = object : Migration(36, 37) {
 
             db.execSQL("UPDATE workout_table SET sets='$newSets' WHERE workoutId=$workoutId")
         }
+        workoutsCursor.close()
     }
 }
 
@@ -159,6 +161,7 @@ val MIGRATION_37_38 = object : Migration(37, 38) {
                 )
             }
         }
+        routinesCursor.close()
 
         // This is the same as "ALTER TABLE routine_table DROP COLUMN sets" (not supported)
         db.execSQL("ALTER TABLE routine_table RENAME TO routine_table_old")
@@ -220,6 +223,7 @@ val MIGRATION_37_38 = object : Migration(37, 38) {
                 )
             }
         }
+        workoutCursor.close()
 
         // This is the same as "ALTER TABLE workout_table DROP COLUMN sets" (not supported)
         db.execSQL("ALTER TABLE workout_table RENAME TO workout_table_old")
@@ -306,9 +310,11 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
                 val id = setGroupIds.getInt(0)
                 id
             }
+            setGroupIds.close()
 
             db.execSQL("INSERT INTO routine_set_table VALUES ($groupId, $position, $reps, $weight, $time, $distance, $setId)")
         }
+        routineSetCursor.close()
         db.execSQL("DROP TABLE routine_set_table_old ")
 
         // Add workout_set_group_table
@@ -362,7 +368,10 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
                 db.query("SELECT id FROM workout_set_group_table WHERE workoutId=$workoutId AND exerciseId=$exerciseId")
 
             val groupId = if (setGroupIds.count == 0) {
-                if (db.query("SELECT id FROM workout_set_group_table WHERE workoutId=$workoutId").count == 0) {
+                if (
+                    db.query("SELECT id FROM workout_set_group_table WHERE workoutId=$workoutId")
+                        .use { it.count } == 0
+                ) {
                     workoutSetGroupPosition = 0
                 }
                 // Insert new workout set group
@@ -376,9 +385,11 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
                 val id = setGroupIds.getInt(0)
                 id
             }
+            setGroupIds.close()
 
             db.execSQL("INSERT INTO workout_set_table VALUES ($groupId, $position, $reps, $weight, $time, $distance, $complete, $setId)")
         }
+        workoutSetCursor.close()
         db.execSQL("DROP TABLE workout_set_table_old ")
     }
 }
