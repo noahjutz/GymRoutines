@@ -43,7 +43,7 @@ class WorkoutInsightsViewModel(
             viewModelScope.launch { preferences.data.collect { preferencesData = it } }
         }
 
-        val workouts = repository.getWorkouts().map {
+        val workouts = repository.workouts.map {
             it.filter {
                 preferencesData[AppPrefs.CurrentWorkout.key] != it.workoutId
             }

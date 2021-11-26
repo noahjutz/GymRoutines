@@ -79,6 +79,8 @@ class RoutineRepository(private val routineDao: RoutineDao) {
 }
 
 class WorkoutRepository(private val workoutDao: WorkoutDao) {
+    val workouts = workoutDao.getWorkouts()
+
     suspend fun insert(workout: Workout): Long {
         return workoutDao.insert(workout)
     }
@@ -95,10 +97,6 @@ class WorkoutRepository(private val workoutDao: WorkoutDao) {
     // TODO replace with delete(workout: WorkoutWithSetGroups)
     suspend fun delete(workout: Workout) {
         workoutDao.delete(workout)
-    }
-
-    fun getWorkouts(): Flow<List<Workout>> {
-        return workoutDao.getWorkouts()
     }
 
     suspend fun insertRoutineAsWorkout(routine: RoutineWithSetGroups): Long {
