@@ -18,6 +18,7 @@
 
 package com.noahjutz.gymroutines.ui.routines.editor
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.ExerciseRepository
@@ -56,17 +57,24 @@ class RoutineEditorViewModel(
             routine.value = routineRepository.getRoutine(routineId)
             setGroups.value = routineRepository.getSetGroups(routineId)
             sets.value = routineRepository.getSets(routineId)
-
-            routine.collect { routine ->
-                if (routine != null) {
-                    routineRepository.insert(routine)
+            launch {
+                sets.collect { sets ->
+                    routineRepository.deleteSets(routineId)
+                    routineRepository.insertSets(sets)
                 }
             }
-            setGroups.collect { setGroups ->
-                routineRepository.insertSetGroups(setGroups)
+            launch {
+                setGroups.collect { setGroups ->
+                    routineRepository.deleteSetGroups(routineId)
+                    routineRepository.insertSetGroups(setGroups)
+                }
             }
-            sets.collect { sets ->
-                routineRepository.insertSets(sets)
+            launch {
+                routine.collect { routine ->
+                    if (routine != null) {
+                        routineRepository.insert(routine)
+                    }
+                }
             }
         }
     }
@@ -74,8 +82,10 @@ class RoutineEditorViewModel(
     fun getExercise(exerciseId: Int) = exerciseRepository.getExercise(exerciseId)
 
     fun updateName(name: String) {
-        viewModelScope.launch {
-            routine.value = routine.value?.copy(name = name)
-        }
+        routine.value = routine.value?.copy(name = name)
+    }
+
+    fun deleteSet(set: RoutineSet) {
+        sets.value = sets.value.filterNot { it.routineSetId == set.routineSetId }
     }
 }

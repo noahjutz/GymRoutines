@@ -47,7 +47,8 @@ import androidx.compose.ui.unit.sp
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.noahjutz.gymroutines.R
-import com.noahjutz.gymroutines.data.domain.*
+import com.noahjutz.gymroutines.data.domain.Routine
+import com.noahjutz.gymroutines.data.domain.RoutineSetGroupWithSets
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
 import com.noahjutz.gymroutines.util.toStringOrBlank
@@ -290,8 +291,11 @@ private fun RoutineEditorContent(
                         }
                         for (set in setGroup.sets) {
                             val dismissState = rememberDismissState()
-                            LaunchedEffect(dismissState.targetValue) {
-                                // TODO delete set
+                            LaunchedEffect(dismissState.currentValue) {
+                                if (dismissState.currentValue != DismissValue.Default) {
+                                    viewModel.deleteSet(set)
+                                    dismissState.snapTo(DismissValue.Default)
+                                }
                             }
                             SwipeToDismiss(
                                 state = dismissState,

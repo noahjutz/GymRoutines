@@ -34,6 +34,9 @@ interface RoutineDao {
     suspend fun insert(routineSet: RoutineSet): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(routineSetGroup: RoutineSetGroup): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSetGroups(setGroups: List<RoutineSetGroup>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -41,6 +44,12 @@ interface RoutineDao {
 
     @Delete
     suspend fun delete(routine: Routine)
+
+    @Delete
+    suspend fun deleteSets(routineSets: List<RoutineSet>)
+
+    @Delete
+    suspend fun deleteSetGroups(routineSetGroups: List<RoutineSetGroup>)
 
     @Query("SELECT * FROM routine_table")
     fun getRoutines(): Flow<List<Routine>>

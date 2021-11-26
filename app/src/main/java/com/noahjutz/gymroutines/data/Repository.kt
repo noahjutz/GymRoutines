@@ -18,6 +18,7 @@
 
 package com.noahjutz.gymroutines.data
 
+import android.util.Log
 import com.noahjutz.gymroutines.data.dao.ExerciseDao
 import com.noahjutz.gymroutines.data.dao.RoutineDao
 import com.noahjutz.gymroutines.data.dao.WorkoutDao
@@ -65,10 +66,12 @@ class RoutineRepository(private val routineDao: RoutineDao) {
     }
 
     suspend fun insertSetGroups(setGroups: List<RoutineSetGroup>) {
+        Log.d("RoutineRepository", "insertSetGroups")
         routineDao.insertSetGroups(setGroups)
     }
 
     suspend fun insertSets(sets: List<RoutineSet>) {
+        Log.d("RoutineRepository", "insertSets")
         routineDao.insertSets(sets)
     }
 
@@ -77,7 +80,15 @@ class RoutineRepository(private val routineDao: RoutineDao) {
     }
 
     suspend fun insert(routine: RoutineWithSetGroups): Long {
-        // TODO insert setGroups as well
+        deleteSets(routine.routine.routineId)
+        deleteSetGroups(routine.routine.routineId)
+        for (setGroup in routine.setGroups) {
+            routineDao.insert(setGroup.group)
+            for (set in setGroup.sets) {
+                routineDao.insert(set)
+            }
+        }
+        Log.d("RoutineRepository", "Count: ${routineDao.getSets(routine.routine.routineId).size}")
         return routineDao.insert(routine.routine)
     }
 
@@ -95,6 +106,14 @@ class RoutineRepository(private val routineDao: RoutineDao) {
         CoroutineScope(IO).launch {
             routineDao.delete(routine)
         }
+    }
+
+    suspend fun deleteSets(routineId: Int) {
+        routineDao.deleteSets(routineDao.getSets(routineId))
+    }
+
+    suspend fun deleteSetGroups(routineId: Int) {
+        routineDao.deleteSetGroups(routineDao.getSetGroups(routineId))
     }
 }
 
