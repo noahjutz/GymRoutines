@@ -53,9 +53,7 @@ class WorkoutInProgressViewModel(
                         workoutRepository.insertRoutineAsWorkout(it).toInt()
                     )
                 }
-                ?: workoutRepository.insert(Workout()).let {
-                    workoutRepository.getWorkout(it.toInt())
-                }!!
+                ?: throw NullPointerException("Couldn't get existing workout ($workoutId) or create new workout from routineId ($routineId)")
         }
     )
     val presenter = Presenter()
