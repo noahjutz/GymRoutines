@@ -48,35 +48,29 @@ class RoutineRepository(private val routineDao: RoutineDao) {
     val routines = routineDao.getRoutines()
 
     suspend fun getRoutine(routineId: Int): Routine? = routineDao.getRoutine(routineId)
-    // TODO replace with RoutineWithSetGroups
-    suspend fun getRoutineWithSets(routineId: Int): RoutineWithSets? =
-        routineDao.getRoutine(routineId)?.let {
-            RoutineWithSets(
-                routine = it,
-                sets = emptyList() // temporary workaround
-            )
+    // TODO remove
+    suspend fun getRoutineWithSets(routineId: Int): RoutineWithSets? {
+        return routineDao.getRoutine(routineId)?.let {
+            RoutineWithSets(it, emptyList())
         }
+    }
 
-    fun insert(routine: Routine): Long = runBlocking {
-        routineDao.insert(routine)
+    suspend fun getRoutineWithSetGroups(routineId: Int): RoutineWithSetGroups? {
+        return routineDao.getRoutineWithSetGroups(routineId)
+    }
+
+    suspend fun insert(routine: RoutineWithSetGroups): Long {
+        // TODO insert setGroups as well
+        return routineDao.insert(routine.routine)
+    }
+
+    suspend fun insert(routine: Routine): Long {
+        return routineDao.insert(routine)
     }
 
     suspend fun insertWorkoutAsRoutine(workoutWithSets: WorkoutWithSets): Long {
-        val id = insert(Routine(name = workoutWithSets.workout.name))
-        //TODO adapt this code for new routine_set_table structure
-        //val sets = workoutWithSets.sets.map {
-        //    RoutineSet(
-        //        id.toInt(),
-        //        it.exerciseId,
-        //        it.position,
-        //        it.reps,
-        //        it.weight,
-        //        it.time,
-        //        it.distance
-        //    )
-        //}
-        //for (set in sets) routineDao.insert(set)
-        return id
+        // TODO
+        return -1L
     }
 
     suspend fun insert(routine: RoutineWithSets): Long = withContext(IO) {

@@ -44,5 +44,5 @@ interface RoutineDao {
 
     @Transaction
     @Query("SELECT * FROM routine_table WHERE routineId == :routineId")
-    suspend fun getRoutineWithSetGroups(routineId: Int): RoutineWithSetGroups
+    suspend fun getRoutineWithSetGroups(routineId: Int): RoutineWithSetGroups?
 }

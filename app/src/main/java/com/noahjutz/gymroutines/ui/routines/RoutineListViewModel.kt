@@ -24,6 +24,7 @@ import com.noahjutz.gymroutines.data.RoutineRepository
 import com.noahjutz.gymroutines.data.domain.Routine
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class RoutineListViewModel(
     private val repository: RoutineRepository,
@@ -35,5 +36,5 @@ class RoutineListViewModel(
         repository.getRoutine(routineId)?.let { repository.delete(it) }
     }
 
-    fun addRoutine(): Long = repository.insert(Routine())
+    fun addRoutine(): Long = runBlocking { repository.insert(Routine()) }
 }

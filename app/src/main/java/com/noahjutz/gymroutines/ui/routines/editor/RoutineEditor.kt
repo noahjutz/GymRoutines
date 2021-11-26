@@ -43,6 +43,7 @@ import androidx.datastore.preferences.core.edit
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.AppPrefs
 import com.noahjutz.gymroutines.data.domain.ExerciseSetLegacy
+import com.noahjutz.gymroutines.data.domain.RoutineWithSetGroups
 import com.noahjutz.gymroutines.ui.components.SetGroupCard
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
@@ -131,7 +132,7 @@ fun CreateRoutineScreen(
                 )
             }
         ) {
-            val routine by viewModel.routine.collectAsState()
+            val routine: RoutineWithSetGroups by viewModel.routine.collectAsState()
             LazyColumn(Modifier.fillMaxHeight(), contentPadding = PaddingValues(bottom = 70.dp)) {
 
                 item {
@@ -148,17 +149,13 @@ fun CreateRoutineScreen(
                 }
 
                 items(
-                    routine.sets
-                        .sortedBy { it.position }
-                        //.groupBy { it.exerciseId }
-                        //.toList()
+                    routine.setGroups
                 ) { sets ->
-                    //val exercise = viewModel.getExercise(exerciseId)!!
+                    val exercise = viewModel.getExercise(sets.group.exerciseId)!!
                     SetGroupCard(
-                        name = "TODO"//exercise.name.takeIf { it.isNotBlank() } TODO
+                        name = exercise.name.takeIf { it.isNotBlank() }
                             ?: stringResource(R.string.unnamed_exercise),
-                        sets = sets.let { (_, position, reps, weight, time, distance, setId) ->
-                            listOf(
+                        sets = sets.sets.map { (_, position, reps, weight, time, distance, setId) ->
                             ExerciseSetLegacy(
                                 exerciseId = 0,
                                 reps = reps,
@@ -168,12 +165,11 @@ fun CreateRoutineScreen(
                                 position = position,
                                 setId = setId
                             )
-                            )
                         },
-                        logReps = true, // TODO exercise.logReps,
-                        logWeight = true, // TODO exercise.logWeight,
-                        logTime = true, // TODO exercise.logTime,
-                        logDistance = true, // TODO exercise.logDistance,
+                        logReps = exercise.logReps,
+                        logWeight = exercise.logWeight,
+                        logTime = exercise.logTime,
+                        logDistance = exercise.logDistance,
                         showCheckbox = false,
                         onMoveDown = { /* TODO */ },
                         onMoveUp = { /* TODO */ },

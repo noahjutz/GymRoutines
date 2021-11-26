@@ -34,7 +34,7 @@ class RoutineEditorViewModel(
     routineId: Int,
 ) : ViewModel() {
     private val _routine =
-        MutableStateFlow(runBlocking { routineRepository.getRoutineWithSets(routineId)!! })
+        MutableStateFlow(runBlocking { routineRepository.getRoutineWithSetGroups(routineId)!! })
     val routine = _routine.asStateFlow()
 
     init {
