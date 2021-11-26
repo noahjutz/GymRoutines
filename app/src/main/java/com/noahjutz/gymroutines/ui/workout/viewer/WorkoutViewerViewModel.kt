@@ -20,7 +20,7 @@ class WorkoutViewerViewModel(
 
     init {
         viewModelScope.launch {
-            _workout.value = workoutRepository.getWorkoutWithSetGroups(workoutId)
+            _workout.value = workoutRepository.getWorkout(workoutId)
         }
     }
 

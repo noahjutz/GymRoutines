@@ -25,6 +25,7 @@ import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.AppPrefs
 import com.noahjutz.gymroutines.data.WorkoutRepository
 import com.noahjutz.gymroutines.data.domain.Workout
+import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -51,6 +52,8 @@ class WorkoutInsightsViewModel(
     }
 
     inner class Editor {
-        fun delete(workout: Workout) = viewModelScope.launch { repository.delete(workout) }
+        fun delete(workout: WorkoutWithSetGroups) = viewModelScope.launch {
+            repository.delete(workout)
+        }
     }
 }

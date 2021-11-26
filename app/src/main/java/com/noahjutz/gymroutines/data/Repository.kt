@@ -94,13 +94,18 @@ class WorkoutRepository(private val workoutDao: WorkoutDao) {
         return workoutDao.insert(workout.workout)
     }
 
-    suspend fun getWorkoutWithSetGroups(workoutId: Int): WorkoutWithSetGroups? {
+    suspend fun getWorkout(workoutId: Int): WorkoutWithSetGroups? {
         return workoutDao.getWorkoutWithSetGroups(workoutId)
     }
 
-    // TODO replace with delete(workout: WorkoutWithSetGroups)
-    suspend fun delete(workout: Workout) {
-        workoutDao.delete(workout)
+    suspend fun delete(workout: WorkoutWithSetGroups) {
+        workoutDao.delete(workout.workout)
+        for (setGroup in workout.setGroups) {
+            workoutDao.delete(setGroup.group)
+            for (set in setGroup.sets) {
+                workoutDao.delete(set)
+            }
+        }
     }
 
     suspend fun insertRoutineAsWorkout(routine: RoutineWithSetGroups): Long {

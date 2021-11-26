@@ -46,4 +46,10 @@ interface WorkoutDao {
 
     @Delete
     suspend fun delete(workout: Workout)
+
+    @Delete
+    suspend fun delete(workoutSet: WorkoutSet)
+
+    @Delete
+    suspend fun delete(workoutSetGroup: WorkoutSetGroup)
 }

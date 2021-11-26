@@ -47,14 +47,14 @@ class WorkoutInProgressViewModel(
 ) : ViewModel() {
     private val _workout = MutableStateFlow(
         runBlocking {
-            workoutRepository.getWorkoutWithSetGroups(workoutId)
+            workoutRepository.getWorkout(workoutId)
                 ?: routineRepository.getRoutineWithSetGroups(routineId)?.let {
-                    workoutRepository.getWorkoutWithSetGroups(
+                    workoutRepository.getWorkout(
                         workoutRepository.insertRoutineAsWorkout(it).toInt()
                     )
                 }
                 ?: workoutRepository.insert(Workout()).let {
-                    workoutRepository.getWorkoutWithSetGroups(it.toInt())
+                    workoutRepository.getWorkout(it.toInt())
                 }!!
         }
     )

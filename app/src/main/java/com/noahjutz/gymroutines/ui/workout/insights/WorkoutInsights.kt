@@ -112,7 +112,7 @@ fun WorkoutInsightsContent(
                     DeleteConfirmation(
                         workout = workout.workout,
                         onConfirm = {
-                            viewModel.editor.delete(workout.workout)
+                            viewModel.editor.delete(workout)
                             scope.launch { dismissState.snapTo(DismissValue.Default) }
                         },
                         onDismiss = { scope.launch { dismissState.reset() } }
