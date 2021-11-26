@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.ExerciseRepository
 import com.noahjutz.gymroutines.data.WorkoutRepository
 import com.noahjutz.gymroutines.data.domain.Exercise
+import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSets
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,12 +16,12 @@ class WorkoutViewerViewModel(
     private val workoutRepository: WorkoutRepository,
     private val exerciseRepository: ExerciseRepository
 ) : ViewModel() {
-    private val _workout = MutableStateFlow<WorkoutWithSets?>(null)
+    private val _workout = MutableStateFlow<WorkoutWithSetGroups?>(null)
     val workout = _workout.asStateFlow()
 
     init {
         viewModelScope.launch {
-            _workout.value = workoutRepository.getWorkoutWithSets(workoutId)
+            _workout.value = workoutRepository.getWorkoutWithSetGroups(workoutId)
         }
     }
 

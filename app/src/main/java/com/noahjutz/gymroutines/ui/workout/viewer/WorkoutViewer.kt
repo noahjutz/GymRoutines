@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
@@ -13,9 +14,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.noahjutz.gymroutines.data.domain.WorkoutWithSets
+import com.noahjutz.gymroutines.R
+import com.noahjutz.gymroutines.data.domain.ExerciseSetLegacy
+import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import com.noahjutz.gymroutines.data.domain.duration
+import com.noahjutz.gymroutines.ui.components.SetGroupCard
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.util.pretty
 import org.koin.androidx.compose.getViewModel
@@ -47,7 +52,7 @@ fun WorkoutViewer(
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @ExperimentalTime
 @Composable
-fun WorkoutViewerContent(workout: WorkoutWithSets, viewModel: WorkoutViewerViewModel) {
+fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewerViewModel) {
     LazyColumn {
         item {
             Spacer(Modifier.height(16.dp))
@@ -69,26 +74,26 @@ fun WorkoutViewerContent(workout: WorkoutWithSets, viewModel: WorkoutViewerViewM
             Spacer(Modifier.height(16.dp))
         }
 
-        // TODO
-        // items(workout.sets.groupBy { it.exerciseId }.toList()) { (exerciseId, sets) ->
-        //    val exercise = viewModel.getExercise(exerciseId)!!
-        //    // TODO make immutable (remove state)
-        //    SetGroupCard(
-        //        name = exercise.name.takeIf { it.isNotBlank() }
-        //            ?: stringResource(R.string.unnamed_exercise),
-        //        sets = sets.map { (workoutId, exerciseId, position, reps, weight, time, distance, complete, setId) ->
-        //            ExerciseSetLegacy(exerciseId, reps, weight, time, distance, complete, position, setId)
-        //        },
-        //        onMoveDown = { },
-        //        onMoveUp = { },
-        //        onAddSet = { },
-        //        onDeleteSet = { },
-        //        logReps = exercise.logReps,
-        //        logWeight = exercise.logWeight,
-        //        logTime = exercise.logTime,
-        //        logDistance = exercise.logDistance,
-        //        showCheckbox = true,
-        //    )
-        // }
+        items(workout.setGroups) { setGroup ->
+            val exercise = viewModel.getExercise(setGroup.group.exerciseId)!!
+            SetGroupCard(
+                name = exercise.name.takeIf { it.isNotBlank() }
+                    ?: stringResource(R.string.unnamed_workout),
+                sets = setGroup.sets.map { (_, position, reps, weight, time, distance, complete, setId) ->
+                    ExerciseSetLegacy(
+                        exercise.exerciseId, reps, weight, time, distance, complete, position, setId
+                    )
+                },
+                onMoveDown = { /* TODO */ },
+                onMoveUp = { /* TODO */ },
+                onAddSet = { /* TODO */ },
+                onDeleteSet = { /* TODO */ },
+                logReps = exercise.logReps,
+                logWeight = exercise.logWeight,
+                logTime = exercise.logTime,
+                logDistance = exercise.logDistance,
+                showCheckbox = true,
+            )
+        }
     }
 }

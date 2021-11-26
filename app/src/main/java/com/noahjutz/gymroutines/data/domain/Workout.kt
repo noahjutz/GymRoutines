@@ -42,7 +42,7 @@ data class WorkoutWithSets(
 )
 
 data class WorkoutWithSetGroups(
-    @Embedded val routine: Routine,
+    @Embedded val workout: Workout,
     @Relation(
         entity = WorkoutSetGroup::class,
         parentColumn = "workoutId",
