@@ -41,6 +41,10 @@ interface WorkoutDao {
     suspend fun getWorkoutWithSetGroups(id: Int): WorkoutWithSetGroups?
 
     @Transaction
+    @Query("SELECT * FROM workout_table WHERE workoutId == :id")
+    fun getWorkoutWithSetGroupsFlow(id: Int): Flow<WorkoutWithSetGroups?>
+
+    @Transaction
     @Query("SELECT * FROM workout_table ORDER BY startTime DESC")
     fun getWorkouts(): Flow<List<WorkoutWithSetGroups>>
 

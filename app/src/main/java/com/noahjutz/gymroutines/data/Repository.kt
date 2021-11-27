@@ -147,6 +147,10 @@ class WorkoutRepository(private val workoutDao: WorkoutDao) {
         return workoutDao.getWorkoutWithSetGroups(workoutId)
     }
 
+    fun getWorkoutFlow(workoutId: Int): Flow<WorkoutWithSetGroups?> {
+        return workoutDao.getWorkoutWithSetGroupsFlow(workoutId)
+    }
+
     suspend fun delete(workout: WorkoutWithSetGroups) {
         workoutDao.delete(workout.workout)
         for (setGroup in workout.setGroups) {

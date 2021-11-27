@@ -27,14 +27,9 @@ import com.noahjutz.gymroutines.data.AppPrefs
 import com.noahjutz.gymroutines.data.ExerciseRepository
 import com.noahjutz.gymroutines.data.RoutineRepository
 import com.noahjutz.gymroutines.data.WorkoutRepository
-import com.noahjutz.gymroutines.util.minus
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import java.util.*
-import kotlin.time.Duration
-import kotlin.time.ExperimentalTime
 
 class WorkoutInProgressViewModel(
     private val preferences: DataStore<Preferences>,
@@ -43,5 +38,26 @@ class WorkoutInProgressViewModel(
     private val exerciseRepository: ExerciseRepository,
     workoutId: Int,
 ) : ViewModel() {
+    val workout = workoutRepository.getWorkoutFlow(workoutId)
+    private var _workout: WorkoutWithSetGroups? = null
 
+    init {
+        viewModelScope.launch {
+            launch {
+                workout.collect { workout ->
+                    _workout = workout
+                }
+            }
+        }
+    }
+
+    fun cancelWorkout(onFinished: () -> Unit) {
+        _workout?.let {
+            viewModelScope.launch {
+                workoutRepository.delete(it)
+                preferences.edit { it[AppPrefs.CurrentWorkout.key] = -1 }
+                onFinished()
+            }
+        }
+    }
 }

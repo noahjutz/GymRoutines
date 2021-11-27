@@ -93,7 +93,7 @@ fun GymRoutinesApp(
     val showWorkoutBottomSheet = isWorkoutInProgress && isCurrentDestinationHomeTab
 
     val navToWorkoutScreen =
-        { navController.navigate("${Screen.workoutInProgress}?workoutId=$currentWorkoutId") }
+        { navController.navigate("${Screen.workoutInProgress}/$currentWorkoutId") }
 
     Scaffold(
         bottomBar = {

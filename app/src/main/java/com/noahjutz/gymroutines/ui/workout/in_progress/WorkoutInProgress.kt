@@ -95,8 +95,7 @@ fun WorkoutInProgress(
             if (showCancelWorkoutDialog) CancelWorkoutDialog(
                 onDismiss = { showCancelWorkoutDialog = false },
                 cancelWorkout = {
-                    // TODO viewModel.cancelWorkout()
-                    popBackStack()
+                    viewModel.cancelWorkout { popBackStack() }
                 }
             )
 
