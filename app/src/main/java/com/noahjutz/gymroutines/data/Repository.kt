@@ -18,15 +18,12 @@
 
 package com.noahjutz.gymroutines.data
 
-import android.util.Log
 import com.noahjutz.gymroutines.data.dao.ExerciseDao
 import com.noahjutz.gymroutines.data.dao.RoutineDao
 import com.noahjutz.gymroutines.data.dao.WorkoutDao
 import com.noahjutz.gymroutines.data.domain.*
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
@@ -69,30 +66,8 @@ class RoutineRepository(private val routineDao: RoutineDao) {
         return routineDao.getRoutineWithSetGroupsOld(routineId)
     }
 
-    suspend fun insertSetGroups(setGroups: List<RoutineSetGroup>) {
-        Log.d("RoutineRepository", "insertSetGroups")
-        routineDao.insertSetGroups(setGroups)
-    }
-
-    suspend fun insertSets(sets: List<RoutineSet>) {
-        Log.d("RoutineRepository", "insertSets")
-        routineDao.insertSets(sets)
-    }
-
     fun getRoutineWithSetGroups(routineId: Int): Flow<RoutineWithSetGroups?> {
         return routineDao.getRoutineWithSetGroups(routineId)
-    }
-
-    suspend fun insert(routine: RoutineWithSetGroups): Long {
-        deleteSets(routine.routine.routineId)
-        deleteSetGroups(routine.routine.routineId)
-        for (setGroup in routine.setGroups) {
-            routineDao.insert(setGroup.group)
-            for (set in setGroup.sets) {
-                routineDao.insert(set)
-            }
-        }
-        return routineDao.insert(routine.routine)
     }
 
     suspend fun insert(routine: Routine): Long {
@@ -109,10 +84,8 @@ class RoutineRepository(private val routineDao: RoutineDao) {
     }
 
     // TODO replace with delete(routine: RoutineWithSetGroups)
-    fun delete(routine: Routine) {
-        CoroutineScope(IO).launch {
-            routineDao.delete(routine)
-        }
+    suspend fun delete(routine: Routine) {
+        routineDao.delete(routine)
     }
 
     suspend fun delete(set: RoutineSet) {
@@ -123,14 +96,6 @@ class RoutineRepository(private val routineDao: RoutineDao) {
                 routineDao.delete(setGroup)
             }
         }
-    }
-
-    suspend fun deleteSets(routineId: Int) {
-        routineDao.deleteSets(routineDao.getSets(routineId))
-    }
-
-    suspend fun deleteSetGroups(routineId: Int) {
-        routineDao.deleteSetGroups(routineDao.getSetGroups(routineId))
     }
 }
 
