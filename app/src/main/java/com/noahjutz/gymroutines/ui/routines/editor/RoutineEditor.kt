@@ -399,7 +399,7 @@ private fun RoutineEditorContent(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(64.dp),
-                        onClick = { viewModel.addSet(setGroup.group) },
+                        onClick = { viewModel.addSet(setGroup) },
                     ) {
                         Icon(Icons.Default.Add, null)
                         Spacer(Modifier.width(12.dp))

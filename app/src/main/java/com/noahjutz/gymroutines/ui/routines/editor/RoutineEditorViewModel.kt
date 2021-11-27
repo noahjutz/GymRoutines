@@ -25,6 +25,7 @@ import com.noahjutz.gymroutines.data.RoutineRepository
 import com.noahjutz.gymroutines.data.domain.Routine
 import com.noahjutz.gymroutines.data.domain.RoutineSet
 import com.noahjutz.gymroutines.data.domain.RoutineSetGroup
+import com.noahjutz.gymroutines.data.domain.RoutineSetGroupWithSets
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -71,8 +72,19 @@ class RoutineEditorViewModel(
         }
     }
 
-    fun addSet(setGroup: RoutineSetGroup) {
-        //val position = sets.value.filter { it.groupId == setGroup.id }.size
-        //sets.value = sets.value + RoutineSet(setGroup.id, position)
+    fun addSet(setGroup: RoutineSetGroupWithSets) {
+        viewModelScope.launch {
+            val lastSet = setGroup.sets.lastOrNull()
+            routineRepository.insert(
+                RoutineSet(
+                    groupId = setGroup.group.id,
+                    position = setGroup.sets.size,
+                    reps = lastSet?.reps,
+                    weight = lastSet?.weight,
+                    time = lastSet?.time,
+                    distance = lastSet?.distance,
+                )
+            )
+        }
     }
 }
