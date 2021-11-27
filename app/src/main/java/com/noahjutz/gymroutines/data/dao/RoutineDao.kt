@@ -36,20 +36,8 @@ interface RoutineDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(routineSetGroup: RoutineSetGroup): Long
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSetGroups(setGroups: List<RoutineSetGroup>)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSets(sets: List<RoutineSet>)
-
     @Delete
     suspend fun delete(routine: Routine)
-
-    @Delete
-    suspend fun deleteSets(routineSets: List<RoutineSet>)
-
-    @Delete
-    suspend fun deleteSetGroups(routineSetGroups: List<RoutineSetGroup>)
 
     @Query("SELECT * FROM routine_table")
     fun getRoutines(): Flow<List<Routine>>
@@ -60,14 +48,8 @@ interface RoutineDao {
     @Query("SELECT * FROM routine_set_group_table WHERE routineId == :routineId")
     fun getSetGroupsFlow(routineId: Int): Flow<List<RoutineSetGroup>>
 
-    @Query("SELECT * FROM routine_set_group_table WHERE routineId == :routineId")
-    suspend fun getSetGroups(routineId: Int): List<RoutineSetGroup>
-
     @Query("SELECT * FROM routine_set_table WHERE groupId IN (SELECT id FROM routine_set_group_table WHERE routineId == :routineId)")
     fun getSetsFlow(routineId: Int): Flow<List<RoutineSet>>
-
-    @Query("SELECT * FROM routine_set_table WHERE groupId IN (SELECT id FROM routine_set_group_table WHERE routineId == :routineId)")
-    suspend fun getSets(routineId: Int): List<RoutineSet>
 
     @Transaction
     @Query("SELECT * FROM routine_table WHERE routineId == :routineId")
