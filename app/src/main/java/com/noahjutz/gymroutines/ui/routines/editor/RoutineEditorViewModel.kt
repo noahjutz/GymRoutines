@@ -123,4 +123,10 @@ class RoutineEditorViewModel(
             routineRepository.insert(set.copy(reps = reps))
         }
     }
+
+    fun updateWeight(set: RoutineSet, weight: Double?) {
+        viewModelScope.launch {
+            routineRepository.insert(set.copy(weight = weight))
+        }
+    }
 }

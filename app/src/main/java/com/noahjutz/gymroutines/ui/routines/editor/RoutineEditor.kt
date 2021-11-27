@@ -37,6 +37,8 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
@@ -54,6 +56,7 @@ import com.noahjutz.gymroutines.data.domain.RoutineSetGroupWithSets
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
 import com.noahjutz.gymroutines.util.RegexPatterns
+import com.noahjutz.gymroutines.util.formatSimple
 import com.noahjutz.gymroutines.util.toStringOrBlank
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
@@ -413,12 +416,17 @@ private fun RoutineEditorContent(
                                         )
                                     }
                                     if (exercise.logWeight) {
+                                        val (weight, setWeight) = remember { mutableStateOf(set.weight.formatSimple()) }
+                                        LaunchedEffect(weight) {
+                                            val weightInt = weight.toDoubleOrNull()
+                                            viewModel.updateWeight(set, weightInt)
+                                        }
                                         BasicTextField(
                                             modifier = Modifier
                                                 .weight(1f)
                                                 .padding(4.dp),
-                                            value = set.weight.toStringOrBlank(),
-                                            onValueChange = { /* TODO */ },
+                                            value = weight,
+                                            onValueChange = { if (it.matches(RegexPatterns.float)) setWeight(it) },
                                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                             singleLine = true,
                                             textStyle = textFieldStyle,
