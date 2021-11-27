@@ -104,4 +104,13 @@ class RoutineEditorViewModel(
             }
         }
     }
+
+    fun swapSetGroups(g1: RoutineSetGroup, g2: RoutineSetGroup) {
+        viewModelScope.launch {
+            val newG1 = g1.copy(position = g2.position)
+            routineRepository.insert(newG1)
+            val newG2 = g2.copy(position = g1.position)
+            routineRepository.insert(newG2)
+        }
+    }
 }

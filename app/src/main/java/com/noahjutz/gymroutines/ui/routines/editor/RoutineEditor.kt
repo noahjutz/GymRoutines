@@ -200,7 +200,7 @@ private fun RoutineEditorContent(
             )
         }
 
-        items(setGroups) { setGroup ->
+        items(setGroups.sortedBy { it.group.position }) { setGroup ->
             val exercise = viewModel.getExercise(setGroup.group.exerciseId)!!
             Card(
                 Modifier
@@ -224,7 +224,12 @@ private fun RoutineEditorContent(
 
                             IconButton(
                                 modifier = Modifier.padding(16.dp),
-                                onClick = {/* TODO */ }
+                                onClick = {
+                                    // TODO drag & drop
+                                    if (setGroup.group.position < setGroups.lastIndex) {
+                                        viewModel.swapSetGroups(setGroup.group, setGroups.find {it.group.position == setGroup.group.position + 1}!!.group)
+                                    }
+                                }
                             ) {
                                 Icon(Icons.Default.DragHandle, "More")
                             }
