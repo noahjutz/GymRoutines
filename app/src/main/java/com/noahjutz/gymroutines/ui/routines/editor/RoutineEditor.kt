@@ -36,7 +36,6 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.graphicsLayer
@@ -46,6 +45,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.noahjutz.gymroutines.R
@@ -225,9 +225,13 @@ private fun RoutineEditorContent(
 
         items(setGroups.sortedBy { it.group.position }, key = { it.group.id }) { setGroup ->
             val exercise = viewModel.getExercise(setGroup.group.exerciseId)!!
+            val offset = reorderState.offsetByKey(setGroup.group.id)
             Card(
                 Modifier
-                    .draggedItem(reorderState.offsetByKey(setGroup.group.id))
+                    .graphicsLayer {
+                        translationY = offset ?: 0f
+                    }
+                    .zIndex(offset?.let { 1f } ?: 0f)
                     .fillMaxWidth()
                     .padding(top = 24.dp),
                 shape = RoundedCornerShape(24.dp),
