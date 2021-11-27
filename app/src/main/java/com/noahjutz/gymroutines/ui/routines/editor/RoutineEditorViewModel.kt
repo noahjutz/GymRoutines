@@ -135,4 +135,10 @@ class RoutineEditorViewModel(
             routineRepository.insert(set.copy(time = time))
         }
     }
+
+    fun updateDistance(set: RoutineSet, distance: Double?) {
+        viewModelScope.launch {
+            routineRepository.insert(set.copy(distance = distance))
+        }
+    }
 }

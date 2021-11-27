@@ -417,8 +417,8 @@ private fun RoutineEditorContent(
                                     if (exercise.logWeight) {
                                         val (weight, setWeight) = remember { mutableStateOf(set.weight.formatSimple()) }
                                         LaunchedEffect(weight) {
-                                            val weightInt = weight.toDoubleOrNull()
-                                            viewModel.updateWeight(set, weightInt)
+                                            val weightDouble = weight.toDoubleOrNull()
+                                            viewModel.updateWeight(set, weightDouble)
                                         }
                                         BasicTextField(
                                             modifier = Modifier
@@ -460,12 +460,20 @@ private fun RoutineEditorContent(
                                         )
                                     }
                                     if (exercise.logDistance) {
+                                        val (distance, setDistance) = remember { mutableStateOf(set.distance.formatSimple()) }
+                                        LaunchedEffect(distance) {
+                                            val distanceDouble = distance.toDoubleOrNull()
+                                            viewModel.updateDistance(set, distanceDouble)
+                                        }
                                         BasicTextField(
                                             modifier = Modifier
                                                 .weight(1f)
                                                 .padding(4.dp),
-                                            value = set.distance.toStringOrBlank(),
-                                            onValueChange = { /* TODO */ },
+                                            value = distance,
+                                            onValueChange = {
+                                                if (it.matches(RegexPatterns.float))
+                                                    setDistance(it)
+                                            },
                                             textStyle = textFieldStyle,
                                             cursorBrush = SolidColor(colors.onSurface),
                                             decorationBox = decorationBox
