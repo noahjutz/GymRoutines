@@ -24,6 +24,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
@@ -34,12 +35,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
+import com.noahjutz.gymroutines.data.domain.duration
 import com.noahjutz.gymroutines.ui.components.NormalDialog
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
+import com.noahjutz.gymroutines.util.pretty
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
+import kotlin.time.ExperimentalTime
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
@@ -82,82 +88,103 @@ fun WorkoutInProgress(
                 )
             },
         ) {
-            var showFinishWorkoutDialog by remember { mutableStateOf(false) }
-            if (showFinishWorkoutDialog) FinishWorkoutDialog(
-                onDismiss = { showFinishWorkoutDialog = false },
-                finishWorkout = {
-                    // TODO viewModel.finishWorkout()
-                    popBackStack()
+            val workout by viewModel.workout.collectAsState(initial = null)
+
+            if (workout != null) {
+                WorkoutInProgressContent(workout!!, viewModel, popBackStack, scope, sheetState)
+            } else {
+                Box(Modifier.fillMaxSize()) {
+                    CircularProgressIndicator()
                 }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class, ExperimentalTime::class)
+@Composable
+private fun WorkoutInProgressContent(
+    workout: WorkoutWithSetGroups,
+    viewModel: WorkoutInProgressViewModel,
+    popBackStack: () -> Unit,
+    scope: CoroutineScope,
+    sheetState: ModalBottomSheetState
+) {
+    var showFinishWorkoutDialog by remember { mutableStateOf(false) }
+    if (showFinishWorkoutDialog) FinishWorkoutDialog(
+        onDismiss = { showFinishWorkoutDialog = false },
+        finishWorkout = {
+            // TODO viewModel.finishWorkout()
+            popBackStack()
+        }
+    )
+
+    var showCancelWorkoutDialog by remember { mutableStateOf(false) }
+    if (showCancelWorkoutDialog) CancelWorkoutDialog(
+        onDismiss = { showCancelWorkoutDialog = false },
+        cancelWorkout = {
+            viewModel.cancelWorkout { popBackStack() }
+        }
+    )
+
+
+    LazyColumn(Modifier.fillMaxHeight()) {
+        item {
+            Text(
+                workout.workout.name,
+                Modifier.padding(top = 24.dp, start = 24.dp, end = 24.dp),
+                style = typography.h3
             )
-
-            var showCancelWorkoutDialog by remember { mutableStateOf(false) }
-            if (showCancelWorkoutDialog) CancelWorkoutDialog(
-                onDismiss = { showCancelWorkoutDialog = false },
-                cancelWorkout = {
-                    viewModel.cancelWorkout { popBackStack() }
-                }
+            Text(
+                workout.workout.duration.pretty(),
+                Modifier.padding(start = 24.dp, end = 24.dp),
+                style = typography.h6
             )
+        }
 
-            LazyColumn(Modifier.fillMaxHeight()) {
-                item {
-                    val duration = "TODO" // TODO viewModel.duration
-                    Text(
-                        text = duration,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        textAlign = TextAlign.Center
-                    )
-                    Divider()
-                    Spacer(Modifier.height(8.dp))
+        //TODO
+        //items(workout.setGroups) { setGroup ->
+
+        //}
+
+        item {
+            Spacer(Modifier.height(16.dp))
+            OutlinedButton(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp)
+                    .height(120.dp),
+                onClick = {
+                    scope.launch { sheetState.show() }
                 }
+            ) {
+                Icon(Icons.Default.Add, null)
+                Spacer(Modifier.width(12.dp))
+                Text("Add Exercise")
+            }
 
-                //TODO
-                //items(workout.setGroups) { setGroup ->
-
-                //}
-
-                item {
-                    Spacer(Modifier.height(16.dp))
-                    OutlinedButton(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = 16.dp)
-                            .height(120.dp),
-                        onClick = {
-                            scope.launch { sheetState.show() }
-                        }
-                    ) {
-                        Icon(Icons.Default.Add, null)
-                        Spacer(Modifier.width(12.dp))
-                        Text("Add Exercise")
-                    }
-
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        horizontalArrangement = Arrangement.Center,
-                    ) {
-                        TextButton(
-                            modifier = Modifier.weight(1f),
-                            onClick = { showCancelWorkoutDialog = true },
-                        ) {
-                            Icon(Icons.Default.Delete, null)
-                            Spacer(Modifier.width(8.dp))
-                            Text("Delete Workout")
-                        }
-                        Spacer(Modifier.width(16.dp))
-                        Button(
-                            modifier = Modifier.weight(1f),
-                            onClick = { showFinishWorkoutDialog = true }
-                        ) {
-                            Icon(Icons.Default.Done, null)
-                            Spacer(Modifier.width(8.dp))
-                            Text("Finish Workout")
-                        }
-                    }
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                TextButton(
+                    modifier = Modifier.weight(1f),
+                    onClick = { showCancelWorkoutDialog = true },
+                ) {
+                    Icon(Icons.Default.Delete, null)
+                    Spacer(Modifier.width(8.dp))
+                    Text("Delete Workout")
+                }
+                Spacer(Modifier.width(16.dp))
+                Button(
+                    modifier = Modifier.weight(1f),
+                    onClick = { showFinishWorkoutDialog = true }
+                ) {
+                    Icon(Icons.Default.Done, null)
+                    Spacer(Modifier.width(8.dp))
+                    Text("Finish Workout")
                 }
             }
         }
