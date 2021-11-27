@@ -219,7 +219,7 @@ private fun RoutineEditorContent(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                "${setGroup.group.position}. ${exercise.name}",
+                                exercise.name,
                                 style = typography.h5,
                                 modifier = Modifier
                                     .padding(16.dp)
