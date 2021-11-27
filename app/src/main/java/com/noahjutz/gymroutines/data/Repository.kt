@@ -121,6 +121,18 @@ class RoutineRepository(private val routineDao: RoutineDao) {
 class WorkoutRepository(private val workoutDao: WorkoutDao) {
     val workouts = workoutDao.getWorkouts()
 
+    suspend fun insert(workout: Workout): Long {
+        return workoutDao.insert(workout)
+    }
+
+    suspend fun insert(setGroup: WorkoutSetGroup): Long {
+        return workoutDao.insert(setGroup)
+    }
+
+    suspend fun insert(set: WorkoutSet): Long {
+        return workoutDao.insert(set)
+    }
+
     suspend fun insert(workout: WorkoutWithSetGroups): Long {
         for (setGroup in workout.setGroups) {
             workoutDao.insert(setGroup.group)
@@ -145,8 +157,13 @@ class WorkoutRepository(private val workoutDao: WorkoutDao) {
         }
     }
 
+    // TODO remove
     suspend fun insertRoutineAsWorkout(routine: RoutineWithSetGroups): Long {
-        // TODO
         return -1L
+    }
+
+    suspend fun insertAsWorkout(routine: RoutineWithSetGroups): Long {
+
+        return -1
     }
 }

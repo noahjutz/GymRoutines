@@ -91,8 +91,8 @@ fun NavGraph(
         ) { backStackEntry ->
             CreateRoutineScreen(
                 routineId = backStackEntry.arguments!!.getInt("routineId"),
-                startWorkout = { routineId: Int ->
-                    navController.navigate("${Screen.workoutInProgress}?routineId=$routineId") {
+                navToWorkout = { workoutId: Long ->
+                    navController.navigate("${Screen.workoutInProgress}?workoutId=$workoutId") {
                         popUpTo(navController.graph.findStartDestination().id)
                     }
                 },

@@ -68,7 +68,7 @@ import org.koin.core.parameter.parametersOf
 @ExperimentalFoundationApi
 @Composable
 fun CreateRoutineScreen(
-    startWorkout: (Int) -> Unit,
+    navToWorkout: (Long) -> Unit,
     popBackStack: () -> Unit,
     routineId: Int,
     viewModel: RoutineEditorViewModel = getViewModel { parametersOf(routineId) },
@@ -103,33 +103,18 @@ fun CreateRoutineScreen(
         Scaffold(
             scaffoldState = scaffoldState,
             floatingActionButton = {
-                ExtendedFloatingActionButton(
-                    onClick = {
-                        // TODO start workout
-                        //val currentWorkout =
-                        //    preferencesData?.get(AppPrefs.CurrentWorkout.key)
-                        //if (currentWorkout == null || currentWorkout < 0) {
-                        //    startWorkout(viewModel.routine.value.routine.routineId)
-                        //} else {
-                        //    scope.launch {
-                        //        scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
-                        //        val snackbarResult =
-                        //            scaffoldState.snackbarHostState.showSnackbar(
-                        //                "A workout is already in progress.",
-                        //                "Stop current"
-                        //            )
-                        //        if (snackbarResult == SnackbarResult.ActionPerformed) {
-                        //            preferences.edit {
-                        //                it[AppPrefs.CurrentWorkout.key] = -1
-                        //            }
-                        //            scaffoldState.snackbarHostState.showSnackbar("Current workout finished.")
-                        //        }
-                        //    }
-                        //}
-                    },
-                    icon = { Icon(Icons.Default.PlayArrow, null) },
-                    text = { Text("Start Workout") },
-                )
+                val isWorkoutRunning by viewModel.isWorkoutInProgress.collectAsState(initial = false)
+                if (!isWorkoutRunning) {
+                    ExtendedFloatingActionButton(
+                        onClick = {
+                            viewModel.startWorkout { id ->
+                                navToWorkout(id)
+                            }
+                        },
+                        icon = { Icon(Icons.Default.PlayArrow, null) },
+                        text = { Text("Start Workout") },
+                    )
+                }
             },
             topBar = {
                 TopBar(

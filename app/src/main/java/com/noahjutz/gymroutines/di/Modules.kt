@@ -88,8 +88,10 @@ val koinModule = module {
 
     viewModel { params ->
         RoutineEditorViewModel(
+            preferences = get(),
             exerciseRepository = get(),
             routineRepository = get(),
+            workoutRepository = get(),
             routineId = params.get()
         )
     }

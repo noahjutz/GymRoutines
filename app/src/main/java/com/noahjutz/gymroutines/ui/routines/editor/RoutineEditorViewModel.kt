@@ -18,19 +18,29 @@
 
 package com.noahjutz.gymroutines.ui.routines.editor
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.noahjutz.gymroutines.data.AppPrefs
 import com.noahjutz.gymroutines.data.ExerciseRepository
 import com.noahjutz.gymroutines.data.RoutineRepository
+import com.noahjutz.gymroutines.data.WorkoutRepository
 import com.noahjutz.gymroutines.data.domain.*
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class RoutineEditorViewModel(
     private val routineRepository: RoutineRepository,
     private val exerciseRepository: ExerciseRepository,
+    private val workoutRepository: WorkoutRepository,
+    private val preferences: DataStore<Preferences>,
     routineId: Int,
 ) : ViewModel() {
+    val isWorkoutInProgress: Flow<Boolean> =
+        preferences.data.map { it[AppPrefs.CurrentWorkout.key] != -1 }
     val routine = routineRepository.getRoutineWithSetGroups(routineId)
     private val _routineFlow = routineRepository.getRoutineFlow(routineId)
     private var _routine: Routine? = null
@@ -139,6 +149,41 @@ class RoutineEditorViewModel(
     fun updateDistance(set: RoutineSet, distance: Double?) {
         viewModelScope.launch {
             routineRepository.insert(set.copy(distance = distance))
+        }
+    }
+
+    fun startWorkout(onWorkoutStarted: (Long) -> Unit) {
+        viewModelScope.launch {
+            _routine?.let { _routine ->
+                val workout = Workout(
+                    name = _routine.name
+                )
+                val workoutId = workoutRepository.insert(workout)
+
+                for (routineSetGroup in _setGroups) {
+                    val workoutSetGroup = WorkoutSetGroup(
+                        workoutId = workoutId.toInt(),
+                        exerciseId = routineSetGroup.exerciseId,
+                        position = routineSetGroup.position
+                    )
+                    val setGroupId = workoutRepository.insert(workoutSetGroup)
+
+                    for (routineSet in _sets.filter { it.groupId == routineSetGroup.id }) {
+                        val workoutSet = WorkoutSet(
+                            groupId = setGroupId.toInt(),
+                            position = routineSet.position,
+                            reps = routineSet.reps,
+                            weight = routineSet.weight,
+                            time = routineSet.time,
+                            distance = routineSet.distance,
+                            complete = false
+                        )
+                        workoutRepository.insert(workoutSet)
+                    }
+                }
+
+                onWorkoutStarted(workoutId)
+            }
         }
     }
 }
