@@ -86,20 +86,17 @@ fun WorkoutInProgress(
             if (showFinishWorkoutDialog) FinishWorkoutDialog(
                 onDismiss = { showFinishWorkoutDialog = false },
                 finishWorkout = {
-                    scope.launch {
-                        // TODO viewModel.finishWorkout()
-                        popBackStack()
-                    }
+                    // TODO viewModel.finishWorkout()
+                    popBackStack()
                 }
             )
+
             var showCancelWorkoutDialog by remember { mutableStateOf(false) }
             if (showCancelWorkoutDialog) CancelWorkoutDialog(
                 onDismiss = { showCancelWorkoutDialog = false },
                 cancelWorkout = {
-                    scope.launch {
-                        // TODO viewModel.cancelWorkout()
-                        popBackStack()
-                    }
+                    // TODO viewModel.cancelWorkout()
+                    popBackStack()
                 }
             )
 
@@ -130,9 +127,7 @@ fun WorkoutInProgress(
                             .padding(horizontal = 16.dp)
                             .height(120.dp),
                         onClick = {
-                            scope.launch {
-                                sheetState.show()
-                            }
+                            scope.launch { sheetState.show() }
                         }
                     ) {
                         Icon(Icons.Default.Add, null)
