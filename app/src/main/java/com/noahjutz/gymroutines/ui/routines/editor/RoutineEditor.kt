@@ -37,12 +37,15 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,6 +54,7 @@ import androidx.datastore.preferences.core.Preferences
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.Routine
 import com.noahjutz.gymroutines.data.domain.RoutineSetGroupWithSets
+import com.noahjutz.gymroutines.ui.components.AutoSelectTextField
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.components.durationVisualTransformation
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
@@ -398,7 +402,7 @@ private fun RoutineEditorContent(
                                             val repsInt = reps.toIntOrNull()
                                             viewModel.updateReps(set, repsInt)
                                         }
-                                        BasicTextField(
+                                        AutoSelectTextField(
                                             modifier = Modifier
                                                 .weight(1f)
                                                 .padding(4.dp),
@@ -410,7 +414,7 @@ private fun RoutineEditorContent(
                                             textStyle = textFieldStyle,
                                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                             singleLine = true,
-                                            cursorBrush = SolidColor(colors.onSurface),
+                                            cursorColor = colors.onSurface,
                                             decorationBox = decorationBox,
                                         )
                                     }

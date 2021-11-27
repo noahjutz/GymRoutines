@@ -93,7 +93,7 @@ fun TableCellTextField(
 }
 
 @Composable
-private fun AutoSelectTextField(
+fun AutoSelectTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
