@@ -18,15 +18,11 @@
 
 package com.noahjutz.gymroutines.ui.routines.editor
 
-import androidx.compose.material.ripple.rememberRipple
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.ExerciseRepository
 import com.noahjutz.gymroutines.data.RoutineRepository
-import com.noahjutz.gymroutines.data.domain.Routine
-import com.noahjutz.gymroutines.data.domain.RoutineSet
-import com.noahjutz.gymroutines.data.domain.RoutineSetGroup
-import com.noahjutz.gymroutines.data.domain.RoutineSetGroupWithSets
+import com.noahjutz.gymroutines.data.domain.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -86,6 +82,26 @@ class RoutineEditorViewModel(
                     distance = lastSet?.distance,
                 )
             )
+        }
+    }
+
+    fun addExercises(exercises: List<Exercise>) {
+        _routine?.let { routine ->
+            viewModelScope.launch {
+                for (exercise in exercises) {
+                    val setGroup = RoutineSetGroup(
+                        exerciseId = exercise.exerciseId,
+                        routineId = routine.routineId,
+                        position = _setGroups.size,
+                    )
+                    val groupId = routineRepository.insert(setGroup)
+                    val set = RoutineSet(
+                        groupId = groupId.toInt(),
+                        position = 0
+                    )
+                    routineRepository.insert(set)
+                }
+            }
         }
     }
 }

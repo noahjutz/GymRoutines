@@ -57,7 +57,7 @@ data class RoutineSetGroup(
     val position: Int,
 
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int = 0,
 )
 
 data class RoutineSetGroupWithSets(

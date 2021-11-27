@@ -86,10 +86,8 @@ fun CreateRoutineScreen(
         sheetContent = {
             ExercisePickerSheet(
                 onExercisesSelected = {
-                    scope.launch {
-                        // viewModel.editor.addExercises(it)
-                        sheetState.hide()
-                    }
+                    viewModel.addExercises(it)
+                    scope.launch { sheetState.hide() }
                 },
                 navToExerciseEditor = navToExerciseEditor
             )

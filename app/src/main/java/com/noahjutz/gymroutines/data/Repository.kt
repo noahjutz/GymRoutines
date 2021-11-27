@@ -78,6 +78,10 @@ class RoutineRepository(private val routineDao: RoutineDao) {
         return routineDao.insert(set)
     }
 
+    suspend fun insert(setGroup: RoutineSetGroup): Long {
+        return routineDao.insert(setGroup)
+    }
+
     suspend fun insertWorkoutAsRoutine(workoutWithSetGroups: WorkoutWithSetGroups): Long {
         // TODO
         return -1L
