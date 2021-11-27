@@ -387,16 +387,23 @@ private fun RoutineEditorContent(
                                             }
 
                                         }
-                                    if (exercise.logReps) BasicTextField(
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .padding(4.dp),
-                                        value = set.reps.toStringOrBlank(),
-                                        onValueChange = { /* TODO */ },
-                                        textStyle = textFieldStyle,
-                                        cursorBrush = SolidColor(colors.onSurface),
-                                        decorationBox = decorationBox,
-                                    )
+                                    if (exercise.logReps) {
+                                        val (reps, setReps) = remember { mutableStateOf(set.reps.toStringOrBlank()) }
+                                        LaunchedEffect(reps) {
+                                            val repsInt = reps.toInt()
+                                            viewModel.updateReps(set, repsInt)
+                                        }
+                                        BasicTextField(
+                                            modifier = Modifier
+                                                .weight(1f)
+                                                .padding(4.dp),
+                                            value = reps,
+                                            onValueChange = setReps,
+                                            textStyle = textFieldStyle,
+                                            cursorBrush = SolidColor(colors.onSurface),
+                                            decorationBox = decorationBox,
+                                        )
+                                    }
                                     if (exercise.logWeight) BasicTextField(
                                         modifier = Modifier
                                             .weight(1f)
