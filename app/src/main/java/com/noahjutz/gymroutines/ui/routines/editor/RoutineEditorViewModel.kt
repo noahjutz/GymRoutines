@@ -118,7 +118,7 @@ class RoutineEditorViewModel(
         }
     }
 
-    fun updateReps(set: RoutineSet, reps: Int) {
+    fun updateReps(set: RoutineSet, reps: Int?) {
         viewModelScope.launch {
             routineRepository.insert(set.copy(reps = reps))
         }

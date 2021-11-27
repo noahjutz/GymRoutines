@@ -28,6 +28,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.MaterialTheme.typography
@@ -41,6 +42,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -51,6 +53,7 @@ import com.noahjutz.gymroutines.data.domain.Routine
 import com.noahjutz.gymroutines.data.domain.RoutineSetGroupWithSets
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
+import com.noahjutz.gymroutines.util.RegexPatterns
 import com.noahjutz.gymroutines.util.toStringOrBlank
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
@@ -390,7 +393,7 @@ private fun RoutineEditorContent(
                                     if (exercise.logReps) {
                                         val (reps, setReps) = remember { mutableStateOf(set.reps.toStringOrBlank()) }
                                         LaunchedEffect(reps) {
-                                            val repsInt = reps.toInt()
+                                            val repsInt = reps.toIntOrNull()
                                             viewModel.updateReps(set, repsInt)
                                         }
                                         BasicTextField(
@@ -398,8 +401,13 @@ private fun RoutineEditorContent(
                                                 .weight(1f)
                                                 .padding(4.dp),
                                             value = reps,
-                                            onValueChange = setReps,
+                                            onValueChange = {
+                                                if (it.matches(RegexPatterns.integer))
+                                                    setReps(it)
+                                            },
                                             textStyle = textFieldStyle,
+                                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                            singleLine = true,
                                             cursorBrush = SolidColor(colors.onSurface),
                                             decorationBox = decorationBox,
                                         )
