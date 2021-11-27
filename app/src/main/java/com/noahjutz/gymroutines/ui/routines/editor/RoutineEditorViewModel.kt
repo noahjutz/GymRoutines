@@ -20,6 +20,7 @@ package com.noahjutz.gymroutines.ui.routines.editor
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.AppPrefs
@@ -180,6 +181,10 @@ class RoutineEditorViewModel(
                         )
                         workoutRepository.insert(workoutSet)
                     }
+                }
+
+                preferences.edit {
+                    it[AppPrefs.CurrentWorkout.key] = workoutId.toInt()
                 }
 
                 onWorkoutStarted(workoutId)

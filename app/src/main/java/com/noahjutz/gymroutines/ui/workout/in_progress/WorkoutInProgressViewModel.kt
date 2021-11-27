@@ -60,9 +60,6 @@ class WorkoutInProgressViewModel(
 
     init {
         viewModelScope.launch {
-            preferences.edit { // TODO move to CreateRoutine when "start workout" is tapped
-                it[AppPrefs.CurrentWorkout.key] = _workout.value.workout.workoutId
-            }
             _workout.collectLatest {
                 workoutRepository.insert(_workout.value)
             }
