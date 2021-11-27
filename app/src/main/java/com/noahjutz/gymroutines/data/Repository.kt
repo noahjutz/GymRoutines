@@ -97,8 +97,19 @@ class RoutineRepository(private val routineDao: RoutineDao) {
 
         if (routineDao.getSetsInGroup(set.groupId).isEmpty()) {
             routineDao.getSetGroup(set.groupId)?.let { setGroup ->
-                routineDao.delete(setGroup)
+                delete(setGroup)
             }
+        }
+    }
+
+    suspend fun delete(setGroup: RoutineSetGroup) {
+        routineDao.delete(setGroup)
+
+        val nextSetGroups = routineDao.getSetGroups(setGroup.routineId)
+            .filter { it.position > setGroup.position }
+
+        for (group in nextSetGroups) {
+            routineDao.insert(group.copy(position = group.position - 1))
         }
     }
 }
