@@ -21,6 +21,8 @@ package com.noahjutz.gymroutines.ui.routines.editor
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -56,7 +58,6 @@ import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
 import com.noahjutz.gymroutines.util.toStringOrBlank
 import kotlinx.coroutines.launch
 import org.burnoutcrew.reorderable.detectReorder
-import org.burnoutcrew.reorderable.draggedItem
 import org.burnoutcrew.reorderable.rememberReorderState
 import org.burnoutcrew.reorderable.reorderable
 import org.koin.androidx.compose.get
@@ -226,15 +227,18 @@ private fun RoutineEditorContent(
         items(setGroups.sortedBy { it.group.position }, key = { it.group.id }) { setGroup ->
             val exercise = viewModel.getExercise(setGroup.group.exerciseId)!!
             val offset = reorderState.offsetByKey(setGroup.group.id)
+            val alphaAnimated = animateFloatAsState(if (offset == null && reorderState.draggedIndex != null) 0.5f else 1f)
             Card(
                 Modifier
                     .graphicsLayer {
                         translationY = offset ?: 0f
+                        alpha = alphaAnimated.value
                     }
                     .zIndex(offset?.let { 1f } ?: 0f)
                     .fillMaxWidth()
                     .padding(top = 24.dp),
                 shape = RoundedCornerShape(24.dp),
+                elevation = animateDpAsState(offset?.let { 4.dp } ?: 1.dp).value,
             ) {
                 Column {
                     Surface(Modifier.fillMaxWidth(), color = colors.primary) {
