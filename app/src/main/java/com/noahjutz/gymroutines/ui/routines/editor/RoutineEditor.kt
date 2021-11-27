@@ -424,7 +424,7 @@ private fun RoutineEditorContent(
                                             val weightDouble = weight.toDoubleOrNull()
                                             viewModel.updateWeight(set, weightDouble)
                                         }
-                                        BasicTextField(
+                                        AutoSelectTextField(
                                             modifier = Modifier
                                                 .weight(1f)
                                                 .padding(4.dp),
@@ -436,7 +436,7 @@ private fun RoutineEditorContent(
                                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                             singleLine = true,
                                             textStyle = textFieldStyle,
-                                            cursorBrush = SolidColor(colors.onSurface),
+                                            cursorColor = colors.onSurface,
                                             decorationBox = decorationBox
                                         )
                                     }
@@ -446,7 +446,7 @@ private fun RoutineEditorContent(
                                             val timeInt = time.toIntOrNull()
                                             viewModel.updateTime(set, timeInt)
                                         }
-                                        BasicTextField(
+                                        AutoSelectTextField(
                                             modifier = Modifier
                                                 .weight(1f)
                                                 .padding(4.dp),
@@ -459,7 +459,7 @@ private fun RoutineEditorContent(
                                             singleLine = true,
                                             textStyle = textFieldStyle,
                                             visualTransformation = durationVisualTransformation,
-                                            cursorBrush = SolidColor(colors.onSurface),
+                                            cursorColor = colors.onSurface,
                                             decorationBox = decorationBox
                                         )
                                     }
@@ -469,7 +469,7 @@ private fun RoutineEditorContent(
                                             val distanceDouble = distance.toDoubleOrNull()
                                             viewModel.updateDistance(set, distanceDouble)
                                         }
-                                        BasicTextField(
+                                        AutoSelectTextField(
                                             modifier = Modifier
                                                 .weight(1f)
                                                 .padding(4.dp),
@@ -481,7 +481,7 @@ private fun RoutineEditorContent(
                                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                             singleLine = true,
                                             textStyle = textFieldStyle,
-                                            cursorBrush = SolidColor(colors.onSurface),
+                                            cursorColor = colors.onSurface,
                                             decorationBox = decorationBox
                                         )
                                     }
