@@ -18,6 +18,7 @@
 
 package com.noahjutz.gymroutines.ui.routines.editor
 
+import androidx.compose.material.ripple.rememberRipple
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.ExerciseRepository

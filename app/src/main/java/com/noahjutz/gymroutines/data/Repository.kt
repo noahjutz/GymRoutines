@@ -117,6 +117,12 @@ class RoutineRepository(private val routineDao: RoutineDao) {
 
     suspend fun delete(set: RoutineSet) {
         routineDao.delete(set)
+
+        if (routineDao.getSetsInGroup(set.groupId).isEmpty()) {
+            routineDao.getSetGroup(set.groupId)?.let { setGroup ->
+                routineDao.delete(setGroup)
+            }
+        }
     }
 
     suspend fun deleteSets(routineId: Int) {

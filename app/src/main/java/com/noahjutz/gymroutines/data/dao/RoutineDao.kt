@@ -82,4 +82,13 @@ interface RoutineDao {
 
     @Delete
     suspend fun delete(set: RoutineSet)
+
+    @Query("SELECT * FROM routine_set_table WHERE groupId == :groupId")
+    suspend fun getSetsInGroup(groupId: Int): List<RoutineSet>
+
+    @Delete
+    suspend fun delete(setGroup: RoutineSetGroup)
+
+    @Query("SELECT * FROM routine_set_group_table WHERE id == :id")
+    suspend fun getSetGroup(id: Int): RoutineSetGroup?
 }
