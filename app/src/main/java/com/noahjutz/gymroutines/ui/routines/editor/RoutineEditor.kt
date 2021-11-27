@@ -155,7 +155,7 @@ fun CreateRoutineScreen(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
 private fun RoutineEditorContent(
     routine: Routine,
@@ -208,6 +208,7 @@ private fun RoutineEditorContent(
             Card(
                 Modifier
                     .fillMaxWidth()
+                    .animateItemPlacement()
                     .padding(top = 24.dp),
                 shape = RoundedCornerShape(24.dp),
             ) {
@@ -225,11 +226,45 @@ private fun RoutineEditorContent(
                                     .weight(1f)
                             )
 
-                            IconButton(
-                                modifier = Modifier.padding(16.dp),
-                                onClick = {}
-                            ) {
-                                Icon(Icons.Default.DragHandle, "More")
+                            Box {
+                                var expanded by remember { mutableStateOf(false) }
+                                IconButton(
+                                    modifier = Modifier.padding(16.dp),
+                                    onClick = { expanded = !expanded }
+                                ) {
+                                    Icon(Icons.Default.DragHandle, "More")
+                                }
+                                DropdownMenu(
+                                    expanded = expanded,
+                                    onDismissRequest = { expanded = false }
+                                ) {
+                                    DropdownMenuItem(onClick = {
+                                        expanded = false
+                                        val id = setGroup.group.id
+                                        val toId = setGroups
+                                            .find { it.group.position == setGroup.group.position - 1 }
+                                            ?.group
+                                            ?.id
+                                        if (toId != null) {
+                                            viewModel.swapSetGroups(id, toId)
+                                        }
+                                    }) {
+                                        Text("Move Up")
+                                    }
+                                    DropdownMenuItem(onClick = {
+                                        expanded = false
+                                        val id = setGroup.group.id
+                                        val toId = setGroups
+                                            .find { it.group.position == setGroup.group.position + 1 }
+                                            ?.group
+                                            ?.id
+                                        if (toId != null) {
+                                            viewModel.swapSetGroups(id, toId)
+                                        }
+                                    }) {
+                                        Text("Move Down")
+                                    }
+                                }
                             }
                         }
                     }
