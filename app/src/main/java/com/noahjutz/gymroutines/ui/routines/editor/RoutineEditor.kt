@@ -474,6 +474,8 @@ private fun RoutineEditorContent(
                                                 if (it.matches(RegexPatterns.float))
                                                     setDistance(it)
                                             },
+                                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                            singleLine = true,
                                             textStyle = textFieldStyle,
                                             cursorBrush = SolidColor(colors.onSurface),
                                             decorationBox = decorationBox
