@@ -18,10 +18,7 @@
 
 package com.noahjutz.gymroutines.ui.exercises.picker
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -57,11 +54,7 @@ fun ExercisePickerSheet(
     Scaffold(
         floatingActionButton = {
             val selectedExercises by viewModel.presenter.selectedExercises.collectAsState()
-            AnimatedVisibility(
-                visible = selectedExercises.isNotEmpty(),
-                enter = slideInHorizontally({ it * 2 }),
-                exit = fadeOut()
-            ) {
+            if (selectedExercises.isNotEmpty()) {
                 FloatingActionButton(
                     onClick = {
                         onExercisesSelected(selectedExercises)
