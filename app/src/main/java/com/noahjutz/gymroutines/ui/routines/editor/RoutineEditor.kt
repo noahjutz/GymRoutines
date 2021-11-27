@@ -37,8 +37,6 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
@@ -54,6 +52,7 @@ import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.Routine
 import com.noahjutz.gymroutines.data.domain.RoutineSetGroupWithSets
 import com.noahjutz.gymroutines.ui.components.TopBar
+import com.noahjutz.gymroutines.ui.components.durationVisualTransformation
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
 import com.noahjutz.gymroutines.util.RegexPatterns
 import com.noahjutz.gymroutines.util.formatSimple
@@ -426,7 +425,10 @@ private fun RoutineEditorContent(
                                                 .weight(1f)
                                                 .padding(4.dp),
                                             value = weight,
-                                            onValueChange = { if (it.matches(RegexPatterns.float)) setWeight(it) },
+                                            onValueChange = {
+                                                if (it.matches(RegexPatterns.float))
+                                                    setWeight(it)
+                                            },
                                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                             singleLine = true,
                                             textStyle = textFieldStyle,
@@ -435,15 +437,24 @@ private fun RoutineEditorContent(
                                         )
                                     }
                                     if (exercise.logTime) {
+                                        val (time, setTime) = remember { mutableStateOf(set.time.toStringOrBlank()) }
+                                        LaunchedEffect(time) {
+                                            val timeInt = time.toIntOrNull()
+                                            viewModel.updateTime(set, timeInt)
+                                        }
                                         BasicTextField(
                                             modifier = Modifier
                                                 .weight(1f)
                                                 .padding(4.dp),
-                                            value = set.time.toStringOrBlank(),
-                                            onValueChange = { /* TODO */ },
+                                            value = time,
+                                            onValueChange = {
+                                                if (it.matches(RegexPatterns.duration))
+                                                    setTime(it)
+                                            },
                                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                             singleLine = true,
                                             textStyle = textFieldStyle,
+                                            visualTransformation = durationVisualTransformation,
                                             cursorBrush = SolidColor(colors.onSurface),
                                             decorationBox = decorationBox
                                         )

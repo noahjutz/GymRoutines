@@ -129,4 +129,10 @@ class RoutineEditorViewModel(
             routineRepository.insert(set.copy(weight = weight))
         }
     }
+
+    fun updateTime(set: RoutineSet, time: Int?) {
+        viewModelScope.launch {
+            routineRepository.insert(set.copy(time = time))
+        }
+    }
 }
