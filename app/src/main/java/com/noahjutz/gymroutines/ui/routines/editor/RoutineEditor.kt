@@ -412,36 +412,46 @@ private fun RoutineEditorContent(
                                             decorationBox = decorationBox,
                                         )
                                     }
-                                    if (exercise.logWeight) BasicTextField(
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .padding(4.dp),
-                                        value = set.weight.toStringOrBlank(),
-                                        onValueChange = { /* TODO */ },
-                                        textStyle = textFieldStyle,
-                                        cursorBrush = SolidColor(colors.onSurface),
-                                        decorationBox = decorationBox
-                                    )
-                                    if (exercise.logTime) BasicTextField(
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .padding(4.dp),
-                                        value = set.time.toStringOrBlank(),
-                                        onValueChange = { /* TODO */ },
-                                        textStyle = textFieldStyle,
-                                        cursorBrush = SolidColor(colors.onSurface),
-                                        decorationBox = decorationBox
-                                    )
-                                    if (exercise.logDistance) BasicTextField(
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .padding(4.dp),
-                                        value = set.distance.toStringOrBlank(),
-                                        onValueChange = { /* TODO */ },
-                                        textStyle = textFieldStyle,
-                                        cursorBrush = SolidColor(colors.onSurface),
-                                        decorationBox = decorationBox
-                                    )
+                                    if (exercise.logWeight) {
+                                        BasicTextField(
+                                            modifier = Modifier
+                                                .weight(1f)
+                                                .padding(4.dp),
+                                            value = set.weight.toStringOrBlank(),
+                                            onValueChange = { /* TODO */ },
+                                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                            singleLine = true,
+                                            textStyle = textFieldStyle,
+                                            cursorBrush = SolidColor(colors.onSurface),
+                                            decorationBox = decorationBox
+                                        )
+                                    }
+                                    if (exercise.logTime) {
+                                        BasicTextField(
+                                            modifier = Modifier
+                                                .weight(1f)
+                                                .padding(4.dp),
+                                            value = set.time.toStringOrBlank(),
+                                            onValueChange = { /* TODO */ },
+                                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                                            singleLine = true,
+                                            textStyle = textFieldStyle,
+                                            cursorBrush = SolidColor(colors.onSurface),
+                                            decorationBox = decorationBox
+                                        )
+                                    }
+                                    if (exercise.logDistance) {
+                                        BasicTextField(
+                                            modifier = Modifier
+                                                .weight(1f)
+                                                .padding(4.dp),
+                                            value = set.distance.toStringOrBlank(),
+                                            onValueChange = { /* TODO */ },
+                                            textStyle = textFieldStyle,
+                                            cursorBrush = SolidColor(colors.onSurface),
+                                            decorationBox = decorationBox
+                                        )
+                                    }
                                 }
                             }
                         }
