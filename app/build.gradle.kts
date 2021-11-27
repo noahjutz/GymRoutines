@@ -148,8 +148,6 @@ dependencies {
 
     androidTestImplementation("androidx.test:core:1.4.0")
     androidTestImplementation("androidx.test:core-ktx:1.4.0")
-
-    implementation("org.burnoutcrew.composereorderable:reorderable:0.7.4")
 }
 
 ktlint {

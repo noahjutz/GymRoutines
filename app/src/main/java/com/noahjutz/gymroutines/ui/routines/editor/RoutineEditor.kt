@@ -21,8 +21,6 @@ package com.noahjutz.gymroutines.ui.routines.editor
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -40,14 +38,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.noahjutz.gymroutines.R
@@ -57,9 +53,6 @@ import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
 import com.noahjutz.gymroutines.util.toStringOrBlank
 import kotlinx.coroutines.launch
-import org.burnoutcrew.reorderable.detectReorder
-import org.burnoutcrew.reorderable.rememberReorderState
-import org.burnoutcrew.reorderable.reorderable
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -171,22 +164,8 @@ private fun RoutineEditorContent(
     sheetState: ModalBottomSheetState
 ) {
     val scope = rememberCoroutineScope()
-    val reorderState = rememberReorderState()
     LazyColumn(
-        Modifier
-            .fillMaxHeight()
-            .reorderable(
-                reorderState,
-                onMove = { from, to ->
-                    (from.key as? Int)?.let { id1 ->
-                        (to.key as? Int)?.let { id2 ->
-                            viewModel.swapSetGroups(id1, id2)
-                        }
-                    }
-                },
-                canDragOver = { it.key is Int }
-            ),
-        state = reorderState.listState,
+        Modifier.fillMaxHeight(),
         contentPadding = PaddingValues(bottom = 70.dp)
     ) {
 
@@ -226,19 +205,11 @@ private fun RoutineEditorContent(
 
         items(setGroups.sortedBy { it.group.position }, key = { it.group.id }) { setGroup ->
             val exercise = viewModel.getExercise(setGroup.group.exerciseId)!!
-            val offset = reorderState.offsetByKey(setGroup.group.id)
-            val alphaAnimated = animateFloatAsState(if (offset == null && reorderState.draggedIndex != null) 0.5f else 1f)
             Card(
                 Modifier
-                    .graphicsLayer {
-                        translationY = offset ?: 0f
-                        alpha = alphaAnimated.value
-                    }
-                    .zIndex(offset?.let { 1f } ?: 0f)
                     .fillMaxWidth()
                     .padding(top = 24.dp),
                 shape = RoundedCornerShape(24.dp),
-                elevation = animateDpAsState(offset?.let { 4.dp } ?: 1.dp).value,
             ) {
                 Column {
                     Surface(Modifier.fillMaxWidth(), color = colors.primary) {
@@ -255,9 +226,7 @@ private fun RoutineEditorContent(
                             )
 
                             IconButton(
-                                modifier = Modifier
-                                    .padding(16.dp)
-                                    .detectReorder(reorderState),
+                                modifier = Modifier.padding(16.dp),
                                 onClick = {}
                             ) {
                                 Icon(Icons.Default.DragHandle, "More")
