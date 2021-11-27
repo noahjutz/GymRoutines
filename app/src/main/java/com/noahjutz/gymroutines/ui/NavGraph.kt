@@ -92,7 +92,7 @@ fun NavGraph(
             CreateRoutineScreen(
                 routineId = backStackEntry.arguments!!.getInt("routineId"),
                 navToWorkout = { workoutId: Long ->
-                    navController.navigate("${Screen.workoutInProgress}?workoutId=$workoutId") {
+                    navController.navigate("${Screen.workoutInProgress}/$workoutId") {
                         popUpTo(navController.graph.findStartDestination().id)
                     }
                 },
@@ -120,7 +120,7 @@ fun NavGraph(
             )
         }
         composable(
-            "${Screen.workoutInProgress}?workoutId={workoutId}&routineId={routineId}",
+            "${Screen.workoutInProgress}/{workoutId}",
             arguments = listOf(
                 navArgument("workoutId") {
                     defaultValue = -1
@@ -134,14 +134,8 @@ fun NavGraph(
         ) { backStackEntry ->
             WorkoutInProgress(
                 navToExerciseEditor = { navController.navigate(Screen.exerciseEditor.name) },
-                navToCompleted = { routineId, workoutId ->
-                    navController.navigate("${Screen.workoutCompleted.name}/$routineId/$workoutId") {
-                        popUpTo(navController.graph.findStartDestination().id)
-                    }
-                },
                 popBackStack = { navController.popBackStack() },
                 workoutId = backStackEntry.arguments!!.getInt("workoutId"),
-                routineId = backStackEntry.arguments!!.getInt("routineId"),
             )
         }
         composable(Screen.settings.name) {

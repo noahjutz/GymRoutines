@@ -23,7 +23,6 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -33,13 +32,9 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.noahjutz.gymroutines.R
-import com.noahjutz.gymroutines.data.domain.ExerciseSetLegacy
 import com.noahjutz.gymroutines.ui.components.NormalDialog
-import com.noahjutz.gymroutines.ui.components.SetGroupCard
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
 import kotlinx.coroutines.launch
@@ -52,21 +47,15 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun WorkoutInProgress(
     navToExerciseEditor: () -> Unit,
-    navToCompleted: (routineId: Int, workoutId: Int) -> Unit,
     popBackStack: () -> Unit,
     workoutId: Int,
-    routineId: Int,
-    viewModel: WorkoutInProgressViewModel = getViewModel { parametersOf(workoutId, routineId) },
+    viewModel: WorkoutInProgressViewModel = getViewModel { parametersOf(workoutId) },
 ) {
     val scope = rememberCoroutineScope()
     val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
 
-    val workout by viewModel.presenter.workout.collectAsState()
-
     BackHandler(enabled = sheetState.isVisible) {
-        scope.launch {
-            sheetState.hide()
-        }
+        scope.launch { sheetState.hide() }
     }
 
     ModalBottomSheetLayout(
@@ -76,10 +65,8 @@ fun WorkoutInProgress(
         sheetContent = {
             ExercisePickerSheet(
                 onExercisesSelected = {
-                    scope.launch {
-                        // viewModel.editor.addExercises(it)
-                        sheetState.hide()
-                    }
+                    // TODO viewModel.addExercises()
+                    scope.launch { sheetState.hide() }
                 },
                 navToExerciseEditor = navToExerciseEditor
             )
@@ -88,7 +75,7 @@ fun WorkoutInProgress(
         Scaffold(
             topBar = {
                 TopBar(
-                    title = workout.workout.name,
+                    title = "Workout",
                     navigationIcon = {
                         IconButton(onClick = popBackStack) { Icon(Icons.Default.ArrowBack, null) }
                     }
@@ -97,28 +84,20 @@ fun WorkoutInProgress(
         ) {
             var showFinishWorkoutDialog by remember { mutableStateOf(false) }
             if (showFinishWorkoutDialog) FinishWorkoutDialog(
-                onDismiss = {
-                    showFinishWorkoutDialog = false
-                },
+                onDismiss = { showFinishWorkoutDialog = false },
                 finishWorkout = {
                     scope.launch {
-                        viewModel.editor.finishWorkout()
-                    }.invokeOnCompletion {
-                        navToCompleted(
-                            routineId,
-                            workout.workout.workoutId
-                        ) // TODO not always passed to WorkoutInProgress
+                        // TODO viewModel.finishWorkout()
+                        popBackStack()
                     }
                 }
             )
             var showCancelWorkoutDialog by remember { mutableStateOf(false) }
             if (showCancelWorkoutDialog) CancelWorkoutDialog(
-                onDismiss = {
-                    showCancelWorkoutDialog = false
-                },
+                onDismiss = { showCancelWorkoutDialog = false },
                 cancelWorkout = {
                     scope.launch {
-                        viewModel.editor.cancelWorkout()
+                        // TODO viewModel.cancelWorkout()
                         popBackStack()
                     }
                 }
@@ -126,7 +105,7 @@ fun WorkoutInProgress(
 
             LazyColumn(Modifier.fillMaxHeight()) {
                 item {
-                    val duration by viewModel.presenter.durationString.collectAsState("00:00:00")
+                    val duration = "TODO" // TODO viewModel.duration
                     Text(
                         text = duration,
                         modifier = Modifier
@@ -138,39 +117,10 @@ fun WorkoutInProgress(
                     Spacer(Modifier.height(8.dp))
                 }
 
-                items(workout.setGroups) { setGroup ->
-                    val exercise = viewModel.presenter.getExercise(setGroup.group.exerciseId)!!
-                    SetGroupCard(
-                        name = exercise.name.takeIf { it.isNotBlank() }
-                            ?: stringResource(R.string.unnamed_exercise),
-                        sets = setGroup.sets.map { (_, position, reps, weight, time, distance, complete, setId) ->
-                            ExerciseSetLegacy(
-                                exercise.exerciseId,
-                                reps,
-                                weight,
-                                time,
-                                distance,
-                                complete,
-                                position,
-                                setId,
-                            )
-                        },
-                        onMoveDown = { },
-                        onMoveUp = { },
-                        onAddSet = { },
-                        onDeleteSet = { },
-                        logReps = exercise.logReps,
-                        logWeight = exercise.logWeight,
-                        logTime = exercise.logTime,
-                        logDistance = exercise.logDistance,
-                        showCheckbox = true,
-                        onWeightChange = { _, _ -> },
-                        onTimeChange = { _, _ -> },
-                        onRepsChange = { _, _ -> },
-                        onDistanceChange = { _, _ -> },
-                        onCheckboxChange = { _, _ -> }
-                    )
-                }
+                //TODO
+                //items(workout.setGroups) { setGroup ->
+
+                //}
 
                 item {
                     Spacer(Modifier.height(16.dp))
