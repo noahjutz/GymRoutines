@@ -112,6 +112,10 @@ class RoutineRepository(private val routineDao: RoutineDao) {
             routineDao.insert(group.copy(position = group.position - 1))
         }
     }
+
+    suspend fun getSetGroup(id: Int): RoutineSetGroup? {
+        return routineDao.getSetGroup(id)
+    }
 }
 
 class WorkoutRepository(private val workoutDao: WorkoutDao) {

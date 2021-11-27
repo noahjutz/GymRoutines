@@ -36,8 +36,10 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -53,6 +55,10 @@ import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
 import com.noahjutz.gymroutines.util.toStringOrBlank
 import kotlinx.coroutines.launch
+import org.burnoutcrew.reorderable.detectReorder
+import org.burnoutcrew.reorderable.draggedItem
+import org.burnoutcrew.reorderable.rememberReorderState
+import org.burnoutcrew.reorderable.reorderable
 import org.koin.androidx.compose.get
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -164,7 +170,24 @@ private fun RoutineEditorContent(
     sheetState: ModalBottomSheetState
 ) {
     val scope = rememberCoroutineScope()
-    LazyColumn(Modifier.fillMaxHeight(), contentPadding = PaddingValues(bottom = 70.dp)) {
+    val reorderState = rememberReorderState()
+    LazyColumn(
+        Modifier
+            .fillMaxHeight()
+            .reorderable(
+                reorderState,
+                onMove = { from, to ->
+                    (from.key as? Int)?.let { id1 ->
+                        (to.key as? Int)?.let { id2 ->
+                            viewModel.swapSetGroups(id1, id2)
+                        }
+                    }
+                },
+                canDragOver = { it.key is Int }
+            ),
+        state = reorderState.listState,
+        contentPadding = PaddingValues(bottom = 70.dp)
+    ) {
 
         item {
             val (name, setName) = remember { mutableStateOf(routine.name) }
@@ -200,10 +223,11 @@ private fun RoutineEditorContent(
             )
         }
 
-        items(setGroups.sortedBy { it.group.position }) { setGroup ->
+        items(setGroups.sortedBy { it.group.position }, key = { it.group.id }) { setGroup ->
             val exercise = viewModel.getExercise(setGroup.group.exerciseId)!!
             Card(
                 Modifier
+                    .draggedItem(reorderState.offsetByKey(setGroup.group.id))
                     .fillMaxWidth()
                     .padding(top = 24.dp),
                 shape = RoundedCornerShape(24.dp),
@@ -223,13 +247,10 @@ private fun RoutineEditorContent(
                             )
 
                             IconButton(
-                                modifier = Modifier.padding(16.dp),
-                                onClick = {
-                                    // TODO drag & drop
-                                    if (setGroup.group.position < setGroups.lastIndex) {
-                                        viewModel.swapSetGroups(setGroup.group, setGroups.find {it.group.position == setGroup.group.position + 1}!!.group)
-                                    }
-                                }
+                                modifier = Modifier
+                                    .padding(16.dp)
+                                    .detectReorder(reorderState),
+                                onClick = {}
                             ) {
                                 Icon(Icons.Default.DragHandle, "More")
                             }
