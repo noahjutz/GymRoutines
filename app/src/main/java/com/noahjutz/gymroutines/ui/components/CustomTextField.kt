@@ -124,8 +124,10 @@ fun AutoSelectTextField(
     BasicTextField(
         modifier = modifier.onFocusChanged {
             if (it.isFocused) {
-                selectText()
-                isValueChangeLocked = true
+                if (textFieldValue.text.isNotEmpty()) {
+                    selectText()
+                    isValueChangeLocked = true
+                }
             }
         },
         value = textFieldValue,
