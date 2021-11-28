@@ -32,13 +32,11 @@ import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.DragHandle
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -252,57 +250,71 @@ private fun WorkoutInProgressContent(
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center
                             )
-                            if (exercise?.logReps == true) Surface(
+                            if (exercise?.logReps == true) Box(
                                 Modifier
                                     .padding(4.dp)
-                                    .weight(1f),
-                                color = colors.primary.copy(alpha = 0.1f),
-                                shape = RoundedCornerShape(8.dp)
+                                    .weight(1f)
+                                    .height(56.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(colors.primary.copy(alpha = 0.1f)),
+                                contentAlignment = Alignment.Center
                             ) {
                                 Text(
                                     "Reps",
-                                    Modifier.padding(vertical = 16.dp),
                                     style = headerTextStyle
                                 )
                             }
-                            if (exercise?.logWeight == true) Surface(
+                            if (exercise?.logWeight == true) Box(
                                 Modifier
                                     .padding(4.dp)
-                                    .weight(1f),
-                                color = colors.primary.copy(alpha = 0.1f),
-                                shape = RoundedCornerShape(8.dp)
+                                    .weight(1f)
+                                    .height(56.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(colors.primary.copy(alpha = 0.1f)),
+                                contentAlignment = Alignment.Center
                             ) {
                                 Text(
                                     "Weight",
-                                    Modifier.padding(vertical = 16.dp),
                                     style = headerTextStyle
                                 )
                             }
-                            if (exercise?.logTime == true) Surface(
+                            if (exercise?.logTime == true) Box(
                                 Modifier
                                     .padding(4.dp)
-                                    .weight(1f),
-                                color = colors.primary.copy(alpha = 0.1f),
-                                shape = RoundedCornerShape(8.dp)
+                                    .weight(1f)
+                                    .height(56.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(colors.primary.copy(alpha = 0.1f)),
+                                contentAlignment = Alignment.Center
                             ) {
                                 Text(
                                     "Time",
-                                    Modifier.padding(vertical = 16.dp),
                                     style = headerTextStyle
                                 )
                             }
-                            if (exercise?.logDistance == true) Surface(
+                            if (exercise?.logDistance == true) Box(
                                 Modifier
                                     .padding(4.dp)
-                                    .weight(1f),
-                                color = colors.primary.copy(alpha = 0.1f),
-                                shape = RoundedCornerShape(8.dp)
+                                    .weight(1f)
+                                    .height(56.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(colors.primary.copy(alpha = 0.1f)),
+                                contentAlignment = Alignment.Center
                             ) {
                                 Text(
                                     "Distance",
-                                    Modifier.padding(vertical = 16.dp),
                                     style = headerTextStyle
                                 )
+                            }
+                            Box(
+                                Modifier
+                                    .padding(4.dp)
+                                    .size(56.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(colors.primary.copy(alpha = 0.1f)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(Icons.Default.Check, null)
                             }
                         }
                         for (set in setGroup.sets) {
@@ -351,10 +363,9 @@ private fun WorkoutInProgressContent(
                                                     shape = RoundedCornerShape(8.dp),
                                                 ) {
                                                     Box(
-                                                        Modifier.padding(
-                                                            vertical = 16.dp,
-                                                            horizontal = 4.dp
-                                                        ),
+                                                        Modifier
+                                                            .padding(horizontal = 4.dp)
+                                                            .height(56.dp),
                                                         contentAlignment = Alignment.Center
                                                     ) {
                                                         innerTextField()
@@ -454,6 +465,16 @@ private fun WorkoutInProgressContent(
                                                 cursorColor = colors.onSurface,
                                                 decorationBox = decorationBox
                                             )
+                                        }
+                                        Box(
+                                            Modifier
+                                                .padding(4.dp)
+                                                .size(56.dp)
+                                                .clip(RoundedCornerShape(8.dp))
+                                                .background(colors.onSurface.copy(alpha = 0.1f)),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Icon(Icons.Default.Check, null)
                                         }
                                     }
                                 }
