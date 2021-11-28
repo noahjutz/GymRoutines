@@ -63,22 +63,20 @@ fun WorkoutViewer(
 fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewerViewModel) {
     LazyColumn {
         item {
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(24.dp))
             Text(
                 text = workout.workout.name,
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = 24.dp),
                 style = typography.h4,
             )
             Text(
                 text = workout.workout.endTime.pretty(),
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = 24.dp),
             )
             Text(
                 text = workout.workout.duration.pretty(),
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = 24.dp),
             )
-            Spacer(Modifier.height(16.dp))
-            Divider()
         }
 
         items(workout.setGroups.sortedBy { it.group.position }) { setGroup ->
