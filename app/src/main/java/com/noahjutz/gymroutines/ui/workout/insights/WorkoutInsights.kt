@@ -53,7 +53,7 @@ fun WorkoutInsights(
 ) {
     val workouts by viewModel.presenter.workouts.collectAsState(initial = emptyList())
 
-    if (workouts.isEmpty()) NothingHereYet("Insights will be available when you finish your first workout.")
+    if (workouts.size <= 1) NothingHereYet("No data yet.")
     else WorkoutInsightsContent(viewModel, navToWorkoutEditor)
 }
 
