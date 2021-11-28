@@ -19,6 +19,7 @@
 package com.noahjutz.gymroutines.ui.workout.in_progress
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -34,7 +35,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import com.noahjutz.gymroutines.data.domain.duration
@@ -91,11 +91,15 @@ fun WorkoutInProgress(
         ) {
             val workout by viewModel.workout.collectAsState(initial = null)
 
-            if (workout != null) {
-                WorkoutInProgressContent(workout!!, viewModel, popBackStack, scope, sheetState)
-            } else {
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
+            Crossfade(workout == null) { isNull ->
+                if (isNull) {
+                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator()
+                    }
+                } else {
+                    workout?.let { workout ->
+                        WorkoutInProgressContent(workout, viewModel, popBackStack, scope, sheetState)
+                    }
                 }
             }
         }
