@@ -35,7 +35,6 @@ import com.noahjutz.gymroutines.ui.routines.editor.RoutineEditor
 import com.noahjutz.gymroutines.ui.settings.AppSettings
 import com.noahjutz.gymroutines.ui.settings.about.AboutApp
 import com.noahjutz.gymroutines.ui.settings.about.LicensesList
-import com.noahjutz.gymroutines.ui.workout.completed.WorkoutCompleted
 import com.noahjutz.gymroutines.ui.workout.in_progress.WorkoutInProgress
 import com.noahjutz.gymroutines.ui.workout.insights.WorkoutInsights
 import com.noahjutz.gymroutines.ui.workout.viewer.WorkoutViewer
@@ -53,7 +52,6 @@ enum class Screen {
     settings,
     about,
     licenses,
-    workoutCompleted
 }
 
 @ExperimentalTime
@@ -149,19 +147,6 @@ fun NavGraph(
         }
         composable(Screen.licenses.name) {
             LicensesList(popBackStack = { navController.popBackStack() })
-        }
-        composable(
-            "${Screen.workoutCompleted.name}/{routineId}/{workoutId}",
-            arguments = listOf(
-                navArgument("routineId") { type = NavType.IntType },
-                navArgument("workoutId") { type = NavType.IntType }
-            )
-        ) { backStackEntry ->
-            WorkoutCompleted(
-                popBackStack = { navController.popBackStack() },
-                routineId = backStackEntry.arguments!!.getInt("routineId"),
-                workoutId = backStackEntry.arguments!!.getInt("workoutId"),
-            )
         }
     }
 }

@@ -26,7 +26,6 @@ import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerViewModel
 import com.noahjutz.gymroutines.ui.routines.RoutineListViewModel
 import com.noahjutz.gymroutines.ui.routines.editor.RoutineEditorViewModel
 import com.noahjutz.gymroutines.ui.settings.AppSettingsViewModel
-import com.noahjutz.gymroutines.ui.workout.completed.WorkoutCompletedViewModel
 import com.noahjutz.gymroutines.ui.workout.in_progress.WorkoutInProgressViewModel
 import com.noahjutz.gymroutines.ui.workout.insights.WorkoutInsightsViewModel
 import com.noahjutz.gymroutines.ui.workout.viewer.WorkoutViewerViewModel
@@ -125,15 +124,6 @@ val koinModule = module {
             workoutId = params.get(),
             workoutRepository = get(),
             exerciseRepository = get(),
-        )
-    }
-
-    viewModel { params ->
-        WorkoutCompletedViewModel(
-            routineId = params[0],
-            workoutId = params[1],
-            routineRepository = get(),
-            workoutRepository = get(),
         )
     }
 }
