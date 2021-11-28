@@ -21,11 +21,13 @@ package com.noahjutz.gymroutines.ui.workout.in_progress
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -471,10 +473,26 @@ private fun WorkoutInProgressContent(
                                                 .padding(4.dp)
                                                 .size(56.dp)
                                                 .clip(RoundedCornerShape(8.dp))
-                                                .background(colors.onSurface.copy(alpha = 0.1f)),
+                                                .toggleable(
+                                                    value = set.complete,
+                                                    onValueChange = {
+                                                        viewModel.updateChecked(set, it)
+                                                    },
+                                                )
+                                                .background(
+                                                    animateColorAsState(
+                                                        if (set.complete) colors.secondary else colors.onSurface.copy(
+                                                            alpha = 0.1f
+                                                        )
+                                                    ).value
+                                                ),
                                             contentAlignment = Alignment.Center
                                         ) {
-                                            Icon(Icons.Default.Check, null)
+                                            Icon(
+                                                Icons.Default.Check,
+                                                "Complete",
+                                                tint = animateColorAsState(if (set.complete) colors.onSecondary else colors.onSurface).value
+                                            )
                                         }
                                     }
                                 }

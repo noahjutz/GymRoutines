@@ -141,6 +141,12 @@ class WorkoutInProgressViewModel(
         }
     }
 
+    fun updateChecked(set: WorkoutSet, checked: Boolean) {
+        viewModelScope.launch {
+            workoutRepository.insert(set.copy(complete = checked))
+        }
+    }
+
     private fun setEndTime(endTime: Date) {
         _workout?.workout?.let { workout ->
             viewModelScope.launch {
