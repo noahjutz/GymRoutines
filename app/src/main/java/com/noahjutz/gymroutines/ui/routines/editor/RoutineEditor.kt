@@ -67,7 +67,7 @@ import org.koin.core.parameter.parametersOf
 @ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @Composable
-fun CreateRoutineScreen(
+fun RoutineEditor(
     navToExerciseEditor: () -> Unit,
     navToWorkout: (Long) -> Unit,
     popBackStack: () -> Unit,

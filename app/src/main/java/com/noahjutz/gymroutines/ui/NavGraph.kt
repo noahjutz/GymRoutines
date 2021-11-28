@@ -31,7 +31,7 @@ import androidx.navigation.navArgument
 import com.noahjutz.gymroutines.ui.exercises.editor.ExerciseEditor
 import com.noahjutz.gymroutines.ui.exercises.list.ExerciseList
 import com.noahjutz.gymroutines.ui.routines.RoutineList
-import com.noahjutz.gymroutines.ui.routines.editor.CreateRoutineScreen
+import com.noahjutz.gymroutines.ui.routines.editor.RoutineEditor
 import com.noahjutz.gymroutines.ui.settings.AppSettings
 import com.noahjutz.gymroutines.ui.settings.about.AboutApp
 import com.noahjutz.gymroutines.ui.settings.about.LicensesList
@@ -89,7 +89,7 @@ fun NavGraph(
             route = "${Screen.routineEditor}/{routineId}",
             arguments = listOf(navArgument("routineId") { type = NavType.IntType })
         ) { backStackEntry ->
-            CreateRoutineScreen(
+            RoutineEditor(
                 routineId = backStackEntry.arguments!!.getInt("routineId"),
                 navToWorkout = { workoutId: Long ->
                     navController.navigate("${Screen.workoutInProgress}/$workoutId") {
