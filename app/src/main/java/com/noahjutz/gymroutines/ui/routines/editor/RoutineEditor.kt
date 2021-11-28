@@ -68,14 +68,12 @@ import org.koin.core.parameter.parametersOf
 @ExperimentalFoundationApi
 @Composable
 fun CreateRoutineScreen(
+    navToExerciseEditor: () -> Unit,
     navToWorkout: (Long) -> Unit,
     popBackStack: () -> Unit,
     routineId: Int,
     viewModel: RoutineEditorViewModel = getViewModel { parametersOf(routineId) },
-    preferences: DataStore<Preferences> = get(),
-    navToExerciseEditor: () -> Unit,
 ) {
-    val preferencesData by preferences.data.collectAsState(null)
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
     val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
