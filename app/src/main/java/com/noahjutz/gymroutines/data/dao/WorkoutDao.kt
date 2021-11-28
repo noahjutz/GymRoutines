@@ -59,4 +59,10 @@ interface WorkoutDao {
 
     @Query("SELECT * FROM workout_set_group_table WHERE id == :id")
     suspend fun getSetGroup(id: Int): WorkoutSetGroup?
+
+    @Query("SELECT * FROM workout_set_group_table WHERE workoutId == :workoutId")
+    suspend fun getSetGroups(workoutId: Int): List<WorkoutSetGroup>
+
+    @Query("SELECT * FROM workout_set_table WHERE groupId == :groupId")
+    suspend fun getSetsInGroup(groupId: Int): List<WorkoutSet>
 }

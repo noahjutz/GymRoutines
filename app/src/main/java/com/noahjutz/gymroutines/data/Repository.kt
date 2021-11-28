@@ -165,11 +165,27 @@ class WorkoutRepository(private val workoutDao: WorkoutDao) {
         }
     }
 
+    suspend fun delete(setGroup: WorkoutSetGroup) {
+        workoutDao.delete(setGroup)
+
+        val nextSetGroups = workoutDao.getSetGroups(setGroup.workoutId)
+            .filter { it.position > setGroup.position }
+
+        for (group in nextSetGroups) {
+            workoutDao.insert(group.copy(position = group.position - 1))
+        }
+    }
+
     suspend fun getSetGroup(id: Int): WorkoutSetGroup? {
         return workoutDao.getSetGroup(id)
     }
 
     suspend fun delete(set: WorkoutSet) {
         workoutDao.delete(set)
+        if (workoutDao.getSetsInGroup(set.groupId).isEmpty()) {
+            workoutDao.getSetGroup(set.groupId)?.let { setGroup ->
+                delete(setGroup)
+            }
+        }
     }
 }
