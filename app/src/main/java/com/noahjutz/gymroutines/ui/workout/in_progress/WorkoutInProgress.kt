@@ -178,7 +178,7 @@ private fun WorkoutInProgressContent(
             )
         }
 
-        items(workout.setGroups) { setGroup ->
+        items(workout.setGroups.sortedBy { it.group.position }, key = { it.group.id }) { setGroup ->
             val exercise by viewModel.getExercise(setGroup.group.exerciseId)
                 .collectAsState(initial = null)
             Card(
