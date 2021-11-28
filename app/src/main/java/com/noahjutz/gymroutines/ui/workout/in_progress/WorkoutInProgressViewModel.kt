@@ -28,10 +28,8 @@ import com.noahjutz.gymroutines.data.ExerciseRepository
 import com.noahjutz.gymroutines.data.RoutineRepository
 import com.noahjutz.gymroutines.data.WorkoutRepository
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
-import com.noahjutz.gymroutines.data.domain.duration
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -69,13 +67,20 @@ class WorkoutInProgressViewModel(
         }
     }
 
-    fun cancelWorkout(onFinished: () -> Unit) {
+    fun cancelWorkout(onCompletion: () -> Unit) {
         _workout?.let { workout ->
             viewModelScope.launch {
                 workoutRepository.delete(workout)
                 preferences.edit { it[AppPrefs.CurrentWorkout.key] = -1 }
-                onFinished()
+                onCompletion()
             }
+        }
+    }
+
+    fun finishWorkout(onCompletion: () -> Unit) {
+        viewModelScope.launch {
+            preferences.edit { it[AppPrefs.CurrentWorkout.key] = -1 }
+            onCompletion()
         }
     }
 }

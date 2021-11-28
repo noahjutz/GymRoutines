@@ -114,8 +114,7 @@ private fun WorkoutInProgressContent(
     if (showFinishWorkoutDialog) FinishWorkoutDialog(
         onDismiss = { showFinishWorkoutDialog = false },
         finishWorkout = {
-            // TODO viewModel.finishWorkout()
-            popBackStack()
+            viewModel.finishWorkout(popBackStack)
         }
     )
 
@@ -123,7 +122,7 @@ private fun WorkoutInProgressContent(
     if (showCancelWorkoutDialog) CancelWorkoutDialog(
         onDismiss = { showCancelWorkoutDialog = false },
         cancelWorkout = {
-            viewModel.cancelWorkout { popBackStack() }
+            viewModel.cancelWorkout(popBackStack)
         }
     )
 
