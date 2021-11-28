@@ -79,7 +79,6 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
             )
             Spacer(Modifier.height(16.dp))
             Divider()
-            Spacer(Modifier.height(16.dp))
         }
 
         items(workout.setGroups.sortedBy { it.group.position }) { setGroup ->
