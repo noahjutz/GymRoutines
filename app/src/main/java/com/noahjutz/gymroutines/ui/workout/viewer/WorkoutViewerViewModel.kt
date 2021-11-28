@@ -6,6 +6,7 @@ import com.noahjutz.gymroutines.data.ExerciseRepository
 import com.noahjutz.gymroutines.data.WorkoutRepository
 import com.noahjutz.gymroutines.data.domain.Exercise
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -24,7 +25,7 @@ class WorkoutViewerViewModel(
         }
     }
 
-    fun getExercise(exerciseId: Int): Exercise? {
-        return exerciseRepository.getExercise(exerciseId)
+    fun getExercise(exerciseId: Int): Flow<Exercise?> {
+        return exerciseRepository.getExerciseFlow(exerciseId)
     }
 }
