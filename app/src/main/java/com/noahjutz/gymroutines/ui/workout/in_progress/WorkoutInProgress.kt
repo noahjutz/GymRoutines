@@ -24,17 +24,18 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import com.noahjutz.gymroutines.data.domain.duration
@@ -98,7 +99,13 @@ fun WorkoutInProgress(
                     }
                 } else {
                     workout?.let { workout ->
-                        WorkoutInProgressContent(workout, viewModel, popBackStack, scope, sheetState)
+                        WorkoutInProgressContent(
+                            workout,
+                            viewModel,
+                            popBackStack,
+                            scope,
+                            sheetState
+                        )
                     }
                 }
             }
@@ -134,15 +141,26 @@ private fun WorkoutInProgressContent(
 
     LazyColumn(Modifier.fillMaxHeight()) {
         item {
-            Text(
-                workout.workout.name,
-                Modifier.padding(top = 24.dp, start = 24.dp, end = 24.dp),
-                style = typography.h3
-            )
+            Surface(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp, start = 24.dp, end = 24.dp),
+                color = colors.onSurface.copy(alpha = 0.1f),
+                shape = RoundedCornerShape(24.dp)
+            ) {
+                Box(Modifier.padding(24.dp)) {
+                    Text(
+                        workout.workout.name,
+                        style = typography.h3
+                    )
+                }
+            }
             Text(
                 workout.workout.duration.pretty(),
-                Modifier.padding(start = 24.dp, end = 24.dp),
-                style = typography.h6
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp, start = 24.dp, end = 24.dp),
+                style = typography.h4.copy(textAlign = TextAlign.Center)
             )
         }
 
@@ -152,15 +170,13 @@ private fun WorkoutInProgressContent(
         //}
 
         item {
-            Spacer(Modifier.height(16.dp))
-            OutlinedButton(
+            Button(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp)
-                    .height(120.dp),
-                onClick = {
-                    scope.launch { sheetState.show() }
-                }
+                    .padding(top = 24.dp, start = 24.dp, end = 24.dp)
+                    .fillMaxWidth()
+                    .height(128.dp),
+                shape = RoundedCornerShape(24.dp),
+                onClick = { scope.launch { sheetState.show() } }
             ) {
                 Icon(Icons.Default.Add, null)
                 Spacer(Modifier.width(12.dp))
@@ -170,24 +186,24 @@ private fun WorkoutInProgressContent(
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(24.dp),
                 horizontalArrangement = Arrangement.Center,
             ) {
-                TextButton(
-                    modifier = Modifier.weight(1f),
+                OutlinedButton(
+                    modifier = Modifier.height(40.dp),
+                    shape = RoundedCornerShape(percent = 100),
                     onClick = { showCancelWorkoutDialog = true },
                 ) {
-                    Icon(Icons.Default.Delete, null)
-                    Spacer(Modifier.width(8.dp))
                     Text("Delete Workout")
                 }
                 Spacer(Modifier.width(16.dp))
                 Button(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(40.dp),
+                    shape = RoundedCornerShape(percent = 100),
                     onClick = { showFinishWorkoutDialog = true }
                 ) {
-                    Icon(Icons.Default.Done, null)
-                    Spacer(Modifier.width(8.dp))
                     Text("Finish Workout")
                 }
             }
