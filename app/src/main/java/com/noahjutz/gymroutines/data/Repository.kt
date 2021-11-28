@@ -36,6 +36,10 @@ class ExerciseRepository(private val exerciseDao: ExerciseDao) {
         }
     }
 
+    fun getExerciseFlow(exerciseId: Int): Flow<Exercise?> {
+        return exerciseDao.getExerciseFlow(exerciseId)
+    }
+
     fun getExercise(id: Int): Exercise? = runBlocking {
         withContext(IO) {
             exerciseDao.getExercise(id)
@@ -161,13 +165,11 @@ class WorkoutRepository(private val workoutDao: WorkoutDao) {
         }
     }
 
-    // TODO remove
-    suspend fun insertRoutineAsWorkout(routine: RoutineWithSetGroups): Long {
-        return -1L
+    suspend fun getSetGroup(id: Int): WorkoutSetGroup? {
+        return workoutDao.getSetGroup(id)
     }
 
-    suspend fun insertAsWorkout(routine: RoutineWithSetGroups): Long {
-
-        return -1
+    suspend fun delete(set: WorkoutSet) {
+        workoutDao.delete(set)
     }
 }

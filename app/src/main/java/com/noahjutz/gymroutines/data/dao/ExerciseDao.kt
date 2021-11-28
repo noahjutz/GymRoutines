@@ -35,4 +35,7 @@ interface ExerciseDao {
 
     @Query("SELECT * FROM exercise_table WHERE exerciseId == :id")
     fun getExercise(id: Int): Exercise?
+
+    @Query("SELECT * FROM exercise_table WHERE exerciseId == :id")
+    fun getExerciseFlow(id: Int): Flow<Exercise?>
 }

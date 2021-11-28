@@ -25,10 +25,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.AppPrefs
 import com.noahjutz.gymroutines.data.ExerciseRepository
-import com.noahjutz.gymroutines.data.RoutineRepository
 import com.noahjutz.gymroutines.data.WorkoutRepository
-import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
+import com.noahjutz.gymroutines.data.domain.*
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
@@ -36,7 +36,6 @@ import java.util.*
 class WorkoutInProgressViewModel(
     private val preferences: DataStore<Preferences>,
     private val workoutRepository: WorkoutRepository,
-    private val routineRepository: RoutineRepository,
     private val exerciseRepository: ExerciseRepository,
     workoutId: Int,
 ) : ViewModel() {
@@ -56,6 +55,89 @@ class WorkoutInProgressViewModel(
                     delay(60000)
                 }
             }
+        }
+    }
+
+    fun getExercise(exerciseId: Int): Flow<Exercise?> {
+        return exerciseRepository.getExerciseFlow(exerciseId)
+    }
+
+    fun deleteSet(set: WorkoutSet) {
+        viewModelScope.launch {
+            workoutRepository.delete(set)
+        }
+    }
+
+    fun addSet(setGroup: WorkoutSetGroupWithSets) {
+        viewModelScope.launch {
+            val lastSet = setGroup.sets.lastOrNull()
+            workoutRepository.insert(
+                WorkoutSet(
+                    groupId = setGroup.group.id,
+                    position = setGroup.sets.size,
+                    reps = lastSet?.reps,
+                    weight = lastSet?.weight,
+                    time = lastSet?.time,
+                    distance = lastSet?.distance,
+                )
+            )
+        }
+    }
+
+    fun addExercises(exercises: List<Exercise>) {
+        _workout?.let { workout ->
+            viewModelScope.launch {
+                for (exercise in exercises) {
+                    val setGroup = WorkoutSetGroup(
+                        exerciseId = exercise.exerciseId,
+                        workoutId = workout.workout.workoutId,
+                        position = workout.setGroups.size,
+                    )
+                    val groupId = workoutRepository.insert(setGroup)
+                    val set = WorkoutSet(
+                        groupId = groupId.toInt(),
+                        position = 0
+                    )
+                    workoutRepository.insert(set)
+                }
+            }
+        }
+    }
+
+    fun swapSetGroups(id1: Int, id2: Int) {
+        viewModelScope.launch {
+            val g1 = workoutRepository.getSetGroup(id1)
+            val g2 = workoutRepository.getSetGroup(id2)
+            if (g1 != null && g2 != null) {
+                val newG1 = g1.copy(position = g2.position)
+                val newG2 = g2.copy(position = g1.position)
+                workoutRepository.insert(newG1)
+                workoutRepository.insert(newG2)
+            }
+        }
+    }
+
+    fun updateReps(set: WorkoutSet, reps: Int?) {
+        viewModelScope.launch {
+            workoutRepository.insert(set.copy(reps = reps))
+        }
+    }
+
+    fun updateWeight(set: WorkoutSet, weight: Double?) {
+        viewModelScope.launch {
+            workoutRepository.insert(set.copy(weight = weight))
+        }
+    }
+
+    fun updateTime(set: WorkoutSet, time: Int?) {
+        viewModelScope.launch {
+            workoutRepository.insert(set.copy(time = time))
+        }
+    }
+
+    fun updateDistance(set: WorkoutSet, distance: Double?) {
+        viewModelScope.launch {
+            workoutRepository.insert(set.copy(distance = distance))
         }
     }
 

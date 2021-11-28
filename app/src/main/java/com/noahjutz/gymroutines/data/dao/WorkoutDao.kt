@@ -56,4 +56,7 @@ interface WorkoutDao {
 
     @Delete
     suspend fun delete(workoutSetGroup: WorkoutSetGroup)
+
+    @Query("SELECT * FROM workout_set_group_table WHERE id == :id")
+    suspend fun getSetGroup(id: Int): WorkoutSetGroup?
 }

@@ -100,7 +100,6 @@ val koinModule = module {
         WorkoutInProgressViewModel(
             preferences = get(),
             workoutRepository = get(),
-            routineRepository = get(),
             exerciseRepository = get(),
             workoutId = params.get(),
         )
