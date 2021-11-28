@@ -86,8 +86,8 @@ fun WorkoutInProgress(
         sheetElevation = 0.dp,
         sheetContent = {
             ExercisePickerSheet(
-                onExercisesSelected = {
-                    // TODO viewModel.addExercises()
+                onExercisesSelected = { exercises ->
+                    viewModel.addExercises(exercises)
                     scope.launch { sheetState.hide() }
                 },
                 navToExerciseEditor = navToExerciseEditor
