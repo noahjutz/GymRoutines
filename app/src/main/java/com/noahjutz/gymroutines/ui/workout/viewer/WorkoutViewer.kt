@@ -1,5 +1,6 @@
 package com.noahjutz.gymroutines.ui.workout.viewer
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,7 +10,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
@@ -53,7 +53,17 @@ fun WorkoutViewer(
         }
     ) {
         val workout by viewModel.workout.collectAsState()
-        if (workout != null) WorkoutViewerContent(workout!!, viewModel)
+        Crossfade(workout == null) { isNull ->
+            if (isNull) {
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
+            } else {
+                workout?.let { workout ->
+                    WorkoutViewerContent(workout, viewModel)
+                }
+            }
+        }
     }
 }
 
