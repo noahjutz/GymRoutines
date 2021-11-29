@@ -78,6 +78,18 @@ class RoutineRepository(private val routineDao: RoutineDao) {
         return routineDao.insert(routine)
     }
 
+    suspend fun update(routine: Routine) {
+        routineDao.update(routine)
+    }
+
+    suspend fun update(set: RoutineSet) {
+        routineDao.update(set)
+    }
+
+    suspend fun update(setGroup: RoutineSetGroup) {
+        routineDao.update(setGroup)
+    }
+
     suspend fun insert(set: RoutineSet): Long {
         return routineDao.insert(set)
     }

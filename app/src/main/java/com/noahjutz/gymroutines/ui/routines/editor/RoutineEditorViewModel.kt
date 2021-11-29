@@ -69,7 +69,7 @@ class RoutineEditorViewModel(
     fun updateName(name: String) {
         _routine?.let {
             viewModelScope.launch {
-                routineRepository.insert(it.copy(name = name))
+                routineRepository.update(it.copy(name = name))
             }
         }
     }
@@ -123,33 +123,33 @@ class RoutineEditorViewModel(
             if (g1 != null && g2 != null) {
                 val newG1 = g1.copy(position = g2.position)
                 val newG2 = g2.copy(position = g1.position)
-                routineRepository.insert(newG1)
-                routineRepository.insert(newG2)
+                routineRepository.update(newG1)
+                routineRepository.update(newG2)
             }
         }
     }
 
     fun updateReps(set: RoutineSet, reps: Int?) {
         viewModelScope.launch {
-            routineRepository.insert(set.copy(reps = reps))
+            routineRepository.update(set.copy(reps = reps))
         }
     }
 
     fun updateWeight(set: RoutineSet, weight: Double?) {
         viewModelScope.launch {
-            routineRepository.insert(set.copy(weight = weight))
+            routineRepository.update(set.copy(weight = weight))
         }
     }
 
     fun updateTime(set: RoutineSet, time: Int?) {
         viewModelScope.launch {
-            routineRepository.insert(set.copy(time = time))
+            routineRepository.update(set.copy(time = time))
         }
     }
 
     fun updateDistance(set: RoutineSet, distance: Double?) {
         viewModelScope.launch {
-            routineRepository.insert(set.copy(distance = distance))
+            routineRepository.update(set.copy(distance = distance))
         }
     }
 

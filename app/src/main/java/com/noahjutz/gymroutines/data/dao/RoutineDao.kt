@@ -27,14 +27,23 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RoutineDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     suspend fun insert(routine: Routine): Long
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Update
+    suspend fun update(routine: Routine)
+
+    @Insert
     suspend fun insert(routineSet: RoutineSet): Long
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Update
+    suspend fun update(routineSet: RoutineSet)
+
+    @Insert
     suspend fun insert(routineSetGroup: RoutineSetGroup): Long
+
+    @Update
+    suspend fun update(routineSetGroup: RoutineSetGroup)
 
     @Delete
     suspend fun delete(routine: Routine)
