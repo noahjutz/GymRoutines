@@ -18,10 +18,7 @@
 
 package com.noahjutz.gymroutines.data.domain
 
-import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import androidx.room.Relation
+import androidx.room.*
 import kotlinx.serialization.Serializable
 
 // Temporary class for SetGroupCard. TODO remove and use RoutineSet/WorkoutSet
@@ -37,7 +34,17 @@ data class ExerciseSetLegacy(
     val setId: Int,
 )
 
-@Entity(tableName = "routine_set_table")
+@Entity(
+    tableName = "routine_set_table",
+    foreignKeys = [
+        ForeignKey(
+            entity = RoutineSetGroup::class,
+            parentColumns = ["id"],
+            childColumns = ["groupId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
+)
 data class RoutineSet(
     val groupId: Int,
     val position: Int,
@@ -50,7 +57,17 @@ data class RoutineSet(
     val routineSetId: Int = 0
 )
 
-@Entity(tableName = "routine_set_group_table")
+@Entity(
+    tableName = "routine_set_group_table",
+    foreignKeys = [
+        ForeignKey(
+            entity = Routine::class,
+            parentColumns = ["routineId"],
+            childColumns = ["routineId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
+)
 data class RoutineSetGroup(
     val routineId: Int,
     val exerciseId: Int,

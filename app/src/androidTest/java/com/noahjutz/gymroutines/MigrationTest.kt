@@ -93,4 +93,14 @@ class MigrationTest {
         }
         db = helper.runMigrationsAndValidate(TEST_DB, 39, true, MIGRATION_38_39)
     }
+
+    @Test
+    @Throws(IOException::class)
+    fun migrate39to40() {
+        var db = helper.createDatabase(TEST_DB, 39).use {
+            it.execSQL("INSERT INTO routine_table VALUES ('Legs', 0)")
+            it
+        }
+        db = helper.runMigrationsAndValidate(TEST_DB, 40, true)
+    }
 }

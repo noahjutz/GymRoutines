@@ -40,9 +40,10 @@ import kotlinx.serialization.json.*
         WorkoutSet::class,
         WorkoutSetGroup::class,
     ],
-    version = 39,
+    version = 40,
     autoMigrations = [
-        AutoMigration(from = 35, to = 36)
+        AutoMigration(from = 35, to = 36),
+        AutoMigration(from = 39, to = 40)
     ],
     exportSchema = true
 )
@@ -391,5 +392,21 @@ val MIGRATION_38_39 = object : Migration(38, 39) {
         }
         workoutSetCursor.close()
         db.execSQL("DROP TABLE workout_set_table_old ")
+    }
+}
+
+/**
+ * Adds foreign keys to:
+ * routine_set_group_table,
+ * routine_set_table,
+ * workout_set_group_table,
+ * workout_set_table.
+ *
+ * The foreign keys have an ON DELETE CASCADE action, meaning that children are deleted when their
+ * parents are deleted.
+ */
+val MIGRATION_39_40 = object : Migration(39, 40) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        // TODO
     }
 }
