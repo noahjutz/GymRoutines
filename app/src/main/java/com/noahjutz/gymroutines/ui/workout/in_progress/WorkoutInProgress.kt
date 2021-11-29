@@ -19,9 +19,7 @@
 package com.noahjutz.gymroutines.ui.workout.in_progress
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.Crossfade
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -488,11 +486,17 @@ private fun WorkoutInProgressContent(
                                                 ),
                                             contentAlignment = Alignment.Center
                                         ) {
-                                            Icon(
-                                                Icons.Default.Check,
-                                                "Complete",
-                                                tint = animateColorAsState(if (set.complete) colors.onSecondary else colors.onSurface).value
-                                            )
+                                            androidx.compose.animation.AnimatedVisibility(
+                                                visible = set.complete,
+                                                enter = fadeIn(),
+                                                exit = fadeOut()
+                                            ) {
+                                                Icon(
+                                                    Icons.Default.Check,
+                                                    "Complete",
+                                                    tint = colors.onSecondary
+                                                )
+                                            }
                                         }
                                     }
                                 }
