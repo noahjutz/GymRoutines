@@ -442,36 +442,40 @@ val MIGRATION_39_40 = object : Migration(39, 40) {
         db.execSQL("INSERT INTO routine_set_table SELECT groupId, position, reps, weight, time, distance, routineSetId FROM routine_set_table_old")
         db.execSQL("DROP TABLE routine_set_table_old")
 
-        // Add foreign key to workout_set_group_table TODO
-        //db.execSQL("ALTER TABLE routine_set_group_table RENAME TO routine_set_group_table_old")
-        //db.execSQL(
-        //    """
-        //    CREATE TABLE routine_set_group_table (
-        //        routineId INTEGER NOT NULL,
-        //        exerciseId INTEGER NOT NULL,
-        //        position INTEGER NOT NULL,
-        //        id INTEGER PRIMARY KEY NOT NULL,
-        //        FOREIGN KEY (routineId) REFERENCES routine_table(routineId) ON DELETE CASCADE
-        //    )
-        //    """.trimIndent()
-        //)
-        //db.execSQL("INSERT INTO routine_set_group_table SELECT routineId, exerciseId, position, id FROM routine_set_group_table_old")
-        //db.execSQL("DROP TABLE routine_set_group_table_old")
+        // Add foreign key to workout_set_group_table
+        db.execSQL("ALTER TABLE workout_set_group_table RENAME TO workout_set_group_table_old")
+        db.execSQL(
+            """
+            CREATE TABLE workout_set_group_table (
+                workoutId INTEGER NOT NULL,
+                exerciseId INTEGER NOT NULL,
+                position INTEGER NOT NULL,
+                id INTEGER PRIMARY KEY NOT NULL,
+                FOREIGN KEY (workoutId) REFERENCES workout_table(workoutId) ON DELETE CASCADE
+            )
+            """.trimIndent()
+        )
+        db.execSQL("INSERT INTO workout_set_group_table SELECT workoutId, exerciseId, position, id FROM workout_set_group_table_old")
+        db.execSQL("DROP TABLE workout_set_group_table_old")
 
-        // Add foreign key to workout_set_table TODO
-        //db.execSQL("ALTER TABLE routine_set_group_table RENAME TO routine_set_group_table_old")
-        //db.execSQL(
-        //    """
-        //    CREATE TABLE routine_set_group_table (
-        //        routineId INTEGER NOT NULL,
-        //        exerciseId INTEGER NOT NULL,
-        //        position INTEGER NOT NULL,
-        //        id INTEGER PRIMARY KEY NOT NULL,
-        //        FOREIGN KEY (routineId) REFERENCES routine_table(routineId) ON DELETE CASCADE
-        //    )
-        //    """.trimIndent()
-        //)
-        //db.execSQL("INSERT INTO routine_set_group_table SELECT routineId, exerciseId, position, id FROM routine_set_group_table_old")
-        //db.execSQL("DROP TABLE routine_set_group_table_old")
+        // Add foreign key to workout_set_table
+        db.execSQL("ALTER TABLE workout_set_table RENAME TO workout_set_table_old")
+        db.execSQL(
+            """
+            CREATE TABLE workout_set_table (
+                groupId INTEGER NOT NULL,
+                position INTEGER NOT NULL,
+                reps INTEGER,
+                weight REAL,
+                time INTEGER,
+                distance REAL,
+                complete INTEGER NOT NULL DEFAULT 0,
+                workoutSetId INTEGER PRIMARY KEY NOT NULL,
+                FOREIGN KEY (groupId) REFERENCES workout_set_group_table(id) ON DELETE CASCADE
+            )
+            """.trimIndent()
+        )
+        db.execSQL("INSERT INTO workout_set_table SELECT groupId, position, reps, weight, time, distance, complete, workoutSetId FROM workout_set_table_old")
+        db.execSQL("DROP TABLE workout_set_table_old")
     }
 }
