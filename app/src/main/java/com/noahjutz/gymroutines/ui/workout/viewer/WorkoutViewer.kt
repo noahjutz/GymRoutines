@@ -3,11 +3,13 @@ package com.noahjutz.gymroutines.ui.workout.viewer
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -182,7 +184,7 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                     .padding(4.dp)
                                     .size(56.dp)
                                     .clip(RoundedCornerShape(8.dp))
-                                    .background(MaterialTheme.colors.primary.copy(alpha = 0.1f)),
+                                    .background(colors.primary.copy(alpha = 0.1f)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(Icons.Default.Check, null)
@@ -238,18 +240,20 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                         .size(56.dp)
                                         .clip(RoundedCornerShape(8.dp))
                                         .background(
-                                            if (set.complete) MaterialTheme.colors.secondary
-                                            else MaterialTheme.colors.onSurface.copy(
+                                            if (set.complete) colors.secondary
+                                            else colors.onSurface.copy(
                                                 alpha = 0.1f
                                             )
                                         ),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    Icon(
-                                        Icons.Default.Check,
-                                        "Complete",
-                                        tint = if (set.complete) MaterialTheme.colors.onSecondary else MaterialTheme.colors.onSurface
-                                    )
+                                    if (set.complete) {
+                                        Icon(
+                                            Icons.Default.Check,
+                                            "Complete",
+                                            tint = colors.onSecondary
+                                        )
+                                    }
                                 }
                             }
                         }
