@@ -85,7 +85,17 @@ data class RoutineSetGroupWithSets(
     ) val sets: List<RoutineSet>
 )
 
-@Entity(tableName = "workout_set_table")
+@Entity(
+    tableName = "workout_set_table",
+    foreignKeys = [
+        ForeignKey(
+            entity = WorkoutSetGroup::class,
+            childColumns = ["groupId"],
+            parentColumns = ["id"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
+)
 data class WorkoutSet(
     val groupId: Int,
     val position: Int,
@@ -99,7 +109,17 @@ data class WorkoutSet(
     val workoutSetId: Int = 0
 )
 
-@Entity(tableName = "workout_set_group_table")
+@Entity(
+    tableName = "workout_set_group_table",
+    foreignKeys = [
+        ForeignKey(
+            entity = Workout::class,
+            childColumns = ["workoutId"],
+            parentColumns = ["workoutId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
+)
 data class WorkoutSetGroup(
     val workoutId: Int,
     val exerciseId: Int,
