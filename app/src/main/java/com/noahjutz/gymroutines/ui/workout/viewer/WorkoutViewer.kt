@@ -12,9 +12,7 @@ import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -191,99 +189,67 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                             }
                         }
                         for (set in setGroup.sets) {
-                            val dismissState = rememberDismissState()
-                            LaunchedEffect(dismissState.currentValue) {
-                                if (dismissState.currentValue != DismissValue.Default) {
-                                    dismissState.snapTo(DismissValue.Default)
-                                }
-                            }
-                            SwipeToDismiss(
-                                state = dismissState,
-                                background = {
-                                    val alignment = when (dismissState.dismissDirection) {
-                                        DismissDirection.StartToEnd -> Alignment.CenterStart
-                                        DismissDirection.EndToStart -> Alignment.CenterEnd
-                                        else -> Alignment.Center
-                                    }
-                                    Box(
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .background(MaterialTheme.colors.secondary)
-                                            .padding(horizontal = 20.dp),
-                                        contentAlignment = alignment
-                                    ) {
-                                        Icon(
-                                            Icons.Default.Delete,
-                                            null,
-                                            tint = MaterialTheme.colors.onSecondary
-                                        )
-                                    }
-                                },
+                            Row(
+                                Modifier.padding(horizontal = 4.dp)
                             ) {
-                                Surface {
-                                    Row(
-                                        Modifier.padding(horizontal = 4.dp)
-                                    ) {
-                                        val TableCell: @Composable RowScope.(@Composable BoxScope.() -> Unit) -> Unit =
-                                            {
-                                                ProvideTextStyle(
-                                                    value = typography.body1.copy(
-                                                        textAlign = TextAlign.Center,
-                                                        color = MaterialTheme.colors.onSurface
-                                                    )
-                                                ) {
-                                                    Surface(
-                                                        modifier = Modifier
-                                                            .padding(4.dp)
-                                                            .weight(1f),
-                                                        color = MaterialTheme.colors.onSurface.copy(
-                                                            alpha = 0.1f
-                                                        ),
-                                                        shape = RoundedCornerShape(8.dp),
-                                                    ) {
-                                                        Box(
-                                                            Modifier
-                                                                .padding(horizontal = 4.dp)
-                                                                .height(56.dp),
-                                                            contentAlignment = Alignment.Center,
-                                                            content = it
-                                                        )
-                                                    }
-                                                }
-
-                                            }
-                                        if (exercise?.logReps == true) {
-                                            TableCell { Text(set.reps.toStringOrBlank()) }
-                                        }
-                                        if (exercise?.logWeight == true) {
-                                            TableCell { Text(set.weight.formatSimple()) }
-                                        }
-                                        if (exercise?.logTime == true) {
-                                            TableCell { Text(set.time.toStringOrBlank()) }
-                                        }
-                                        if (exercise?.logDistance == true) {
-                                            TableCell { Text(set.distance.formatSimple()) }
-                                        }
-                                        Box(
-                                            Modifier
-                                                .padding(4.dp)
-                                                .size(56.dp)
-                                                .clip(RoundedCornerShape(8.dp))
-                                                .background(
-                                                    if (set.complete) MaterialTheme.colors.secondary
-                                                    else MaterialTheme.colors.onSurface.copy(
-                                                        alpha = 0.1f
-                                                    )
-                                                ),
-                                            contentAlignment = Alignment.Center
-                                        ) {
-                                            Icon(
-                                                Icons.Default.Check,
-                                                "Complete",
-                                                tint = if (set.complete) MaterialTheme.colors.onSecondary else MaterialTheme.colors.onSurface
+                                val TableCell: @Composable RowScope.(@Composable BoxScope.() -> Unit) -> Unit =
+                                    {
+                                        ProvideTextStyle(
+                                            value = typography.body1.copy(
+                                                textAlign = TextAlign.Center,
+                                                color = MaterialTheme.colors.onSurface
                                             )
+                                        ) {
+                                            Surface(
+                                                modifier = Modifier
+                                                    .padding(4.dp)
+                                                    .weight(1f),
+                                                color = MaterialTheme.colors.onSurface.copy(
+                                                    alpha = 0.1f
+                                                ),
+                                                shape = RoundedCornerShape(8.dp),
+                                            ) {
+                                                Box(
+                                                    Modifier
+                                                        .padding(horizontal = 4.dp)
+                                                        .height(56.dp),
+                                                    contentAlignment = Alignment.Center,
+                                                    content = it
+                                                )
+                                            }
                                         }
+
                                     }
+                                if (exercise?.logReps == true) {
+                                    TableCell { Text(set.reps.toStringOrBlank()) }
+                                }
+                                if (exercise?.logWeight == true) {
+                                    TableCell { Text(set.weight.formatSimple()) }
+                                }
+                                if (exercise?.logTime == true) {
+                                    TableCell { Text(set.time.toStringOrBlank()) }
+                                }
+                                if (exercise?.logDistance == true) {
+                                    TableCell { Text(set.distance.formatSimple()) }
+                                }
+                                Box(
+                                    Modifier
+                                        .padding(4.dp)
+                                        .size(56.dp)
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(
+                                            if (set.complete) MaterialTheme.colors.secondary
+                                            else MaterialTheme.colors.onSurface.copy(
+                                                alpha = 0.1f
+                                            )
+                                        ),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Icon(
+                                        Icons.Default.Check,
+                                        "Complete",
+                                        tint = if (set.complete) MaterialTheme.colors.onSecondary else MaterialTheme.colors.onSurface
+                                    )
                                 }
                             }
                         }
