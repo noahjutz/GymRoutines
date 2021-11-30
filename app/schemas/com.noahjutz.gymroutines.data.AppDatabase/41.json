@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 41,
-    "identityHash": "c6a37c826150c76bcdaff7a9d9f6cde2",
+    "identityHash": "18349b7782338059632ad726e7d3a0b9",
     "entities": [
       {
         "tableName": "exercise_table",
@@ -184,7 +184,17 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_routine_set_table_groupId",
+            "unique": false,
+            "columnNames": [
+              "groupId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_routine_set_table_groupId` ON `${TABLE_NAME}` (`groupId`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "routine_set_group_table",
@@ -318,7 +328,17 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_workout_set_table_groupId",
+            "unique": false,
+            "columnNames": [
+              "groupId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_workout_set_table_groupId` ON `${TABLE_NAME}` (`groupId`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "workout_set_group_table",
@@ -368,7 +388,17 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_workout_set_group_table_workoutId",
+            "unique": false,
+            "columnNames": [
+              "workoutId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_workout_set_group_table_workoutId` ON `${TABLE_NAME}` (`workoutId`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "workout_table",
@@ -387,7 +417,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c6a37c826150c76bcdaff7a9d9f6cde2')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '18349b7782338059632ad726e7d3a0b9')"
     ]
   }
 }

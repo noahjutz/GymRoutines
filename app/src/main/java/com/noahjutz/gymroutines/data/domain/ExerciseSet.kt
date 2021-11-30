@@ -43,6 +43,9 @@ data class ExerciseSetLegacy(
             childColumns = ["groupId"],
             onDelete = ForeignKey.CASCADE
         )
+    ],
+    indices = [
+        Index(value = ["groupId"])
     ]
 )
 data class RoutineSet(
@@ -97,6 +100,9 @@ data class RoutineSetGroupWithSets(
             parentColumns = ["id"],
             onDelete = ForeignKey.CASCADE
         )
+    ],
+    indices = [
+        Index(value = ["groupId"])
     ]
 )
 data class WorkoutSet(
@@ -121,6 +127,9 @@ data class WorkoutSet(
             parentColumns = ["workoutId"],
             onDelete = ForeignKey.CASCADE
         )
+    ],
+    indices = [
+        Index(value = ["workoutId"])
     ]
 )
 data class WorkoutSetGroup(
