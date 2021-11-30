@@ -125,7 +125,7 @@ class RoutineRepository(private val routineDao: RoutineDao) {
             .filter { it.position > setGroup.position }
 
         for (group in nextSetGroups) {
-            routineDao.insert(group.copy(position = group.position - 1))
+            routineDao.update(group.copy(position = group.position - 1))
         }
     }
 
