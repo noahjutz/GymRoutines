@@ -39,7 +39,13 @@ class MigrationTest {
                 AppDatabase::class.java,
                 TEST_DB
             )
-            .addMigrations(MIGRATION_36_37, MIGRATION_37_38, MIGRATION_38_39, MIGRATION_39_40)
+            .addMigrations(
+                MIGRATION_36_37,
+                MIGRATION_37_38,
+                MIGRATION_38_39,
+                MIGRATION_39_40,
+                MIGRATION_40_41
+            )
             .build()
             .apply {
                 openHelper.writableDatabase
@@ -99,5 +105,12 @@ class MigrationTest {
             it
         }
         db = helper.runMigrationsAndValidate(TEST_DB, 40, true, MIGRATION_39_40)
+    }
+
+    @Test
+    @Throws(IOException::class)
+    fun migrate40to41() {
+        var db = helper.createDatabase(TEST_DB, 40).use { it }
+        db = helper.runMigrationsAndValidate(TEST_DB, 41, true, MIGRATION_40_41)
     }
 }

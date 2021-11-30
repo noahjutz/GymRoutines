@@ -40,7 +40,7 @@ import kotlinx.serialization.json.*
         WorkoutSet::class,
         WorkoutSetGroup::class,
     ],
-    version = 40,
+    version = 41,
     autoMigrations = [
         AutoMigration(from = 35, to = 36),
         AutoMigration(from = 39, to = 40)
@@ -478,4 +478,18 @@ val MIGRATION_39_40 = object : Migration(39, 40) {
         db.execSQL("INSERT INTO workout_set_table SELECT groupId, position, reps, weight, time, distance, complete, workoutSetId FROM workout_set_table_old")
         db.execSQL("DROP TABLE workout_set_table_old")
     }
+}
+
+/**
+ * Adds Indices to:
+ * routine_set_group_table,
+ * routine_set_table,
+ * workout_set_group_table,
+ * workout_set_table.
+ */
+val MIGRATION_40_41 = object : Migration(40, 41) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        // TODO
+    }
+
 }
