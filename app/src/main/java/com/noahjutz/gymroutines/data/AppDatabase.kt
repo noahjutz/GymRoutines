@@ -41,10 +41,7 @@ import kotlinx.serialization.json.*
         WorkoutSetGroup::class,
     ],
     version = 41,
-    autoMigrations = [
-        AutoMigration(from = 35, to = 36),
-        AutoMigration(from = 39, to = 40)
-    ],
+    autoMigrations = [AutoMigration(from = 35, to = 36)],
     exportSchema = true
 )
 @TypeConverters(Converters::class)
