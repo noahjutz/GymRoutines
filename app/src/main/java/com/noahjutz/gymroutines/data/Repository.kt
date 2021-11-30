@@ -196,7 +196,7 @@ class WorkoutRepository(private val workoutDao: WorkoutDao) {
             .filter { it.position > setGroup.position }
 
         for (group in nextSetGroups) {
-            workoutDao.insert(group.copy(position = group.position - 1))
+            workoutDao.update(group.copy(position = group.position - 1))
         }
     }
 
