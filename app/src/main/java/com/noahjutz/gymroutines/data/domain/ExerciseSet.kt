@@ -21,19 +21,6 @@ package com.noahjutz.gymroutines.data.domain
 import androidx.room.*
 import kotlinx.serialization.Serializable
 
-// Temporary class for SetGroupCard. TODO remove and use RoutineSet/WorkoutSet
-@Serializable
-data class ExerciseSetLegacy(
-    val exerciseId: Int,
-    val reps: Int? = null,
-    val weight: Double? = null,
-    val time: Int? = null,
-    val distance: Double? = null,
-    val complete: Boolean = false,
-    val position: Int,
-    val setId: Int,
-)
-
 @Entity(
     tableName = "routine_set_table",
     foreignKeys = [

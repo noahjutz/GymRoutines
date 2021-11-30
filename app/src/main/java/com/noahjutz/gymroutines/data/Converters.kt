@@ -21,19 +21,9 @@
 package com.noahjutz.gymroutines.data
 
 import androidx.room.TypeConverter
-import com.noahjutz.gymroutines.data.domain.ExerciseSetLegacy
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import java.util.*
 
 class Converters {
-    @TypeConverter
-    fun fromSets(sets: List<ExerciseSetLegacy>): String = Json.encodeToString(sets)
-
-    @TypeConverter
-    fun toSets(json: String): List<ExerciseSetLegacy> = Json.decodeFromString(json)
-
     @TypeConverter
     fun fromDate(date: Date): Long = date.time
 
