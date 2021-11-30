@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 41,
-    "identityHash": "0457c34cbfc87badb8acb930a684e484",
+    "identityHash": "c6a37c826150c76bcdaff7a9d9f6cde2",
     "entities": [
       {
         "tableName": "exercise_table",
@@ -234,7 +234,17 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_routine_set_group_table_routineId",
+            "unique": false,
+            "columnNames": [
+              "routineId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_routine_set_group_table_routineId` ON `${TABLE_NAME}` (`routineId`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "routine_table",
@@ -377,7 +387,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0457c34cbfc87badb8acb930a684e484')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c6a37c826150c76bcdaff7a9d9f6cde2')"
     ]
   }
 }

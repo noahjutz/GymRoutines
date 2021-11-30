@@ -486,7 +486,6 @@ val MIGRATION_39_40 = object : Migration(39, 40) {
  */
 val MIGRATION_40_41 = object : Migration(40, 41) {
     override fun migrate(db: SupportSQLiteDatabase) {
-        // TODO
+        db.execSQL("CREATE INDEX index_routine_set_group_table_routineId ON routine_set_group_table(routineId)")
     }
-
 }

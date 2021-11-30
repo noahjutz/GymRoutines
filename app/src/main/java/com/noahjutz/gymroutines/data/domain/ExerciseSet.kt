@@ -66,6 +66,9 @@ data class RoutineSet(
             childColumns = ["routineId"],
             onDelete = ForeignKey.CASCADE
         )
+    ],
+    indices = [
+        Index(value = ["routineId"])
     ]
 )
 data class RoutineSetGroup(

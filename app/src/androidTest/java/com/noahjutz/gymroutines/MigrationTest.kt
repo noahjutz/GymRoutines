@@ -110,7 +110,13 @@ class MigrationTest {
     @Test
     @Throws(IOException::class)
     fun migrate40to41() {
-        var db = helper.createDatabase(TEST_DB, 40).use { it }
+        var db = helper.createDatabase(TEST_DB, 40).use {
+            it.execSQL("INSERT INTO routine_table VALUES ('Full Body', 0)")
+            it.execSQL("INSERT INTO exercise_table VALUES ('Squat', '', 'true', 'true', 'false', 'false', 'false', 0)")
+            it.execSQL("INSERT INTO routine_set_group_table VALUES (0, 0, 0, 0)")
+            it.execSQL("INSERT INTO routine_set_table VALUES (0, 0, 12, 5, null, null, 0)")
+            it
+        }
         db = helper.runMigrationsAndValidate(TEST_DB, 41, true, MIGRATION_40_41)
     }
 }
