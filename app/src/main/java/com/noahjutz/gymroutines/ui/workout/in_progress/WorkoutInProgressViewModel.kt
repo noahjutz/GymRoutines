@@ -111,46 +111,46 @@ class WorkoutInProgressViewModel(
             if (g1 != null && g2 != null) {
                 val newG1 = g1.copy(position = g2.position)
                 val newG2 = g2.copy(position = g1.position)
-                workoutRepository.insert(newG1)
-                workoutRepository.insert(newG2)
+                workoutRepository.update(newG1)
+                workoutRepository.update(newG2)
             }
         }
     }
 
     fun updateReps(set: WorkoutSet, reps: Int?) {
         viewModelScope.launch {
-            workoutRepository.insert(set.copy(reps = reps))
+            workoutRepository.update(set.copy(reps = reps))
         }
     }
 
     fun updateWeight(set: WorkoutSet, weight: Double?) {
         viewModelScope.launch {
-            workoutRepository.insert(set.copy(weight = weight))
+            workoutRepository.update(set.copy(weight = weight))
         }
     }
 
     fun updateTime(set: WorkoutSet, time: Int?) {
         viewModelScope.launch {
-            workoutRepository.insert(set.copy(time = time))
+            workoutRepository.update(set.copy(time = time))
         }
     }
 
     fun updateDistance(set: WorkoutSet, distance: Double?) {
         viewModelScope.launch {
-            workoutRepository.insert(set.copy(distance = distance))
+            workoutRepository.update(set.copy(distance = distance))
         }
     }
 
     fun updateChecked(set: WorkoutSet, checked: Boolean) {
         viewModelScope.launch {
-            workoutRepository.insert(set.copy(complete = checked))
+            workoutRepository.update(set.copy(complete = checked))
         }
     }
 
     private fun setEndTime(endTime: Date) {
         _workout?.workout?.let { workout ->
             viewModelScope.launch {
-                workoutRepository.insert(workout.copy(endTime = endTime))
+                workoutRepository.update(workout.copy(endTime = endTime))
             }
         }
     }
