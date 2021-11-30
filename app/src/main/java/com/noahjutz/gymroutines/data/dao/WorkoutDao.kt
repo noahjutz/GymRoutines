@@ -27,14 +27,23 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WorkoutDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     suspend fun insert(workout: Workout): Long
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Update
+    suspend fun update(workout: Workout)
+
+    @Insert
     suspend fun insert(workoutSet: WorkoutSet): Long
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Update
+    suspend fun update(workoutSet: WorkoutSet)
+
+    @Insert
     suspend fun insert(workoutSetGroup: WorkoutSetGroup): Long
+
+    @Update
+    suspend fun update(workoutSetGroup: WorkoutSetGroup)
 
     @Transaction
     @Query("SELECT * FROM workout_table WHERE workoutId == :id")

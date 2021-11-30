@@ -141,12 +141,24 @@ class WorkoutRepository(private val workoutDao: WorkoutDao) {
         return workoutDao.insert(workout)
     }
 
+    suspend fun update(workout: Workout) {
+        workoutDao.update(workout)
+    }
+
     suspend fun insert(setGroup: WorkoutSetGroup): Long {
         return workoutDao.insert(setGroup)
     }
 
+    suspend fun update(setGroup: WorkoutSetGroup) {
+        workoutDao.update(setGroup)
+    }
+
     suspend fun insert(set: WorkoutSet): Long {
         return workoutDao.insert(set)
+    }
+
+    suspend fun update(set: WorkoutSet) {
+        workoutDao.update(set)
     }
 
     suspend fun insert(workout: WorkoutWithSetGroups): Long {
