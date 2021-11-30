@@ -40,35 +40,3 @@ fun SearchBar(
             ).takeIf { value.isNotEmpty() }
     )
 }
-
-@ExperimentalAnimationApi
-@Composable
-@Preview(name = "Search bar light")
-fun SearchBarPreview() {
-    val (text, setText) = remember { mutableStateOf("") }
-    MaterialTheme {
-        SearchBar(
-            text,
-            setText,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        )
-    }
-}
-
-@ExperimentalAnimationApi
-@Composable
-@Preview(name = "Search bar dark")
-fun SearchBarPreviewDark() {
-    val (text, setText) = remember { mutableStateOf("") }
-    MaterialTheme(colors = darkColors()) {
-        SearchBar(
-            text,
-            setText,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        )
-    }
-}
