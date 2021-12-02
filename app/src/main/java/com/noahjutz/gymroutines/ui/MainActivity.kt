@@ -43,7 +43,8 @@ val LocalColorTheme = compositionLocalOf<ColorTheme> { error("") }
 
 class MainActivity : AppCompatActivity() {
 
-    @OptIn(ExperimentalTime::class, ExperimentalFoundationApi::class,
+    @OptIn(
+        ExperimentalTime::class, ExperimentalFoundationApi::class,
         ExperimentalMaterialApi::class, ExperimentalAnimationApi::class
     )
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -150,7 +150,6 @@ private fun WorkoutInProgressContent(
         }
     )
 
-
     LazyColumn(Modifier.fillMaxHeight()) {
         item {
             Surface(
@@ -212,30 +211,34 @@ private fun WorkoutInProgressContent(
                                     expanded = expanded,
                                     onDismissRequest = { expanded = false }
                                 ) {
-                                    DropdownMenuItem(onClick = {
-                                        expanded = false
-                                        val id = setGroup.group.id
-                                        val toId = workout.setGroups
-                                            .find { it.group.position == setGroup.group.position - 1 }
-                                            ?.group
-                                            ?.id
-                                        if (toId != null) {
-                                            viewModel.swapSetGroups(id, toId)
+                                    DropdownMenuItem(
+                                        onClick = {
+                                            expanded = false
+                                            val id = setGroup.group.id
+                                            val toId = workout.setGroups
+                                                .find { it.group.position == setGroup.group.position - 1 }
+                                                ?.group
+                                                ?.id
+                                            if (toId != null) {
+                                                viewModel.swapSetGroups(id, toId)
+                                            }
                                         }
-                                    }) {
+                                    ) {
                                         Text("Move Up")
                                     }
-                                    DropdownMenuItem(onClick = {
-                                        expanded = false
-                                        val id = setGroup.group.id
-                                        val toId = workout.setGroups
-                                            .find { it.group.position == setGroup.group.position + 1 }
-                                            ?.group
-                                            ?.id
-                                        if (toId != null) {
-                                            viewModel.swapSetGroups(id, toId)
+                                    DropdownMenuItem(
+                                        onClick = {
+                                            expanded = false
+                                            val id = setGroup.group.id
+                                            val toId = workout.setGroups
+                                                .find { it.group.position == setGroup.group.position + 1 }
+                                                ?.group
+                                                ?.id
+                                            if (toId != null) {
+                                                viewModel.swapSetGroups(id, toId)
+                                            }
                                         }
-                                    }) {
+                                    ) {
                                         Text("Move Down")
                                     }
                                 }
@@ -353,7 +356,6 @@ private fun WorkoutInProgressContent(
                                                             innerTextField()
                                                         }
                                                     }
-
                                                 }
                                             if (exercise?.logReps == true) {
                                                 val (reps, setReps) = remember { mutableStateOf(set.reps.toStringOrBlank()) }

@@ -24,7 +24,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.AppPrefs
 import com.noahjutz.gymroutines.data.WorkoutRepository
-import com.noahjutz.gymroutines.data.domain.Workout
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map

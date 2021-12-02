@@ -538,5 +538,4 @@ val MIGRATION_41_42 = object : Migration(41, 42) {
         db.execSQL("CREATE INDEX index_workout_set_table_groupId ON workout_set_table(groupId)")
         db.execSQL("DROP TABLE workout_set_table_old")
     }
-
 }

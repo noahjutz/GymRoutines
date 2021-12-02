@@ -41,7 +41,7 @@ class RoutineEditorViewModel(
     routineId: Int,
 ) : ViewModel() {
     val isWorkoutInProgress: Flow<Boolean> =
-        preferences.data.map { it[AppPrefs.CurrentWorkout.key]?.let {it >= 0} ?: false }
+        preferences.data.map { it[AppPrefs.CurrentWorkout.key]?.let { it >= 0 } ?: false }
     val routine = routineRepository.getRoutineWithSetGroups(routineId)
     private val _routineFlow = routineRepository.getRoutineFlow(routineId)
     private var _routine: Routine? = null

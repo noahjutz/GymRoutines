@@ -3,7 +3,6 @@ package com.noahjutz.gymroutines.ui.workout.viewer
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -220,7 +219,6 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                                 )
                                             }
                                         }
-
                                     }
                                 if (exercise?.logReps == true) {
                                     TableCell { Text(set.reps.toStringOrBlank()) }

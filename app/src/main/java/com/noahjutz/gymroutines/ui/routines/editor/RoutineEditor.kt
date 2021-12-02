@@ -225,30 +225,34 @@ private fun RoutineEditorContent(
                                     expanded = expanded,
                                     onDismissRequest = { expanded = false }
                                 ) {
-                                    DropdownMenuItem(onClick = {
-                                        expanded = false
-                                        val id = setGroup.group.id
-                                        val toId = setGroups
-                                            .find { it.group.position == setGroup.group.position - 1 }
-                                            ?.group
-                                            ?.id
-                                        if (toId != null) {
-                                            viewModel.swapSetGroups(id, toId)
+                                    DropdownMenuItem(
+                                        onClick = {
+                                            expanded = false
+                                            val id = setGroup.group.id
+                                            val toId = setGroups
+                                                .find { it.group.position == setGroup.group.position - 1 }
+                                                ?.group
+                                                ?.id
+                                            if (toId != null) {
+                                                viewModel.swapSetGroups(id, toId)
+                                            }
                                         }
-                                    }) {
+                                    ) {
                                         Text("Move Up")
                                     }
-                                    DropdownMenuItem(onClick = {
-                                        expanded = false
-                                        val id = setGroup.group.id
-                                        val toId = setGroups
-                                            .find { it.group.position == setGroup.group.position + 1 }
-                                            ?.group
-                                            ?.id
-                                        if (toId != null) {
-                                            viewModel.swapSetGroups(id, toId)
+                                    DropdownMenuItem(
+                                        onClick = {
+                                            expanded = false
+                                            val id = setGroup.group.id
+                                            val toId = setGroups
+                                                .find { it.group.position == setGroup.group.position + 1 }
+                                                ?.group
+                                                ?.id
+                                            if (toId != null) {
+                                                viewModel.swapSetGroups(id, toId)
+                                            }
                                         }
-                                    }) {
+                                    ) {
                                         Text("Move Down")
                                     }
                                 }
@@ -352,7 +356,6 @@ private fun RoutineEditorContent(
                                                             innerTextField()
                                                         }
                                                     }
-
                                                 }
                                             if (exercise.logReps) {
                                                 val (reps, setReps) = remember { mutableStateOf(set.reps.toStringOrBlank()) }

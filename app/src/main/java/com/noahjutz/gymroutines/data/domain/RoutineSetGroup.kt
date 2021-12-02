@@ -2,7 +2,6 @@ package com.noahjutz.gymroutines.data.domain
 
 import androidx.room.*
 
-
 @Entity(
     tableName = "routine_set_group_table",
     foreignKeys = [
