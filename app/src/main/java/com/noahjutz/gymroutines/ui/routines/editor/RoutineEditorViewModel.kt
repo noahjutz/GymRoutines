@@ -86,7 +86,6 @@ class RoutineEditorViewModel(
             routineRepository.insert(
                 RoutineSet(
                     groupId = setGroup.group.id,
-                    position = setGroup.sets.size,
                     reps = lastSet?.reps,
                     weight = lastSet?.weight,
                     time = lastSet?.time,
@@ -108,7 +107,6 @@ class RoutineEditorViewModel(
                     val groupId = routineRepository.insert(setGroup)
                     val set = RoutineSet(
                         groupId = groupId.toInt(),
-                        position = 0
                     )
                     routineRepository.insert(set)
                 }
@@ -172,7 +170,6 @@ class RoutineEditorViewModel(
                     for (routineSet in _sets.filter { it.groupId == routineSetGroup.id }) {
                         val workoutSet = WorkoutSet(
                             groupId = setGroupId.toInt(),
-                            position = routineSet.position,
                             reps = routineSet.reps,
                             weight = routineSet.weight,
                             time = routineSet.time,

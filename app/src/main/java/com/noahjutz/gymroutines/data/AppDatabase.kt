@@ -494,11 +494,49 @@ val MIGRATION_40_41 = object : Migration(40, 41) {
 }
 
 /**
- * Removes WorkoutSet.position and RoutineSet.position. The order can be derived from the id.
+ * Removes WorkoutSet.position and RoutineSet.position columns. The order can be derived from the id.
  */
 val MIGRATION_41_42 = object : Migration(41, 42) {
     override fun migrate(db: SupportSQLiteDatabase) {
-        // TODO
+        db.execSQL("DROP INDEX index_routine_set_table_groupId")
+        db.execSQL("ALTER TABLE routine_set_table RENAME TO routine_set_table_old")
+        db.execSQL(
+            """
+            CREATE TABLE routine_set_table (
+                groupId INTEGER NOT NULL,
+                reps INTEGER,
+                weight REAL,
+                time INTEGER,
+                distance REAL,
+                routineSetId INTEGER PRIMARY KEY NOT NULL,
+                FOREIGN KEY (groupId) REFERENCES routine_set_group_table(id) ON DELETE CASCADE
+                
+            )
+            """.trimIndent()
+        )
+        db.execSQL("INSERT INTO routine_set_table SELECT groupId, reps, weight, time, distance, routineSetId FROM routine_set_table_old")
+        db.execSQL("CREATE INDEX index_routine_set_table_groupId ON routine_set_table(groupId)")
+        db.execSQL("DROP TABLE routine_set_table_old")
+
+        db.execSQL("DROP INDEX index_workout_set_table_groupId")
+        db.execSQL("ALTER TABLE workout_set_table RENAME TO workout_set_table_old")
+        db.execSQL(
+            """
+            CREATE TABLE workout_set_table (
+                groupId INTEGER NOT NULL,
+                reps INTEGER,
+                weight REAL,
+                time INTEGER,
+                distance REAL,
+                complete INTEGER NOT NULL DEFAULT 0,
+                workoutSetId INTEGER PRIMARY KEY NOT NULL,
+                FOREIGN KEY (groupId) REFERENCES workout_set_group_table(id) ON DELETE CASCADE
+            )
+            """.trimIndent()
+        )
+        db.execSQL("INSERT INTO workout_set_table SELECT groupId, reps, weight, time, distance, complete, workoutSetId FROM workout_set_table_old")
+        db.execSQL("CREATE INDEX index_workout_set_table_groupId ON workout_set_table(groupId)")
+        db.execSQL("DROP TABLE workout_set_table_old")
     }
 
 }

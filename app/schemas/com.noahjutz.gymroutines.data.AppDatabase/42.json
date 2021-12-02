@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 42,
-    "identityHash": "18349b7782338059632ad726e7d3a0b9",
+    "identityHash": "894ce3bd6b700eec000b06e2d60d5493",
     "entities": [
       {
         "tableName": "exercise_table",
@@ -133,17 +133,11 @@
       },
       {
         "tableName": "routine_set_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`groupId` INTEGER NOT NULL, `position` INTEGER NOT NULL, `reps` INTEGER, `weight` REAL, `time` INTEGER, `distance` REAL, `routineSetId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`groupId`) REFERENCES `routine_set_group_table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`groupId` INTEGER NOT NULL, `reps` INTEGER, `weight` REAL, `time` INTEGER, `distance` REAL, `routineSetId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`groupId`) REFERENCES `routine_set_group_table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "groupId",
             "columnName": "groupId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "position",
-            "columnName": "position",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -271,17 +265,11 @@
       },
       {
         "tableName": "workout_set_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`groupId` INTEGER NOT NULL, `position` INTEGER NOT NULL, `reps` INTEGER, `weight` REAL, `time` INTEGER, `distance` REAL, `complete` INTEGER NOT NULL, `workoutSetId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`groupId`) REFERENCES `workout_set_group_table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`groupId` INTEGER NOT NULL, `reps` INTEGER, `weight` REAL, `time` INTEGER, `distance` REAL, `complete` INTEGER NOT NULL, `workoutSetId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`groupId`) REFERENCES `workout_set_group_table`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "groupId",
             "columnName": "groupId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "position",
-            "columnName": "position",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -417,7 +405,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '18349b7782338059632ad726e7d3a0b9')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '894ce3bd6b700eec000b06e2d60d5493')"
     ]
   }
 }

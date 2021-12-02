@@ -74,7 +74,6 @@ class WorkoutInProgressViewModel(
             workoutRepository.insert(
                 WorkoutSet(
                     groupId = setGroup.group.id,
-                    position = setGroup.sets.size,
                     reps = lastSet?.reps,
                     weight = lastSet?.weight,
                     time = lastSet?.time,
@@ -96,7 +95,6 @@ class WorkoutInProgressViewModel(
                     val groupId = workoutRepository.insert(setGroup)
                     val set = WorkoutSet(
                         groupId = groupId.toInt(),
-                        position = 0
                     )
                     workoutRepository.insert(set)
                 }

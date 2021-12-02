@@ -21,7 +21,6 @@ import androidx.room.PrimaryKey
 )
 data class RoutineSet(
     val groupId: Int,
-    val position: Int,
     val reps: Int? = null,
     val weight: Double? = null,
     val time: Int? = null,
