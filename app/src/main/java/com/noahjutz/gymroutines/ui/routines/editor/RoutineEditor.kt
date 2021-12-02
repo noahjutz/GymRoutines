@@ -50,6 +50,7 @@ import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.Routine
 import com.noahjutz.gymroutines.data.domain.RoutineSetGroupWithSets
 import com.noahjutz.gymroutines.ui.components.AutoSelectTextField
+import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.components.durationVisualTransformation
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
@@ -325,26 +326,7 @@ private fun RoutineEditorContent(
                                 }
                                 SwipeToDismiss(
                                     state = dismissState,
-                                    background = {
-                                        val alignment = when (dismissState.dismissDirection) {
-                                            DismissDirection.StartToEnd -> Alignment.CenterStart
-                                            DismissDirection.EndToStart -> Alignment.CenterEnd
-                                            else -> Alignment.Center
-                                        }
-                                        Box(
-                                            modifier = Modifier
-                                                .fillMaxSize()
-                                                .background(colors.secondary)
-                                                .padding(horizontal = 20.dp),
-                                            contentAlignment = alignment
-                                        ) {
-                                            Icon(
-                                                Icons.Default.Delete,
-                                                null,
-                                                tint = colors.onSecondary
-                                            )
-                                        }
-                                    },
+                                    background = { SwipeToDeleteBackground(dismissState) },
                                 ) {
                                     Surface {
                                         Row(

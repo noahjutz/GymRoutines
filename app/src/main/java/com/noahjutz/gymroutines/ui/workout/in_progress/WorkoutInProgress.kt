@@ -32,7 +32,10 @@ import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,10 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import com.noahjutz.gymroutines.data.domain.duration
-import com.noahjutz.gymroutines.ui.components.AutoSelectTextField
-import com.noahjutz.gymroutines.ui.components.NormalDialog
-import com.noahjutz.gymroutines.ui.components.TopBar
-import com.noahjutz.gymroutines.ui.components.durationVisualTransformation
+import com.noahjutz.gymroutines.ui.components.*
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
 import com.noahjutz.gymroutines.util.RegexPatterns
 import com.noahjutz.gymroutines.util.formatSimple
@@ -328,26 +328,7 @@ private fun WorkoutInProgressContent(
                                 }
                                 SwipeToDismiss(
                                     state = dismissState,
-                                    background = {
-                                        val alignment = when (dismissState.dismissDirection) {
-                                            DismissDirection.StartToEnd -> Alignment.CenterStart
-                                            DismissDirection.EndToStart -> Alignment.CenterEnd
-                                            else -> Alignment.Center
-                                        }
-                                        Box(
-                                            modifier = Modifier
-                                                .fillMaxSize()
-                                                .background(colors.secondary)
-                                                .padding(horizontal = 20.dp),
-                                            contentAlignment = alignment
-                                        ) {
-                                            Icon(
-                                                Icons.Default.Delete,
-                                                null,
-                                                tint = colors.onSecondary
-                                            )
-                                        }
-                                    },
+                                    background = { SwipeToDeleteBackground(dismissState) },
                                 ) {
                                     Surface {
                                         Row(
