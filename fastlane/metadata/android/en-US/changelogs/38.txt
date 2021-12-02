@@ -8,6 +8,7 @@ Bug fixes:
 * Fixed set text field values being incorrect when position changes (e9a707e2, de6fa878)
 * Routine and workout related database operations now run asynchronously
 * Fixed crash on insights tab when user has exactly one workout (2e5c6d8f)
+* Fixed crash on backup restore (fe5496d3)
 
 Development:
 * Update database version
