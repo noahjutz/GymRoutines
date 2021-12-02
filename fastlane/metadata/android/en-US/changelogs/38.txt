@@ -18,7 +18,7 @@ Development:
   * v40 (6c94f0fc): Adds foreign keys
   * v41 (44b6367d): Adds indices
   * v42 (ad8fbb29): Removes WorkoutSet.position, RoutineSet.position
-* Update Dependencies (9f9e58f0)
+* Update Dependencies (9f9e58f0, cb22598e)
 * Add Roboto Slab font (41a2eccf)
 * Completely revamp WorkoutInProgress, RoutineEditor frontend and backend
 * Remove 'WorkoutCompleted' screen for now (a51d77c8)
