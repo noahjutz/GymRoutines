@@ -40,7 +40,7 @@ import kotlinx.serialization.json.*
         WorkoutSet::class,
         WorkoutSetGroup::class,
     ],
-    version = 41,
+    version = 42,
     autoMigrations = [AutoMigration(from = 35, to = 36)],
     exportSchema = true
 )
@@ -491,4 +491,14 @@ val MIGRATION_40_41 = object : Migration(40, 41) {
         db.execSQL("CREATE INDEX index_workout_set_group_table_workoutId ON workout_set_group_table(workoutId)")
         db.execSQL("CREATE INDEX index_workout_set_table_groupId ON workout_set_table(groupId)")
     }
+}
+
+/**
+ * Removes WorkoutSet.position and RoutineSet.position. The order can be derived from the id.
+ */
+val MIGRATION_41_42 = object : Migration(41, 42) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        // TODO
+    }
+
 }
