@@ -52,7 +52,7 @@ class WorkoutInsightsViewModel(
 
     inner class Editor {
         fun delete(workout: WorkoutWithSetGroups) = viewModelScope.launch {
-            repository.delete(workout)
+            repository.delete(workout.workout)
         }
     }
 }

@@ -156,7 +156,7 @@ class WorkoutInProgressViewModel(
     fun cancelWorkout(onCompletion: () -> Unit) {
         _workout?.let { workout ->
             viewModelScope.launch {
-                workoutRepository.delete(workout)
+                workoutRepository.delete(workout.workout)
                 preferences.edit { it[AppPrefs.CurrentWorkout.key] = -1 }
                 onCompletion()
             }

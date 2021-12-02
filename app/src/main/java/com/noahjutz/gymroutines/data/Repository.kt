@@ -179,14 +179,8 @@ class WorkoutRepository(private val workoutDao: WorkoutDao) {
         return workoutDao.getWorkoutWithSetGroupsFlow(workoutId)
     }
 
-    suspend fun delete(workout: WorkoutWithSetGroups) {
-        workoutDao.delete(workout.workout)
-        for (setGroup in workout.setGroups) {
-            workoutDao.delete(setGroup.group)
-            for (set in setGroup.sets) {
-                workoutDao.delete(set)
-            }
-        }
+    suspend fun delete(workout: Workout) {
+        workoutDao.delete(workout)
     }
 
     suspend fun delete(setGroup: WorkoutSetGroup) {
