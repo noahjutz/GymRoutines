@@ -36,16 +36,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.noahjutz.gymroutines.R
-import com.noahjutz.gymroutines.data.AppPrefs
-import kotlinx.coroutines.flow.map
-import org.koin.androidx.compose.get
+import org.koin.androidx.compose.getViewModel
 import kotlin.time.ExperimentalTime
 
 sealed class BottomNavItem(
@@ -78,28 +74,22 @@ val bottomNavItems = listOf(
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
-fun GymRoutinesApp(
-    preferences: DataStore<Preferences> = get(),
-) {
+fun MainScreen(viewModel: MainScreenVM = getViewModel()) {
     val navController = rememberNavController()
 
-    val currentWorkoutId by preferences.data
-        .map { it[AppPrefs.CurrentWorkout.key] }
-        .collectAsState(initial = -1)
-    val isWorkoutInProgress = currentWorkoutId?.let { it >= 0 } ?: false
+    val currentWorkoutId by viewModel.currentWorkoutId.collectAsState(initial = -1)
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+
     val isCurrentDestinationHomeTab =
         navBackStackEntry?.destination?.route in bottomNavItems.map { it.route }
-    val showWorkoutBottomSheet = isWorkoutInProgress && isCurrentDestinationHomeTab
+    val showWorkoutBottomSheet = currentWorkoutId >= 0 && isCurrentDestinationHomeTab
 
     val navToWorkoutScreen =
         { navController.navigate("${Screen.workoutInProgress}/$currentWorkoutId") }
 
     Scaffold(
         bottomBar = {
-            val showBottomNavLabels by preferences.data
-                .map { it[AppPrefs.ShowBottomNavLabels.key] == true }
-                .collectAsState(initial = true)
+            val showBottomNavLabels by viewModel.showBottomLabels.collectAsState(initial = true)
             Column {
                 if (showWorkoutBottomSheet) WorkoutBottomSheet(navToWorkoutScreen)
                 if (isCurrentDestinationHomeTab) HomeBottomBar(
@@ -152,7 +142,9 @@ private fun WorkoutBottomSheet(navToWorkoutScreen: () -> Unit) {
     ) {
         Divider()
         Row(
-            Modifier.weight(1f).padding(horizontal = 16.dp),
+            Modifier
+                .weight(1f)
+                .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
