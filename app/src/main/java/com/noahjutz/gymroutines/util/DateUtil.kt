@@ -18,7 +18,7 @@ infix operator fun Date.minus(date: Date): Duration = Duration.milliseconds(this
 @OptIn(ExperimentalTime::class)
 fun Duration.iso8601() = toComponents { hours, minutes, seconds, _ ->
     val formatPart = { it: Int -> if (it > 9) it.toString() else "0$it" }
-    val hoursString = formatPart(hours)
+    val hoursString = formatPart(hours.toInt())
     val minutesString = formatPart(minutes)
     val secondsString = formatPart(seconds)
     "$hoursString:$minutesString:$secondsString"

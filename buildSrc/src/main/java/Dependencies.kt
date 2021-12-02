@@ -73,7 +73,7 @@ object Libs {
     }
 
     object Compose {
-        const val version = "1.1.0-beta03"
+        const val version = "1.1.0-beta04"
         const val ui = "androidx.compose.ui:ui:$version"
         const val tooling = "androidx.compose.ui:ui-tooling:$version"
         const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -91,7 +91,7 @@ object Libs {
     }
 
     object Koin {
-        private const val version = "3.1.3"
+        private const val version = "3.1.4"
         const val android = "io.insert-koin:koin-android:$version"
         const val compose = "io.insert-koin:koin-androidx-compose:$version"
         const val test = "io.insert-koin:koin-test:$version"
@@ -128,7 +128,7 @@ object GradlePlugins {
     }
 
     object Kotlin {
-        const val version = "1.5.31"
+        const val version = "1.6.0"
         const val classpath = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
     }
 }
