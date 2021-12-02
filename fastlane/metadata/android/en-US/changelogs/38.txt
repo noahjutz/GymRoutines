@@ -11,11 +11,13 @@ Bug fixes:
 
 Development:
 * Update database version
-  * v37 (73a98b3): Removes SetGroups
-  * v38 (462cc0e): Replaces JSON with table relationships
-  * v39 (e3004b6): Reimplements SetGroups with table relationships
-  * v40 (6c94f0f): Adds foreign keys
-  * v41 (44b6367): Adds indices
+  * v37 (73a98b3a): Removes SetGroups
+  * v38 (462cc0ef): Replaces JSON with table relationships
+  * v39 (e3004b67): Reimplements SetGroups with table relationships
+  * v40 (6c94f0fc): Adds foreign keys
+  * v41 (44b6367d): Adds indices
+  * v42 (ad8fbb29): Removes WorkoutSet.position, RoutineSet.position
 * Update Dependencies (9f9e58f0)
 * Add Roboto Slab font (41a2eccf)
 * Completely revamp WorkoutInProgress, RoutineEditor frontend and backend
+* Remove 'WorkoutCompleted' screen for now (a51d77c8)
