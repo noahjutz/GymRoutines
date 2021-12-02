@@ -36,5 +36,10 @@ class RoutineListViewModel(
         repository.getRoutine(routineId)?.let { repository.delete(it) }
     }
 
-    fun addRoutine(): Long = runBlocking { repository.insert(Routine()) }
+    fun addRoutine(onComplete: (Long) -> Unit) {
+        viewModelScope.launch {
+            val id = repository.insert(Routine())
+            onComplete(id)
+        }
+    }
 }

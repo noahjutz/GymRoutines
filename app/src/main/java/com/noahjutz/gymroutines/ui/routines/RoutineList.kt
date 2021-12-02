@@ -48,14 +48,20 @@ import org.koin.androidx.compose.getViewModel
 @ExperimentalMaterialApi
 @Composable
 fun RoutineList(
-    addEditRoutine: (Int) -> Unit,
+    navToRoutineEditor: (Long) -> Unit,
     viewModel: RoutineListViewModel = getViewModel(),
 ) {
     Scaffold(
         topBar = { TopBar(title = stringResource(R.string.tab_routines)) },
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                onClick = { addEditRoutine(viewModel.addRoutine().toInt()) },
+                onClick = {
+                    viewModel.addRoutine(
+                        onComplete = { id ->
+                            navToRoutineEditor(id)
+                        }
+                    )
+                },
                 icon = { Icon(Icons.Default.Add, null) },
                 text = { Text("New Routine") },
             )
@@ -78,7 +84,7 @@ fun RoutineList(
                             if (dismissState.dismissDirection != null) 4.dp else 0.dp
                         ).value
                     ) {
-                        ListItem(Modifier.clickable { addEditRoutine(routine.routineId) }) {
+                        ListItem(Modifier.clickable { navToRoutineEditor(routine.routineId.toLong()) }) {
                             Text(
                                 text = routine.name.takeIf { it.isNotBlank() }
                                     ?: stringResource(R.string.unnamed_routine),

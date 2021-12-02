@@ -80,7 +80,7 @@ fun NavGraph(
         }
         composable(Screen.routineList.name) {
             RoutineList(
-                addEditRoutine = { routineId -> navController.navigate("${Screen.routineEditor}/$routineId") }
+                navToRoutineEditor = { routineId -> navController.navigate("${Screen.routineEditor}/$routineId") }
             )
         }
         composable(
