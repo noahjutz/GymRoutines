@@ -29,6 +29,8 @@ class ExerciseEditorViewModel(
     private val repository: ExerciseRepository,
     private val exerciseId: Int,
 ) : ViewModel() {
+    private val allExerciseNames = repository.exercises.map { it.map { it.name.lowercase() } }
+
     private val _name = MutableStateFlow("")
     val name = _name.asStateFlow()
 
@@ -50,12 +52,15 @@ class ExerciseEditorViewModel(
     private var _originalExercise = MutableStateFlow<Exercise?>(null)
     private val _currentExercise = MutableStateFlow<Exercise?>(Exercise(exerciseId = exerciseId))
 
-    private val isExerciseDifferent = _currentExercise.combine(_originalExercise) { current, original ->
-        current != original
-    }
+    private val isExerciseDifferent =
+        _currentExercise.combine(_originalExercise) { current, original ->
+            current != original
+        }
 
-    val isSavingEnabled = isExerciseDifferent.combine(name) { isExerciseDifferent, name ->
-        isExerciseDifferent && name.isNotBlank()
+    val isSavingEnabled = combine(
+        isExerciseDifferent, name, allExerciseNames
+    ) { isExerciseDifferent, name, allExerciseNames ->
+        isExerciseDifferent && name.isNotBlank() && name.lowercase() !in allExerciseNames
     }
 
     init {
