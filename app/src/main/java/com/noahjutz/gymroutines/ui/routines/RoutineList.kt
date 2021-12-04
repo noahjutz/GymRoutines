@@ -75,7 +75,7 @@ fun RoutineList(
         val routines by viewModel.routines.collectAsState(emptyList())
 
         LazyColumn(Modifier.fillMaxHeight()) {
-            items(items = routines) { routine ->
+            items(items = routines, key = { it.routineId }) { routine ->
                 val dismissState = rememberDismissState()
 
                 SwipeToDismiss(
@@ -114,10 +114,7 @@ fun RoutineList(
                         },
                         confirmButton = {
                             Button(
-                                onClick = {
-                                    viewModel.deleteRoutine(routine.routineId)
-                                    scope.launch { dismissState.snapTo(DismissValue.Default) }
-                                },
+                                onClick = { viewModel.deleteRoutine(routine.routineId) },
                                 content = { Text(stringResource(R.string.yes)) }
                             )
                         },
