@@ -26,10 +26,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.typography
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -109,6 +108,31 @@ fun WorkoutInsightsContent(
                                 val day = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                                     .format(workout.workout.startTime)
                                 Text(day)
+                            },
+                            trailing = {
+                                var expanded by remember { mutableStateOf(false) }
+
+                                Box {
+                                    IconButton(onClick = { expanded = !expanded }) {
+                                        Icon(Icons.Default.MoreVert, null)
+                                    }
+
+                                    DropdownMenu(
+                                        expanded = expanded,
+                                        onDismissRequest = { expanded = false }
+                                    ) {
+                                        DropdownMenuItem(
+                                            onClick = {
+                                                expanded = false
+                                                scope.launch {
+                                                    dismissState.dismiss(DismissDirection.StartToEnd)
+                                                }
+                                            }
+                                        ) {
+                                            Text("Delete")
+                                        }
+                                    }
+                                }
                             }
                         )
                     }
