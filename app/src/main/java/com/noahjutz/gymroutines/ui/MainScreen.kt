@@ -43,8 +43,8 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.noahjutz.gymroutines.R
-import org.koin.androidx.compose.getViewModel
 import kotlin.time.ExperimentalTime
+import org.koin.androidx.compose.getViewModel
 
 sealed class BottomNavItem(
     val route: String,

@@ -1,11 +1,11 @@
 package com.noahjutz.splitfit
 
 import com.noahjutz.gymroutines.util.currentDailyStreak
-import org.junit.Test
 import java.util.*
 import kotlin.test.assertEquals
 import kotlin.time.ExperimentalTime
 import kotlin.time.hours
+import org.junit.Test
 
 @ExperimentalTime
 class DateUtilTest {

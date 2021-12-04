@@ -40,10 +40,10 @@ import com.noahjutz.gymroutines.ui.LocalThemePreference
 import com.noahjutz.gymroutines.ui.components.NormalDialog
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.util.OpenDocument
-import kotlinx.coroutines.launch
-import org.koin.androidx.compose.getViewModel
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 
 @ExperimentalMaterialApi
 @Composable

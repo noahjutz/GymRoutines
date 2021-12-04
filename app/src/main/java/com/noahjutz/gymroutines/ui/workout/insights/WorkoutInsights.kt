@@ -38,11 +38,11 @@ import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.Workout
 import com.noahjutz.gymroutines.data.domain.duration
 import com.noahjutz.gymroutines.ui.components.*
-import kotlinx.coroutines.launch
-import org.koin.androidx.compose.getViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.time.ExperimentalTime
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 
 @ExperimentalMaterialApi
 @ExperimentalTime

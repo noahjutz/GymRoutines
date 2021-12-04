@@ -18,7 +18,6 @@
 
 package com.noahjutz.gymroutines.ui.workout.in_progress
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -40,7 +39,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -50,16 +48,13 @@ import androidx.compose.ui.unit.sp
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import com.noahjutz.gymroutines.data.domain.duration
 import com.noahjutz.gymroutines.ui.components.*
-import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
 import com.noahjutz.gymroutines.util.RegexPatterns
 import com.noahjutz.gymroutines.util.formatSimple
 import com.noahjutz.gymroutines.util.pretty
 import com.noahjutz.gymroutines.util.toStringOrBlank
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import kotlin.time.ExperimentalTime
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
-import kotlin.time.ExperimentalTime
 
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi

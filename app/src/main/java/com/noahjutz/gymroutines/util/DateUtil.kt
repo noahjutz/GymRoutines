@@ -1,9 +1,9 @@
 package com.noahjutz.gymroutines.util
 
-import org.ocpsoft.prettytime.PrettyTime
 import java.util.*
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
+import org.ocpsoft.prettytime.PrettyTime
 
 private val prettyTime = PrettyTime()
 

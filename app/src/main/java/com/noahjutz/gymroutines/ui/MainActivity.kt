@@ -34,8 +34,8 @@ import com.noahjutz.gymroutines.data.ColorTheme
 import com.noahjutz.gymroutines.data.datastore
 import com.noahjutz.gymroutines.ui.theme.SplitfitTheme
 import com.noahjutz.gymroutines.util.valueOf
-import kotlinx.coroutines.flow.map
 import kotlin.time.ExperimentalTime
+import kotlinx.coroutines.flow.map
 
 val LocalActivity = compositionLocalOf<MainActivity> { error("MainActivity not found") }
 val LocalThemePreference = compositionLocalOf { ColorTheme.FollowSystem }
