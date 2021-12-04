@@ -112,7 +112,6 @@ fun ExercisePickerSheet(
                             color = colors.primary)
                     },
                 )
-                Spacer(Modifier.height(70.dp))
             }
         }
     }
