@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.ui.components.NormalDialog
 import com.noahjutz.gymroutines.ui.components.SearchBar
@@ -79,7 +80,9 @@ fun ExerciseList(
                     val dismissState = rememberDismissState()
 
                     SwipeToDismiss(
-                        modifier = Modifier.animateItemPlacement(),
+                        modifier = Modifier
+                            .animateItemPlacement()
+                            .zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
                         state = dismissState,
                         background = { SwipeToDeleteBackground(dismissState) }
                     ) {

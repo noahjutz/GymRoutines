@@ -20,6 +20,7 @@ package com.noahjutz.gymroutines.ui.routines
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -37,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.ui.components.NormalDialog
 import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
@@ -44,6 +46,7 @@ import com.noahjutz.gymroutines.ui.components.TopBar
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
+@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @Composable
@@ -76,6 +79,9 @@ fun RoutineList(
                 val dismissState = rememberDismissState()
 
                 SwipeToDismiss(
+                    modifier = Modifier
+                        .animateItemPlacement()
+                        .zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
                     state = dismissState,
                     background = { SwipeToDeleteBackground(dismissState) }
                 ) {
