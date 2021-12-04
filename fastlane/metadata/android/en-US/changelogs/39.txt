@@ -1,0 +1,24 @@
+Features:
+* Updated Exercise Picker sheet layout (761cd31a, d0f32832)
+* Added new navigation animations (cd3e9914..6bd7cef4)
+* Exercise Editor now only saves when the user taps 'save' (c3a08f82)
+* Added alert when user tries to discard Exercise (f6d7dc72, 5e8e5602)
+* Set surface color to material gray (bc3776ef)
+* Added redundant delete button for workouts (cfacb022)
+
+Bug fixes:
+* Exercise Picker sheet state now resets when it's closed (a087e900)
+* Don't allow saving unnamed exercises (f6d7dc72)
+* Fixed clipped shadows in RoutineList, ExerciseList, WorkoutInsights (49463ae3)
+
+Development:
+* Rename GymRoutinesApp to MainScreen (cd6259a6)
+* Add MainScreenVM (cd6259a6, cc1acd6b)
+* Add accompanist navigation material for exercise picker bottom sheet (a087e900, 762f5c0d, 7a22b8e0)
+* Upgrade gradle wrapper (979f272b)
+* Upgrade ktlint dependencies (ad55d5e8)
+* Remove Editor and Presenter ViewModel structure (4d8a7fbf, 35d71a0c
+* Clean up ExerciseEditor (35042483)
+* Clean up ExerciseList (52cf5ad2)
+* Remove NormalDialog (a9ddadf6)
+* Use item keys in LazyLists (da8013cd, 0aeef035)
