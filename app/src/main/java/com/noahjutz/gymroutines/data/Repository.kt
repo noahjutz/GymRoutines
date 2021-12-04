@@ -22,10 +22,7 @@ import com.noahjutz.gymroutines.data.dao.ExerciseDao
 import com.noahjutz.gymroutines.data.dao.RoutineDao
 import com.noahjutz.gymroutines.data.dao.WorkoutDao
 import com.noahjutz.gymroutines.data.domain.*
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 
 class ExerciseRepository(private val exerciseDao: ExerciseDao) {
     val exercises = exerciseDao.getExercises()

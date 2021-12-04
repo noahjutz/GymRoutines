@@ -39,10 +39,9 @@ import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.noahjutz.gymroutines.R
 import kotlin.time.ExperimentalTime
 import org.koin.androidx.compose.getViewModel

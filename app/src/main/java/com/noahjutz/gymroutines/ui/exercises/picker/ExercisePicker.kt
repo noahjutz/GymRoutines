@@ -18,10 +18,7 @@
 
 package com.noahjutz.gymroutines.ui.exercises.picker
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -32,19 +29,15 @@ import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.ui.components.SearchBar
 import com.noahjutz.gymroutines.ui.components.TopBar
-import kotlinx.coroutines.selects.select
 import org.koin.androidx.compose.getViewModel
 
 @ExperimentalMaterialApi
@@ -108,8 +101,10 @@ fun ExercisePickerSheet(
                     modifier = Modifier.clickable(onClick = navToExerciseEditor),
                     icon = { Icon(Icons.Default.Add, null, tint = colors.primary) },
                     text = {
-                        Text(stringResource(R.string.new_exercise),
-                            color = colors.primary)
+                        Text(
+                            stringResource(R.string.new_exercise),
+                            color = colors.primary
+                        )
                     },
                 )
             }

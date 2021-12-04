@@ -19,7 +19,6 @@
 package com.noahjutz.gymroutines.ui
 
 import androidx.compose.animation.*
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -27,12 +26,12 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.bottomSheet
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
 import com.noahjutz.gymroutines.ui.exercises.editor.ExerciseEditor
 import com.noahjutz.gymroutines.ui.exercises.list.ExerciseList
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
@@ -73,9 +72,9 @@ fun NavGraph(
 ) {
     fun isTopLevel(route: String?): Boolean {
         return route == Screen.routineList.name ||
-                route == Screen.exerciseList.name ||
-                route == Screen.insights.name ||
-                route == Screen.settings.name
+            route == Screen.exerciseList.name ||
+            route == Screen.insights.name ||
+            route == Screen.settings.name
     }
     ModalBottomSheetLayout(bottomSheetNavigator = bottomSheetNavigator) {
         AnimatedNavHost(
