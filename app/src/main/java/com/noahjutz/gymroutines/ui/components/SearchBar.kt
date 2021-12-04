@@ -18,7 +18,7 @@ fun SearchBar(
 ) {
     val onClear = { onValueChange("") }
     TextField(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         value = value,
         onValueChange = onValueChange,
         leadingIcon = { Icon(Icons.Default.Search, null) },
