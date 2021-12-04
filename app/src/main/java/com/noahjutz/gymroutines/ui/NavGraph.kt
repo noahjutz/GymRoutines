@@ -84,28 +84,28 @@ fun NavGraph(
                 if (isTopLevel(targetState.destination.route) && isTopLevel(initialState.destination.route)) {
                     EnterTransition.None
                 } else {
-                    fadeIn(tween(300)) + scaleIn(initialScale = 0.9f, animationSpec = tween(300))
+                    fadeIn() + scaleIn(initialScale = 0.9f)
                 }
             },
             exitTransition = {
                 if (isTopLevel(targetState.destination.route) && isTopLevel(initialState.destination.route)) {
                     ExitTransition.None
                 } else {
-                    fadeOut(tween(300)) + scaleOut(targetScale = 1.1f, animationSpec = tween(300))
+                    fadeOut() + scaleOut(targetScale = 1.1f)
                 }
             },
             popEnterTransition = {
                 if (isTopLevel(targetState.destination.route) && isTopLevel(initialState.destination.route)) {
                     EnterTransition.None
                 } else {
-                    fadeIn(tween(300)) + scaleIn(initialScale = 1.1f, animationSpec = tween(300))
+                    fadeIn() + scaleIn(initialScale = 1.1f)
                 }
             },
             popExitTransition = {
                 if (isTopLevel(targetState.destination.route) && isTopLevel(initialState.destination.route)) {
                     ExitTransition.None
                 } else {
-                    fadeOut(tween(300)) + scaleOut(targetScale = 0.9f, animationSpec = tween(300))
+                    fadeOut() + scaleOut(targetScale = 0.9f)
                 }
             }
         ) {
