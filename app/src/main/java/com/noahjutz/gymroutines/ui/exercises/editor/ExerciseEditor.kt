@@ -43,10 +43,8 @@ fun ExerciseEditor(
     viewModel: ExerciseEditorViewModel = getViewModel { parametersOf(exerciseId) },
 ) {
     val scope = rememberCoroutineScope()
-    val editor = viewModel.Editor()
-    val presenter = viewModel.Presenter()
 
-    val exercise by presenter.exercise.collectAsState()
+    val exercise by viewModel.exercise.collectAsState()
     val scaffoldState = rememberScaffoldState()
     Scaffold(
         scaffoldState = scaffoldState,
@@ -70,7 +68,7 @@ fun ExerciseEditor(
                 exercise.logDistance
             ) {
                 if (!(exercise.logReps || exercise.logWeight || exercise.logTime || exercise.logDistance)) {
-                    editor.updateExercise(logReps = true)
+                    viewModel.updateExercise(logReps = true)
                     scope.launch {
                         scaffoldState.snackbarHostState.showSnackbar(alertNoLogValueSelected)
                     }
@@ -83,7 +81,7 @@ fun ExerciseEditor(
                             .fillMaxWidth()
                             .padding(start = 16.dp, end = 16.dp, top = 16.dp),
                         value = exercise.name,
-                        onValueChange = { editor.updateExercise(name = it) },
+                        onValueChange = { viewModel.updateExercise(name = it) },
                         label = { Text("Exercise name") },
                         singleLine = true,
                         placeholder = { Text(stringResource(R.string.unnamed_exercise)) }
@@ -93,13 +91,13 @@ fun ExerciseEditor(
                             .fillMaxWidth()
                             .padding(16.dp),
                         value = exercise.notes,
-                        onValueChange = { editor.updateExercise(notes = it) },
+                        onValueChange = { viewModel.updateExercise(notes = it) },
                         label = { Text("Notes") },
                     )
                     ListItem(
                         Modifier.toggleable(
                             value = exercise.logReps,
-                            onValueChange = { editor.updateExercise(logReps = it) }
+                            onValueChange = { viewModel.updateExercise(logReps = it) }
                         ),
                         text = { Text(stringResource(R.string.log_reps)) },
                         icon = { Checkbox(checked = exercise.logReps, null) },
@@ -107,7 +105,7 @@ fun ExerciseEditor(
                     ListItem(
                         Modifier.toggleable(
                             value = exercise.logWeight,
-                            onValueChange = { editor.updateExercise(logWeight = it) }
+                            onValueChange = { viewModel.updateExercise(logWeight = it) }
                         ),
                         text = { Text(stringResource(R.string.log_weight)) },
                         icon = { Checkbox(checked = exercise.logWeight, null) },
@@ -115,7 +113,7 @@ fun ExerciseEditor(
                     ListItem(
                         Modifier.toggleable(
                             value = exercise.logTime,
-                            onValueChange = { editor.updateExercise(logTime = it) }
+                            onValueChange = { viewModel.updateExercise(logTime = it) }
                         ),
                         text = { Text(stringResource(R.string.log_time)) },
                         icon = { Checkbox(checked = exercise.logTime, null) },
@@ -123,7 +121,7 @@ fun ExerciseEditor(
                     ListItem(
                         Modifier.toggleable(
                             value = exercise.logDistance,
-                            onValueChange = { editor.updateExercise(logDistance = it) }
+                            onValueChange = { viewModel.updateExercise(logDistance = it) }
                         ),
                         text = { Text(stringResource(R.string.log_distance)) },
                         icon = { Checkbox(checked = exercise.logDistance, null) },
