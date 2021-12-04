@@ -68,7 +68,7 @@ enum class Screen {
 @Composable
 fun NavGraph(
     navController: NavHostController,
-    bottomSheetNavigator: BottomSheetNavigator
+    bottomSheetNavigator: BottomSheetNavigator,
 ) {
     ModalBottomSheetLayout(bottomSheetNavigator = bottomSheetNavigator) {
         NavHost(navController, startDestination = Screen.routineList.name) {
@@ -96,6 +96,11 @@ fun NavGraph(
                 route = "${Screen.routineEditor}/{routineId}",
                 arguments = listOf(navArgument("routineId") { type = NavType.IntType })
             ) { backStackEntry ->
+                val exerciseIdsToAdd = backStackEntry
+                    .arguments
+                    ?.getIntegerArrayList("exerciseIdsToAdd")
+                    ?.toList()
+                    ?: emptyList()
                 RoutineEditor(
                     routineId = backStackEntry.arguments!!.getInt("routineId"),
                     navToWorkout = { workoutId: Long ->
@@ -104,7 +109,8 @@ fun NavGraph(
                         }
                     },
                     popBackStack = { navController.popBackStack() },
-                    navToExercisePicker = { navController.navigate(Screen.exercisePicker.name) }
+                    navToExercisePicker = { navController.navigate(Screen.exercisePicker.name) },
+                    exerciseIdsToAdd = exerciseIdsToAdd
                 )
             }
             composable(Screen.exerciseList.name) {
@@ -159,8 +165,10 @@ fun NavGraph(
             }
             bottomSheet(Screen.exercisePicker.name) {
                 ExercisePickerSheet(
-                    onExercisesSelected = {
-                        // TODO insert exercises
+                    onExercisesSelected = { exerciseIds ->
+                        navController.previousBackStackEntry
+                            ?.arguments
+                            ?.putIntegerArrayList("exerciseIdsToAdd", ArrayList(exerciseIds))
                         navController.popBackStack()
                     },
                     navToExerciseEditor = {

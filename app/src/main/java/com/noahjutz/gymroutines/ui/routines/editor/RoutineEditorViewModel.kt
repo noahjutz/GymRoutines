@@ -95,12 +95,12 @@ class RoutineEditorViewModel(
         }
     }
 
-    fun addExercises(exercises: List<Exercise>) {
+    fun addExercises(exerciseIds: List<Int>) {
         _routine?.let { routine ->
             viewModelScope.launch {
-                for (exercise in exercises) {
+                for (exerciseId in exerciseIds) {
                     val setGroup = RoutineSetGroup(
-                        exerciseId = exercise.exerciseId,
+                        exerciseId = exerciseId,
                         routineId = routine.routineId,
                         position = _setGroups.size,
                     )

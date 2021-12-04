@@ -65,10 +65,14 @@ fun RoutineEditor(
     navToWorkout: (Long) -> Unit,
     popBackStack: () -> Unit,
     routineId: Int,
+    exerciseIdsToAdd: List<Int>,
     viewModel: RoutineEditorViewModel = getViewModel { parametersOf(routineId) },
 ) {
     val scaffoldState = rememberScaffoldState()
-    val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+
+    LaunchedEffect(exerciseIdsToAdd) {
+        viewModel.addExercises(exerciseIdsToAdd)
+    }
 
     Scaffold(
         scaffoldState = scaffoldState,

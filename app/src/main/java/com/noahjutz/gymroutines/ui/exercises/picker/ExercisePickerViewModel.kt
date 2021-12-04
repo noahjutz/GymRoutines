@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.selects.select
 import java.util.*
 
 class ExercisePickerViewModel(
@@ -68,6 +69,8 @@ class ExercisePickerViewModel(
         }
 
         val selectedExercises = _selectedExercises.asStateFlow()
+
+        val selectedExerciseIds = selectedExercises.map { it.map { it.exerciseId } }
 
         fun exercisesContains(exercise: Exercise) = selectedExercises.map { it.contains(exercise) }
     }

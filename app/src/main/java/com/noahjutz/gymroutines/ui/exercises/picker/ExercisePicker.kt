@@ -48,16 +48,16 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun ExercisePickerSheet(
     viewModel: ExercisePickerViewModel = getViewModel(),
-    onExercisesSelected: (List<Exercise>) -> Unit,
+    onExercisesSelected: (List<Int>) -> Unit,
     navToExerciseEditor: () -> Unit,
 ) {
     Scaffold(
         floatingActionButton = {
-            val selectedExercises by viewModel.presenter.selectedExercises.collectAsState()
-            if (selectedExercises.isNotEmpty()) {
+            val selectedExerciseIds by viewModel.presenter.selectedExerciseIds.collectAsState(initial = emptyList())
+            if (selectedExerciseIds.isNotEmpty()) {
                 FloatingActionButton(
                     onClick = {
-                        onExercisesSelected(selectedExercises)
+                        onExercisesSelected(selectedExerciseIds)
                         viewModel.editor.clearExercises()
                     }
                 ) {
