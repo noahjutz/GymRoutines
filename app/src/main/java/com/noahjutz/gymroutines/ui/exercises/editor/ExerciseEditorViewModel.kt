@@ -29,8 +29,6 @@ class ExerciseEditorViewModel(
     private val repository: ExerciseRepository,
     private val exerciseId: Int,
 ) : ViewModel() {
-    private val allExerciseNames = repository.exercises.map { it.map { it.name.lowercase() } }
-
     private val _name = MutableStateFlow("")
     val name = _name.asStateFlow()
 
@@ -48,6 +46,10 @@ class ExerciseEditorViewModel(
 
     private val _logDistance = MutableStateFlow(false)
     val logDistance = _logDistance.asStateFlow()
+
+    private val allExerciseNames = repository.exercises
+        .map { names -> names.map { it.name.lowercase() } }
+        .combine(name) { names, name -> names.filter { it != name } }
 
     private var _originalExercise = MutableStateFlow<Exercise?>(null)
     private val _currentExercise = MutableStateFlow<Exercise?>(Exercise(exerciseId = exerciseId))
