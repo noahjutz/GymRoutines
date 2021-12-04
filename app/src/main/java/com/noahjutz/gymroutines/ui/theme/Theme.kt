@@ -24,12 +24,10 @@ private val BlackColorPalette = darkColors(
     secondaryVariant = Secondary,
     onPrimary = Color.Black,
     onSecondary = Color.Black,
-    surface = Color.Black,
-    background = Color.Black,
 )
 
 @Composable
-fun SplitfitTheme(
+fun GymRoutinesTheme(
     colors: ColorTheme,
     content: @Composable () -> Unit,
 ) {

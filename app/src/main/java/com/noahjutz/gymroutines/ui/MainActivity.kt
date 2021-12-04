@@ -32,7 +32,7 @@ import androidx.compose.runtime.getValue
 import com.noahjutz.gymroutines.data.AppPrefs
 import com.noahjutz.gymroutines.data.ColorTheme
 import com.noahjutz.gymroutines.data.datastore
-import com.noahjutz.gymroutines.ui.theme.SplitfitTheme
+import com.noahjutz.gymroutines.ui.theme.GymRoutinesTheme
 import com.noahjutz.gymroutines.util.valueOf
 import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.flow.map
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                 LocalThemePreference provides appTheme,
                 LocalColorTheme provides colors
             ) {
-                SplitfitTheme(colors = LocalThemePreference.current) {
+                GymRoutinesTheme(colors = LocalThemePreference.current) {
                     MainScreen()
                 }
             }
