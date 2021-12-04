@@ -32,6 +32,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class RoutineEditorViewModel(
     private val routineRepository: RoutineRepository,
@@ -64,7 +65,7 @@ class RoutineEditorViewModel(
         }
     }
 
-    fun getExercise(exerciseId: Int) = exerciseRepository.getExercise(exerciseId)
+    fun getExercise(exerciseId: Int) = runBlocking { exerciseRepository.getExercise(exerciseId) }
 
     fun updateName(name: String) {
         _routine?.let {

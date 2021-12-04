@@ -22,44 +22,97 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.ExerciseRepository
 import com.noahjutz.gymroutines.data.domain.Exercise
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlin.math.log
 
 class ExerciseEditorViewModel(
     private val repository: ExerciseRepository,
-    exerciseId: Int,
+    private val exerciseId: Int,
 ) : ViewModel() {
-    private val _exercise = MutableStateFlow(
-        repository.getExercise(exerciseId) ?: repository.getExercise(
-            repository.insert(Exercise()).toInt()
-        )!!
-    )
+    private val _name = MutableStateFlow("")
+    val name = _name.asStateFlow()
+
+    private val _notes = MutableStateFlow("")
+    val notes = _notes.asStateFlow()
+
+    private val _logReps = MutableStateFlow(false)
+    val logReps = _logReps.asStateFlow()
+
+    private val _logWeight = MutableStateFlow(false)
+    val logWeight = _logWeight.asStateFlow()
+
+    private val _logTime = MutableStateFlow(false)
+    val logTime = _logTime.asStateFlow()
+
+    private val _logDistance = MutableStateFlow(false)
+    val logDistance = _logDistance.asStateFlow()
 
     init {
         viewModelScope.launch {
-            _exercise.collectLatest { repository.insert(it) }
+            val exercise = repository.getExercise(exerciseId)
+
+            if (exercise != null) {
+                _name.value = exercise.name
+                _notes.value = exercise.notes
+                _logReps.value = exercise.logReps
+                _logWeight.value = exercise.logWeight
+                _logTime.value = exercise.logTime
+                _logDistance.value = exercise.logDistance
+            }
+
+            launch {
+                combine(logReps, logWeight, logTime, logDistance) { r, w, t, d ->
+                    !(r || w || t || d)
+                }.collect { isNoneLogged ->
+                    if (isNoneLogged) _logReps.value = true
+                }
+            }
         }
     }
 
-    fun updateExercise(
-        name: String = _exercise.value.name,
-        notes: String = _exercise.value.notes,
-        logReps: Boolean = _exercise.value.logReps,
-        logWeight: Boolean = _exercise.value.logWeight,
-        logTime: Boolean = _exercise.value.logTime,
-        logDistance: Boolean = _exercise.value.logDistance,
-    ) {
-        _exercise.value = _exercise.value.copy(
-            name = name,
-            notes = notes,
-            logReps = logReps,
-            logWeight = logWeight,
-            logTime = logTime,
-            logDistance = logDistance
-        )
+    fun setName(name: String) {
+        _name.value = name
     }
 
-    val exercise = _exercise.asStateFlow()
+    fun setNotes(notes: String) {
+        _notes.value = notes
+    }
+
+    fun setLogReps(logReps: Boolean) {
+        _logReps.value = logReps
+    }
+
+    fun setLogWeight(logWeight: Boolean) {
+        _logWeight.value = logWeight
+    }
+
+    fun setLogTime(logTime: Boolean) {
+        _logTime.value = logTime
+    }
+
+    fun setLogDistance(logDistance: Boolean) {
+        _logDistance.value = logDistance
+    }
+
+    fun save() {
+        if (name.value.isNotBlank()) {
+            viewModelScope.launch {
+                val exercise = Exercise(
+                    name = name.value,
+                    notes = notes.value,
+                    logReps = logReps.value,
+                    logWeight = logWeight.value,
+                    logTime = logTime.value,
+                    logDistance = logDistance.value,
+                    hidden = false
+                )
+                if (exerciseId < 0) {
+                    repository.insert(exercise)
+                } else {
+                    repository.update(exercise)
+                }
+            }
+        }
+    }
 }

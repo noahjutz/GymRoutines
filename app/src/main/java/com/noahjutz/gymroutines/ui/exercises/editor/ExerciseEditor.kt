@@ -42,12 +42,7 @@ fun ExerciseEditor(
     exerciseId: Int,
     viewModel: ExerciseEditorViewModel = getViewModel { parametersOf(exerciseId) },
 ) {
-    val scope = rememberCoroutineScope()
-
-    val exercise by viewModel.exercise.collectAsState()
-    val scaffoldState = rememberScaffoldState()
     Scaffold(
-        scaffoldState = scaffoldState,
         topBar = {
             TopBar(
                 navigationIcon = {
@@ -60,71 +55,63 @@ fun ExerciseEditor(
             )
         },
         content = {
-            val alertNoLogValueSelected = stringResource(R.string.alert_no_log_value_selected)
-            LaunchedEffect(
-                exercise.logReps,
-                exercise.logWeight,
-                exercise.logTime,
-                exercise.logDistance
-            ) {
-                if (!(exercise.logReps || exercise.logWeight || exercise.logTime || exercise.logDistance)) {
-                    viewModel.updateExercise(logReps = true)
-                    scope.launch {
-                        scaffoldState.snackbarHostState.showSnackbar(alertNoLogValueSelected)
-                    }
-                }
-            }
             LazyColumn {
                 item {
+                    val name by viewModel.name.collectAsState()
                     TextField(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(start = 16.dp, end = 16.dp, top = 16.dp),
-                        value = exercise.name,
-                        onValueChange = { viewModel.updateExercise(name = it) },
+                        value = name,
+                        onValueChange = viewModel::setName,
                         label = { Text("Exercise name") },
                         singleLine = true,
                         placeholder = { Text(stringResource(R.string.unnamed_exercise)) }
                     )
+                    val notes by viewModel.notes.collectAsState()
                     OutlinedTextField(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp),
-                        value = exercise.notes,
-                        onValueChange = { viewModel.updateExercise(notes = it) },
+                        value = notes,
+                        onValueChange = viewModel::setNotes,
                         label = { Text("Notes") },
                     )
+                    val logReps by viewModel.logReps.collectAsState()
                     ListItem(
                         Modifier.toggleable(
-                            value = exercise.logReps,
-                            onValueChange = { viewModel.updateExercise(logReps = it) }
+                            value = logReps,
+                            onValueChange = viewModel::setLogReps
                         ),
                         text = { Text(stringResource(R.string.log_reps)) },
-                        icon = { Checkbox(checked = exercise.logReps, null) },
+                        icon = { Checkbox(checked = logReps, null) },
                     )
+                    val logWeight by viewModel.logWeight.collectAsState()
                     ListItem(
                         Modifier.toggleable(
-                            value = exercise.logWeight,
-                            onValueChange = { viewModel.updateExercise(logWeight = it) }
+                            value = logWeight,
+                            onValueChange = viewModel::setLogWeight
                         ),
                         text = { Text(stringResource(R.string.log_weight)) },
-                        icon = { Checkbox(checked = exercise.logWeight, null) },
+                        icon = { Checkbox(checked = logWeight, null) },
                     )
+                    val logTime by viewModel.logTime.collectAsState()
                     ListItem(
                         Modifier.toggleable(
-                            value = exercise.logTime,
-                            onValueChange = { viewModel.updateExercise(logTime = it) }
+                            value = logTime,
+                            onValueChange = viewModel::setLogTime
                         ),
                         text = { Text(stringResource(R.string.log_time)) },
-                        icon = { Checkbox(checked = exercise.logTime, null) },
+                        icon = { Checkbox(checked = logTime, null) },
                     )
+                    val logDistance by viewModel.logDistance.collectAsState()
                     ListItem(
                         Modifier.toggleable(
-                            value = exercise.logDistance,
-                            onValueChange = { viewModel.updateExercise(logDistance = it) }
+                            value = logDistance,
+                            onValueChange = viewModel::setLogDistance
                         ),
                         text = { Text(stringResource(R.string.log_distance)) },
-                        icon = { Checkbox(checked = exercise.logDistance, null) },
+                        icon = { Checkbox(checked = logDistance, null) },
                     )
                 }
             }

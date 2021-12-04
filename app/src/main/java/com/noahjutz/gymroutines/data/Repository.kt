@@ -30,20 +30,20 @@ import kotlinx.coroutines.withContext
 class ExerciseRepository(private val exerciseDao: ExerciseDao) {
     val exercises = exerciseDao.getExercises()
 
-    fun insert(exercise: Exercise) = runBlocking {
-        withContext(IO) {
-            exerciseDao.insert(exercise)
-        }
+    suspend fun insert(exercise: Exercise): Long {
+        return exerciseDao.insert(exercise)
+    }
+
+    suspend fun update(exercise: Exercise) {
+        exerciseDao.update(exercise)
     }
 
     fun getExerciseFlow(exerciseId: Int): Flow<Exercise?> {
         return exerciseDao.getExerciseFlow(exerciseId)
     }
 
-    fun getExercise(id: Int): Exercise? = runBlocking {
-        withContext(IO) {
-            exerciseDao.getExercise(id)
-        }
+    suspend fun getExercise(id: Int): Exercise? {
+        return exerciseDao.getExercise(id)
     }
 }
 
