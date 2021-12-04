@@ -83,12 +83,12 @@ class WorkoutInProgressViewModel(
         }
     }
 
-    fun addExercises(exercises: List<Exercise>) {
+    fun addExercises(exerciseIds: List<Int>) {
         _workout?.let { workout ->
             viewModelScope.launch {
-                for (exercise in exercises) {
+                for (exerciseId in exerciseIds) {
                     val setGroup = WorkoutSetGroup(
-                        exerciseId = exercise.exerciseId,
+                        exerciseId = exerciseId,
                         workoutId = workout.workout.workoutId,
                         position = workout.setGroups.size,
                     )

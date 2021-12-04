@@ -145,10 +145,16 @@ fun NavGraph(
                     }
                 )
             ) { backStackEntry ->
+                val exerciseIdsToAdd = backStackEntry
+                    .arguments
+                    ?.getIntegerArrayList("exerciseIdsToAdd")
+                    ?.toList()
+                    ?: emptyList()
                 WorkoutInProgress(
                     navToExercisePicker = { navController.navigate(Screen.exercisePicker.name) },
                     popBackStack = { navController.popBackStack() },
                     workoutId = backStackEntry.arguments!!.getInt("workoutId"),
+                    exerciseIdsToAdd = exerciseIdsToAdd
                 )
             }
             composable(Screen.settings.name) {

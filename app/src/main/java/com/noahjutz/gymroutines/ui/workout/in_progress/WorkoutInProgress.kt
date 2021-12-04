@@ -69,8 +69,13 @@ fun WorkoutInProgress(
     navToExercisePicker: () -> Unit,
     popBackStack: () -> Unit,
     workoutId: Int,
+    exerciseIdsToAdd: List<Int>,
     viewModel: WorkoutInProgressViewModel = getViewModel { parametersOf(workoutId) },
 ) {
+    LaunchedEffect(exerciseIdsToAdd) {
+        viewModel.addExercises(exerciseIdsToAdd)
+    }
+
     Scaffold(
         topBar = {
             TopBar(
