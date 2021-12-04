@@ -81,25 +81,29 @@ fun NavGraph(
         AnimatedNavHost(
             navController, startDestination = Screen.routineList.name,
             enterTransition = {
-                fadeIn(tween(300)) + scaleIn(initialScale = 0.9f, animationSpec = tween(300))
+                if (isTopLevel(targetState.destination.route) && isTopLevel(initialState.destination.route)) {
+                    EnterTransition.None
+                } else {
+                    fadeIn(tween(300)) + scaleIn(initialScale = 0.9f, animationSpec = tween(300))
+                }
             },
             exitTransition = {
                 if (isTopLevel(targetState.destination.route) && isTopLevel(initialState.destination.route)) {
-                    fadeOut(tween(300))
+                    ExitTransition.None
                 } else {
                     fadeOut(tween(300)) + scaleOut(targetScale = 1.1f, animationSpec = tween(300))
                 }
             },
             popEnterTransition = {
                 if (isTopLevel(targetState.destination.route) && isTopLevel(initialState.destination.route)) {
-                    fadeIn(tween(300)) + scaleIn(initialScale = 0.9f, animationSpec = tween(300))
+                    EnterTransition.None
                 } else {
                     fadeIn(tween(300)) + scaleIn(initialScale = 1.1f, animationSpec = tween(300))
                 }
             },
             popExitTransition = {
                 if (isTopLevel(targetState.destination.route) && isTopLevel(initialState.destination.route)) {
-                    fadeOut(tween(300))
+                    ExitTransition.None
                 } else {
                     fadeOut(tween(300)) + scaleOut(targetScale = 0.9f, animationSpec = tween(300))
                 }
