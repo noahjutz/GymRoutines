@@ -47,22 +47,17 @@ class ExerciseEditorViewModel(
     private val _logDistance = MutableStateFlow(false)
     val logDistance = _logDistance.asStateFlow()
 
-    private val allExerciseNames = repository.exercises
-        .map { names -> names.map { it.name.lowercase() } }
-        .combine(name) { names, name -> names.filter { it != name } }
-
     private var _originalExercise = MutableStateFlow<Exercise?>(null)
     private val _currentExercise = MutableStateFlow<Exercise?>(Exercise(exerciseId = exerciseId))
 
-    private val isExerciseDifferent =
-        _currentExercise.combine(_originalExercise) { current, original ->
-            current != original
-        }
-
     val isSavingEnabled = combine(
-        isExerciseDifferent, name, allExerciseNames
-    ) { isExerciseDifferent, name, allExerciseNames ->
-        isExerciseDifferent && name.isNotBlank() && name.lowercase() !in allExerciseNames
+        _originalExercise,
+        _currentExercise,
+        name,
+    ) { old, current, name ->
+        val isExerciseEqual = current == old
+        val isNameBlank = name.isBlank()
+        !isExerciseEqual && !isNameBlank
     }
 
     init {
