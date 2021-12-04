@@ -25,6 +25,7 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -42,22 +43,35 @@ fun ExerciseEditor(
     exerciseId: Int,
     viewModel: ExerciseEditorViewModel = getViewModel { parametersOf(exerciseId) },
 ) {
+    val name by viewModel.name.collectAsState()
     Scaffold(
         topBar = {
             TopBar(
                 navigationIcon = {
                     IconButton(
                         onClick = popBackStack,
-                        content = { Icon(Icons.Default.ArrowBack, null) },
+                        content = { Icon(Icons.Default.Close, null) },
                     )
                 },
-                title = "Edit Exercise"
+                title = "Edit Exercise",
+                actions = {
+                    TextButton(
+                        modifier = Modifier.padding(end = 8.dp),
+                        onClick = {
+                            viewModel.save {
+                                popBackStack()
+                            }
+                        },
+                        enabled = name.isNotBlank()
+                    ) {
+                        Text("Save")
+                    }
+                }
             )
         },
         content = {
             LazyColumn {
                 item {
-                    val name by viewModel.name.collectAsState()
                     TextField(
                         modifier = Modifier
                             .fillMaxWidth()

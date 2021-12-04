@@ -95,24 +95,24 @@ class ExerciseEditorViewModel(
         _logDistance.value = logDistance
     }
 
-    fun save() {
-        if (name.value.isNotBlank()) {
-            viewModelScope.launch {
-                val exercise = Exercise(
-                    name = name.value,
-                    notes = notes.value,
-                    logReps = logReps.value,
-                    logWeight = logWeight.value,
-                    logTime = logTime.value,
-                    logDistance = logDistance.value,
-                    hidden = false
-                )
-                if (exerciseId < 0) {
-                    repository.insert(exercise)
-                } else {
-                    repository.update(exercise)
-                }
+    fun save(onComplete: () -> Unit) {
+        viewModelScope.launch {
+            val exercise = Exercise(
+                name = name.value,
+                notes = notes.value,
+                logReps = logReps.value,
+                logWeight = logWeight.value,
+                logTime = logTime.value,
+                logDistance = logDistance.value,
+                hidden = false,
+            )
+            if (exerciseId < 0) {
+                repository.insert(exercise)
+            } else {
+                repository.update(exercise.copy(exerciseId = exerciseId))
             }
+        }.invokeOnCompletion {
+            onComplete()
         }
     }
 }
