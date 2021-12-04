@@ -66,59 +66,36 @@ import kotlin.time.ExperimentalTime
 @ExperimentalMaterialApi
 @Composable
 fun WorkoutInProgress(
-    navToExerciseEditor: () -> Unit,
+    navToExercisePicker: () -> Unit,
     popBackStack: () -> Unit,
     workoutId: Int,
     viewModel: WorkoutInProgressViewModel = getViewModel { parametersOf(workoutId) },
 ) {
-    val scope = rememberCoroutineScope()
-    val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
-
-    BackHandler(enabled = sheetState.isVisible) {
-        scope.launch { sheetState.hide() }
-    }
-
-    ModalBottomSheetLayout(
-        sheetState = sheetState,
-        scrimColor = Color.Black.copy(alpha = 0.32f),
-        sheetElevation = 0.dp,
-        sheetContent = {
-            ExercisePickerSheet(
-                onExercisesSelected = { exercises ->
-                    viewModel.addExercises(exercises)
-                    scope.launch { sheetState.hide() }
-                },
-                navToExerciseEditor = navToExerciseEditor
+    Scaffold(
+        topBar = {
+            TopBar(
+                title = "Workout",
+                navigationIcon = {
+                    IconButton(onClick = popBackStack) { Icon(Icons.Default.ArrowBack, null) }
+                }
             )
-        }
+        },
     ) {
-        Scaffold(
-            topBar = {
-                TopBar(
-                    title = "Workout",
-                    navigationIcon = {
-                        IconButton(onClick = popBackStack) { Icon(Icons.Default.ArrowBack, null) }
-                    }
-                )
-            },
-        ) {
-            val workout by viewModel.workout.collectAsState(initial = null)
+        val workout by viewModel.workout.collectAsState(initial = null)
 
-            Crossfade(workout == null) { isNull ->
-                if (isNull) {
-                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator()
-                    }
-                } else {
-                    workout?.let { workout ->
-                        WorkoutInProgressContent(
-                            workout,
-                            viewModel,
-                            popBackStack,
-                            scope,
-                            sheetState
-                        )
-                    }
+        Crossfade(workout == null) { isNull ->
+            if (isNull) {
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
+            } else {
+                workout?.let { workout ->
+                    WorkoutInProgressContent(
+                        workout = workout,
+                        viewModel = viewModel,
+                        popBackStack = popBackStack,
+                        navToExercisePicker = navToExercisePicker
+                    )
                 }
             }
         }
@@ -131,8 +108,7 @@ private fun WorkoutInProgressContent(
     workout: WorkoutWithSetGroups,
     viewModel: WorkoutInProgressViewModel,
     popBackStack: () -> Unit,
-    scope: CoroutineScope,
-    sheetState: ModalBottomSheetState
+    navToExercisePicker: () -> Unit,
 ) {
     var showFinishWorkoutDialog by remember { mutableStateOf(false) }
     if (showFinishWorkoutDialog) FinishWorkoutDialog(
@@ -513,7 +489,7 @@ private fun WorkoutInProgressContent(
                     .fillMaxWidth()
                     .height(128.dp),
                 shape = RoundedCornerShape(24.dp),
-                onClick = { scope.launch { sheetState.show() } }
+                onClick = navToExercisePicker
             ) {
                 Icon(Icons.Default.Add, null)
                 Spacer(Modifier.width(12.dp))

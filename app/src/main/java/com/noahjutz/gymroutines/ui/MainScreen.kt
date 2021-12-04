@@ -40,6 +40,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.noahjutz.gymroutines.R
 import org.koin.androidx.compose.getViewModel
 import kotlin.time.ExperimentalTime
@@ -69,13 +71,15 @@ val bottomNavItems = listOf(
     BottomNavItem.Settings,
 )
 
+@OptIn(ExperimentalMaterialNavigationApi::class)
 @ExperimentalTime
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
 fun MainScreen(viewModel: MainScreenVM = getViewModel()) {
-    val navController = rememberNavController()
+    val bottomSheetNavigator = rememberBottomSheetNavigator()
+    val navController = rememberNavController(bottomSheetNavigator)
 
     val currentWorkoutId by viewModel.currentWorkoutId.collectAsState(initial = -1)
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -100,7 +104,7 @@ fun MainScreen(viewModel: MainScreenVM = getViewModel()) {
         }
     ) { paddingValues ->
         Box(Modifier.padding(paddingValues)) {
-            NavGraph(navController = navController)
+            NavGraph(navController = navController, bottomSheetNavigator = bottomSheetNavigator)
         }
     }
 }

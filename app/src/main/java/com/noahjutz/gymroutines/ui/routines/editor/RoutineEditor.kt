@@ -18,11 +18,9 @@
 
 package com.noahjutz.gymroutines.ui.routines.editor
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -37,7 +35,6 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -53,11 +50,9 @@ import com.noahjutz.gymroutines.ui.components.AutoSelectTextField
 import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.components.durationVisualTransformation
-import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
 import com.noahjutz.gymroutines.util.RegexPatterns
 import com.noahjutz.gymroutines.util.formatSimple
 import com.noahjutz.gymroutines.util.toStringOrBlank
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -66,77 +61,55 @@ import org.koin.core.parameter.parametersOf
 @ExperimentalFoundationApi
 @Composable
 fun RoutineEditor(
-    navToExerciseEditor: () -> Unit,
+    navToExercisePicker: () -> Unit,
     navToWorkout: (Long) -> Unit,
     popBackStack: () -> Unit,
     routineId: Int,
     viewModel: RoutineEditorViewModel = getViewModel { parametersOf(routineId) },
 ) {
-    val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
     val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
 
-    BackHandler(enabled = sheetState.isVisible) {
-        scope.launch {
-            sheetState.hide()
-        }
-    }
-
-    ModalBottomSheetLayout(
-        sheetState = sheetState,
-        scrimColor = Color.Black.copy(alpha = 0.32f),
-        sheetContent = {
-            ExercisePickerSheet(
-                onExercisesSelected = {
-                    viewModel.addExercises(it)
-                    scope.launch { sheetState.hide() }
-                },
-                navToExerciseEditor = navToExerciseEditor
-            )
-        },
-        sheetElevation = 0.dp,
-    ) {
-        Scaffold(
-            scaffoldState = scaffoldState,
-            floatingActionButton = {
-                val isWorkoutRunning by viewModel.isWorkoutInProgress.collectAsState(initial = false)
-                if (!isWorkoutRunning) {
-                    ExtendedFloatingActionButton(
-                        onClick = {
-                            viewModel.startWorkout { id ->
-                                navToWorkout(id)
-                            }
-                        },
-                        icon = { Icon(Icons.Default.PlayArrow, null) },
-                        text = { Text("Start Workout") },
-                    )
-                }
-            },
-            topBar = {
-                TopBar(
-                    navigationIcon = {
-                        IconButton(onClick = popBackStack) {
-                            Icon(Icons.Default.ArrowBack, stringResource(R.string.pop_back))
+    Scaffold(
+        scaffoldState = scaffoldState,
+        floatingActionButton = {
+            val isWorkoutRunning by viewModel.isWorkoutInProgress.collectAsState(initial = false)
+            if (!isWorkoutRunning) {
+                ExtendedFloatingActionButton(
+                    onClick = {
+                        viewModel.startWorkout { id ->
+                            navToWorkout(id)
                         }
                     },
-                    title = "Edit Routine",
+                    icon = { Icon(Icons.Default.PlayArrow, null) },
+                    text = { Text("Start Workout") },
                 )
             }
-        ) {
-            val routine by viewModel.routine.collectAsState(initial = null)
-            Crossfade(routine == null) { isNotReady ->
-                if (isNotReady) {
-                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator()
+        },
+        topBar = {
+            TopBar(
+                navigationIcon = {
+                    IconButton(onClick = popBackStack) {
+                        Icon(Icons.Default.ArrowBack, stringResource(R.string.pop_back))
                     }
-                } else {
-                    RoutineEditorContent(
-                        routine = routine!!.routine,
-                        setGroups = routine!!.setGroups,
-                        viewModel = viewModel,
-                        sheetState = sheetState
-                    )
+                },
+                title = "Edit Routine",
+            )
+        }
+    ) {
+        val routine by viewModel.routine.collectAsState(initial = null)
+        Crossfade(routine == null) { isNotReady ->
+            if (isNotReady) {
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
                 }
+            } else {
+                RoutineEditorContent(
+                    routine = routine!!.routine,
+                    setGroups = routine!!.setGroups,
+                    viewModel = viewModel,
+                    navToExercisePicker = navToExercisePicker
+                )
             }
         }
     }
@@ -148,7 +121,7 @@ private fun RoutineEditorContent(
     routine: Routine,
     setGroups: List<RoutineSetGroupWithSets>,
     viewModel: RoutineEditorViewModel,
-    sheetState: ModalBottomSheetState
+    navToExercisePicker: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
     LazyColumn(
@@ -481,11 +454,7 @@ private fun RoutineEditorContent(
                     .padding(24.dp)
                     .height(120.dp),
                 shape = RoundedCornerShape(24.dp),
-                onClick = {
-                    scope.launch {
-                        sheetState.show()
-                    }
-                }
+                onClick = navToExercisePicker
             ) {
                 Icon(Icons.Default.Add, null)
                 Spacer(Modifier.width(12.dp))
