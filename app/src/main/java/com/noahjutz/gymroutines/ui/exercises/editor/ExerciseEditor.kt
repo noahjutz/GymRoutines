@@ -18,6 +18,7 @@
 
 package com.noahjutz.gymroutines.ui.exercises.editor
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.noahjutz.gymroutines.R
+import com.noahjutz.gymroutines.ui.components.NormalDialog
 import com.noahjutz.gymroutines.ui.components.TopBar
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
@@ -43,13 +45,42 @@ fun ExerciseEditor(
     exerciseId: Int,
     viewModel: ExerciseEditorViewModel = getViewModel { parametersOf(exerciseId) },
 ) {
-    val name by viewModel.name.collectAsState()
+    var showDiscardAlert by remember { mutableStateOf(false) }
+    if (showDiscardAlert) {
+        NormalDialog(
+            onDismissRequest = { showDiscardAlert = false },
+            title = { Text("Discard changes?") },
+            confirmButton = {
+                Button(onClick = popBackStack) {
+                    Text("Discard")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDiscardAlert = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+
+    val isExerciseDifferent by viewModel.isExerciseDifferent.collectAsState(initial = false)
+
+    BackHandler(enabled = isExerciseDifferent) {
+        showDiscardAlert = true
+    }
+
     Scaffold(
         topBar = {
             TopBar(
                 navigationIcon = {
                     IconButton(
-                        onClick = popBackStack,
+                        onClick = {
+                            if (isExerciseDifferent) {
+                                showDiscardAlert = true
+                            } else {
+                                popBackStack()
+                            }
+                        },
                         content = { Icon(Icons.Default.Close, null) },
                     )
                 },
@@ -62,7 +93,7 @@ fun ExerciseEditor(
                                 popBackStack()
                             }
                         },
-                        enabled = name.isNotBlank()
+                        enabled = isExerciseDifferent
                     ) {
                         Text("Save")
                     }
@@ -72,6 +103,7 @@ fun ExerciseEditor(
         content = {
             LazyColumn {
                 item {
+                    val name by viewModel.name.collectAsState()
                     TextField(
                         modifier = Modifier
                             .fillMaxWidth()

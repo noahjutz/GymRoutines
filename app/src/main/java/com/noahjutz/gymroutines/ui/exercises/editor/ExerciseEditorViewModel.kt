@@ -24,7 +24,6 @@ import com.noahjutz.gymroutines.data.ExerciseRepository
 import com.noahjutz.gymroutines.data.domain.Exercise
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 class ExerciseEditorViewModel(
     private val repository: ExerciseRepository,
@@ -48,17 +47,24 @@ class ExerciseEditorViewModel(
     private val _logDistance = MutableStateFlow(false)
     val logDistance = _logDistance.asStateFlow()
 
+    private var _originalExercise = MutableStateFlow<Exercise?>(null)
+    private val _currentExercise = MutableStateFlow<Exercise?>(Exercise(exerciseId = exerciseId))
+
+    val isExerciseDifferent = _currentExercise.combine(_originalExercise) { current, original ->
+        current != original
+    }
+
     init {
         viewModelScope.launch {
-            val exercise = repository.getExercise(exerciseId)
+            _originalExercise.value = repository.getExercise(exerciseId)
 
-            if (exercise != null) {
-                _name.value = exercise.name
-                _notes.value = exercise.notes
-                _logReps.value = exercise.logReps
-                _logWeight.value = exercise.logWeight
-                _logTime.value = exercise.logTime
-                _logDistance.value = exercise.logDistance
+            _originalExercise.value?.let {
+                _name.value = it.name
+                _notes.value = it.notes
+                _logReps.value = it.logReps
+                _logWeight.value = it.logWeight
+                _logTime.value = it.logTime
+                _logDistance.value = it.logDistance
             }
 
             launch {
@@ -66,6 +72,37 @@ class ExerciseEditorViewModel(
                     !(r || w || t || d)
                 }.collect { isNoneLogged ->
                     if (isNoneLogged) _logReps.value = true
+                }
+            }
+
+            launch {
+                name.collect {
+                    _currentExercise.value = _currentExercise.value?.copy(name = it)
+                }
+            }
+            launch {
+                notes.collect {
+                    _currentExercise.value = _currentExercise.value?.copy(notes = it)
+                }
+            }
+            launch {
+                logReps.collect {
+                    _currentExercise.value = _currentExercise.value?.copy(logReps = it)
+                }
+            }
+            launch {
+                logWeight.collect {
+                    _currentExercise.value = _currentExercise.value?.copy(logWeight = it)
+                }
+            }
+            launch {
+                logTime.collect {
+                    _currentExercise.value = _currentExercise.value?.copy(logTime = it)
+                }
+            }
+            launch {
+                logDistance.collect {
+                    _currentExercise.value = _currentExercise.value?.copy(logDistance = it)
                 }
             }
         }
@@ -107,7 +144,7 @@ class ExerciseEditorViewModel(
                 hidden = false,
             )
             if (exerciseId < 0) {
-                repository.insert(exercise)
+                repository.insert(exercise.copy(exerciseId = 0))
             } else {
                 repository.update(exercise.copy(exerciseId = exerciseId))
             }
