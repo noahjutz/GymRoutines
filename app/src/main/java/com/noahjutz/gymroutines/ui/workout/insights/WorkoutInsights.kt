@@ -19,6 +19,7 @@
 package com.noahjutz.gymroutines.ui.workout.insights
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -34,6 +35,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.Workout
 import com.noahjutz.gymroutines.data.domain.duration
@@ -57,6 +59,7 @@ fun WorkoutInsights(
     else WorkoutInsightsContent(viewModel, navToWorkoutEditor)
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalTime
 @ExperimentalMaterialApi
 @Composable
@@ -77,10 +80,13 @@ fun WorkoutInsightsContent(
                     style = typography.h5
                 )
             }
-            items(workouts) { workout ->
+            items(workouts, { it.workout.workoutId }) { workout ->
                 val dismissState = rememberDismissState()
 
                 SwipeToDismiss(
+                    modifier = Modifier
+                        .animateItemPlacement()
+                        .zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
                     state = dismissState,
                     background = { SwipeToDeleteBackground(dismissState) }
                 ) {
@@ -111,10 +117,7 @@ fun WorkoutInsightsContent(
                 if (dismissState.targetValue != DismissValue.Default) {
                     DeleteConfirmation(
                         workout = workout.workout,
-                        onConfirm = {
-                            viewModel.editor.delete(workout)
-                            scope.launch { dismissState.snapTo(DismissValue.Default) }
-                        },
+                        onConfirm = { viewModel.editor.delete(workout) },
                         onDismiss = { scope.launch { dismissState.reset() } }
                     )
                 }
@@ -158,7 +161,7 @@ private fun DeleteConfirmation(
 @ExperimentalTime
 @Composable
 private fun WorkoutCharts(
-    workouts: List<Workout>
+    workouts: List<Workout>,
 ) {
     Box(
         Modifier.padding(16.dp),
