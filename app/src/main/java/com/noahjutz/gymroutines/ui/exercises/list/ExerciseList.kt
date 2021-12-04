@@ -20,6 +20,7 @@ package com.noahjutz.gymroutines.ui.exercises.list
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -40,6 +41,7 @@ import com.noahjutz.gymroutines.ui.components.TopBar
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
+@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @Composable
@@ -65,36 +67,36 @@ fun ExerciseList(
                 item {
                     val searchQuery by viewModel.nameFilter.collectAsState()
                     SearchBar(
-                        modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .fillMaxWidth(),
                         value = searchQuery,
                         onValueChange = viewModel::setNameFilter
                     )
                 }
 
-                items(exercises.filter { !it.hidden }) { exercise ->
+                items(exercises.filter { !it.hidden }, { it.exerciseId }) { exercise ->
                     val dismissState = rememberDismissState()
-                    var hidden by remember { mutableStateOf(false) }
 
-                    if (!hidden) {
-                        SwipeToDismiss(
-                            state = dismissState,
-                            background = { SwipeToDeleteBackground(dismissState) }
+                    SwipeToDismiss(
+                        modifier = Modifier.animateItemPlacement(),
+                        state = dismissState,
+                        background = { SwipeToDeleteBackground(dismissState) }
+                    ) {
+                        Card(
+                            elevation = animateDpAsState(
+                                if (dismissState.dismissDirection != null) 4.dp else 0.dp
+                            ).value
                         ) {
-                            Card(
-                                elevation = animateDpAsState(
-                                    if (dismissState.dismissDirection != null) 4.dp else 0.dp
-                                ).value
+                            ListItem(
+                                Modifier.clickable { navToExerciseEditor(exercise.exerciseId) }
                             ) {
-                                ListItem(
-                                    Modifier.clickable { navToExerciseEditor(exercise.exerciseId) }
-                                ) {
-                                    Text(
-                                        text = exercise.name.takeIf { it.isNotBlank() }
-                                            ?: stringResource(R.string.unnamed_exercise),
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis,
-                                    )
-                                }
+                                Text(
+                                    text = exercise.name.takeIf { it.isNotBlank() }
+                                        ?: stringResource(R.string.unnamed_exercise),
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
                             }
                         }
                     }
@@ -103,11 +105,7 @@ fun ExerciseList(
                         ConfirmDeleteExerciseDialog(
                             onDismiss = { scope.launch { dismissState.reset() } },
                             exerciseName = exercise.name,
-                            onConfirm = {
-                                viewModel.hide(exercise, true)
-                                hidden = true
-                                scope.launch { dismissState.reset() }
-                            },
+                            onConfirm = { viewModel.delete(exercise) },
                         )
                     }
                 }

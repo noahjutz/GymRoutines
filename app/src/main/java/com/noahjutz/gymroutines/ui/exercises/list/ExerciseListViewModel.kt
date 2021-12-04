@@ -45,6 +45,9 @@ class ExerciseListViewModel(
         }
     }
 
-    fun hide(exercise: Exercise, hide: Boolean) =
-        viewModelScope.launch { repository.insert(exercise.apply { hidden = hide }) }
+    fun delete(exercise: Exercise) {
+        viewModelScope.launch {
+            repository.update(exercise.copy(hidden = true))
+        }
+    }
 }
