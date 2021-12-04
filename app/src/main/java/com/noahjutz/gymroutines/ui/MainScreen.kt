@@ -42,6 +42,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.noahjutz.gymroutines.R
 import kotlin.time.ExperimentalTime
 import org.koin.androidx.compose.getViewModel
@@ -79,7 +80,7 @@ val bottomNavItems = listOf(
 @Composable
 fun MainScreen(viewModel: MainScreenVM = getViewModel()) {
     val bottomSheetNavigator = rememberBottomSheetNavigator()
-    val navController = rememberNavController(bottomSheetNavigator)
+    val navController = rememberAnimatedNavController(bottomSheetNavigator)
 
     val currentWorkoutId by viewModel.currentWorkoutId.collectAsState(initial = -1)
     val navBackStackEntry by navController.currentBackStackEntryAsState()

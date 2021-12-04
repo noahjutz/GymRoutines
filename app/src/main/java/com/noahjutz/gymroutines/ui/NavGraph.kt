@@ -18,6 +18,8 @@
 
 package com.noahjutz.gymroutines.ui
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
@@ -25,13 +27,13 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.bottomSheet
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
 import com.noahjutz.gymroutines.ui.exercises.editor.ExerciseEditor
 import com.noahjutz.gymroutines.ui.exercises.list.ExerciseList
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
@@ -71,7 +73,13 @@ fun NavGraph(
     bottomSheetNavigator: BottomSheetNavigator,
 ) {
     ModalBottomSheetLayout(bottomSheetNavigator = bottomSheetNavigator) {
-        NavHost(navController, startDestination = Screen.routineList.name) {
+        AnimatedNavHost(
+            navController, startDestination = Screen.routineList.name,
+            enterTransition = { EnterTransition.None },
+            exitTransition = { ExitTransition.None },
+            popEnterTransition = { EnterTransition.None },
+            popExitTransition = { ExitTransition.None }
+        ) {
             composable(Screen.insights.name) {
                 WorkoutInsights(
                     navToWorkoutEditor = { workoutId -> navController.navigate("${Screen.workoutViewer}/$workoutId") }
