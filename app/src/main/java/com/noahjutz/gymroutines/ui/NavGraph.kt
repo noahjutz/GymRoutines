@@ -18,9 +18,8 @@
 
 package com.noahjutz.gymroutines.ui
 
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -72,13 +71,39 @@ fun NavGraph(
     navController: NavHostController,
     bottomSheetNavigator: BottomSheetNavigator,
 ) {
+    fun isTopLevel(route: String?): Boolean {
+        return route == Screen.routineList.name ||
+                route == Screen.exerciseList.name ||
+                route == Screen.insights.name ||
+                route == Screen.settings.name
+    }
     ModalBottomSheetLayout(bottomSheetNavigator = bottomSheetNavigator) {
         AnimatedNavHost(
             navController, startDestination = Screen.routineList.name,
-            enterTransition = { EnterTransition.None },
-            exitTransition = { ExitTransition.None },
-            popEnterTransition = { EnterTransition.None },
-            popExitTransition = { ExitTransition.None }
+            enterTransition = {
+                fadeIn(tween(300)) + scaleIn(initialScale = 0.9f, animationSpec = tween(300))
+            },
+            exitTransition = {
+                if (isTopLevel(targetState.destination.route) && isTopLevel(initialState.destination.route)) {
+                    fadeOut(tween(300))
+                } else {
+                    fadeOut(tween(300)) + scaleOut(targetScale = 1.1f, animationSpec = tween(300))
+                }
+            },
+            popEnterTransition = {
+                if (isTopLevel(targetState.destination.route) && isTopLevel(initialState.destination.route)) {
+                    fadeIn(tween(300)) + scaleIn(initialScale = 0.9f, animationSpec = tween(300))
+                } else {
+                    fadeIn(tween(300)) + scaleIn(initialScale = 1.1f, animationSpec = tween(300))
+                }
+            },
+            popExitTransition = {
+                if (isTopLevel(targetState.destination.route) && isTopLevel(initialState.destination.route)) {
+                    fadeOut(tween(300))
+                } else {
+                    fadeOut(tween(300)) + scaleOut(targetScale = 0.9f, animationSpec = tween(300))
+                }
+            }
         ) {
             composable(Screen.insights.name) {
                 WorkoutInsights(
