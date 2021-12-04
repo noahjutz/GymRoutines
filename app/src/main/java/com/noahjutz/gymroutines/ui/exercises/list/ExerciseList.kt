@@ -21,10 +21,7 @@ package com.noahjutz.gymroutines.ui.exercises.list
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
@@ -68,7 +65,7 @@ fun ExerciseList(
                 item {
                     val searchQuery by viewModel.nameFilter.collectAsState()
                     SearchBar(
-                        modifier = Modifier.padding(16.dp),
+                        modifier = Modifier.padding(16.dp).fillMaxWidth(),
                         value = searchQuery,
                         onValueChange = viewModel::setNameFilter
                     )
