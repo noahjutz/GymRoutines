@@ -60,9 +60,9 @@ fun ExerciseEditor(
         )
     }
 
-    val isExerciseDifferent by viewModel.isExerciseDifferent.collectAsState(initial = false)
+    val isSavingEnabled by viewModel.isSavingEnabled.collectAsState(initial = false)
 
-    BackHandler(enabled = isExerciseDifferent) {
+    BackHandler(enabled = isSavingEnabled) {
         showDiscardAlert = true
     }
 
@@ -72,7 +72,7 @@ fun ExerciseEditor(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            if (isExerciseDifferent) {
+                            if (isSavingEnabled) {
                                 showDiscardAlert = true
                             } else {
                                 popBackStack()
@@ -90,7 +90,7 @@ fun ExerciseEditor(
                                 popBackStack()
                             }
                         },
-                        enabled = isExerciseDifferent
+                        enabled = isSavingEnabled
                     ) {
                         Text("Save")
                     }

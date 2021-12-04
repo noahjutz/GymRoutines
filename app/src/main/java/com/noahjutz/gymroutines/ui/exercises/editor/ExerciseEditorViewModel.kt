@@ -50,8 +50,12 @@ class ExerciseEditorViewModel(
     private var _originalExercise = MutableStateFlow<Exercise?>(null)
     private val _currentExercise = MutableStateFlow<Exercise?>(Exercise(exerciseId = exerciseId))
 
-    val isExerciseDifferent = _currentExercise.combine(_originalExercise) { current, original ->
+    private val isExerciseDifferent = _currentExercise.combine(_originalExercise) { current, original ->
         current != original
+    }
+
+    val isSavingEnabled = isExerciseDifferent.combine(name) { isExerciseDifferent, name ->
+        isExerciseDifferent && name.isNotBlank()
     }
 
     init {
