@@ -20,10 +20,7 @@ package com.noahjutz.gymroutines.ui.exercises.picker
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.toggleable
@@ -64,49 +61,47 @@ fun ExercisePickerSheet(
                 }
             }
         }
-    ) {
+    ) { paddingValues ->
         val allExercises by viewModel.allExercises.collectAsState(emptyList())
-        LazyColumn(Modifier.fillMaxHeight()) {
-            item {
-                val searchQuery by viewModel.nameFilter.collectAsState()
-                SearchBar(
-                    modifier = Modifier.padding(16.dp),
-                    value = searchQuery,
-                    onValueChange = viewModel::search
-                )
-            }
-
-            items(allExercises.filter { !it.hidden }) { exercise ->
-                val checked by viewModel.exercisesContains(exercise)
-                    .collectAsState(initial = false)
-                ListItem(
-                    Modifier.toggleable(
-                        value = checked,
-                        onValueChange = {
-                            if (it) viewModel.addExercise(exercise)
-                            else viewModel.removeExercise(exercise)
-                        }
-                    ),
-                    icon = { Checkbox(checked = checked, onCheckedChange = null) },
-                ) {
-                    Text(
-                        exercise.name.takeIf { it.isNotBlank() }
-                            ?: stringResource(R.string.unnamed_exercise)
-                    )
+        Column(Modifier.padding(paddingValues)) {
+            val searchQuery by viewModel.nameFilter.collectAsState()
+            SearchBar(
+                modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                value = searchQuery,
+                onValueChange = viewModel::search
+            )
+            LazyColumn(Modifier.weight(1f)) {
+                items(allExercises.filter { !it.hidden }) { exercise ->
+                    val checked by viewModel.exercisesContains(exercise)
+                        .collectAsState(initial = false)
+                    ListItem(
+                        Modifier.toggleable(
+                            value = checked,
+                            onValueChange = {
+                                if (it) viewModel.addExercise(exercise)
+                                else viewModel.removeExercise(exercise)
+                            }
+                        ),
+                        icon = { Checkbox(checked = checked, onCheckedChange = null) },
+                    ) {
+                        Text(
+                            exercise.name.takeIf { it.isNotBlank() }
+                                ?: stringResource(R.string.unnamed_exercise)
+                        )
+                    }
                 }
-            }
 
-            item {
-                ListItem(
-                    modifier = Modifier.clickable(onClick = navToExerciseEditor),
-                    icon = { Icon(Icons.Default.Add, null, tint = colors.primary) },
-                    text = { Text(stringResource(R.string.new_exercise), color = colors.primary) },
-                )
-            }
-
-            item {
-                // Fix FAB overlap
-                Box(Modifier.height(72.dp))
+                item {
+                    ListItem(
+                        modifier = Modifier.clickable(onClick = navToExerciseEditor),
+                        icon = { Icon(Icons.Default.Add, null, tint = colors.primary) },
+                        text = {
+                            Text(stringResource(R.string.new_exercise),
+                                color = colors.primary)
+                        },
+                    )
+                    Spacer(Modifier.height(70.dp))
+                }
             }
         }
     }
