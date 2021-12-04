@@ -34,43 +34,36 @@ class ExercisePickerViewModel(
     private val exercises = exerciseRepository.exercises
     private val _selectedExercises = MutableStateFlow(emptyList<Exercise>())
 
-    val presenter = Presenter()
-    val editor = Editor()
+    fun search(name: String) {
+        _nameFilter.value = name
+    }
 
-    inner class Editor {
-        fun search(name: String) {
-            _nameFilter.value = name
-        }
+    fun addExercise(exercise: Exercise) {
+        _selectedExercises.value =
+            _selectedExercises.value.toMutableList().apply { add(exercise) }
+    }
 
-        fun addExercise(exercise: Exercise) {
-            _selectedExercises.value =
-                _selectedExercises.value.toMutableList().apply { add(exercise) }
-        }
+    fun removeExercise(exercise: Exercise) {
+        _selectedExercises.value =
+            _selectedExercises.value.toMutableList().apply { remove(exercise) }
+    }
 
-        fun removeExercise(exercise: Exercise) {
-            _selectedExercises.value =
-                _selectedExercises.value.toMutableList().apply { remove(exercise) }
-        }
+    fun clearExercises() {
+        _selectedExercises.value = emptyList()
+    }
 
-        fun clearExercises() {
-            _selectedExercises.value = emptyList()
+    val nameFilter = _nameFilter.asStateFlow()
+
+    val allExercises = exercises.combine(_nameFilter) { exercises, nameFilter ->
+        exercises.filter {
+            it.name.lowercase(Locale.getDefault())
+                .contains(nameFilter.lowercase(Locale.getDefault()))
         }
     }
 
-    inner class Presenter {
-        val nameFilter = _nameFilter.asStateFlow()
+    val selectedExercises = _selectedExercises.asStateFlow()
 
-        val allExercises = exercises.combine(_nameFilter) { exercises, nameFilter ->
-            exercises.filter {
-                it.name.lowercase(Locale.getDefault())
-                    .contains(nameFilter.lowercase(Locale.getDefault()))
-            }
-        }
+    val selectedExerciseIds = selectedExercises.map { it.map { it.exerciseId } }
 
-        val selectedExercises = _selectedExercises.asStateFlow()
-
-        val selectedExerciseIds = selectedExercises.map { it.map { it.exerciseId } }
-
-        fun exercisesContains(exercise: Exercise) = selectedExercises.map { it.contains(exercise) }
-    }
+    fun exercisesContains(exercise: Exercise) = selectedExercises.map { it.contains(exercise) }
 }
