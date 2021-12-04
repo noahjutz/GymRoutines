@@ -529,7 +529,7 @@ private fun CancelWorkoutDialog(
     onDismiss: () -> Unit,
     cancelWorkout: () -> Unit,
 ) {
-    NormalDialog(
+    AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text("Delete Workout?") },
         text = { Text("Do you really want to delete this workout?") },
@@ -543,7 +543,7 @@ private fun FinishWorkoutDialog(
     onDismiss: () -> Unit,
     finishWorkout: () -> Unit,
 ) {
-    NormalDialog(
+    AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text("Finish Workout?") },
         text = { Text("Do you want to finish the workout?") },

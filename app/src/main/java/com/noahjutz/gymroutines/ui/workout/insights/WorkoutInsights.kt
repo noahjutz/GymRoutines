@@ -129,7 +129,7 @@ private fun DeleteConfirmation(
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
 ) {
-    NormalDialog(
+    AlertDialog(
         title = {
             Text(
                 stringResource(

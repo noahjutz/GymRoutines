@@ -34,10 +34,11 @@ import androidx.compose.material.icons.filled.SettingsBackupRestore
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.ColorTheme
 import com.noahjutz.gymroutines.ui.LocalThemePreference
-import com.noahjutz.gymroutines.ui.components.NormalDialog
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.util.OpenDocument
 import java.text.SimpleDateFormat
@@ -153,7 +154,7 @@ fun AppSettings(
 fun RestartAppDialog(
     restartApp: () -> Unit,
 ) {
-    NormalDialog(
+    AlertDialog(
         onDismissRequest = {},
         dismissButton = {},
         confirmButton = { Button(onClick = restartApp) { Text("Restart") } },
@@ -167,7 +168,7 @@ fun ResetSettingsDialog(
     onDismiss: () -> Unit,
     resetSettings: () -> Unit,
 ) {
-    NormalDialog(
+    AlertDialog(
         onDismissRequest = onDismiss,
         dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) } },
         confirmButton = { Button(onClick = resetSettings) { Text("Reset all settings") } },
@@ -180,22 +181,22 @@ fun ResetSettingsDialog(
 @Composable
 fun ThemeDialog(
     onDismiss: () -> Unit,
-    onThemeSelected: (ColorTheme) -> Unit
+    onThemeSelected: (ColorTheme) -> Unit,
 ) {
-    NormalDialog(
-        onDismissRequest = onDismiss,
-    ) {
-        Column {
-            for (theme in ColorTheme.values()) {
-                val isSelected = LocalThemePreference.current == theme
-                ListItem(
-                    modifier = Modifier.toggleable(
-                        value = isSelected,
-                        onValueChange = { onThemeSelected(theme) }
-                    ),
-                    text = { Text(stringResource(theme.themeName)) },
-                    trailing = { RadioButton(selected = isSelected, onClick = null) },
-                )
+    Dialog(onDismissRequest = onDismiss) {
+        Card(elevation = 0.dp) {
+            Column {
+                for (theme in ColorTheme.values()) {
+                    val isSelected = LocalThemePreference.current == theme
+                    ListItem(
+                        modifier = Modifier.toggleable(
+                            value = isSelected,
+                            onValueChange = { onThemeSelected(theme) }
+                        ),
+                        text = { Text(stringResource(theme.themeName)) },
+                        trailing = { RadioButton(selected = isSelected, onClick = null) },
+                    )
+                }
             }
         }
     }

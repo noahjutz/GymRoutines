@@ -40,7 +40,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.noahjutz.gymroutines.R
-import com.noahjutz.gymroutines.ui.components.NormalDialog
 import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
 import com.noahjutz.gymroutines.ui.components.TopBar
 import kotlinx.coroutines.launch
@@ -102,7 +101,7 @@ fun RoutineList(
                 }
 
                 if (dismissState.targetValue != DismissValue.Default) {
-                    NormalDialog(
+                    AlertDialog(
                         title = {
                             Text(
                                 stringResource(
