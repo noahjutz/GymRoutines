@@ -49,7 +49,7 @@ object Libs {
     }
 
     object Room {
-        private const val version = "2.4.0-beta01"
+        private const val version = "2.4.0"
         const val room = "androidx.room:room-ktx:$version"
         const val compiler = "androidx.room:room-compiler:$version"
         const val runtime = "androidx.room:room-runtime:$version"
@@ -73,7 +73,7 @@ object Libs {
     }
 
     object Compose {
-        const val version = "1.1.0-beta04"
+        const val version = "1.1.0-rc01"
         const val ui = "androidx.compose.ui:ui:$version"
         const val tooling = "androidx.compose.ui:ui-tooling:$version"
         const val foundation = "androidx.compose.foundation:foundation:$version"
