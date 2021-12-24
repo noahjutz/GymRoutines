@@ -565,8 +565,8 @@ val MIGRATION_42_43 = object : Migration(42, 43) {
         db.query("SELECT * FROM workout_table_old").use { workouts ->
             while (workouts.moveToNext()) {
                 val name = workouts.getString(0)
-                val startTime = workouts.getInt(1)
-                val endTime = workouts.getInt(2)
+                val startTime = workouts.getLong(1)
+                val endTime = workouts.getLong(2)
                 val workoutId = workouts.getInt(3)
                 db.query("SELECT * FROM routine_table WHERE name='$name' LIMIT 1").use { routine ->
                     val nextRoutineId =
