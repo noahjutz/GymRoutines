@@ -52,7 +52,7 @@ fun WorkoutInsights(
     viewModel: WorkoutInsightsViewModel = getViewModel(),
     navToWorkoutEditor: (Int) -> Unit,
 ) {
-    val workouts by viewModel.presenter.workouts.collectAsState(initial = emptyList())
+    val workouts by viewModel.workouts.collectAsState(initial = emptyList())
 
     if (workouts.size <= 1) NothingHereYet("No data yet.")
     else WorkoutInsightsContent(viewModel, navToWorkoutEditor)
@@ -68,7 +68,7 @@ fun WorkoutInsightsContent(
 ) {
     val scope = rememberCoroutineScope()
 
-    val workouts by viewModel.presenter.workouts.collectAsState(emptyList())
+    val workouts by viewModel.workouts.collectAsState(emptyList())
     Scaffold(topBar = { TopBar(title = stringResource(R.string.tab_insights)) }) {
         LazyColumn {
             item {
@@ -140,7 +140,7 @@ fun WorkoutInsightsContent(
                 if (dismissState.targetValue != DismissValue.Default) {
                     DeleteConfirmation(
                         workout = workout.workout,
-                        onConfirm = { viewModel.editor.delete(workout) },
+                        onConfirm = { viewModel.delete(workout) },
                         onDismiss = { scope.launch { dismissState.reset() } }
                     )
                 }

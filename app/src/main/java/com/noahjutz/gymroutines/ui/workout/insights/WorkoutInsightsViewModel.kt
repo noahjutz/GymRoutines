@@ -23,36 +23,27 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.AppPrefs
+import com.noahjutz.gymroutines.data.RoutineRepository
 import com.noahjutz.gymroutines.data.WorkoutRepository
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class WorkoutInsightsViewModel(
-    private val repository: WorkoutRepository,
+    private val workoutRepository: WorkoutRepository,
+    private val routineRepository: RoutineRepository,
     private val preferences: DataStore<Preferences>,
 ) : ViewModel() {
-    val presenter = Presenter()
-    val editor = Editor()
-
-    inner class Presenter {
-        private lateinit var preferencesData: Preferences
-
-        init {
-            viewModelScope.launch { preferences.data.collect { preferencesData = it } }
-        }
-
-        val workouts = repository.workouts.map {
-            it.filter {
-                preferencesData[AppPrefs.CurrentWorkout.key] != it.workout.workoutId
-            }
+    val workouts = workoutRepository.workouts.combine(preferences.data) { workouts, prefs ->
+        workouts.filter {
+            prefs[AppPrefs.CurrentWorkout.key] != it.workout.workoutId
         }
     }
 
-    inner class Editor {
-        fun delete(workout: WorkoutWithSetGroups) = viewModelScope.launch {
-            repository.delete(workout.workout)
-        }
+    fun delete(workout: WorkoutWithSetGroups) = viewModelScope.launch {
+        workoutRepository.delete(workout.workout)
     }
 }
