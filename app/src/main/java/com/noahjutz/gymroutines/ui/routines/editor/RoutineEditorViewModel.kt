@@ -156,7 +156,7 @@ class RoutineEditorViewModel(
         viewModelScope.launch {
             _routine?.let { _routine ->
                 val workout = Workout(
-                    name = _routine.name
+                    routineId = _routine.routineId
                 )
                 val workoutId = workoutRepository.insert(workout)
 

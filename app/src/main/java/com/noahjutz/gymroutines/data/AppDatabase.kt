@@ -40,7 +40,7 @@ import kotlinx.serialization.json.*
         WorkoutSet::class,
         WorkoutSetGroup::class,
     ],
-    version = 42,
+    version = 43,
     autoMigrations = [AutoMigration(from = 35, to = 36)],
     exportSchema = true
 )
@@ -537,5 +537,57 @@ val MIGRATION_41_42 = object : Migration(41, 42) {
         db.execSQL("INSERT INTO workout_set_table SELECT groupId, reps, weight, time, distance, complete, workoutSetId FROM workout_set_table_old")
         db.execSQL("CREATE INDEX index_workout_set_table_groupId ON workout_set_table(groupId)")
         db.execSQL("DROP TABLE workout_set_table_old")
+    }
+}
+
+/**
+ * Adds `routineId` column to workout_table, removes `name` column. This introduces a one-to-many
+ * relationship routine_table (1-n) workout_table.
+ *
+ * Existing workouts are connected to routines with matching names. Workouts without matching
+ * routine are connected to new empty hidden routines (New `hidden` column in routine_table is added
+ * for this).
+ */
+val MIGRATION_42_43 = object : Migration(42, 43) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE routine_table ADD COLUMN hidden INTEGER NOT NULL DEFAULT 0")
+        db.execSQL("ALTER TABLE workout_table RENAME TO workout_table_old")
+        db.execSQL(
+            """
+            CREATE TABLE workout_table (
+                routineId INTEGER NOT NULL,
+                startTime INTEGER NOT NULL,
+                endTime INTEGER NOT NULL,
+                workoutId INTEGER PRIMARY KEY NOT NULL
+            )
+            """.trimIndent()
+        )
+        db.query("SELECT * FROM workout_table_old").use { workouts ->
+            while (workouts.moveToNext()) {
+                val name = workouts.getString(0)
+                val startTime = workouts.getInt(1)
+                val endTime = workouts.getInt(2)
+                val workoutId = workouts.getInt(3)
+                db.query("SELECT * FROM routine_table WHERE name='$name' LIMIT 1").use { routine ->
+                    val nextRoutineId =
+                        if (routine.moveToFirst()) {
+                            routine.getInt(1)
+                        } else {
+                            db.query("SELECT MAX(routineId) FROM routine_table")
+                                .use { maxRoutineId ->
+                                    val id = if (maxRoutineId.moveToFirst()) {
+                                        maxRoutineId.getInt(0) + 1
+                                    } else {
+                                        1
+                                    }
+                                    db.execSQL("INSERT INTO routine_table VALUES ('$name', true, $id)")
+                                    id
+                                }
+                        }
+                    db.execSQL("INSERT INTO workout_table VALUES ($nextRoutineId, $startTime, $endTime, $workoutId)")
+                }
+            }
+        }
+        db.execSQL("DROP TABLE workout_table_old")
     }
 }

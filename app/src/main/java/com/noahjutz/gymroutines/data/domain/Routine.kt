@@ -26,6 +26,7 @@ import androidx.room.Relation
 @Entity(tableName = "routine_table")
 data class Routine(
     val name: String = "",
+    val hidden: Boolean = false,
 
     @PrimaryKey(autoGenerate = true)
     var routineId: Int = 0,

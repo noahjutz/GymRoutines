@@ -5,6 +5,7 @@ import androidx.room.testing.MigrationTestHelper
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import androidx.test.platform.app.InstrumentationRegistry
 import com.noahjutz.gymroutines.data.*
+import org.junit.Assert
 import java.io.IOException
 import org.junit.Rule
 import org.junit.Test
@@ -45,7 +46,8 @@ class MigrationTest {
                 MIGRATION_38_39,
                 MIGRATION_39_40,
                 MIGRATION_40_41,
-                MIGRATION_41_42
+                MIGRATION_41_42,
+                MIGRATION_42_43
             )
             .build()
             .apply {
@@ -132,5 +134,23 @@ class MigrationTest {
             it
         }
         db = helper.runMigrationsAndValidate(TEST_DB, 42, true, MIGRATION_41_42)
+    }
+
+    @Test
+    @Throws(IOException::class)
+    fun migrate42to43() {
+        var db = helper.createDatabase(TEST_DB, 42).use {
+            it.execSQL("INSERT INTO routine_table VALUES ('Full Body', 12)")
+            it.execSQL("INSERT INTO exercise_table VALUES ('Squat', '', 'true', 'true', 'false', 'false', 'false', 0)")
+            it.execSQL("INSERT INTO workout_table VALUES ('Legs', 0, 0, 0)")
+            it.execSQL("INSERT INTO workout_table VALUES ('Full Body', 0, 0, 1)")
+            it
+        }
+        db = helper.runMigrationsAndValidate(TEST_DB, 43, true, MIGRATION_42_43)
+        db.query("SELECT * FROM workout_table WHERE workoutId=1").use { workout ->
+            Assert.assertTrue(workout.moveToFirst())
+            val routineId = workout.getInt(0)
+            Assert.assertEquals(routineId, 12)
+        }
     }
 }

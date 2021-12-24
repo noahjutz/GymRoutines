@@ -98,8 +98,7 @@ fun WorkoutInsightsContent(
                         ListItem(
                             text = {
                                 Text(
-                                    text = workout.workout.name.takeIf { it.isNotBlank() }
-                                        ?: stringResource(R.string.unnamed_workout),
+                                    text = workout.workout.routineId.toString(),//TODO
                                     maxLines = 2,
                                     overflow = TextOverflow.Ellipsis,
                                 )
@@ -161,8 +160,7 @@ private fun DeleteConfirmation(
             Text(
                 stringResource(
                     R.string.confirm_delete,
-                    workout.name.takeIf { it.isNotBlank() }
-                        ?: stringResource(R.string.unnamed_workout)
+                    workout.workoutId.toString()//TODO
                 )
             )
         },

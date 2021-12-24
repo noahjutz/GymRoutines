@@ -74,7 +74,7 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
         item {
             Spacer(Modifier.height(24.dp))
             Text(
-                text = workout.workout.name,
+                text = workout.workout.workoutId.toString(),//TODO
                 modifier = Modifier.padding(horizontal = 24.dp),
                 style = typography.h4,
             )

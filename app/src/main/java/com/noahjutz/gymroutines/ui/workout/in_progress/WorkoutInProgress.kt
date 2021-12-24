@@ -137,7 +137,7 @@ private fun WorkoutInProgressContent(
             ) {
                 Box(Modifier.padding(24.dp)) {
                     Text(
-                        workout.workout.name,
+                        workout.workout.routineId.toString(),//TODO
                         style = typography.h3
                     )
                 }

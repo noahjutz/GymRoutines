@@ -27,7 +27,7 @@ import java.util.*
 
 @Entity(tableName = "workout_table")
 data class Workout(
-    val name: String = "",
+    val routineId: Int,
     val startTime: Date = Calendar.getInstance().time,
     val endTime: Date = startTime,
 
