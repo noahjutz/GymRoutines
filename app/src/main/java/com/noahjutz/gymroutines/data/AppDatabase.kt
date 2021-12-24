@@ -18,6 +18,7 @@
 
 package com.noahjutz.gymroutines.data
 
+import android.util.Log
 import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
@@ -550,7 +551,27 @@ val MIGRATION_41_42 = object : Migration(41, 42) {
  */
 val MIGRATION_42_43 = object : Migration(42, 43) {
     override fun migrate(db: SupportSQLiteDatabase) {
-        db.execSQL("ALTER TABLE routine_table ADD COLUMN hidden INTEGER NOT NULL DEFAULT 0")
+        // Add "hidden" column to routine_table with default value false
+        db.execSQL("ALTER TABLE routine_table RENAME TO routine_table_old")
+        db.execSQL(
+            """
+            CREATE TABLE routine_table (
+                name TEXT NOT NULL,
+                hidden INTEGER NOT NULL,
+                routineId INTEGER NOT NULL PRIMARY KEY
+            )
+            """.trimIndent()
+        )
+        db.query("SELECT * FROM routine_table_old").use { routines ->
+            while (routines.moveToNext()) {
+                val name = routines.getString(0)
+                val routineId = routines.getInt(1)
+                db.execSQL("INSERT INTO routine_table VALUES ('$name', 0, $routineId)")
+            }
+        }
+        db.execSQL("DROP TABLE routine_table_old")
+
+        // Remove "name" column and add "routineId" column to workout_table
         db.execSQL("ALTER TABLE workout_table RENAME TO workout_table_old")
         db.execSQL(
             """
@@ -571,7 +592,7 @@ val MIGRATION_42_43 = object : Migration(42, 43) {
                 db.query("SELECT * FROM routine_table WHERE name='$name' LIMIT 1").use { routine ->
                     val nextRoutineId =
                         if (routine.moveToFirst()) {
-                            routine.getInt(1)
+                            routine.getInt(2)
                         } else {
                             db.query("SELECT MAX(routineId) FROM routine_table")
                                 .use { maxRoutineId ->
@@ -580,7 +601,7 @@ val MIGRATION_42_43 = object : Migration(42, 43) {
                                     } else {
                                         1
                                     }
-                                    db.execSQL("INSERT INTO routine_table VALUES ('$name', true, $id)")
+                                    db.execSQL("INSERT INTO routine_table VALUES ('$name', 1, $id)")
                                     id
                                 }
                         }

@@ -1,5 +1,6 @@
 package com.noahjutz.gymroutines
 
+import android.util.Log
 import androidx.room.Room
 import androidx.room.testing.MigrationTestHelper
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
@@ -150,7 +151,16 @@ class MigrationTest {
         db.query("SELECT * FROM workout_table WHERE workoutId=1").use { workout ->
             Assert.assertTrue(workout.moveToFirst())
             val routineId = workout.getInt(0)
-            Assert.assertEquals(routineId, 12)
+            Assert.assertEquals(12, routineId)
+        }
+        db.query("SELECT * FROM workout_table WHERE workoutId=0").use { workout ->
+            Assert.assertTrue(workout.moveToFirst())
+            val routineId = workout.getInt(0)
+            db.query("SELECT * FROM routine_table WHERE routineId='$routineId'").use { routine ->
+                Assert.assertTrue(routine.moveToFirst())
+                val name = routine.getString(0)
+                Assert.assertEquals(name, "Legs")
+            }
         }
     }
 }
