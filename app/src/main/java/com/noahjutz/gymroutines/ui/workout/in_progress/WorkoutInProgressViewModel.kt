@@ -18,29 +18,43 @@
 
 package com.noahjutz.gymroutines.ui.workout.in_progress
 
+import android.app.Application
+import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.AppPrefs
 import com.noahjutz.gymroutines.data.ExerciseRepository
+import com.noahjutz.gymroutines.data.RoutineRepository
 import com.noahjutz.gymroutines.data.WorkoutRepository
 import com.noahjutz.gymroutines.data.domain.*
 import java.util.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 
 class WorkoutInProgressViewModel(
     private val preferences: DataStore<Preferences>,
     private val workoutRepository: WorkoutRepository,
     private val exerciseRepository: ExerciseRepository,
+    private val routineRepository: RoutineRepository,
+    private val application: Application,
     workoutId: Int,
 ) : ViewModel() {
     val workout = workoutRepository.getWorkoutFlow(workoutId)
     private var _workout: WorkoutWithSetGroups? = null
+
+    val routineName = workout.map {
+        it?.workout?.routineId?.let { routineId ->
+            routineRepository.getRoutine(routineId)?.name
+        } ?: application.resources.getString(R.string.unnamed_routine)
+    }
 
     init {
         viewModelScope.launch {

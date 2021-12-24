@@ -109,6 +109,8 @@ val koinModule = module {
             preferences = get(),
             workoutRepository = get(),
             exerciseRepository = get(),
+            routineRepository = get(),
+            application = androidApplication(),
             workoutId = params.get(),
         )
     }

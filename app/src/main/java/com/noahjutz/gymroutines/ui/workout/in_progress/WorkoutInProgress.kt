@@ -52,6 +52,7 @@ import com.noahjutz.gymroutines.util.RegexPatterns
 import com.noahjutz.gymroutines.util.formatSimple
 import com.noahjutz.gymroutines.util.pretty
 import com.noahjutz.gymroutines.util.toStringOrBlank
+import kotlinx.coroutines.flow.collect
 import kotlin.time.ExperimentalTime
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -135,12 +136,12 @@ private fun WorkoutInProgressContent(
                 color = colors.onSurface.copy(alpha = 0.1f),
                 shape = RoundedCornerShape(24.dp)
             ) {
-                Box(Modifier.padding(24.dp)) {
-                    Text(
-                        workout.workout.routineId.toString(),//TODO
-                        style = typography.h3
-                    )
-                }
+                val routineName by viewModel.routineName.collectAsState("")
+                Text(
+                    text = routineName,
+                    modifier = Modifier.padding(24.dp),
+                    style = typography.h3,
+                )
             }
             Text(
                 workout.workout.duration.pretty(),
