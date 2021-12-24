@@ -81,6 +81,9 @@ fun WorkoutInsightsContent(
             }
             items(workouts, { it.workout.workoutId }) { workout ->
                 val dismissState = rememberDismissState()
+                val routineName by produceState("", workout.workout.workoutId) {
+                    value = viewModel.getRoutineName(workout.workout.routineId)
+                }
 
                 SwipeToDismiss(
                     modifier = Modifier
@@ -98,7 +101,7 @@ fun WorkoutInsightsContent(
                         ListItem(
                             text = {
                                 Text(
-                                    text = workout.workout.routineId.toString(),//TODO
+                                    text = routineName,
                                     maxLines = 2,
                                     overflow = TextOverflow.Ellipsis,
                                 )
@@ -139,7 +142,7 @@ fun WorkoutInsightsContent(
 
                 if (dismissState.targetValue != DismissValue.Default) {
                     DeleteConfirmation(
-                        workout = workout.workout,
+                        name = routineName,
                         onConfirm = { viewModel.delete(workout) },
                         onDismiss = { scope.launch { dismissState.reset() } }
                     )
@@ -151,7 +154,7 @@ fun WorkoutInsightsContent(
 
 @Composable
 private fun DeleteConfirmation(
-    workout: Workout,
+    name: String,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -160,7 +163,7 @@ private fun DeleteConfirmation(
             Text(
                 stringResource(
                     R.string.confirm_delete,
-                    workout.workoutId.toString()//TODO
+                    name
                 )
             )
         },
