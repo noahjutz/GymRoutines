@@ -142,7 +142,7 @@ private fun RoutineEditorContent(
             BasicTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 24.dp, start = 24.dp, end = 24.dp),
+                    .padding(top = 16.dp, start = 24.dp, end = 24.dp),
                 value = name,
                 onValueChange = setName,
                 onTextLayout = { setNameLineCount(it.lineCount) },
@@ -150,9 +150,9 @@ private fun RoutineEditorContent(
                 cursorBrush = SolidColor(colors.onSurface),
                 decorationBox = { innerTextField ->
                     Surface(
+                        modifier = if (nameLineCount <= 1) Modifier.height(60.dp) else Modifier,
                         color = colors.onSurface.copy(alpha = 0.1f),
-                        shape = if (nameLineCount <= 1) RoundedCornerShape(percent = 100)
-                        else RoundedCornerShape(24.dp)
+                        shape = RoundedCornerShape(30.dp)
                     ) {
                         Row(
                             Modifier.padding(start = 32.dp, end = 8.dp),
