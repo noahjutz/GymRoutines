@@ -35,7 +35,7 @@ import com.google.accompanist.navigation.material.bottomSheet
 import com.noahjutz.gymroutines.ui.exercises.editor.ExerciseEditor
 import com.noahjutz.gymroutines.ui.exercises.list.ExerciseList
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerSheet
-import com.noahjutz.gymroutines.ui.routines.RoutineList
+import com.noahjutz.gymroutines.ui.routines.list.RoutineList
 import com.noahjutz.gymroutines.ui.routines.editor.RoutineEditor
 import com.noahjutz.gymroutines.ui.settings.AppSettings
 import com.noahjutz.gymroutines.ui.settings.about.AboutApp
