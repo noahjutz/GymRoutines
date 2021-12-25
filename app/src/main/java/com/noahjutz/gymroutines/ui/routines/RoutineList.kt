@@ -30,10 +30,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -89,14 +87,40 @@ fun RoutineList(
                             if (dismissState.dismissDirection != null) 4.dp else 0.dp
                         ).value
                     ) {
-                        ListItem(Modifier.clickable { navToRoutineEditor(routine.routineId.toLong()) }) {
-                            Text(
-                                text = routine.name.takeIf { it.isNotBlank() }
-                                    ?: stringResource(R.string.unnamed_routine),
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                            )
-                        }
+                        ListItem(
+                            Modifier.clickable { navToRoutineEditor(routine.routineId.toLong()) },
+                            text = {
+                                Text(
+                                    text = routine.name.takeIf { it.isNotBlank() }
+                                        ?: stringResource(R.string.unnamed_routine),
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
+                            },
+                            trailing = {
+                                Box {
+                                    var expanded by remember { mutableStateOf(false) }
+                                    IconButton(onClick = {expanded = !expanded}) {
+                                        Icon(Icons.Default.MoreVert, null)
+                                    }
+                                    DropdownMenu(
+                                        expanded = expanded,
+                                        onDismissRequest = { expanded = false }
+                                    ) {
+                                        DropdownMenuItem(
+                                            onClick = {
+                                                expanded = false
+                                                scope.launch {
+                                                    dismissState.dismiss(DismissDirection.StartToEnd)
+                                                }
+                                            }
+                                        ) {
+                                            Text("Delete")
+                                        }
+                                    }
+                                }
+                            }
+                        )
                     }
                 }
 
