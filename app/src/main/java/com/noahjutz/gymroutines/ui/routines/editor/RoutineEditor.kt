@@ -35,6 +35,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -138,24 +139,35 @@ private fun RoutineEditorContent(
             LaunchedEffect(name) {
                 viewModel.updateName(name)
             }
+            val (nameLineCount, setNameLineCount) = remember { mutableStateOf(0) }
             BasicTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp, start = 24.dp, end = 24.dp),
                 value = name,
                 onValueChange = setName,
-                textStyle = typography.h3.copy(color = colors.onSurface),
+                onTextLayout = { setNameLineCount(it.lineCount) },
+                textStyle = typography.h6.copy(color = colors.onSurface),
                 cursorBrush = SolidColor(colors.onSurface),
                 decorationBox = { innerTextField ->
                     Surface(
                         color = colors.onSurface.copy(alpha = 0.1f),
-                        shape = RoundedCornerShape(24.dp)
+                        shape = if (nameLineCount <= 1) RoundedCornerShape(percent = 100)
+                        else RoundedCornerShape(24.dp)
                     ) {
-                        Box(Modifier.padding(24.dp)) {
+                        Box(
+                            Modifier.padding(
+                                start = 32.dp,
+                                end = 20.dp,
+                                top = 16.dp,
+                                bottom = 16.dp
+                            ),
+                            contentAlignment = Alignment.CenterStart,
+                        ) {
                             if (routine.name.isEmpty()) {
                                 Text(
                                     "Unnamed",
-                                    style = typography.h3.copy(
+                                    style = typography.h6.copy(
                                         color = colors.onSurface.copy(alpha = 0.12f)
                                     )
                                 )
