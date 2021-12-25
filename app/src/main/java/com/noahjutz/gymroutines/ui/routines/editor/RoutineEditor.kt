@@ -155,7 +155,7 @@ private fun RoutineEditorContent(
                         shape = RoundedCornerShape(30.dp)
                     ) {
                         Row(
-                            Modifier.padding(start = 32.dp, end = 8.dp),
+                            Modifier.padding(start = 30.dp, end = 8.dp),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Box(
@@ -195,8 +195,8 @@ private fun RoutineEditorContent(
                 Modifier
                     .fillMaxWidth()
                     .animateItemPlacement()
-                    .padding(top = 24.dp),
-                shape = RoundedCornerShape(24.dp),
+                    .padding(top = 30.dp),
+                shape = RoundedCornerShape(30.dp),
             ) {
                 Column {
                     Surface(Modifier.fillMaxWidth(), color = colors.primary) {
@@ -477,9 +477,9 @@ private fun RoutineEditorContent(
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(24.dp)
+                    .padding(30.dp)
                     .height(120.dp),
-                shape = RoundedCornerShape(24.dp),
+                shape = RoundedCornerShape(30.dp),
                 onClick = navToExercisePicker
             ) {
                 Icon(Icons.Default.Add, null)
