@@ -63,7 +63,7 @@ object Libs {
     }
 
     object Navigation {
-        private const val version = "2.4.0-beta02"
+        private const val version = "2.4.0-rc01"
         const val compose = "androidx.navigation:navigation-compose:$version"
     }
 
