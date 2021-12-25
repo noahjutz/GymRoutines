@@ -149,8 +149,8 @@ dependencies {
     androidTestImplementation("androidx.test:core:1.4.0")
     androidTestImplementation("androidx.test:core-ktx:1.4.0")
 
-    implementation("com.google.accompanist:accompanist-navigation-material:0.21.4-beta")
-    implementation("com.google.accompanist:accompanist-navigation-animation:0.21.4-beta")
+    implementation("com.google.accompanist:accompanist-navigation-material:0.22.0-rc")
+    implementation("com.google.accompanist:accompanist-navigation-animation:0.22.0-rc")
 }
 
 ktlint {
