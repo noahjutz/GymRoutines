@@ -98,7 +98,9 @@ fun RoutineListContent(
         item {
             val nameFilter by viewModel.nameFilter.collectAsState()
             SearchBar(
-                modifier = Modifier.fillMaxWidth().padding(start = 30.dp, end = 30.dp, bottom = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 30.dp, end = 30.dp, bottom = 16.dp, top = 16.dp),
                 value = nameFilter,
                 onValueChange = viewModel::setNameFilter
             )
