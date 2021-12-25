@@ -268,53 +268,41 @@ private fun RoutineEditorContent(
                             )
                             if (exercise.logReps) Surface(
                                 Modifier
-                                    .padding(4.dp)
+                                    .padding(horizontal = 4.dp, vertical = 8.dp)
                                     .weight(1f),
-                                color = colors.primary.copy(alpha = 0.1f),
-                                shape = RoundedCornerShape(8.dp)
                             ) {
                                 Text(
                                     "Reps",
-                                    Modifier.padding(vertical = 16.dp),
                                     style = headerTextStyle
                                 )
                             }
                             if (exercise.logWeight) Surface(
                                 Modifier
-                                    .padding(4.dp)
+                                    .padding(horizontal = 4.dp, vertical = 8.dp)
                                     .weight(1f),
-                                color = colors.primary.copy(alpha = 0.1f),
-                                shape = RoundedCornerShape(8.dp)
                             ) {
                                 Text(
                                     "Weight",
-                                    Modifier.padding(vertical = 16.dp),
                                     style = headerTextStyle
                                 )
                             }
                             if (exercise.logTime) Surface(
                                 Modifier
-                                    .padding(4.dp)
+                                    .padding(horizontal = 4.dp, vertical = 8.dp)
                                     .weight(1f),
-                                color = colors.primary.copy(alpha = 0.1f),
-                                shape = RoundedCornerShape(8.dp)
                             ) {
                                 Text(
                                     "Time",
-                                    Modifier.padding(vertical = 16.dp),
                                     style = headerTextStyle
                                 )
                             }
                             if (exercise.logDistance) Surface(
                                 Modifier
-                                    .padding(4.dp)
+                                    .padding(horizontal = 4.dp, vertical = 8.dp)
                                     .weight(1f),
-                                color = colors.primary.copy(alpha = 0.1f),
-                                shape = RoundedCornerShape(8.dp)
                             ) {
                                 Text(
                                     "Distance",
-                                    Modifier.padding(vertical = 16.dp),
                                     style = headerTextStyle
                                 )
                             }
