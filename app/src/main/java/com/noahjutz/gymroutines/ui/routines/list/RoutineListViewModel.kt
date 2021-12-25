@@ -26,6 +26,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class RoutineListViewModel(
@@ -34,7 +35,10 @@ class RoutineListViewModel(
     private val _nameFilter = MutableStateFlow("")
     val nameFilter = _nameFilter.asStateFlow()
 
-    val routines: Flow<List<Routine>> = repository.routines
+    val routines: Flow<List<Routine>> =
+        repository.routines.combine(nameFilter) { routines, filter ->
+            routines.filter { filter.lowercase() in it.name.lowercase() }
+        }
 
     fun setNameFilter(name: String) {
         _nameFilter.value = name
