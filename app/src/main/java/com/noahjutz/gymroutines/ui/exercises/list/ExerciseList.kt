@@ -18,6 +18,7 @@
 
 package com.noahjutz.gymroutines.ui.exercises.list
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -36,6 +37,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.noahjutz.gymroutines.R
+import com.noahjutz.gymroutines.data.domain.Exercise
 import com.noahjutz.gymroutines.ui.components.SearchBar
 import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
 import com.noahjutz.gymroutines.ui.components.TopBar
@@ -50,7 +52,6 @@ fun ExerciseList(
     navToExerciseEditor: (Int) -> Unit,
     viewModel: ExerciseListViewModel = getViewModel(),
 ) {
-    val scope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             TopBar(title = stringResource(R.string.tab_exercises))
@@ -62,92 +63,115 @@ fun ExerciseList(
                 text = { Text(stringResource(R.string.new_exercise)) },
             )
         },
-        content = {
-            val exercises by viewModel.exercises.collectAsState(emptyList())
-            LazyColumn(Modifier.fillMaxHeight()) {
-                item {
-                    val searchQuery by viewModel.nameFilter.collectAsState()
-                    SearchBar(
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .fillMaxWidth(),
-                        value = searchQuery,
-                        onValueChange = viewModel::setNameFilter
-                    )
-                }
+    ) {
+        val exercises by viewModel.exercises.collectAsState(null)
 
-                items(exercises.filter { !it.hidden }, { it.exerciseId }) { exercise ->
-                    val dismissState = rememberDismissState()
-
-                    SwipeToDismiss(
-                        modifier = Modifier
-                            .animateItemPlacement()
-                            .zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
-                        state = dismissState,
-                        background = { SwipeToDeleteBackground(dismissState) }
-                    ) {
-                        Card(
-                            elevation = animateDpAsState(
-                                if (dismissState.dismissDirection != null) 4.dp else 0.dp
-                            ).value
-                        ) {
-                            ListItem(
-                                Modifier.clickable { navToExerciseEditor(exercise.exerciseId) },
-                                text = {
-                                    Text(
-                                        text = exercise.name.takeIf { it.isNotBlank() }
-                                            ?: stringResource(R.string.unnamed_exercise),
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis,
-                                    )
-                                },
-                                trailing = {
-                                    Box {
-                                        var expanded by remember { mutableStateOf(false) }
-                                        IconButton(onClick = { expanded = !expanded }) {
-                                            Icon(Icons.Default.MoreVert, null)
-                                        }
-                                        DropdownMenu(
-                                            expanded = expanded,
-                                            onDismissRequest = { expanded = false }
-                                        ) {
-                                            DropdownMenuItem(
-                                                onClick = {
-                                                    expanded = false
-                                                    scope.launch {
-                                                        dismissState.dismiss(DismissDirection.StartToEnd)
-                                                    }
-                                                }
-                                            ) {
-                                                Text("Delete")
-                                            }
-                                        }
-                                    }
-                                }
-                            )
-                        }
-                    }
-
-                    if (dismissState.targetValue != DismissValue.Default) {
-                        ConfirmDeleteExerciseDialog(
-                            onDismiss = { scope.launch { dismissState.reset() } },
-                            exerciseName = exercise.name,
-                            onConfirm = { viewModel.delete(exercise) },
-                        )
-                    }
-                }
-                item {
-                    // Fix FAB overlap
-                    Box(Modifier.height(72.dp)) {}
-                }
+        Crossfade(exercises != null) { isReady ->
+            if (isReady) {
+                ExerciseListContent(
+                    navToExerciseEditor = navToExerciseEditor,
+                    exercises = exercises ?: emptyList(),
+                    viewModel = viewModel
+                )
+            } else {
+                ExerciseListPlaceholder()
             }
         }
-    )
+
+    }
+}
+
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
+@ExperimentalAnimationApi
+@Composable
+private fun ExerciseListContent(
+    exercises: List<Exercise>,
+    navToExerciseEditor: (Int) -> Unit,
+    viewModel: ExerciseListViewModel
+) {
+    val scope = rememberCoroutineScope()
+    LazyColumn(Modifier.fillMaxHeight()) {
+        item {
+            val searchQuery by viewModel.nameFilter.collectAsState()
+            SearchBar(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                value = searchQuery,
+                onValueChange = viewModel::setNameFilter
+            )
+        }
+
+        items(exercises.filter { !it.hidden }, { it.exerciseId }) { exercise ->
+            val dismissState = rememberDismissState()
+
+            SwipeToDismiss(
+                modifier = Modifier
+                    .animateItemPlacement()
+                    .zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
+                state = dismissState,
+                background = { SwipeToDeleteBackground(dismissState) }
+            ) {
+                Card(
+                    elevation = animateDpAsState(
+                        if (dismissState.dismissDirection != null) 4.dp else 0.dp
+                    ).value
+                ) {
+                    ListItem(
+                        Modifier.clickable { navToExerciseEditor(exercise.exerciseId) },
+                        text = {
+                            Text(
+                                text = exercise.name.takeIf { it.isNotBlank() }
+                                    ?: stringResource(R.string.unnamed_exercise),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                        },
+                        trailing = {
+                            Box {
+                                var expanded by remember { mutableStateOf(false) }
+                                IconButton(onClick = { expanded = !expanded }) {
+                                    Icon(Icons.Default.MoreVert, null)
+                                }
+                                DropdownMenu(
+                                    expanded = expanded,
+                                    onDismissRequest = { expanded = false }
+                                ) {
+                                    DropdownMenuItem(
+                                        onClick = {
+                                            expanded = false
+                                            scope.launch {
+                                                dismissState.dismiss(DismissDirection.StartToEnd)
+                                            }
+                                        }
+                                    ) {
+                                        Text("Delete")
+                                    }
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+
+            if (dismissState.targetValue != DismissValue.Default) {
+                ConfirmDeleteExerciseDialog(
+                    onDismiss = { scope.launch { dismissState.reset() } },
+                    exerciseName = exercise.name,
+                    onConfirm = { viewModel.delete(exercise) },
+                )
+            }
+        }
+        item {
+            // Fix FAB overlap
+            Spacer(Modifier.height(72.dp))
+        }
+    }
 }
 
 @Composable
-private
-fun ConfirmDeleteExerciseDialog(
+private fun ConfirmDeleteExerciseDialog(
     exerciseName: String,
     onDismiss: () -> Unit,
     onConfirm: () -> Unit,
@@ -158,6 +182,7 @@ fun ConfirmDeleteExerciseDialog(
                 stringResource(
                     R.string.confirm_delete,
                     exerciseName.takeIf { it.isNotBlank() }
+
                         ?: stringResource(R.string.unnamed_exercise)
                 )
             )
