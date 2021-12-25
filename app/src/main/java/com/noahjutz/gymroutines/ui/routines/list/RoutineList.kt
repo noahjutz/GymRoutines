@@ -18,6 +18,7 @@
 
 package com.noahjutz.gymroutines.ui.routines.list
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -38,6 +39,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.noahjutz.gymroutines.R
+import com.noahjutz.gymroutines.data.domain.Routine
 import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
 import com.noahjutz.gymroutines.ui.components.TopBar
 import kotlinx.coroutines.launch
@@ -67,94 +69,116 @@ fun RoutineList(
             )
         },
     ) {
-        val scope = rememberCoroutineScope()
+        val routines by viewModel.routines.collectAsState(null)
 
-        val routines by viewModel.routines.collectAsState(emptyList())
+        Crossfade(routines != null) { isReady ->
+            if (isReady) {
+                RoutineListContent(
+                    routines = routines ?: emptyList(),
+                    navToRoutineEditor = navToRoutineEditor,
+                    viewModel = viewModel
+                )
+            } else {
+                RoutineListPlaceholder()
+            }
+        }
 
-        LazyColumn(Modifier.fillMaxHeight()) {
-            items(items = routines, key = { it.routineId }) { routine ->
-                val dismissState = rememberDismissState()
 
-                SwipeToDismiss(
-                    modifier = Modifier
-                        .animateItemPlacement()
-                        .zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
-                    state = dismissState,
-                    background = { SwipeToDeleteBackground(dismissState) }
+    }
+}
+
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
+@Composable
+fun RoutineListContent(
+    routines: List<Routine>,
+    navToRoutineEditor: (Long) -> Unit,
+    viewModel: RoutineListViewModel
+) {
+    val scope = rememberCoroutineScope()
+    LazyColumn(Modifier.fillMaxHeight()) {
+        items(items = routines, key = { it.routineId }) { routine ->
+            val dismissState = rememberDismissState()
+
+            SwipeToDismiss(
+                modifier = Modifier
+                    .animateItemPlacement()
+                    .zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
+                state = dismissState,
+                background = { SwipeToDeleteBackground(dismissState) }
+            ) {
+                Card(
+                    elevation = animateDpAsState(
+                        if (dismissState.dismissDirection != null) 4.dp else 0.dp
+                    ).value
                 ) {
-                    Card(
-                        elevation = animateDpAsState(
-                            if (dismissState.dismissDirection != null) 4.dp else 0.dp
-                        ).value
-                    ) {
-                        ListItem(
-                            Modifier.clickable { navToRoutineEditor(routine.routineId.toLong()) },
-                            text = {
-                                Text(
-                                    text = routine.name.takeIf { it.isNotBlank() }
-                                        ?: stringResource(R.string.unnamed_routine),
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
-                                )
-                            },
-                            trailing = {
-                                Box {
-                                    var expanded by remember { mutableStateOf(false) }
-                                    IconButton(onClick = {expanded = !expanded}) {
-                                        Icon(Icons.Default.MoreVert, null)
-                                    }
-                                    DropdownMenu(
-                                        expanded = expanded,
-                                        onDismissRequest = { expanded = false }
-                                    ) {
-                                        DropdownMenuItem(
-                                            onClick = {
-                                                expanded = false
-                                                scope.launch {
-                                                    dismissState.dismiss(DismissDirection.StartToEnd)
-                                                }
+                    ListItem(
+                        Modifier.clickable { navToRoutineEditor(routine.routineId.toLong()) },
+                        text = {
+                            Text(
+                                text = routine.name.takeIf { it.isNotBlank() }
+                                    ?: stringResource(R.string.unnamed_routine),
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                        },
+                        trailing = {
+                            Box {
+                                var expanded by remember { mutableStateOf(false) }
+                                IconButton(onClick = {expanded = !expanded}) {
+                                    Icon(Icons.Default.MoreVert, null)
+                                }
+                                DropdownMenu(
+                                    expanded = expanded,
+                                    onDismissRequest = { expanded = false }
+                                ) {
+                                    DropdownMenuItem(
+                                        onClick = {
+                                            expanded = false
+                                            scope.launch {
+                                                dismissState.dismiss(DismissDirection.StartToEnd)
                                             }
-                                        ) {
-                                            Text("Delete")
                                         }
+                                    ) {
+                                        Text("Delete")
                                     }
                                 }
                             }
-                        )
-                    }
-                }
-
-                if (dismissState.targetValue != DismissValue.Default) {
-                    AlertDialog(
-                        title = {
-                            Text(
-                                stringResource(
-                                    R.string.confirm_delete,
-                                    routine.name.takeIf { it.isNotBlank() }
-                                        ?: stringResource(R.string.unnamed_routine)
-                                )
-                            )
-                        },
-                        confirmButton = {
-                            Button(
-                                onClick = { viewModel.deleteRoutine(routine.routineId) },
-                                content = { Text(stringResource(R.string.yes)) }
-                            )
-                        },
-                        dismissButton = {
-                            TextButton(
-                                onClick = { scope.launch { dismissState.reset() } },
-                                content = { Text(stringResource(R.string.cancel)) }
-                            )
-                        },
-                        onDismissRequest = { scope.launch { dismissState.reset() } }
+                        }
                     )
                 }
             }
-            item {
-                // Fix FAB overlap
-                Box(Modifier.height(72.dp)) {}
+
+            if (dismissState.targetValue != DismissValue.Default) {
+                AlertDialog(
+                    title = {
+                        Text(
+                            stringResource(
+                                R.string.confirm_delete,
+                                routine.name.takeIf { it.isNotBlank() }
+                                    ?: stringResource(R.string.unnamed_routine)
+                            )
+                        )
+                    },
+                    confirmButton = {
+                        Button(
+                            onClick = { viewModel.deleteRoutine(routine.routineId) },
+                            content = { Text(stringResource(R.string.yes)) }
+                        )
+                    },
+                    dismissButton = {
+                        TextButton(
+                            onClick = { scope.launch { dismissState.reset() } },
+                            content = { Text(stringResource(R.string.cancel)) }
+                        )
+                    },
+                    onDismissRequest = { scope.launch { dismissState.reset() } }
+                )
             }
+        }
+        item {
+            // Fix FAB overlap
+            Box(Modifier.height(72.dp)) {}
         }
     }
 }
