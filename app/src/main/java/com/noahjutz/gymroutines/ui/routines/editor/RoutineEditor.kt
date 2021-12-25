@@ -53,6 +53,7 @@ import com.noahjutz.gymroutines.ui.components.durationVisualTransformation
 import com.noahjutz.gymroutines.util.RegexPatterns
 import com.noahjutz.gymroutines.util.formatSimple
 import com.noahjutz.gymroutines.util.toStringOrBlank
+import kotlinx.coroutines.delay
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -102,11 +103,9 @@ fun RoutineEditor(
         }
     ) {
         val routine by viewModel.routine.collectAsState(initial = null)
-        Crossfade(routine == null) { isNotReady ->
-            if (isNotReady) {
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
-                }
+        Crossfade(routine != null) { isReady ->
+            if (!isReady) {
+                RoutineEditorPlaceholder()
             } else {
                 RoutineEditorContent(
                     routine = routine!!.routine,
@@ -142,7 +141,7 @@ private fun RoutineEditorContent(
             BasicTextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp, start = 24.dp, end = 24.dp),
+                    .padding(top = 16.dp, start = 30.dp, end = 30.dp),
                 value = name,
                 onValueChange = setName,
                 onTextLayout = { setNameLineCount(it.lineCount) },
