@@ -23,9 +23,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
@@ -40,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.Routine
+import com.noahjutz.gymroutines.ui.components.SearchBar
 import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
 import com.noahjutz.gymroutines.ui.components.TopBar
 import kotlinx.coroutines.launch
@@ -82,11 +81,10 @@ fun RoutineList(
                 RoutineListPlaceholder()
             }
         }
-
-
     }
 }
 
+@ExperimentalAnimationApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
@@ -97,6 +95,15 @@ fun RoutineListContent(
 ) {
     val scope = rememberCoroutineScope()
     LazyColumn(Modifier.fillMaxHeight()) {
+        item {
+            val nameFilter by viewModel.nameFilter.collectAsState()
+            SearchBar(
+                modifier = Modifier.fillMaxWidth().padding(start = 30.dp, end = 30.dp, bottom = 16.dp),
+                value = nameFilter,
+                onValueChange = viewModel::setNameFilter
+            )
+        }
+
         items(items = routines, key = { it.routineId }) { routine ->
             val dismissState = rememberDismissState()
 
@@ -125,7 +132,7 @@ fun RoutineListContent(
                         trailing = {
                             Box {
                                 var expanded by remember { mutableStateOf(false) }
-                                IconButton(onClick = {expanded = !expanded}) {
+                                IconButton(onClick = { expanded = !expanded }) {
                                     Icon(Icons.Default.MoreVert, null)
                                 }
                                 DropdownMenu(

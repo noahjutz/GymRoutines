@@ -22,17 +22,28 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.RoutineRepository
 import com.noahjutz.gymroutines.data.domain.Routine
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class RoutineListViewModel(
     private val repository: RoutineRepository,
 ) : ViewModel() {
-    val routines: Flow<List<Routine>>
-        get() = repository.routines
+    private val _nameFilter = MutableStateFlow("")
+    val nameFilter = _nameFilter.asStateFlow()
 
-    fun deleteRoutine(routineId: Int) = viewModelScope.launch {
-        repository.getRoutine(routineId)?.let { repository.delete(it) }
+    val routines: Flow<List<Routine>> = repository.routines
+
+    fun setNameFilter(name: String) {
+        _nameFilter.value = name
+    }
+
+    fun deleteRoutine(routineId: Int) {
+        viewModelScope.launch {
+            repository.getRoutine(routineId)?.let { repository.delete(it) }
+        }
     }
 
     fun addRoutine(onComplete: (Long) -> Unit) {
