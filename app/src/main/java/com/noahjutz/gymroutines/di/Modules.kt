@@ -136,6 +136,7 @@ val koinModule = module {
             workoutId = params.get(),
             workoutRepository = get(),
             exerciseRepository = get(),
+            routineRepository = get(),
         )
     }
 

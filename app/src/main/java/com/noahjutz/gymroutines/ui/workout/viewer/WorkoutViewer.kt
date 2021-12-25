@@ -72,9 +72,10 @@ fun WorkoutViewer(
 fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewerViewModel) {
     LazyColumn {
         item {
+            val routineName by viewModel.routineName.collectAsState(initial = "")
             Spacer(Modifier.height(24.dp))
             Text(
-                text = workout.workout.workoutId.toString(),//TODO
+                text = routineName,
                 modifier = Modifier.padding(horizontal = 24.dp),
                 style = typography.h4,
             )
