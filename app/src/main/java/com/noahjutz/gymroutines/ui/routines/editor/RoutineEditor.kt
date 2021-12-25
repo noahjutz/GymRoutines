@@ -18,8 +18,7 @@
 
 package com.noahjutz.gymroutines.ui.routines.editor
 
-import androidx.compose.animation.Crossfade
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -155,24 +154,35 @@ private fun RoutineEditorContent(
                         shape = if (nameLineCount <= 1) RoundedCornerShape(percent = 100)
                         else RoundedCornerShape(24.dp)
                     ) {
-                        Box(
-                            Modifier.padding(
-                                start = 32.dp,
-                                end = 20.dp,
-                                top = 16.dp,
-                                bottom = 16.dp
-                            ),
-                            contentAlignment = Alignment.CenterStart,
+                        Row(
+                            Modifier.padding(start = 32.dp, end = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            if (routine.name.isEmpty()) {
-                                Text(
-                                    "Unnamed",
-                                    style = typography.h6.copy(
-                                        color = colors.onSurface.copy(alpha = 0.12f)
+                            Box(
+                                Modifier
+                                    .padding(vertical = 16.dp)
+                                    .weight(1f)
+                            ) {
+                                if (routine.name.isEmpty()) {
+                                    Text(
+                                        "Unnamed",
+                                        style = typography.h6.copy(
+                                            color = colors.onSurface.copy(alpha = 0.12f)
+                                        )
                                     )
-                                )
+                                }
+                                innerTextField()
                             }
-                            innerTextField()
+                            AnimatedVisibility(
+                                name.isNotEmpty(),
+                                enter = fadeIn(),
+                                exit = fadeOut()
+                            ) {
+                                Spacer(Modifier.width(8.dp))
+                                IconButton(onClick = { setName("") }) {
+                                    Icon(Icons.Default.Clear, "Clear")
+                                }
+                            }
                         }
                     }
                 }
