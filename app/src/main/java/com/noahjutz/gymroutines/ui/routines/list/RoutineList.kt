@@ -100,7 +100,7 @@ fun RoutineListContent(
             SearchBar(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 30.dp, end = 30.dp, bottom = 16.dp, top = 16.dp),
+                    .padding(16.dp),
                 value = nameFilter,
                 onValueChange = viewModel::setNameFilter
             )
