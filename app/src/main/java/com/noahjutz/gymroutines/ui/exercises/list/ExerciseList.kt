@@ -28,6 +28,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -91,15 +92,39 @@ fun ExerciseList(
                             ).value
                         ) {
                             ListItem(
-                                Modifier.clickable { navToExerciseEditor(exercise.exerciseId) }
-                            ) {
-                                Text(
-                                    text = exercise.name.takeIf { it.isNotBlank() }
-                                        ?: stringResource(R.string.unnamed_exercise),
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis,
-                                )
-                            }
+                                Modifier.clickable { navToExerciseEditor(exercise.exerciseId) },
+                                text = {
+                                    Text(
+                                        text = exercise.name.takeIf { it.isNotBlank() }
+                                            ?: stringResource(R.string.unnamed_exercise),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                    )
+                                },
+                                trailing = {
+                                    Box {
+                                        var expanded by remember { mutableStateOf(false) }
+                                        IconButton(onClick = { expanded = !expanded }) {
+                                            Icon(Icons.Default.MoreVert, null)
+                                        }
+                                        DropdownMenu(
+                                            expanded = expanded,
+                                            onDismissRequest = { expanded = false }
+                                        ) {
+                                            DropdownMenuItem(
+                                                onClick = {
+                                                    expanded = false
+                                                    scope.launch {
+                                                        dismissState.dismiss(DismissDirection.StartToEnd)
+                                                    }
+                                                }
+                                            ) {
+                                                Text("Delete")
+                                            }
+                                        }
+                                    }
+                                }
+                            )
                         }
                     }
 
