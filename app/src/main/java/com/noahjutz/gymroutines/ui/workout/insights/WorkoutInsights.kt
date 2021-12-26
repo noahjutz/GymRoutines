@@ -25,6 +25,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
@@ -71,14 +72,30 @@ fun WorkoutInsightsContent(
     val workouts by viewModel.workouts.collectAsState(emptyList())
     Scaffold(topBar = { TopBar(title = stringResource(R.string.tab_insights)) }) {
         LazyColumn {
+            stickyHeader {
+                Surface(Modifier.fillMaxWidth()) {
+                    Text(
+                        "Charts",
+                        Modifier.padding(horizontal = 30.dp, vertical = 16.dp),
+                        style = typography.h4
+                    )
+                }
+            }
+
             item {
                 WorkoutCharts(workouts.map { it.workout })
-                Text(
-                    "History",
-                    Modifier.padding(bottom = 8.dp, start = 16.dp, end = 16.dp),
-                    style = typography.h5
-                )
             }
+
+            stickyHeader {
+                Surface(Modifier.fillMaxWidth()) {
+                    Text(
+                        "History",
+                        Modifier.padding(horizontal = 30.dp, vertical = 16.dp),
+                        style = typography.h4
+                    )
+                }
+            }
+
             items(workouts, { it.workout.workoutId }) { workout ->
                 val dismissState = rememberDismissState()
                 val routineName by produceState("", workout.workout.workoutId) {
@@ -188,31 +205,26 @@ private fun DeleteConfirmation(
 private fun WorkoutCharts(
     workouts: List<Workout>,
 ) {
-    Box(
-        Modifier.padding(16.dp),
-    ) {
-        ChartCard(title = "Average duration") {
-            if (workouts.isNotEmpty()) {
-                SimpleLineChart(
-                    Modifier
-                        .fillMaxWidth()
-                        .height(100.dp),
-                    data = workouts
-                        .reversed()
-                        .mapIndexed { i, workout ->
-                            Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
-                        }
-                        .chunked(3) {
-                            val avg = it.map { it.second }.average()
-                            Pair(it.first().first, avg.toFloat())
-                        },
-                    secondaryData = workouts
-                        .reversed()
-                        .mapIndexed { i, workout ->
-                            Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
-                        }
-                )
-            }
+    ChartCard(title = "Workout duration") {
+        if (workouts.isNotEmpty()) {
+            SimpleLineChart(
+                Modifier
+                    .fillMaxSize(),
+                data = workouts
+                    .reversed()
+                    .mapIndexed { i, workout ->
+                        Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
+                    }
+                    .chunked(3) {
+                        val avg = it.map { it.second }.average()
+                        Pair(it.first().first, avg.toFloat())
+                    },
+                secondaryData = workouts
+                    .reversed()
+                    .mapIndexed { i, workout ->
+                        Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
+                    }
+            )
         }
     }
 }
@@ -223,18 +235,26 @@ private fun ChartCard(
     chart: @Composable () -> Unit,
 ) {
     Card(
-        Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(8.dp),
+        Modifier
+            .fillMaxWidth()
+            .height(200.dp),
+        shape = RoundedCornerShape(30.dp),
         elevation = 2.dp,
     ) {
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Text(title, style = typography.body1.copy(fontWeight = FontWeight.Bold))
-            Spacer(Modifier.height(8.dp))
-            chart()
+        Column(Modifier.fillMaxWidth()) {
+            Surface(
+                Modifier.fillMaxWidth(),
+                color = colors.primary
+            ) {
+                Text(
+                    title,
+                    Modifier.padding(20.dp),
+                    style = typography.h6
+                )
+            }
+            Box(Modifier.padding(20.dp)) {
+                chart()
+            }
         }
     }
 }
