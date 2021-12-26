@@ -70,43 +70,13 @@ fun NavGraph(
     navController: NavHostController,
     bottomSheetNavigator: BottomSheetNavigator,
 ) {
-    fun isTopLevel(route: String?): Boolean {
-        return route == Screen.routineList.name ||
-            route == Screen.exerciseList.name ||
-            route == Screen.insights.name ||
-            route == Screen.settings.name
-    }
     ModalBottomSheetLayout(bottomSheetNavigator = bottomSheetNavigator) {
         AnimatedNavHost(
             navController, startDestination = Screen.routineList.name,
-            enterTransition = {
-                if (isTopLevel(targetState.destination.route) && isTopLevel(initialState.destination.route)) {
-                    EnterTransition.None
-                } else {
-                    fadeIn() + scaleIn(initialScale = 0.9f)
-                }
-            },
-            exitTransition = {
-                if (isTopLevel(targetState.destination.route) && isTopLevel(initialState.destination.route)) {
-                    ExitTransition.None
-                } else {
-                    fadeOut() + scaleOut(targetScale = 1.1f)
-                }
-            },
-            popEnterTransition = {
-                if (isTopLevel(targetState.destination.route) && isTopLevel(initialState.destination.route)) {
-                    EnterTransition.None
-                } else {
-                    fadeIn() + scaleIn(initialScale = 1.1f)
-                }
-            },
-            popExitTransition = {
-                if (isTopLevel(targetState.destination.route) && isTopLevel(initialState.destination.route)) {
-                    ExitTransition.None
-                } else {
-                    fadeOut() + scaleOut(targetScale = 0.9f)
-                }
-            }
+            enterTransition = { EnterTransition.None },
+            exitTransition = { ExitTransition.None },
+            popEnterTransition = { EnterTransition.None },
+            popExitTransition = { ExitTransition.None }
         ) {
             composable(Screen.insights.name) {
                 WorkoutInsights(
