@@ -27,17 +27,29 @@ sealed class BottomNavItem(
     @StringRes val name: Int,
     val icon: ImageVector,
 ) {
-    object Routines :
-        BottomNavItem(Screen.routineList.name, R.string.tab_routines, Icons.Default.ViewAgenda)
+    object Routines : BottomNavItem(
+        route = Screen.routineList.name,
+        name = R.string.tab_routines,
+        icon = Icons.Default.ViewAgenda
+    )
 
-    object Exercises :
-        BottomNavItem(Screen.exerciseList.name, R.string.tab_exercises, Icons.Default.FitnessCenter)
+    object Exercises : BottomNavItem(
+        route = Screen.exerciseList.name,
+        name = R.string.tab_exercises,
+        icon = Icons.Default.FitnessCenter
+    )
 
-    object Workouts :
-        BottomNavItem(Screen.insights.name, R.string.tab_insights, Icons.Default.Insights)
+    object Workouts : BottomNavItem(
+        route = Screen.insights.name,
+        name = R.string.tab_insights,
+        icon = Icons.Default.Insights
+    )
 
-    object Settings :
-        BottomNavItem(Screen.settings.name, R.string.tab_settings, Icons.Default.Settings)
+    object Settings : BottomNavItem(
+        route = Screen.settings.name,
+        name = R.string.tab_settings,
+        icon = Icons.Default.Settings
+    )
 }
 
 val bottomNavItems = listOf(
@@ -56,11 +68,11 @@ fun BottomBar(
     val currentRoute = backStackEntry?.destination?.route
 
     BottomNavigation {
-        for (screen in bottomNavItems) {
+        for (item in bottomNavItems) {
             BottomNavigationItem(
-                icon = { Icon(screen.icon, null) },
+                icon = { Icon(item.icon, null) },
                 onClick = {
-                    navController.navigate(screen.route) {
+                    navController.navigate(item.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState = true
                         }
@@ -68,8 +80,8 @@ fun BottomBar(
                         restoreState = true
                     }
                 },
-                label = (@Composable { Text(stringResource(screen.name)) }).takeIf { showLabels },
-                selected = screen.route == currentRoute,
+                label = (@Composable { Text(stringResource(item.name)) }).takeIf { showLabels },
+                selected = item.route == currentRoute,
             )
         }
     }

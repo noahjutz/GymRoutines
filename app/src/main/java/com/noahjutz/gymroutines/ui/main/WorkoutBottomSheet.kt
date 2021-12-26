@@ -15,11 +15,11 @@ import androidx.compose.ui.unit.dp
 
 @ExperimentalMaterialApi
 @Composable
-fun WorkoutBottomSheet(navToWorkoutScreen: () -> Unit) {
+fun WorkoutBottomSheet(navToWorkoutInProgress: () -> Unit) {
     Column(
         modifier = Modifier
             .height(60.dp)
-            .clickable(onClick = navToWorkoutScreen)
+            .clickable(onClick = navToWorkoutInProgress)
     ) {
         Row(
             Modifier
@@ -28,12 +28,13 @@ fun WorkoutBottomSheet(navToWorkoutScreen: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                modifier = Modifier.padding(horizontal = 12.dp),
+                modifier = Modifier
+                    .padding(horizontal = 12.dp)
+                    .weight(1f),
                 text = "Workout in progress",
                 style = MaterialTheme.typography.h6
             )
-            Spacer(Modifier.weight(1f))
-            Icon(Icons.Default.ExpandLess, null, modifier = Modifier.padding(end = 8.dp))
+            Icon(Icons.Default.ExpandLess, "Expand", modifier = Modifier.padding(end = 8.dp))
         }
     }
 }
