@@ -52,7 +52,6 @@ import com.noahjutz.gymroutines.util.RegexPatterns
 import com.noahjutz.gymroutines.util.formatSimple
 import com.noahjutz.gymroutines.util.pretty
 import com.noahjutz.gymroutines.util.toStringOrBlank
-import kotlinx.coroutines.flow.collect
 import kotlin.time.ExperimentalTime
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf

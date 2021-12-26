@@ -26,12 +26,8 @@ import com.noahjutz.gymroutines.data.AppPrefs
 import com.noahjutz.gymroutines.data.RoutineRepository
 import com.noahjutz.gymroutines.data.WorkoutRepository
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 
 class WorkoutInsightsViewModel(

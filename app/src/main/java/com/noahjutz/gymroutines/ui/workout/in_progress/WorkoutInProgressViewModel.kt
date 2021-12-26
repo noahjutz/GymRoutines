@@ -19,7 +19,6 @@
 package com.noahjutz.gymroutines.ui.workout.in_progress
 
 import android.app.Application
-import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -36,7 +35,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 
 class WorkoutInProgressViewModel(

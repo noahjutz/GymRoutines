@@ -34,7 +34,6 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -53,7 +52,6 @@ import com.noahjutz.gymroutines.ui.components.durationVisualTransformation
 import com.noahjutz.gymroutines.util.RegexPatterns
 import com.noahjutz.gymroutines.util.formatSimple
 import com.noahjutz.gymroutines.util.toStringOrBlank
-import kotlinx.coroutines.delay
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 

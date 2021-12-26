@@ -77,7 +77,6 @@ fun ExerciseList(
                 ExerciseListPlaceholder()
             }
         }
-
     }
 }
 
