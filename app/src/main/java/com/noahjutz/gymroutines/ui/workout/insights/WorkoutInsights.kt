@@ -18,6 +18,7 @@
 
 package com.noahjutz.gymroutines.ui.workout.insights
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -38,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.Workout
+import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import com.noahjutz.gymroutines.data.domain.duration
 import com.noahjutz.gymroutines.ui.components.*
 import java.text.SimpleDateFormat
@@ -53,10 +55,28 @@ fun WorkoutInsights(
     viewModel: WorkoutInsightsViewModel = getViewModel(),
     navToWorkoutEditor: (Int) -> Unit,
 ) {
-    val workouts by viewModel.workouts.collectAsState(initial = emptyList())
+    val workouts by viewModel.workouts.collectAsState(initial = null)
 
-    if (workouts.size <= 1) NothingHereYet("No data yet.")
-    else WorkoutInsightsContent(viewModel, navToWorkoutEditor)
+
+    Scaffold(topBar = { TopBar(title = stringResource(R.string.tab_insights)) }) {
+        Crossfade(workouts != null) { isReady ->
+            when {
+                isReady && workouts?.isEmpty() == true -> {
+                    NothingHereYet()
+                }
+                isReady -> {
+                    WorkoutInsightsContent(
+                        navToWorkoutEditor = navToWorkoutEditor,
+                        viewModel = viewModel,
+                        workouts = workouts ?: emptyList()
+                    )
+                }
+                !isReady -> {
+                    WorkoutInsightsPlaceholder()
+                }
+            }
+        }
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -64,106 +84,104 @@ fun WorkoutInsights(
 @ExperimentalMaterialApi
 @Composable
 fun WorkoutInsightsContent(
+    workouts: List<WorkoutWithSetGroups>,
     viewModel: WorkoutInsightsViewModel = getViewModel(),
     navToWorkoutEditor: (Int) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
 
-    val workouts by viewModel.workouts.collectAsState(emptyList())
-    Scaffold(topBar = { TopBar(title = stringResource(R.string.tab_insights)) }) {
-        LazyColumn {
-            stickyHeader {
-                Surface(Modifier.fillMaxWidth()) {
-                    Text(
-                        "Charts",
-                        Modifier.padding(horizontal = 30.dp, vertical = 16.dp),
-                        style = typography.h4
-                    )
-                }
+    LazyColumn {
+        stickyHeader {
+            Surface(Modifier.fillMaxWidth()) {
+                Text(
+                    "Charts",
+                    Modifier.padding(horizontal = 30.dp, vertical = 16.dp),
+                    style = typography.h4
+                )
+            }
+        }
+
+        item {
+            WorkoutCharts(workouts.map { it.workout })
+        }
+
+        stickyHeader {
+            Surface(Modifier.fillMaxWidth()) {
+                Text(
+                    "History",
+                    Modifier.padding(horizontal = 30.dp, vertical = 16.dp),
+                    style = typography.h4
+                )
+            }
+        }
+
+        items(workouts, { it.workout.workoutId }) { workout ->
+            val dismissState = rememberDismissState()
+            val routineName by produceState("", workout.workout.workoutId) {
+                value = viewModel.getRoutineName(workout.workout.routineId)
             }
 
-            item {
-                WorkoutCharts(workouts.map { it.workout })
-            }
-
-            stickyHeader {
-                Surface(Modifier.fillMaxWidth()) {
-                    Text(
-                        "History",
-                        Modifier.padding(horizontal = 30.dp, vertical = 16.dp),
-                        style = typography.h4
-                    )
-                }
-            }
-
-            items(workouts, { it.workout.workoutId }) { workout ->
-                val dismissState = rememberDismissState()
-                val routineName by produceState("", workout.workout.workoutId) {
-                    value = viewModel.getRoutineName(workout.workout.routineId)
-                }
-
-                SwipeToDismiss(
-                    modifier = Modifier
-                        .animateItemPlacement()
-                        .zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
-                    state = dismissState,
-                    background = { SwipeToDeleteBackground(dismissState) }
+            SwipeToDismiss(
+                modifier = Modifier
+                    .animateItemPlacement()
+                    .zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
+                state = dismissState,
+                background = { SwipeToDeleteBackground(dismissState) }
+            ) {
+                Card(
+                    onClick = { navToWorkoutEditor(workout.workout.workoutId) },
+                    elevation = animateDpAsState(
+                        if (dismissState.dismissDirection != null) 4.dp else 0.dp
+                    ).value,
                 ) {
-                    Card(
-                        onClick = { navToWorkoutEditor(workout.workout.workoutId) },
-                        elevation = animateDpAsState(
-                            if (dismissState.dismissDirection != null) 4.dp else 0.dp
-                        ).value,
-                    ) {
-                        ListItem(
-                            text = {
-                                Text(
-                                    text = routineName,
-                                    maxLines = 2,
-                                    overflow = TextOverflow.Ellipsis,
-                                )
-                            },
-                            secondaryText = {
-                                val day = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                                    .format(workout.workout.startTime)
-                                Text(day)
-                            },
-                            trailing = {
-                                var expanded by remember { mutableStateOf(false) }
+                    ListItem(
+                        text = {
+                            Text(
+                                text = routineName,
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                        },
+                        secondaryText = {
+                            val day = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                                .format(workout.workout.startTime)
+                            Text(day)
+                        },
+                        trailing = {
+                            var expanded by remember { mutableStateOf(false) }
 
-                                Box {
-                                    IconButton(onClick = { expanded = !expanded }) {
-                                        Icon(Icons.Default.MoreVert, null)
-                                    }
+                            Box {
+                                IconButton(onClick = { expanded = !expanded }) {
+                                    Icon(Icons.Default.MoreVert, null)
+                                }
 
-                                    DropdownMenu(
-                                        expanded = expanded,
-                                        onDismissRequest = { expanded = false }
-                                    ) {
-                                        DropdownMenuItem(
-                                            onClick = {
-                                                expanded = false
-                                                scope.launch {
-                                                    dismissState.dismiss(DismissDirection.StartToEnd)
-                                                }
+                                DropdownMenu(
+                                    expanded = expanded,
+                                    onDismissRequest = { expanded = false }
+                                ) {
+                                    DropdownMenuItem(
+                                        onClick = {
+                                            expanded = false
+                                            scope.launch {
+                                                dismissState.dismiss(DismissDirection.StartToEnd)
                                             }
-                                        ) {
-                                            Text("Delete")
                                         }
+                                    ) {
+                                        Text("Delete")
                                     }
                                 }
                             }
-                        )
-                    }
-                }
-
-                if (dismissState.targetValue != DismissValue.Default) {
-                    DeleteConfirmation(
-                        name = routineName,
-                        onConfirm = { viewModel.delete(workout) },
-                        onDismiss = { scope.launch { dismissState.reset() } }
+                        }
                     )
                 }
+            }
+
+            if (dismissState.targetValue != DismissValue.Default) {
+                DeleteConfirmation(
+                    name = routineName,
+                    onConfirm = { viewModel.delete(workout) },
+                    onDismiss = { scope.launch { dismissState.reset() } }
+                )
             }
         }
     }
