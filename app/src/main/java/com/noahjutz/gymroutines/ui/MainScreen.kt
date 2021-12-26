@@ -19,7 +19,7 @@
 package com.noahjutz.gymroutines.ui
 
 import androidx.annotation.StringRes
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -81,25 +81,30 @@ fun MainScreen(viewModel: MainScreenVM = getViewModel()) {
     val bottomSheetNavigator = rememberBottomSheetNavigator()
     val navController = rememberAnimatedNavController(bottomSheetNavigator)
 
-    val currentWorkoutId by viewModel.currentWorkoutId.collectAsState(initial = -1)
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-
-    val isCurrentDestinationHomeTab =
-        navBackStackEntry?.destination?.route in bottomNavItems.map { it.route }
-    val showWorkoutBottomSheet = currentWorkoutId >= 0 && isCurrentDestinationHomeTab
-
-    val navToWorkoutScreen =
-        { navController.navigate("${Screen.workoutInProgress}/$currentWorkoutId") }
-
     Scaffold(
         bottomBar = {
-            val showBottomNavLabels by viewModel.showBottomLabels.collectAsState(initial = true)
-            Column {
-                if (showWorkoutBottomSheet) WorkoutBottomSheet(navToWorkoutScreen)
-                if (isCurrentDestinationHomeTab) HomeBottomBar(
-                    navController = navController,
-                    showLabels = showBottomNavLabels
-                )
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+
+            val isCurrentDestinationHomeTab = navBackStackEntry
+                ?.destination
+                ?.route in bottomNavItems.map { it.route }
+
+            if (isCurrentDestinationHomeTab) {
+                Column {
+                    val currentWorkoutId by viewModel.currentWorkoutId.collectAsState(initial = -1)
+                    val navToWorkoutScreen = {
+                        navController.navigate("${Screen.workoutInProgress}/$currentWorkoutId")
+                    }
+                    if (currentWorkoutId >= 0) {
+                        WorkoutBottomSheet(navToWorkoutScreen)
+                    }
+
+                    val showBottomNavLabels by viewModel.showBottomLabels.collectAsState(initial = true)
+                    HomeBottomBar(
+                        navController = navController,
+                        showLabels = showBottomNavLabels
+                    )
+                }
             }
         }
     ) { paddingValues ->
@@ -144,7 +149,6 @@ private fun WorkoutBottomSheet(navToWorkoutScreen: () -> Unit) {
             .height(60.dp)
             .clickable(onClick = navToWorkoutScreen)
     ) {
-        Divider()
         Row(
             Modifier
                 .weight(1f)
