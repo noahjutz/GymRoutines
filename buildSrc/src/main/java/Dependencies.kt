@@ -85,6 +85,15 @@ object Libs {
         const val testJunit4 = "androidx.compose.ui:ui-test-junit4:$version"
     }
 
+    object Accompanist {
+        private const val version = "0.22.0-rc"
+        const val navigationMaterial =
+            "com.google.accompanist:accompanist-navigation-material:$version"
+        const val navigationAnimation =
+            "com.google.accompanist:accompanist-navigation-animation:$version"
+        const val placeholder = "com.google.accompanist:accompanist-placeholder-material:$version"
+    }
+
     object DataStore {
         private const val version = "1.0.0"
         const val preferences = "androidx.datastore:datastore-preferences:$version"
