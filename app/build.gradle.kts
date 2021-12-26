@@ -146,8 +146,8 @@ dependencies {
 
     implementation("org.ocpsoft.prettytime:prettytime:5.0.1.Final")
 
-    androidTestImplementation("androidx.test:core:1.4.0")
-    androidTestImplementation("androidx.test:core-ktx:1.4.0")
+    androidTestImplementation(TestLibs.Test.core)
+    androidTestImplementation(TestLibs.Test.coreKtx)
 
     implementation(Libs.Accompanist.navigationAnimation)
     implementation(Libs.Accompanist.navigationMaterial)

@@ -128,6 +128,12 @@ object TestLibs {
         const val unit = "io.mockk:mockk:$version"
         const val instrumented = "io.mockk:mockk-android:$version"
     }
+
+    object Test {
+        private const val version = "1.4.0"
+        const val core = "androidx.test:core:$version"
+        const val coreKtx = "androidx.test:core-ktx:$version"
+    }
 }
 
 object GradlePlugins {
