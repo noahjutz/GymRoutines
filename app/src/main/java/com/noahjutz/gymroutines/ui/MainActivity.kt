@@ -32,6 +32,7 @@ import androidx.compose.runtime.getValue
 import com.noahjutz.gymroutines.data.AppPrefs
 import com.noahjutz.gymroutines.data.ColorTheme
 import com.noahjutz.gymroutines.data.datastore
+import com.noahjutz.gymroutines.ui.main.MainScreen
 import com.noahjutz.gymroutines.ui.theme.GymRoutinesTheme
 import com.noahjutz.gymroutines.util.valueOf
 import kotlin.time.ExperimentalTime

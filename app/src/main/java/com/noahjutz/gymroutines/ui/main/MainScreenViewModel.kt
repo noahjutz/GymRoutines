@@ -1,4 +1,4 @@
-package com.noahjutz.gymroutines.ui
+package com.noahjutz.gymroutines.ui.main
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
