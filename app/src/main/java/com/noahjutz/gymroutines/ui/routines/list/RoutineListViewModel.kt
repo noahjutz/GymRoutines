@@ -36,7 +36,9 @@ class RoutineListViewModel(
 
     val routines: Flow<List<Routine>> =
         repository.routines.combine(nameFilter) { routines, filter ->
-            routines.filter { filter.lowercase() in it.name.lowercase() }
+            routines.filter { routine ->
+                filter.lowercase() in routine.name.lowercase() && !routine.hidden
+            }
         }
 
     fun setNameFilter(name: String) {
@@ -45,7 +47,9 @@ class RoutineListViewModel(
 
     fun deleteRoutine(routineId: Int) {
         viewModelScope.launch {
-            repository.getRoutine(routineId)?.let { repository.delete(it) }
+            repository.getRoutine(routineId)?.let { routine ->
+                repository.update(routine.copy(hidden = true))
+            }
         }
     }
 

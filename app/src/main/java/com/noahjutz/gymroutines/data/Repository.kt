@@ -63,10 +63,6 @@ class RoutineRepository(private val routineDao: RoutineDao) {
         return routineDao.getSetsFlow(routineId)
     }
 
-    suspend fun getRoutineWithSetGroupsOld(routineId: Int): RoutineWithSetGroups? {
-        return routineDao.getRoutineWithSetGroupsOld(routineId)
-    }
-
     fun getRoutineWithSetGroups(routineId: Int): Flow<RoutineWithSetGroups?> {
         return routineDao.getRoutineWithSetGroups(routineId)
     }
@@ -93,16 +89,6 @@ class RoutineRepository(private val routineDao: RoutineDao) {
 
     suspend fun insert(setGroup: RoutineSetGroup): Long {
         return routineDao.insert(setGroup)
-    }
-
-    suspend fun insertWorkoutAsRoutine(workoutWithSetGroups: WorkoutWithSetGroups): Long {
-        // TODO
-        return -1L
-    }
-
-    // TODO replace with delete(routine: RoutineWithSetGroups)
-    suspend fun delete(routine: Routine) {
-        routineDao.delete(routine)
     }
 
     suspend fun delete(set: RoutineSet) {
