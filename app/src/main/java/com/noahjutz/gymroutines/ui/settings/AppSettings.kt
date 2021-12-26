@@ -28,6 +28,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Help
 import androidx.compose.material.icons.filled.SaveAlt
 import androidx.compose.material.icons.filled.SettingsBackupRestore
@@ -50,10 +51,22 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun AppSettings(
     viewModel: AppSettingsViewModel = getViewModel(),
+    popBackStack: () -> Unit,
     navToAbout: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
-    Scaffold(topBar = { TopBar(title = stringResource(R.string.tab_settings)) }) {
+    Scaffold(
+        topBar = {
+            TopBar(
+                title = stringResource(R.string.tab_settings),
+                navigationIcon = {
+                    IconButton(onClick = popBackStack) {
+                        Icon(Icons.Default.ArrowBack, "back")
+                    }
+                }
+            )
+        }
+    ) {
         var showRestartAppDialog by remember { mutableStateOf(false) }
         var showResetSettingsDialog by remember { mutableStateOf(false) }
         var showThemeDialog by remember { mutableStateOf(false) }

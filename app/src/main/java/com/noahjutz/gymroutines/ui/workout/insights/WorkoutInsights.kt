@@ -53,11 +53,34 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun WorkoutInsights(
     viewModel: WorkoutInsightsViewModel = getViewModel(),
+    navToSettings: () -> Unit,
     navToWorkoutEditor: (Int) -> Unit,
 ) {
     val workouts by viewModel.workouts.collectAsState(initial = null)
 
-    Scaffold(topBar = { TopBar(title = stringResource(R.string.tab_insights)) }) {
+    Scaffold(
+        topBar = {
+            TopBar(
+                title = stringResource(R.string.tab_insights),
+                actions = {
+                    Box {
+                        var expanded by remember { mutableStateOf(false) }
+                        IconButton(onClick = { expanded = !expanded }) {
+                            Icon(Icons.Default.MoreVert, "More")
+                        }
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }
+                        ) {
+                            DropdownMenuItem(onClick = navToSettings) {
+                                Text("Settings")
+                            }
+                        }
+                    }
+                }
+            )
+        }
+    ) {
         Crossfade(workouts != null) { isReady ->
             when {
                 isReady && workouts?.isEmpty() == true -> {

@@ -50,11 +50,30 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun ExerciseList(
     navToExerciseEditor: (Int) -> Unit,
+    navToSettings: () -> Unit,
     viewModel: ExerciseListViewModel = getViewModel(),
 ) {
     Scaffold(
         topBar = {
-            TopBar(title = stringResource(R.string.tab_exercises))
+            TopBar(
+                title = stringResource(R.string.tab_exercises),
+                actions = {
+                    Box {
+                        var expanded by remember { mutableStateOf(false) }
+                        IconButton(onClick = { expanded = !expanded }) {
+                            Icon(Icons.Default.MoreVert, "More")
+                        }
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { expanded = false }
+                        ) {
+                            DropdownMenuItem(onClick = navToSettings) {
+                                Text("Settings")
+                            }
+                        }
+                    }
+                }
+            )
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(

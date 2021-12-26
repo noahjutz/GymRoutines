@@ -42,19 +42,12 @@ sealed class BottomNavItem(
         name = R.string.tab_insights,
         icon = Icons.Default.Insights
     )
-
-    object Settings : BottomNavItem(
-        route = Screen.settings.name,
-        name = R.string.tab_settings,
-        icon = Icons.Default.Settings
-    )
 }
 
 val bottomNavItems = listOf(
     BottomNavItem.Routines,
     BottomNavItem.Exercises,
     BottomNavItem.Workouts,
-    BottomNavItem.Settings,
 )
 
 @Composable

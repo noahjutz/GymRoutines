@@ -80,7 +80,8 @@ fun NavGraph(
         ) {
             composable(Screen.insights.name) {
                 WorkoutInsights(
-                    navToWorkoutEditor = { workoutId -> navController.navigate("${Screen.workoutViewer}/$workoutId") }
+                    navToWorkoutEditor = { workoutId -> navController.navigate("${Screen.workoutViewer}/$workoutId") },
+                    navToSettings = { navController.navigate(Screen.settings.name) }
                 )
             }
             composable(
@@ -95,7 +96,8 @@ fun NavGraph(
             }
             composable(Screen.routineList.name) {
                 RoutineList(
-                    navToRoutineEditor = { routineId -> navController.navigate("${Screen.routineEditor}/$routineId") }
+                    navToRoutineEditor = { routineId -> navController.navigate("${Screen.routineEditor}/$routineId") },
+                    navToSettings = { navController.navigate(Screen.settings.name) }
                 )
             }
             composable(
@@ -121,7 +123,8 @@ fun NavGraph(
             }
             composable(Screen.exerciseList.name) {
                 ExerciseList(
-                    navToExerciseEditor = { exerciseId -> navController.navigate("${Screen.exerciseEditor}?exerciseId=$exerciseId") }
+                    navToExerciseEditor = { exerciseId -> navController.navigate("${Screen.exerciseEditor}?exerciseId=$exerciseId") },
+                    navToSettings = { navController.navigate(Screen.settings.name) }
                 )
             }
             composable(
@@ -164,7 +167,10 @@ fun NavGraph(
                 )
             }
             composable(Screen.settings.name) {
-                AppSettings(navToAbout = { navController.navigate(Screen.about.name) })
+                AppSettings(
+                    navToAbout = { navController.navigate(Screen.about.name) },
+                    popBackStack = { navController.popBackStack() }
+                )
             }
             composable(Screen.about.name) {
                 AboutApp(
