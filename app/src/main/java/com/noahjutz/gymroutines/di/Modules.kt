@@ -127,8 +127,6 @@ val koinModule = module {
 
     viewModel {
         AppSettingsViewModel(
-            application = androidApplication(),
-            database = get(),
             preferences = get(),
         )
     }
@@ -155,6 +153,9 @@ val koinModule = module {
     }
 
     viewModel {
-        DataSettingsViewModel()
+        DataSettingsViewModel(
+            database = get(),
+            application = androidApplication()
+        )
     }
 }

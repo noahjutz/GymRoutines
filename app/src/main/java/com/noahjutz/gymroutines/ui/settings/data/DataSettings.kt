@@ -39,6 +39,7 @@ fun DataSettings(
             rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument()) { uri ->
                 if (uri != null) {
                     viewModel.exportDatabase(uri)
+                    viewModel.restartApp()
                 }
             }
 
@@ -46,6 +47,7 @@ fun DataSettings(
             rememberLauncherForActivityResult(OpenDocument()) { uri ->
                 if (uri != null) {
                     viewModel.importDatabase(uri)
+                    viewModel.restartApp()
                 }
             }
 

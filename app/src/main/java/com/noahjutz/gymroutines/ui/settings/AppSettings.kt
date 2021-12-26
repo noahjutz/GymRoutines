@@ -50,7 +50,6 @@ fun AppSettings(
     navToAppearanceSettings: () -> Unit,
     navToDataSettings: () -> Unit
 ) {
-    val scope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             TopBar(
@@ -63,9 +62,7 @@ fun AppSettings(
             )
         }
     ) {
-        var showRestartAppDialog by remember { mutableStateOf(false) }
         var showResetSettingsDialog by remember { mutableStateOf(false) }
-        var showThemeDialog by remember { mutableStateOf(false) }
 
         Column(
             Modifier.scrollable(
@@ -97,7 +94,6 @@ fun AppSettings(
             )
         }
 
-        if (showRestartAppDialog) RestartAppDialog(restartApp = viewModel::restartApp)
         if (showResetSettingsDialog) ResetSettingsDialog(
             onDismiss = { showResetSettingsDialog = false },
             resetSettings = {
@@ -105,25 +101,7 @@ fun AppSettings(
                 viewModel.resetSettings()
             }
         )
-
-        if (showThemeDialog) ThemeDialog(
-            onDismiss = { showThemeDialog = false },
-            onThemeSelected = viewModel::setAppTheme
-        )
     }
-}
-
-@Composable
-fun RestartAppDialog(
-    restartApp: () -> Unit,
-) {
-    AlertDialog(
-        onDismissRequest = {},
-        dismissButton = {},
-        confirmButton = { Button(onClick = restartApp) { Text("Restart") } },
-        title = { Text("Restart App") },
-        text = { Text("App must be restarted after backup or restore.") }
-    )
 }
 
 @Composable
@@ -138,29 +116,4 @@ fun ResetSettingsDialog(
         title = { Text("Reset all settings?") },
         text = { Text("Are you sure you want to reset all settings to their default values?") }
     )
-}
-
-@ExperimentalMaterialApi
-@Composable
-fun ThemeDialog(
-    onDismiss: () -> Unit,
-    onThemeSelected: (ColorTheme) -> Unit,
-) {
-    Dialog(onDismissRequest = onDismiss) {
-        Card(elevation = 0.dp) {
-            Column {
-                for (theme in ColorTheme.values()) {
-                    val isSelected = LocalThemePreference.current == theme
-                    ListItem(
-                        modifier = Modifier.toggleable(
-                            value = isSelected,
-                            onValueChange = { onThemeSelected(theme) }
-                        ),
-                        text = { Text(stringResource(theme.themeName)) },
-                        trailing = { RadioButton(selected = isSelected, onClick = null) },
-                    )
-                }
-            }
-        }
-    }
 }

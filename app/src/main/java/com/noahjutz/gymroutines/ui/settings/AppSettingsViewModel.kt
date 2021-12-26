@@ -35,8 +35,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class AppSettingsViewModel(
-    private val application: Application,
-    private val database: AppDatabase,
     private val preferences: DataStore<androidx.datastore.preferences.core.Preferences>,
 ) : ViewModel() {
     private val _showBottomNavLabels = MutableStateFlow(false)
@@ -49,59 +47,6 @@ class AppSettingsViewModel(
             }
         }
     }
-
-    fun setShowBottomNavLabels(value: Boolean) {
-        viewModelScope.launch {
-            preferences.edit {
-                it[AppPrefs.ShowBottomNavLabels.key] = value
-            }
-        }
-    }
-
-    fun setAppTheme(value: ColorTheme) {
-        viewModelScope.launch {
-            preferences.edit {
-                it[AppPrefs.AppTheme.key] = value.name
-            }
-        }
-    }
-
-    fun exportDatabase(outUri: Uri) {
-        database.close()
-        val inStream = application.applicationContext
-            .getDatabasePath("workout_routines_database")
-            .inputStream()
-
-        val outStream = application.applicationContext
-            .contentResolver
-            .openOutputStream(outUri)
-
-        inStream.use { input ->
-            outStream?.use { output ->
-                input.copyTo(output)
-            }
-        }
-    }
-
-    fun importDatabase(inUri: Uri) {
-        database.close()
-        val inStream = application.applicationContext
-            .contentResolver
-            .openInputStream(inUri)
-
-        val databasePath = application.applicationContext
-            .getDatabasePath("workout_routines_database")
-
-        val outStream = databasePath.outputStream()
-
-        inStream.use { input ->
-            outStream.use { output ->
-                input?.copyTo(output)
-            }
-        }
-    }
-
-    fun restartApp() = ProcessPhoenix.triggerRebirth(application.applicationContext)
 
     fun resetSettings() {
         viewModelScope.launch {
