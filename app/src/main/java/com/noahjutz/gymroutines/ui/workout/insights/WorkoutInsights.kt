@@ -31,6 +31,7 @@ import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -224,10 +225,9 @@ private fun WorkoutCharts(
     workouts: List<Workout>,
 ) {
     ChartCard(title = "Workout duration") {
-        if (workouts.isNotEmpty()) {
+        if (workouts.size > 3) {
             SimpleLineChart(
-                Modifier
-                    .fillMaxSize(),
+                Modifier.fillMaxSize(),
                 data = workouts
                     .reversed()
                     .mapIndexed { i, workout ->
@@ -243,6 +243,10 @@ private fun WorkoutCharts(
                         Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
                     }
             )
+        } else {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text("Not enough data.", color = colors.onSurface.copy(alpha = 0.6f))
+            }
         }
     }
 }
