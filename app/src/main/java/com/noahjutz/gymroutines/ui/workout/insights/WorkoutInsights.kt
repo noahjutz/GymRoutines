@@ -85,7 +85,7 @@ fun WorkoutInsights(
 @Composable
 fun WorkoutInsightsContent(
     workouts: List<WorkoutWithSetGroups>,
-    viewModel: WorkoutInsightsViewModel = getViewModel(),
+    viewModel: WorkoutInsightsViewModel,
     navToWorkoutEditor: (Int) -> Unit,
 ) {
     val scope = rememberCoroutineScope()
