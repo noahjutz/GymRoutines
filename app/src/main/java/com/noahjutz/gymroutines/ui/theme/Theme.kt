@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.noahjutz.gymroutines.data.ColorTheme
 
-private val WhiteColorPalette = lightColors(
+val WhiteColorPalette = lightColors(
     primary = Primary,
     primaryVariant = PrimaryDark,
     secondary = Secondary,
@@ -17,7 +17,7 @@ private val WhiteColorPalette = lightColors(
     onSecondary = Color.Black,
 )
 
-private val BlackColorPalette = darkColors(
+val BlackColorPalette = darkColors(
     primary = PrimaryDesaturated,
     primaryVariant = PrimaryDark,
     secondary = Secondary,
