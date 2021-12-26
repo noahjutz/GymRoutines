@@ -40,6 +40,7 @@ import com.noahjutz.gymroutines.ui.routines.list.RoutineList
 import com.noahjutz.gymroutines.ui.settings.AppSettings
 import com.noahjutz.gymroutines.ui.settings.about.AboutApp
 import com.noahjutz.gymroutines.ui.settings.about.LicensesList
+import com.noahjutz.gymroutines.ui.settings.appearance.AppearanceSettings
 import com.noahjutz.gymroutines.ui.workout.in_progress.WorkoutInProgress
 import com.noahjutz.gymroutines.ui.workout.insights.WorkoutInsights
 import com.noahjutz.gymroutines.ui.workout.viewer.WorkoutViewer
@@ -56,6 +57,7 @@ enum class Screen {
     workoutInProgress,
     workoutViewer,
     settings,
+    appearanceSettings,
     about,
     licenses,
 }
@@ -168,9 +170,13 @@ fun NavGraph(
             }
             composable(Screen.settings.name) {
                 AppSettings(
+                    popBackStack = { navController.popBackStack() },
                     navToAbout = { navController.navigate(Screen.about.name) },
-                    popBackStack = { navController.popBackStack() }
+                    navToAppearanceSettings = { navController.navigate(Screen.appearanceSettings.name) }
                 )
+            }
+            composable(Screen.appearanceSettings.name) {
+                AppearanceSettings(popBackStack = { navController.popBackStack() })
             }
             composable(Screen.about.name) {
                 AboutApp(

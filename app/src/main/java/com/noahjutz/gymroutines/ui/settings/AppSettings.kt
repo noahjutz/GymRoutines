@@ -28,10 +28,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Help
-import androidx.compose.material.icons.filled.SaveAlt
-import androidx.compose.material.icons.filled.SettingsBackupRestore
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -53,6 +50,7 @@ fun AppSettings(
     viewModel: AppSettingsViewModel = getViewModel(),
     popBackStack: () -> Unit,
     navToAbout: () -> Unit,
+    navToAppearanceSettings: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     Scaffold(
@@ -96,6 +94,12 @@ fun AppSettings(
             )
         ) {
             ListItem(
+                modifier = Modifier.clickable(onClick = navToAppearanceSettings),
+                text = { Text("Appearance") },
+                icon = { Icon(Icons.Default.DarkMode, null) }
+            )
+            Divider()
+            ListItem(
                 modifier = Modifier.clickable {
                     val now = Calendar.getInstance().time
                     val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
@@ -113,27 +117,6 @@ fun AppSettings(
                 icon = { Icon(Icons.Default.SettingsBackupRestore, null) },
             )
             Divider()
-            ListItem(
-                modifier = Modifier.clickable { showThemeDialog = true },
-                text = { Text("App Theme") },
-                secondaryText = { Text("Select light or dark color theme") },
-                icon = {},
-            )
-            val settingShowBottomNavLabels by viewModel.showBottomNavLabels.collectAsState()
-            ListItem(
-                modifier = Modifier.toggleable(
-                    value = settingShowBottomNavLabels,
-                    onValueChange = { viewModel.setShowBottomNavLabels(it) }
-                ),
-                text = { Text("Show bottom navigation labels") },
-                trailing = {
-                    Checkbox(
-                        checked = settingShowBottomNavLabels,
-                        onCheckedChange = null
-                    )
-                },
-                icon = {}
-            )
             ListItem(
                 modifier = Modifier.clickable(onClick = { showResetSettingsDialog = true }),
                 text = { Text("Reset all settings") },
