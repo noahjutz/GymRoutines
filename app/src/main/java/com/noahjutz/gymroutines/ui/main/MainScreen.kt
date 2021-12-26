@@ -35,8 +35,8 @@ import com.google.accompanist.navigation.material.ExperimentalMaterialNavigation
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.noahjutz.gymroutines.ui.NavGraph
 import com.noahjutz.gymroutines.ui.Screen
-import org.koin.androidx.compose.getViewModel
 import kotlin.time.ExperimentalTime
+import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 @ExperimentalTime
