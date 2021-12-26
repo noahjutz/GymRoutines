@@ -28,6 +28,7 @@ import com.noahjutz.gymroutines.ui.routines.editor.RoutineEditorViewModel
 import com.noahjutz.gymroutines.ui.routines.list.RoutineListViewModel
 import com.noahjutz.gymroutines.ui.settings.AppSettingsViewModel
 import com.noahjutz.gymroutines.ui.settings.appearance.AppearanceSettingsViewModel
+import com.noahjutz.gymroutines.ui.settings.data.DataSettingsViewModel
 import com.noahjutz.gymroutines.ui.workout.in_progress.WorkoutInProgressViewModel
 import com.noahjutz.gymroutines.ui.workout.insights.WorkoutInsightsViewModel
 import com.noahjutz.gymroutines.ui.workout.viewer.WorkoutViewerViewModel
@@ -151,5 +152,9 @@ val koinModule = module {
         AppearanceSettingsViewModel(
             preferences = get()
         )
+    }
+
+    viewModel {
+        DataSettingsViewModel()
     }
 }

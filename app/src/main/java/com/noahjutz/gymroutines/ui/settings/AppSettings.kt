@@ -18,8 +18,6 @@
 
 package com.noahjutz.gymroutines.ui.settings
 
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
@@ -28,7 +26,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.Help
+import androidx.compose.material.icons.filled.Shield
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -38,10 +39,6 @@ import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.ColorTheme
 import com.noahjutz.gymroutines.ui.LocalThemePreference
 import com.noahjutz.gymroutines.ui.components.TopBar
-import com.noahjutz.gymroutines.util.OpenDocument
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 @ExperimentalMaterialApi
@@ -51,6 +48,7 @@ fun AppSettings(
     popBackStack: () -> Unit,
     navToAbout: () -> Unit,
     navToAppearanceSettings: () -> Unit,
+    navToDataSettings: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
     Scaffold(
@@ -69,24 +67,6 @@ fun AppSettings(
         var showResetSettingsDialog by remember { mutableStateOf(false) }
         var showThemeDialog by remember { mutableStateOf(false) }
 
-        val exportDatabaseLauncher =
-            rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument()) { uri ->
-                scope.launch {
-                    if (uri != null) {
-                        viewModel.exportDatabase(uri)
-                        showRestartAppDialog = true
-                    }
-                }
-            }
-
-        val importDatabaseLauncher =
-            rememberLauncherForActivityResult(OpenDocument()) { uri ->
-                if (uri != null) {
-                    viewModel.importDatabase(uri)
-                    showRestartAppDialog = true
-                }
-            }
-
         Column(
             Modifier.scrollable(
                 orientation = Orientation.Vertical,
@@ -98,23 +78,10 @@ fun AppSettings(
                 text = { Text("Appearance") },
                 icon = { Icon(Icons.Default.DarkMode, null) }
             )
-            Divider()
             ListItem(
-                modifier = Modifier.clickable {
-                    val now = Calendar.getInstance().time
-                    val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-                    val nowFormatted = formatter.format(now)
-                    exportDatabaseLauncher.launch("gymroutines_$nowFormatted.db")
-                },
-                text = { Text("Backup") },
-                secondaryText = { Text("Save routines, exercises and workouts in a file") },
-                icon = { Icon(Icons.Default.SaveAlt, null) },
-            )
-            ListItem(
-                modifier = Modifier.clickable { importDatabaseLauncher.launch(emptyArray()) },
-                text = { Text("Restore") },
-                secondaryText = { Text("Import a database file, overriding all data.") },
-                icon = { Icon(Icons.Default.SettingsBackupRestore, null) },
+                modifier = Modifier.clickable(onClick = navToDataSettings),
+                text = { Text("Data") },
+                icon = { Icon(Icons.Default.Shield, null) },
             )
             Divider()
             ListItem(
