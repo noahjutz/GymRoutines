@@ -7,7 +7,7 @@ import com.noahjutz.gymroutines.data.AppPrefs
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class MainScreenVM(
+class MainScreenViewModel(
     preferences: DataStore<Preferences>
 ) : ViewModel() {
     val currentWorkoutId: Flow<Int> = preferences.data.map { preferences ->

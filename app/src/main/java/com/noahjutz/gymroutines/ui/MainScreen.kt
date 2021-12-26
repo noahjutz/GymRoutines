@@ -77,7 +77,7 @@ val bottomNavItems = listOf(
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
-fun MainScreen(viewModel: MainScreenVM = getViewModel()) {
+fun MainScreen(viewModel: MainScreenViewModel = getViewModel()) {
     val bottomSheetNavigator = rememberBottomSheetNavigator()
     val navController = rememberAnimatedNavController(bottomSheetNavigator)
 

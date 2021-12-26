@@ -20,7 +20,7 @@ package com.noahjutz.gymroutines.di
 
 import androidx.room.Room
 import com.noahjutz.gymroutines.data.*
-import com.noahjutz.gymroutines.ui.MainScreenVM
+import com.noahjutz.gymroutines.ui.MainScreenViewModel
 import com.noahjutz.gymroutines.ui.exercises.editor.ExerciseEditorViewModel
 import com.noahjutz.gymroutines.ui.exercises.list.ExerciseListViewModel
 import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerViewModel
@@ -141,7 +141,7 @@ val koinModule = module {
     }
 
     viewModel {
-        MainScreenVM(
+        MainScreenViewModel(
             preferences = get()
         )
     }
