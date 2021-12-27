@@ -42,6 +42,7 @@ import com.noahjutz.gymroutines.ui.settings.about.AboutApp
 import com.noahjutz.gymroutines.ui.settings.about.LicensesList
 import com.noahjutz.gymroutines.ui.settings.appearance.AppearanceSettings
 import com.noahjutz.gymroutines.ui.settings.data.DataSettings
+import com.noahjutz.gymroutines.ui.settings.general.GeneralSettings
 import com.noahjutz.gymroutines.ui.workout.in_progress.WorkoutInProgress
 import com.noahjutz.gymroutines.ui.workout.insights.WorkoutInsights
 import com.noahjutz.gymroutines.ui.workout.viewer.WorkoutViewer
@@ -60,6 +61,7 @@ enum class Screen {
     settings,
     appearanceSettings,
     dataSettings,
+    generalSettings,
     about,
     licenses,
 }
@@ -175,7 +177,8 @@ fun NavGraph(
                     popBackStack = { navController.popBackStack() },
                     navToAbout = { navController.navigate(Screen.about.name) },
                     navToAppearanceSettings = { navController.navigate(Screen.appearanceSettings.name) },
-                    navToDataSettings = { navController.navigate(Screen.dataSettings.name)}
+                    navToDataSettings = { navController.navigate(Screen.dataSettings.name) },
+                    navToGeneralSettings = { navController.navigate(Screen.generalSettings.name) }
                 )
             }
             composable(Screen.appearanceSettings.name) {
@@ -183,6 +186,9 @@ fun NavGraph(
             }
             composable(Screen.dataSettings.name) {
                 DataSettings(popBackStack = { navController.popBackStack() })
+            }
+            composable(Screen.generalSettings.name) {
+                GeneralSettings(popBackStack = { navController.popBackStack() })
             }
             composable(Screen.about.name) {
                 AboutApp(

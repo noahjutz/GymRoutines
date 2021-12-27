@@ -23,21 +23,13 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.DarkMode
-import androidx.compose.material.icons.filled.Help
-import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import com.noahjutz.gymroutines.R
-import com.noahjutz.gymroutines.data.ColorTheme
-import com.noahjutz.gymroutines.ui.LocalThemePreference
 import com.noahjutz.gymroutines.ui.components.TopBar
 import org.koin.androidx.compose.getViewModel
 
@@ -48,7 +40,8 @@ fun AppSettings(
     popBackStack: () -> Unit,
     navToAbout: () -> Unit,
     navToAppearanceSettings: () -> Unit,
-    navToDataSettings: () -> Unit
+    navToDataSettings: () -> Unit,
+    navToGeneralSettings: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -71,6 +64,11 @@ fun AppSettings(
             )
         ) {
             ListItem(
+                modifier = Modifier.clickable(onClick = navToGeneralSettings),
+                text = { Text("General") },
+                icon = { Icon(Icons.Default.Construction, null) }
+            )
+            ListItem(
                 modifier = Modifier.clickable(onClick = navToAppearanceSettings),
                 text = { Text("Appearance") },
                 icon = { Icon(Icons.Default.DarkMode, null) }
@@ -82,15 +80,9 @@ fun AppSettings(
             )
             Divider()
             ListItem(
-                modifier = Modifier.clickable(onClick = { showResetSettingsDialog = true }),
-                text = { Text("Reset all settings") },
-                icon = {},
-            )
-            Divider()
-            ListItem(
                 modifier = Modifier.clickable(onClick = navToAbout),
                 text = { Text("About") },
-                icon = { Icon(Icons.Default.Help, null) }
+                icon = { Icon(Icons.Default.Info, null) }
             )
         }
 
