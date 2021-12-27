@@ -36,7 +36,6 @@ import org.koin.androidx.compose.getViewModel
 @ExperimentalMaterialApi
 @Composable
 fun AppSettings(
-    viewModel: AppSettingsViewModel = getViewModel(),
     popBackStack: () -> Unit,
     navToAbout: () -> Unit,
     navToAppearanceSettings: () -> Unit,
@@ -55,8 +54,6 @@ fun AppSettings(
             )
         }
     ) {
-        var showResetSettingsDialog by remember { mutableStateOf(false) }
-
         Column(
             Modifier.scrollable(
                 orientation = Orientation.Vertical,
@@ -85,27 +82,5 @@ fun AppSettings(
                 icon = { Icon(Icons.Default.Info, null) }
             )
         }
-
-        if (showResetSettingsDialog) ResetSettingsDialog(
-            onDismiss = { showResetSettingsDialog = false },
-            resetSettings = {
-                showResetSettingsDialog = false
-                viewModel.resetSettings()
-            }
-        )
     }
-}
-
-@Composable
-fun ResetSettingsDialog(
-    onDismiss: () -> Unit,
-    resetSettings: () -> Unit,
-) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) } },
-        confirmButton = { Button(onClick = resetSettings) { Text("Reset all settings") } },
-        title = { Text("Reset all settings?") },
-        text = { Text("Are you sure you want to reset all settings to their default values?") }
-    )
 }

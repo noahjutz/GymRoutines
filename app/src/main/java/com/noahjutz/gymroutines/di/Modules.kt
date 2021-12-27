@@ -26,9 +26,9 @@ import com.noahjutz.gymroutines.ui.exercises.picker.ExercisePickerViewModel
 import com.noahjutz.gymroutines.ui.main.MainScreenViewModel
 import com.noahjutz.gymroutines.ui.routines.editor.RoutineEditorViewModel
 import com.noahjutz.gymroutines.ui.routines.list.RoutineListViewModel
-import com.noahjutz.gymroutines.ui.settings.AppSettingsViewModel
 import com.noahjutz.gymroutines.ui.settings.appearance.AppearanceSettingsViewModel
 import com.noahjutz.gymroutines.ui.settings.data.DataSettingsViewModel
+import com.noahjutz.gymroutines.ui.settings.general.GeneralSettingsViewModel
 import com.noahjutz.gymroutines.ui.workout.in_progress.WorkoutInProgressViewModel
 import com.noahjutz.gymroutines.ui.workout.insights.WorkoutInsightsViewModel
 import com.noahjutz.gymroutines.ui.workout.viewer.WorkoutViewerViewModel
@@ -125,12 +125,6 @@ val koinModule = module {
         )
     }
 
-    viewModel {
-        AppSettingsViewModel(
-            preferences = get(),
-        )
-    }
-
     viewModel { params ->
         WorkoutViewerViewModel(
             workoutId = params.get(),
@@ -156,6 +150,12 @@ val koinModule = module {
         DataSettingsViewModel(
             database = get(),
             application = androidApplication()
+        )
+    }
+
+    viewModel {
+        GeneralSettingsViewModel(
+            preferences = get()
         )
     }
 }
