@@ -11,10 +11,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.noahjutz.gymroutines.R
-import com.noahjutz.gymroutines.ui.LocalActivity
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.util.openUrl
 
@@ -53,7 +53,7 @@ val dependencies = listOf(
 fun LicensesList(
     popBackStack: () -> Unit,
 ) {
-    val mainActivity = LocalActivity.current
+    val context = LocalContext.current
     Scaffold(
         topBar = {
             TopBar(
@@ -80,7 +80,7 @@ fun LicensesList(
 
             items(dependencies) { dependency ->
                 ListItem(
-                    modifier = Modifier.clickable { mainActivity.openUrl(dependency.url) },
+                    modifier = Modifier.clickable { context.openUrl(dependency.url) },
                     text = { Text(dependency.name) },
                     secondaryText = { Text(dependency.license.fullName) }
                 )

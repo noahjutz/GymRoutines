@@ -30,8 +30,6 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.noahjutz.gymroutines.ui.main.MainScreen
 import kotlin.time.ExperimentalTime
 
-val LocalActivity = compositionLocalOf<MainActivity> { error("MainActivity not found") }
-
 class MainActivity : AppCompatActivity() {
 
     @OptIn(
@@ -43,9 +41,7 @@ class MainActivity : AppCompatActivity() {
         installSplashScreen()
 
         setContent {
-            CompositionLocalProvider(LocalActivity provides this@MainActivity) {
-                MainScreen()
-            }
+            MainScreen()
         }
     }
 }

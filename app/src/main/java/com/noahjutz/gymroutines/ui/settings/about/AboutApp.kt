@@ -31,13 +31,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.noahjutz.gymroutines.BuildConfig
 import com.noahjutz.gymroutines.R
-import com.noahjutz.gymroutines.ui.LocalActivity
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.util.openUrl
 
@@ -63,7 +63,7 @@ fun AboutApp(
             )
         }
     ) {
-        val mainActivity = LocalActivity.current
+        val context = LocalContext.current.applicationContext
         LazyColumn {
             item {
                 Row(
@@ -100,7 +100,7 @@ fun AboutApp(
                     icon = { Icon(Icons.Default.ListAlt, null) },
                 )
                 ListItem(
-                    modifier = Modifier.clickable { mainActivity.openUrl(Urls.sourceCode) },
+                    modifier = Modifier.clickable { context.openUrl(Urls.sourceCode) },
                     text = { Text("Source Code") },
                     icon = { Icon(Icons.Default.Code, null) },
                     trailing = { Icon(Icons.Default.Launch, null) },
