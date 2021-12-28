@@ -31,7 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.ui.components.TopBar
-import org.koin.androidx.compose.getViewModel
 
 @ExperimentalMaterialApi
 @Composable

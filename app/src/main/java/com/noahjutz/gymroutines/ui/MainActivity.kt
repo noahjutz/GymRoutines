@@ -24,8 +24,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.compositionLocalOf
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.noahjutz.gymroutines.ui.main.MainScreen
 import kotlin.time.ExperimentalTime

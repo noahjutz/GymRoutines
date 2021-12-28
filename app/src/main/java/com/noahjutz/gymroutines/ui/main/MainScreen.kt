@@ -29,7 +29,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -39,7 +38,6 @@ import com.noahjutz.gymroutines.data.ColorTheme
 import com.noahjutz.gymroutines.ui.NavGraph
 import com.noahjutz.gymroutines.ui.Screen
 import com.noahjutz.gymroutines.ui.theme.GymRoutinesTheme
-import com.noahjutz.gymroutines.ui.theme.WhiteColorPalette
 import kotlin.time.ExperimentalTime
 import org.koin.androidx.compose.getViewModel
 
