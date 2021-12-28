@@ -23,25 +23,14 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.noahjutz.gymroutines.data.AppPrefs
-import com.noahjutz.gymroutines.data.ColorTheme
-import com.noahjutz.gymroutines.data.datastore
 import com.noahjutz.gymroutines.ui.main.MainScreen
-import com.noahjutz.gymroutines.ui.theme.GymRoutinesTheme
-import com.noahjutz.gymroutines.util.valueOf
 import kotlin.time.ExperimentalTime
-import kotlinx.coroutines.flow.map
 
 val LocalActivity = compositionLocalOf<MainActivity> { error("MainActivity not found") }
-val LocalThemePreference = compositionLocalOf { ColorTheme.FollowSystem }
-val LocalColorTheme = compositionLocalOf<ColorTheme> { error("") }
 
 class MainActivity : AppCompatActivity() {
 
@@ -54,29 +43,8 @@ class MainActivity : AppCompatActivity() {
         installSplashScreen()
 
         setContent {
-            val appTheme: ColorTheme by applicationContext.datastore.data
-                .map {
-                    valueOf(
-                        it[AppPrefs.AppTheme.key] ?: ColorTheme.FollowSystem.name,
-                        ColorTheme.FollowSystem
-                    )
-                }
-                .collectAsState(initial = ColorTheme.FollowSystem)
-
-            val colors = when (appTheme) {
-                ColorTheme.FollowSystem -> if (isSystemInDarkTheme()) ColorTheme.Black else ColorTheme.White
-                ColorTheme.White -> ColorTheme.White
-                ColorTheme.Black -> ColorTheme.Black
-            }
-
-            CompositionLocalProvider(
-                LocalActivity provides this@MainActivity,
-                LocalThemePreference provides appTheme,
-                LocalColorTheme provides colors
-            ) {
-                GymRoutinesTheme(colors = LocalThemePreference.current) {
-                    MainScreen()
-                }
+            CompositionLocalProvider(LocalActivity provides this@MainActivity) {
+                MainScreen()
             }
         }
     }

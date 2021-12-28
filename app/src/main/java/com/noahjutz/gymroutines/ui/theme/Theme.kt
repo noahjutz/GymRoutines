@@ -1,12 +1,10 @@
 package com.noahjutz.gymroutines.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.noahjutz.gymroutines.data.ColorTheme
 
 val WhiteColorPalette = lightColors(
     primary = Primary,
@@ -28,16 +26,11 @@ val BlackColorPalette = darkColors(
 
 @Composable
 fun GymRoutinesTheme(
-    colors: ColorTheme,
+    isDark: Boolean,
     content: @Composable () -> Unit,
 ) {
-    val colorTheme = when (colors) {
-        ColorTheme.FollowSystem -> if (isSystemInDarkTheme()) BlackColorPalette else WhiteColorPalette
-        ColorTheme.White -> WhiteColorPalette
-        ColorTheme.Black -> BlackColorPalette
-    }
     MaterialTheme(
-        colors = colorTheme,
+        colors = if (isDark) BlackColorPalette else WhiteColorPalette,
         content = content
     )
 }
