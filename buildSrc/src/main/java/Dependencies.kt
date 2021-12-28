@@ -31,6 +31,8 @@ object Libs {
     object Core {
         private const val version = "1.7.0"
         const val core = "androidx.core:core-ktx:$version"
+        private const val versionSplashScreen = "1.0.0-alpha02"
+        const val splashScreen = "androidx.core:core-splashscreen:$versionSplashScreen"
     }
 
     object Coroutines {

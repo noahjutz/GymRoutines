@@ -100,6 +100,7 @@ android {
 
 dependencies {
     implementation(Libs.Core.core)
+    implementation(Libs.Core.splashScreen)
 
     implementation(Libs.Coroutines.android)
 

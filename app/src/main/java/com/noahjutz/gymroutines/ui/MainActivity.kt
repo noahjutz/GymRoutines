@@ -29,6 +29,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.noahjutz.gymroutines.data.AppPrefs
 import com.noahjutz.gymroutines.data.ColorTheme
 import com.noahjutz.gymroutines.data.datastore
@@ -50,6 +51,8 @@ class MainActivity : AppCompatActivity() {
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
+
         setContent {
             val appTheme: ColorTheme by applicationContext.datastore.data
                 .map {
