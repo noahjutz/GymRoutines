@@ -55,7 +55,7 @@ interface WorkoutDao {
 
     @Transaction
     @Query("SELECT * FROM workout_table ORDER BY startTime DESC")
-    fun getWorkouts(): Flow<List<WorkoutWithSetGroups>>
+    fun getWorkouts(): Flow<List<Workout>>
 
     @Delete
     suspend fun delete(workout: Workout)

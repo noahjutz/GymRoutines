@@ -37,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.google.accompanist.placeholder.material.placeholder
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.Workout
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
@@ -48,6 +49,7 @@ import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
+@ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @ExperimentalTime
 @Composable
@@ -56,8 +58,6 @@ fun WorkoutInsights(
     navToSettings: () -> Unit,
     navToWorkoutEditor: (Int) -> Unit,
 ) {
-    val workouts by viewModel.workouts.collectAsState(initial = null)
-
     Scaffold(
         topBar = {
             TopBar(
@@ -81,129 +81,108 @@ fun WorkoutInsights(
             )
         }
     ) {
-        Crossfade(workouts != null) { isReady ->
-            when {
-                isReady && workouts?.isEmpty() == true -> {
-                    NothingHereYet()
-                }
-                isReady -> {
-                    WorkoutInsightsContent(
-                        navToWorkoutEditor = navToWorkoutEditor,
-                        viewModel = viewModel,
-                        workouts = workouts ?: emptyList()
+        val scope = rememberCoroutineScope()
+        val workouts by viewModel.workouts.collectAsState(initial = null)
+        val routineNames by viewModel.routineNames.collectAsState(initial = null)
+
+        LazyColumn {
+            stickyHeader {
+                Surface(Modifier.fillMaxWidth()) {
+                    Text(
+                        "Charts",
+                        Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                        style = typography.h4
                     )
                 }
-                !isReady -> {
-                    WorkoutInsightsPlaceholder()
+            }
+
+            item {
+                Box(Modifier.padding(16.dp)) {
+                    WorkoutCharts(workouts)
                 }
             }
-        }
-    }
-}
 
-@OptIn(ExperimentalFoundationApi::class)
-@ExperimentalTime
-@ExperimentalMaterialApi
-@Composable
-fun WorkoutInsightsContent(
-    workouts: List<WorkoutWithSetGroups>,
-    viewModel: WorkoutInsightsViewModel,
-    navToWorkoutEditor: (Int) -> Unit,
-) {
-    val scope = rememberCoroutineScope()
-
-    LazyColumn {
-        stickyHeader {
-            Surface(Modifier.fillMaxWidth()) {
-                Text(
-                    "Charts",
-                    Modifier.padding(horizontal = 30.dp, vertical = 16.dp),
-                    style = typography.h4
-                )
-            }
-        }
-
-        item {
-            WorkoutCharts(workouts.map { it.workout })
-        }
-
-        stickyHeader {
-            Surface(Modifier.fillMaxWidth()) {
-                Text(
-                    "History",
-                    Modifier.padding(horizontal = 30.dp, vertical = 16.dp),
-                    style = typography.h4
-                )
-            }
-        }
-
-        items(workouts, { it.workout.workoutId }) { workout ->
-            val dismissState = rememberDismissState()
-            val routineName by produceState("", workout.workout.workoutId) {
-                value = viewModel.getRoutineName(workout.workout.routineId)
+            stickyHeader {
+                Surface(Modifier.fillMaxWidth()) {
+                    Text(
+                        "History",
+                        Modifier.padding(bottom = 16.dp, start = 16.dp, end = 16.dp),
+                        style = typography.h4
+                    )
+                }
             }
 
-            SwipeToDismiss(
-                modifier = Modifier
-                    .animateItemPlacement()
-                    .zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
-                state = dismissState,
-                background = { SwipeToDeleteBackground(dismissState) }
-            ) {
-                Card(
-                    onClick = { navToWorkoutEditor(workout.workout.workoutId) },
-                    elevation = animateDpAsState(
-                        if (dismissState.dismissDirection != null) 4.dp else 0.dp
-                    ).value,
-                ) {
-                    ListItem(
-                        text = {
-                            Text(
-                                text = routineName,
-                                maxLines = 2,
-                                overflow = TextOverflow.Ellipsis,
-                            )
-                        },
-                        secondaryText = {
-                            val day = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                                .format(workout.workout.startTime)
-                            Text(day)
-                        },
-                        trailing = {
-                            var expanded by remember { mutableStateOf(false) }
+            if (workouts != null && routineNames != null) {
+                items(workouts ?: emptyList(), { it.workoutId }) { workout ->
+                    val dismissState = rememberDismissState()
+                    val routineName = routineNames?.get(workout.workoutId) ?: ""
 
-                            Box {
-                                IconButton(onClick = { expanded = !expanded }) {
-                                    Icon(Icons.Default.MoreVert, null)
-                                }
+                    SwipeToDismiss(
+                        modifier = Modifier
+                            .zIndex(if (dismissState.offset.value == 0f) 0f else 1f),
+                        state = dismissState,
+                        background = { SwipeToDeleteBackground(dismissState) }
+                    ) {
+                        Card(
+                            onClick = { navToWorkoutEditor(workout.workoutId) },
+                            elevation = animateDpAsState(
+                                if (dismissState.dismissDirection != null) 4.dp else 0.dp
+                            ).value,
+                        ) {
+                            ListItem(
+                                text = {
+                                    Text(
+                                        text = routineName,
+                                        maxLines = 2,
+                                        overflow = TextOverflow.Ellipsis,
+                                    )
+                                },
+                                trailing = {
+                                    var expanded by remember { mutableStateOf(false) }
 
-                                DropdownMenu(
-                                    expanded = expanded,
-                                    onDismissRequest = { expanded = false }
-                                ) {
-                                    DropdownMenuItem(
-                                        onClick = {
-                                            expanded = false
-                                            scope.launch {
-                                                dismissState.dismiss(DismissDirection.StartToEnd)
+                                    Box {
+                                        IconButton(onClick = { expanded = !expanded }) {
+                                            Icon(Icons.Default.MoreVert, null)
+                                        }
+
+                                        DropdownMenu(
+                                            expanded = expanded,
+                                            onDismissRequest = { expanded = false }
+                                        ) {
+                                            DropdownMenuItem(
+                                                onClick = {
+                                                    expanded = false
+                                                    scope.launch {
+                                                        dismissState.dismiss(DismissDirection.StartToEnd)
+                                                    }
+                                                }
+                                            ) {
+                                                Text("Delete")
                                             }
                                         }
-                                    ) {
-                                        Text("Delete")
                                     }
                                 }
-                            }
+                            )
                         }
-                    )
-                }
-            }
+                    }
 
-            if (dismissState.targetValue != DismissValue.Default) {
-                DeleteConfirmation(
-                    name = routineName,
-                    onConfirm = { viewModel.delete(workout) },
-                    onDismiss = { scope.launch { dismissState.reset() } }
-                )
+                    if (dismissState.targetValue != DismissValue.Default) {
+                        DeleteConfirmation(
+                            name = routineName,
+                            onConfirm = { viewModel.delete(workout) },
+                            onDismiss = { scope.launch { dismissState.reset() } }
+                        )
+                    }
+                }
+            } else {
+                items(5) {
+                    ListItem {
+                        Text(
+                            "A".repeat((5..15).random()),
+                            Modifier.placeholder(visible = true)
+                        )
+                    }
+                }
             }
         }
     }
@@ -243,30 +222,42 @@ private fun DeleteConfirmation(
 @ExperimentalTime
 @Composable
 private fun WorkoutCharts(
-    workouts: List<Workout>,
+    workouts: List<Workout>?,
 ) {
     ChartCard(title = "Workout duration") {
-        if (workouts.size > 3) {
-            SimpleLineChart(
-                Modifier.fillMaxSize(),
-                data = workouts
-                    .reversed()
-                    .mapIndexed { i, workout ->
-                        Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
-                    }
-                    .chunked(3) {
-                        val avg = it.map { it.second }.average()
-                        Pair(it.first().first, avg.toFloat())
-                    },
-                secondaryData = workouts
-                    .reversed()
-                    .mapIndexed { i, workout ->
-                        Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
-                    }
-            )
-        } else {
-            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("Not enough data.", color = colors.onSurface.copy(alpha = 0.6f))
+        when {
+            workouts == null -> {
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .placeholder(visible = true)
+                )
+            }
+            workouts.size < 3 -> {
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text("Not enough data.", color = colors.onSurface.copy(alpha = 0.6f))
+                }
+            }
+            else -> {
+                SimpleLineChart(
+                    Modifier
+                        .fillMaxSize()
+                        .padding(20.dp),
+                    data = workouts
+                        .reversed()
+                        .mapIndexed { i, workout ->
+                            Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
+                        }
+                        .chunked(3) {
+                            val avg = it.map { it.second }.average()
+                            Pair(it.first().first, avg.toFloat())
+                        },
+                    secondaryData = workouts
+                        .reversed()
+                        .mapIndexed { i, workout ->
+                            Pair(i.toFloat(), workout.duration.inWholeSeconds.toFloat())
+                        }
+                )
             }
         }
     }
@@ -295,9 +286,7 @@ private fun ChartCard(
                     style = typography.h6
                 )
             }
-            Box(Modifier.padding(20.dp)) {
-                chart()
-            }
+            chart()
         }
     }
 }
