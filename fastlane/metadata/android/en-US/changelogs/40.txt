@@ -1,0 +1,20 @@
+Features
+* Added delete buttons for routines and exercises (7eda5755, 4ef00ff5)
+* Added search bar in routine list (d6b4f3b4, 374b9480, d96527c1)
+* Added placeholder loading indicators (44d73741, 2bb70ae0, 71932614, 3f957eb1, ba35ade4, 39d5f11a)
+* Added a splash screen (6ab65ffe)
+* Added launcher icons for <API26 (46f3ec7c)
+* Updated routine editor appearance (0a9d1d96..93de968c)
+* Updated search bar appearance (caafdb1c)
+* Updated insights appearance (c8f1606d, b9762d8a, 9a5f0647)
+* Updated settings (ca1b825c..02591de9, 2825ed47, 49ac7efe)
+* Removed navigation animations (77905f83)
+
+Development
+* Reference routineId from workouts_table instead of storing redundant name (7f67c172..756d9f42, ef08c8dd, 20bdf632)
+* Upgrade dependencies (78aab1ce, 82e79133, 62acef3e)
+* Move dependencies to Dependencies.kt (97c0db65, ebcf96d9)
+* Clean up MainScreen (c2c42ff7..7ad34c59)
+* Clean up MainActivity (7ff9089c)
+* Move RoutineList to seperate package (a783d2cb)
+* Replaced MainActivity.openUrl with Context.openUrl (e3f36aa9)
