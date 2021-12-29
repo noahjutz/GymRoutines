@@ -105,12 +105,14 @@ fun RoutineEditor(
             if (!isReady) {
                 RoutineEditorPlaceholder()
             } else {
-                RoutineEditorContent(
-                    routine = routine!!.routine,
-                    setGroups = routine!!.setGroups,
-                    viewModel = viewModel,
-                    navToExercisePicker = navToExercisePicker
-                )
+                routine?.let { routine ->
+                    RoutineEditorContent(
+                        routine = routine.routine,
+                        setGroups = routine.setGroups,
+                        viewModel = viewModel,
+                        navToExercisePicker = navToExercisePicker
+                    )
+                }
             }
         }
     }
