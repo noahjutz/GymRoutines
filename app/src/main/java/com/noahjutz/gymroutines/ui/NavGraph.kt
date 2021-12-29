@@ -149,16 +149,7 @@ fun NavGraph(
             }
             composable(
                 "${Screen.workoutInProgress}/{workoutId}",
-                arguments = listOf(
-                    navArgument("workoutId") {
-                        defaultValue = -1
-                        type = NavType.IntType
-                    },
-                    navArgument("routineId") {
-                        defaultValue = -1
-                        type = NavType.IntType
-                    }
-                )
+                arguments = listOf(navArgument("workoutId") { type = NavType.IntType })
             ) { backStackEntry ->
                 val exerciseIdsToAdd = backStackEntry
                     .arguments
