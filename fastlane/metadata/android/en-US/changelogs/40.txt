@@ -15,6 +15,8 @@ Bug fixes
 
 Development
 * Reference routineId from workouts_table instead of storing redundant name (7f67c172..756d9f42, ef08c8dd, 20bdf632)
+  * Workout's parent routines are extrapolated by name in migration (fallback is to create a new one)
+  * Routines aren't deleted anymore; they are instead marked as hidden
 * Upgrade dependencies (78aab1ce, 82e79133, 62acef3e)
 * Move dependencies to Dependencies.kt (97c0db65, ebcf96d9)
 * Clean up MainScreen (c2c42ff7..7ad34c59)
