@@ -12,9 +12,12 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.SaveAlt
 import androidx.compose.material.icons.filled.SettingsBackupRestore
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.noahjutz.gymroutines.ui.components.TopBar
-import com.noahjutz.gymroutines.util.OpenDocument
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 @ExperimentalMaterialApi
@@ -23,7 +26,9 @@ fun DataSettings(
     popBackStack: () -> Unit,
     viewModel: DataSettingsViewModel = getViewModel()
 ) {
+    val scaffoldState = rememberScaffoldState()
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             TopBar(
                 title = "Data",
@@ -35,26 +40,37 @@ fun DataSettings(
             )
         }
     ) {
-        val exportDatabaseLauncher =
-            rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument()) { uri ->
-                if (uri != null) {
-                    viewModel.exportDatabase(uri)
-                    viewModel.restartApp()
-                }
+        val exportDatabaseLauncher = rememberLauncherForActivityResult(
+            ActivityResultContracts.CreateDocument()
+        ) { uri ->
+            if (uri != null) {
+                viewModel.exportDatabase(uri)
+                viewModel.restartApp()
             }
+        }
 
-        val importDatabaseLauncher =
-            rememberLauncherForActivityResult(OpenDocument()) { uri ->
-                if (uri != null) {
-                    viewModel.importDatabase(uri)
-                    viewModel.restartApp()
-                }
+        val importDatabaseLauncher = rememberLauncherForActivityResult(
+            ActivityResultContracts.OpenDocument()
+        ) { uri ->
+            if (uri != null) {
+                viewModel.importDatabase(uri)
+                viewModel.restartApp()
             }
+        }
 
         Column(Modifier.verticalScroll(rememberScrollState())) {
+            val isWorkoutInProgress by viewModel.isWorkoutInProgress.collectAsState(initial = true)
+            val scope = rememberCoroutineScope()
             ListItem(
                 modifier = Modifier.clickable {
-                    exportDatabaseLauncher.launch("gymroutines_${viewModel.getCurrentTimeIso()}.db")
+                    if (isWorkoutInProgress) {
+                        scope.launch {
+                            scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
+                            scaffoldState.snackbarHostState.showSnackbar("Please finish your workout first.")
+                        }
+                    } else {
+                        exportDatabaseLauncher.launch("gymroutines_${viewModel.getCurrentTimeIso()}.db")
+                    }
                 },
                 text = { Text("Backup") },
                 secondaryText = { Text("Save routines, exercises and workouts in a file") },
@@ -62,7 +78,14 @@ fun DataSettings(
             )
             ListItem(
                 modifier = Modifier.clickable {
-                    importDatabaseLauncher.launch(emptyArray())
+                    if (isWorkoutInProgress) {
+                        scope.launch {
+                            scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
+                            scaffoldState.snackbarHostState.showSnackbar("Please finish your workout first.")
+                        }
+                    } else {
+                        importDatabaseLauncher.launch(emptyArray())
+                    }
                 },
                 text = { Text("Restore") },
                 secondaryText = { Text("Import a database file, overriding all data.") },

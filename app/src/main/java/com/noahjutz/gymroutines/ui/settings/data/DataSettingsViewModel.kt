@@ -2,16 +2,26 @@ package com.noahjutz.gymroutines.ui.settings.data
 
 import android.app.Application
 import android.net.Uri
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.ViewModel
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.noahjutz.gymroutines.data.AppDatabase
+import com.noahjutz.gymroutines.data.AppPrefs
+import kotlinx.coroutines.flow.map
 import java.text.SimpleDateFormat
 import java.util.*
 
 class DataSettingsViewModel(
+    private val preferences: DataStore<Preferences>,
     private val database: AppDatabase,
     private val application: Application
 ) : ViewModel() {
+    val isWorkoutInProgress = preferences.data.map { preferences ->
+        val currentWorkoutId = preferences[AppPrefs.CurrentWorkout.key]
+        currentWorkoutId != null && currentWorkoutId >= 0
+    }
+
     fun exportDatabase(uri: Uri) {
         database.close()
         val inStream = application.applicationContext
