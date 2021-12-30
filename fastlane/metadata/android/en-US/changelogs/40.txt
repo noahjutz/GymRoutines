@@ -23,5 +23,6 @@ Development
 * Clean up MainActivity (7ff9089c)
 * Move RoutineList to seperate package (a783d2cb)
 * Replaced MainActivity.openUrl with Context.openUrl (e3f36aa9)
-* Remove obsolete navigation arguments in workoutInProgress destination (feb8ac8e)
 * Pass back navigation arguments using savedStateHandle (b34cd7e8)
+* Remove obsolete navigation arguments in workoutInProgress destination (feb8ac8e)
+* Remove util.OpenDocument (7c0a2281)
