@@ -18,10 +18,16 @@
 
 package com.noahjutz.gymroutines.ui
 
-import androidx.compose.animation.*
+import android.util.Log
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -110,11 +116,13 @@ fun NavGraph(
                 route = "${Screen.routineEditor}/{routineId}",
                 arguments = listOf(navArgument("routineId") { type = NavType.IntType })
             ) { backStackEntry ->
-                val exerciseIdsToAdd = backStackEntry
-                    .arguments
-                    ?.getIntegerArrayList("exerciseIdsToAdd")
-                    ?.toList()
-                    ?: emptyList()
+                val exerciseIdsToAdd by backStackEntry
+                    .savedStateHandle
+                    .getLiveData<List<Int>>("exerciseIdsToAdd")
+                    .observeAsState()
+                LaunchedEffect(exerciseIdsToAdd) {
+                    backStackEntry.savedStateHandle.set("exerciseIdsToAdd", null)
+                }
                 RoutineEditor(
                     routineId = backStackEntry.arguments!!.getInt("routineId"),
                     navToWorkout = { workoutId: Long ->
@@ -124,7 +132,7 @@ fun NavGraph(
                     },
                     popBackStack = { navController.popBackStack() },
                     navToExercisePicker = { navController.navigate(Screen.exercisePicker.name) },
-                    exerciseIdsToAdd = exerciseIdsToAdd
+                    exerciseIdsToAdd = exerciseIdsToAdd ?: emptyList()
                 )
             }
             composable(Screen.exerciseList.name) {
@@ -151,16 +159,18 @@ fun NavGraph(
                 "${Screen.workoutInProgress}/{workoutId}",
                 arguments = listOf(navArgument("workoutId") { type = NavType.IntType })
             ) { backStackEntry ->
-                val exerciseIdsToAdd = backStackEntry
-                    .arguments
-                    ?.getIntegerArrayList("exerciseIdsToAdd")
-                    ?.toList()
-                    ?: emptyList()
+                val exerciseIdsToAdd by backStackEntry
+                    .savedStateHandle
+                    .getLiveData<List<Int>>("exerciseIdsToAdd")
+                    .observeAsState()
+                LaunchedEffect(exerciseIdsToAdd) {
+                    backStackEntry.savedStateHandle.set("exerciseIdsToAdd", null)
+                }
                 WorkoutInProgress(
                     navToExercisePicker = { navController.navigate(Screen.exercisePicker.name) },
                     popBackStack = { navController.popBackStack() },
                     workoutId = backStackEntry.arguments!!.getInt("workoutId"),
-                    exerciseIdsToAdd = exerciseIdsToAdd
+                    exerciseIdsToAdd = exerciseIdsToAdd ?: emptyList()
                 )
             }
             composable(Screen.settings.name) {
@@ -194,8 +204,8 @@ fun NavGraph(
                 ExercisePickerSheet(
                     onExercisesSelected = { exerciseIds ->
                         navController.previousBackStackEntry
-                            ?.arguments
-                            ?.putIntegerArrayList("exerciseIdsToAdd", ArrayList(exerciseIds))
+                            ?.savedStateHandle
+                            ?.set("exerciseIdsToAdd", exerciseIds)
                         navController.popBackStack()
                     },
                     navToExerciseEditor = {
