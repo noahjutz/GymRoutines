@@ -1,5 +1,7 @@
 package com.noahjutz.gymroutines.ui.settings.data
 
+import android.content.Context
+import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
@@ -50,7 +52,14 @@ fun DataSettings(
         }
 
         val importDatabaseLauncher = rememberLauncherForActivityResult(
-            ActivityResultContracts.OpenDocument()
+            object : ActivityResultContracts.OpenDocument() {
+                override fun createIntent(context: Context, input: Array<String>): Intent {
+                    super.createIntent(context, input)
+                    return Intent(Intent.ACTION_OPEN_DOCUMENT)
+                        .addCategory(Intent.CATEGORY_OPENABLE)
+                        .setType("*/*")
+                }
+            }
         ) { uri ->
             if (uri != null) {
                 viewModel.importDatabase(uri)
