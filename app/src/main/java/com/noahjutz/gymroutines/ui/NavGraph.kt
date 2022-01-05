@@ -215,15 +215,11 @@ fun NavGraph(
                 )
             }
             composable(
-                "${Screen.workoutCompleted.name}/{routineId}/{workoutId}",
-                arguments = listOf(
-                    navArgument("routineId") { type = NavType.IntType },
-                    navArgument("workoutId") { type = NavType.IntType }
-                )
+                "${Screen.workoutCompleted.name}/{workoutId}",
+                arguments = listOf(navArgument("workoutId") { type = NavType.IntType })
             ) { backStackEntry ->
                 WorkoutCompleted(
                     popBackStack = { navController.popBackStack() },
-                    routineId = backStackEntry.arguments!!.getInt("routineId"),
                     workoutId = backStackEntry.arguments!!.getInt("workoutId"),
                 )
             }
