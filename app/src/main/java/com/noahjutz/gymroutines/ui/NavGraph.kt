@@ -224,9 +224,15 @@ fun NavGraph(
                 "${Screen.workoutCompleted.name}/{workoutId}",
                 arguments = listOf(navArgument("workoutId") { type = NavType.IntType })
             ) { backStackEntry ->
+                val workoutId = backStackEntry.arguments!!.getInt("workoutId")
                 WorkoutCompleted(
                     popBackStack = { navController.popBackStack() },
-                    workoutId = backStackEntry.arguments!!.getInt("workoutId"),
+                    workoutId = workoutId,
+                    navToWorkoutInProgress = {
+                        navController.navigate("${Screen.workoutInProgress}/$workoutId") {
+                            popUpTo(navController.graph.findStartDestination().id)
+                        }
+                    }
                 )
             }
         }
