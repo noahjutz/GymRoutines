@@ -8,6 +8,8 @@ import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Undo
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,10 +51,11 @@ fun WorkoutCompleted(
                 Text("Nice Work.", style = typography.h2)
                 Text("You've completed your workout.", style = typography.h5)
             }
+            val isUpdateRoutineChecked by viewModel.isUpdateRoutineChecked.collectAsState(initial = false)
             Row(
                 Modifier
                     .toggleable(
-                        value = false,
+                        value = isUpdateRoutineChecked,
                         onValueChange = { checked ->
                             if (checked) {
                                 viewModel.updateRoutine()
@@ -66,7 +69,7 @@ fun WorkoutCompleted(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Checkbox(
-                    checked = false,
+                    checked = isUpdateRoutineChecked,
                     onCheckedChange = null
                 )
                 Spacer(Modifier.width(8.dp))

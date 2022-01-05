@@ -154,8 +154,12 @@ class WorkoutRepository(private val workoutDao: WorkoutDao) {
         return workoutDao.insert(workout.workout)
     }
 
-    suspend fun getWorkout(workoutId: Int): WorkoutWithSetGroups? {
+    suspend fun getWorkoutWithSetGroups(workoutId: Int): WorkoutWithSetGroups? {
         return workoutDao.getWorkoutWithSetGroups(workoutId)
+    }
+
+    suspend fun getWorkout(workoutId: Int): Workout? {
+        return workoutDao.getWorkout(workoutId)
     }
 
     fun getWorkoutFlow(workoutId: Int): Flow<WorkoutWithSetGroups?> {

@@ -36,13 +36,30 @@ enum class ColorTheme(
 }
 
 sealed class AppPrefs<T>(val key: Preferences.Key<T>, val defaultValue: T) {
-    object IsFirstRun : AppPrefs<Boolean>(booleanPreferencesKey("isFirstRun"), false)
-    object CurrentWorkout : AppPrefs<Int>(intPreferencesKey("currentWorkout"), -1)
+    object IsFirstRun : AppPrefs<Boolean>(
+        key = booleanPreferencesKey("isFirstRun"),
+        defaultValue = false
+    )
 
-    object ShowBottomNavLabels :
-        AppPrefs<Boolean>(booleanPreferencesKey("showBottomNavLabels"), true)
+    object CurrentWorkout : AppPrefs<Int>(
+        key = intPreferencesKey("currentWorkout"),
+        defaultValue = -1
+    )
 
-    object AppTheme : AppPrefs<String>(stringPreferencesKey("appTheme"), ColorTheme.FollowSystem.name)
+    object ShowBottomNavLabels : AppPrefs<Boolean>(
+        key = booleanPreferencesKey("showBottomNavLabels"),
+        defaultValue = true
+    )
+
+    object AppTheme : AppPrefs<String>(
+        key = stringPreferencesKey("appTheme"),
+        defaultValue = ColorTheme.FollowSystem.name
+    )
+
+    object UpdateRoutineAfterWorkout : AppPrefs<Boolean>(
+        key = booleanPreferencesKey("updateRoutineAfterWorkout"),
+        defaultValue = false
+    )
 }
 
 suspend fun DataStore<Preferences>.resetAppSettings() {
@@ -50,5 +67,6 @@ suspend fun DataStore<Preferences>.resetAppSettings() {
         it[AppPrefs.ShowBottomNavLabels.key] = AppPrefs.ShowBottomNavLabels.defaultValue
         it[AppPrefs.IsFirstRun.key] = AppPrefs.IsFirstRun.defaultValue
         it[AppPrefs.AppTheme.key] = AppPrefs.AppTheme.defaultValue
+        it[AppPrefs.UpdateRoutineAfterWorkout.key] = AppPrefs.UpdateRoutineAfterWorkout.defaultValue
     }
 }
