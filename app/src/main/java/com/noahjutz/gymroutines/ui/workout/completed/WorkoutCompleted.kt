@@ -32,7 +32,7 @@ fun WorkoutCompleted(
         Button(
             onClick = {
                 navToWorkoutInProgress()
-                // TODO update current workout id in DataStore
+                viewModel.startWorkout()
             },
             Modifier
                 .padding(16.dp)
@@ -54,7 +54,11 @@ fun WorkoutCompleted(
                     .toggleable(
                         value = false,
                         onValueChange = { checked ->
-                            // TODO
+                            if (checked) {
+                                viewModel.updateRoutine()
+                            } else {
+                                viewModel.resetRoutine()
+                            }
                         }
                     )
                     .fillMaxWidth()
