@@ -18,7 +18,6 @@
 
 package com.noahjutz.gymroutines.ui
 
-import android.util.Log
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -49,6 +48,7 @@ import com.noahjutz.gymroutines.ui.settings.about.LicensesList
 import com.noahjutz.gymroutines.ui.settings.appearance.AppearanceSettings
 import com.noahjutz.gymroutines.ui.settings.data.DataSettings
 import com.noahjutz.gymroutines.ui.settings.general.GeneralSettings
+import com.noahjutz.gymroutines.ui.workout.completed.WorkoutCompleted
 import com.noahjutz.gymroutines.ui.workout.in_progress.WorkoutInProgress
 import com.noahjutz.gymroutines.ui.workout.insights.WorkoutInsights
 import com.noahjutz.gymroutines.ui.workout.viewer.WorkoutViewer
@@ -70,6 +70,7 @@ enum class Screen {
     generalSettings,
     about,
     licenses,
+    workoutCompleted
 }
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
@@ -211,6 +212,19 @@ fun NavGraph(
                     navToExerciseEditor = {
                         navController.navigate(Screen.exerciseEditor.name)
                     }
+                )
+            }
+            composable(
+                "${Screen.workoutCompleted.name}/{routineId}/{workoutId}",
+                arguments = listOf(
+                    navArgument("routineId") { type = NavType.IntType },
+                    navArgument("workoutId") { type = NavType.IntType }
+                )
+            ) { backStackEntry ->
+                WorkoutCompleted(
+                    popBackStack = { navController.popBackStack() },
+                    routineId = backStackEntry.arguments!!.getInt("routineId"),
+                    workoutId = backStackEntry.arguments!!.getInt("workoutId"),
                 )
             }
         }
