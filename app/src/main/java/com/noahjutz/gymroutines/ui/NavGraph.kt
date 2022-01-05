@@ -167,11 +167,17 @@ fun NavGraph(
                 LaunchedEffect(exerciseIdsToAdd) {
                     backStackEntry.savedStateHandle.set("exerciseIdsToAdd", null)
                 }
+                val workoutId = backStackEntry.arguments!!.getInt("workoutId")
                 WorkoutInProgress(
+                    workoutId = workoutId,
+                    exerciseIdsToAdd = exerciseIdsToAdd ?: emptyList(),
                     navToExercisePicker = { navController.navigate(Screen.exercisePicker.name) },
                     popBackStack = { navController.popBackStack() },
-                    workoutId = backStackEntry.arguments!!.getInt("workoutId"),
-                    exerciseIdsToAdd = exerciseIdsToAdd ?: emptyList()
+                    navToWorkoutCompleted = {
+                        navController.navigate("${Screen.workoutCompleted}/$workoutId") {
+                            popUpTo(navController.graph.findStartDestination().id)
+                        }
+                    }
                 )
             }
             composable(Screen.settings.name) {
