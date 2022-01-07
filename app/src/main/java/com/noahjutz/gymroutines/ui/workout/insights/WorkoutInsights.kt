@@ -18,7 +18,6 @@
 
 package com.noahjutz.gymroutines.ui.workout.insights
 
-import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -40,10 +39,8 @@ import androidx.compose.ui.zIndex
 import com.google.accompanist.placeholder.material.placeholder
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.Workout
-import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import com.noahjutz.gymroutines.data.domain.duration
 import com.noahjutz.gymroutines.ui.components.*
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.launch

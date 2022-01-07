@@ -117,7 +117,7 @@ private fun WorkoutInProgressContent(
     if (showFinishWorkoutDialog) FinishWorkoutDialog(
         onDismiss = { showFinishWorkoutDialog = false },
         finishWorkout = {
-            viewModel.finishWorkout{
+            viewModel.finishWorkout {
                 navToWorkoutCompleted(workout.workout.workoutId, workout.workout.routineId)
             }
         }

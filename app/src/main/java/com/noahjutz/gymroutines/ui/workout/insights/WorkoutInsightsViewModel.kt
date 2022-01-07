@@ -26,7 +26,6 @@ import com.noahjutz.gymroutines.data.AppPrefs
 import com.noahjutz.gymroutines.data.RoutineRepository
 import com.noahjutz.gymroutines.data.WorkoutRepository
 import com.noahjutz.gymroutines.data.domain.Workout
-import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map

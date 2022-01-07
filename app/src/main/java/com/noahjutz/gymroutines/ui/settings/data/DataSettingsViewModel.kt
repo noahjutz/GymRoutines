@@ -8,9 +8,9 @@ import androidx.lifecycle.ViewModel
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.noahjutz.gymroutines.data.AppDatabase
 import com.noahjutz.gymroutines.data.AppPrefs
-import kotlinx.coroutines.flow.map
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlinx.coroutines.flow.map
 
 class DataSettingsViewModel(
     private val preferences: DataStore<Preferences>,

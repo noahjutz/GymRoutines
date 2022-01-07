@@ -1,6 +1,5 @@
 package com.noahjutz.gymroutines.ui.workout.completed
 
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -13,7 +12,6 @@ import com.noahjutz.gymroutines.data.domain.RoutineSet
 import com.noahjutz.gymroutines.data.domain.RoutineSetGroup
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -91,7 +89,6 @@ class WorkoutCompletedViewModel(
                 routineRepository.insert(routineSet)
             }
         }
-
     }
 
     private suspend fun revertRoutine() {
