@@ -81,30 +81,29 @@ class GymRoutinesApplication : Application() {
                     }
                 }
 
-                val isWorkoutInProgress = preferences.data.map {
-                    val workoutId = it[AppPrefs.CurrentWorkout.key]
-                    workoutId != null && workoutId >= 0
-                }
+                val currentWorkoutId = preferences.data.map { it[AppPrefs.CurrentWorkout.key] }
 
-                combine(isForeground, isWorkoutInProgress) { p1, p2 -> !p1 && p2 }
-                    .collect { showNotification ->
-                        when {
-                            showNotification -> {
-                                val builder =
-                                    NotificationCompat.Builder(applicationContext, "Channel")
-                                        .setSmallIcon(R.drawable.ic_gymroutines)
-                                        .setContentTitle("Workout in progress")
-                                        .setContentText("Tap to return to your workout")
-                                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                                        .setOngoing(true)
-                                with(NotificationManagerCompat.from(applicationContext)) {
-                                    notify(0, builder.build())
-                                }
+                val showNotification =
+                    combine(isForeground, currentWorkoutId) { isForeground, currentWorkoutId ->
+                        !isForeground && currentWorkoutId != null && currentWorkoutId >= 0
+                    }
+
+                combine(showNotification, currentWorkoutId) { p1, p2 -> Pair(p1, p2) }
+                    .collect { (showNotification, currentWorkoutId) ->
+                        if (showNotification) {
+                            val builder =
+                                NotificationCompat.Builder(applicationContext, "Channel")
+                                    .setSmallIcon(R.drawable.ic_gymroutines)
+                                    .setContentTitle("Workout in progress")
+                                    .setContentText("Tap to return to your workout")
+                                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                    .setOngoing(true)
+                            with(NotificationManagerCompat.from(applicationContext)) {
+                                notify(0, builder.build())
                             }
-                            !showNotification -> {
-                                with(NotificationManagerCompat.from(applicationContext)) {
-                                    cancel(0)
-                                }
+                        } else {
+                            with(NotificationManagerCompat.from(applicationContext)) {
+                                cancel(0)
                             }
                         }
                     }
