@@ -19,6 +19,17 @@ class WorkoutCompletedViewModel(
     private val workoutRepository: WorkoutRepository,
     private val routineRepository: RoutineRepository,
 ) : ViewModel() {
+    private var routineSetGroupsBackup: List<RoutineSetGroup>? = null.also {
+        viewModelScope.launch {
+            routineSetGroupsBackup = routineRepository.getSetGroupsInRoutine(routineId)
+        }
+    }
+
+    private var routineSetsBackup: List<RoutineSet>? = null.also {
+        viewModelScope.launch {
+            routineSetsBackup = routineRepository.getSetsInRoutine(routineId)
+        }
+    }
 
     val isUpdateRoutineChecked = preferences.data.map {
         it[AppPrefs.UpdateRoutineAfterWorkout.key] ?: false
@@ -41,12 +52,15 @@ class WorkoutCompletedViewModel(
             if (updateRoutine) {
                 updateRoutine()
             } else {
-                // TODO
+                revertRoutine()
             }
         }
     }
 
     private suspend fun updateRoutine() {
+        check(routineSetGroupsBackup != null)
+        check(routineSetsBackup != null)
+
         val routineSetGroups = routineRepository.getSetGroupsInRoutine(routineId)
         for (setGroup in routineSetGroups) {
             routineRepository.delete(setGroup)
@@ -76,6 +90,22 @@ class WorkoutCompletedViewModel(
     }
 
     private suspend fun revertRoutine() {
+        val routineSetGroupsBackup = routineSetGroupsBackup
+        val routineSetsBackup = routineSetsBackup
+
+        check(routineSetGroupsBackup != null)
+        check(routineSetsBackup != null)
+
         val currentSetGroups = routineRepository.getSetGroupsInRoutine(routineId)
+        for (setGroup in currentSetGroups) {
+            routineRepository.delete(setGroup)
+        }
+
+        for (setGroup in routineSetGroupsBackup) {
+            val groupId = routineRepository.insert(setGroup.copy(id = 0))
+            for (set in routineSetsBackup.filter { it.groupId == setGroup.id }) {
+                routineRepository.insert(set.copy(routineSetId = 0, groupId = groupId.toInt()))
+            }
+        }
     }
 }
