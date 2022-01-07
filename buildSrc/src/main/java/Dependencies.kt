@@ -62,6 +62,7 @@ object Libs {
         private const val version = "2.4.0"
         const val lifecycle = "androidx.lifecycle:lifecycle-compiler:$version"
         const val livedata = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
+        const val process = "androidx.lifecycle:lifecycle-process:$version"
     }
 
     object Navigation {

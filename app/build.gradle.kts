@@ -116,6 +116,7 @@ dependencies {
 
     kapt(Libs.Lifecycle.lifecycle)
     implementation(Libs.Lifecycle.livedata)
+    implementation(Libs.Lifecycle.process)
 
     implementation(Libs.Navigation.compose)
 

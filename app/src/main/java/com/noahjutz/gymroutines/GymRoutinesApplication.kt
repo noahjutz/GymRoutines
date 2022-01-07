@@ -19,12 +19,25 @@
 package com.noahjutz.gymroutines
 
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
+import com.noahjutz.gymroutines.data.AppPrefs
 import com.noahjutz.gymroutines.data.resetAppSettings
 import com.noahjutz.gymroutines.di.koinModule
 import com.noahjutz.gymroutines.util.isFirstRun
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.*
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -33,6 +46,7 @@ class GymRoutinesApplication : Application() {
     private val preferences: DataStore<Preferences> by inject()
     private val scope = CoroutineScope(Dispatchers.Default)
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     override fun onCreate() {
         super.onCreate()
 
@@ -42,9 +56,76 @@ class GymRoutinesApplication : Application() {
         }
 
         scope.launch {
+            launch {
+                val isForeground = callbackFlow {
+                    val callback = object : DefaultLifecycleObserver {
+                        override fun onStart(owner: LifecycleOwner) {
+                            super.onStart(owner)
+                            trySend(true)
+                        }
+
+                        override fun onStop(owner: LifecycleOwner) {
+                            super.onStop(owner)
+                            trySend(false)
+                        }
+                    }
+
+                    scope.launch(Dispatchers.Main) {
+                        ProcessLifecycleOwner.get().lifecycle.addObserver(callback)
+                    }
+
+                    awaitClose {
+                        scope.launch(Dispatchers.Main) {
+                            ProcessLifecycleOwner.get().lifecycle.removeObserver(callback)
+                        }
+                    }
+                }
+
+                val isWorkoutInProgress = preferences.data.map {
+                    val workoutId = it[AppPrefs.CurrentWorkout.key]
+                    workoutId != null && workoutId >= 0
+                }
+
+                combine(isForeground, isWorkoutInProgress) { p1, p2 -> !p1 && p2 }
+                    .collect { showNotification ->
+                        when {
+                            showNotification -> {
+                                val builder =
+                                    NotificationCompat.Builder(applicationContext, "Channel")
+                                        .setSmallIcon(R.drawable.ic_gymroutines)
+                                        .setContentTitle("Workout in progress")
+                                        .setContentText("Tap to return to your workout")
+                                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                        .setOngoing(true)
+                                with(NotificationManagerCompat.from(applicationContext)) {
+                                    notify(0, builder.build())
+                                }
+                            }
+                            !showNotification -> {
+                                with(NotificationManagerCompat.from(applicationContext)) {
+                                    cancel(0)
+                                }
+                            }
+                        }
+                    }
+            }
             if (isFirstRun()) {
                 preferences.resetAppSettings()
             }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // TODO save channel id in constant, name and description in string resources
+            val name = "Channel"
+            val descriptionText = "Default Channel"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("Channel", name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
         }
     }
 }
