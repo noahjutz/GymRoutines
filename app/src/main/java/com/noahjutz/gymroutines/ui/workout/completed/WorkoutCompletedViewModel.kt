@@ -61,7 +61,7 @@ class WorkoutCompletedViewModel(
                 position = setGroup.position,
             )
             val groupId = routineRepository.insert(routineSetGroup)
-            for (set in workoutSets.filter { it.groupId == groupId.toInt() }) {
+            for (set in workoutSets.filter { it.groupId == setGroup.id }) {
                 val routineSet = RoutineSet(
                     groupId = groupId.toInt(),
                     reps = set.reps,
@@ -76,5 +76,6 @@ class WorkoutCompletedViewModel(
     }
 
     private suspend fun revertRoutine() {
+        val currentSetGroups = routineRepository.getSetGroupsInRoutine(routineId)
     }
 }
