@@ -1,0 +1,9 @@
+Features
+* Reimplemented the post-workout screen with new features (cd7da128..3ef694a3)
+* Fixed bug where workout timer is frozen (2f6823d6)
+
+Bug fixes
+* Fixed crash caused by PrettyTime by removing PrettyTime (dbed6feb)
+
+Development
+* Removed obsolete DateUtil functions (b69fc312)
