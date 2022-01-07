@@ -59,8 +59,16 @@ class RoutineRepository(private val routineDao: RoutineDao) {
         return routineDao.getSetGroupsFlow(routineId)
     }
 
+    suspend fun getSetGroupsInRoutine(routineId: Int): List<RoutineSetGroup> {
+        return routineDao.getSetGroupsInRoutine(routineId)
+    }
+
     fun getSetsFlow(routineId: Int): Flow<List<RoutineSet>> {
         return routineDao.getSetsFlow(routineId)
+    }
+
+    suspend fun getSetsInRoutine(routineId: Int): List<RoutineSet> {
+        return routineDao.getSetsInRoutine(routineId)
     }
 
     fun getRoutineWithSetGroups(routineId: Int): Flow<RoutineWithSetGroups?> {
@@ -104,7 +112,7 @@ class RoutineRepository(private val routineDao: RoutineDao) {
     suspend fun delete(setGroup: RoutineSetGroup) {
         routineDao.delete(setGroup)
 
-        val nextSetGroups = routineDao.getSetGroups(setGroup.routineId)
+        val nextSetGroups = routineDao.getSetGroupsInRoutine(setGroup.routineId)
             .filter { it.position > setGroup.position }
 
         for (group in nextSetGroups) {
@@ -160,6 +168,14 @@ class WorkoutRepository(private val workoutDao: WorkoutDao) {
 
     suspend fun getWorkout(workoutId: Int): Workout? {
         return workoutDao.getWorkout(workoutId)
+    }
+
+    suspend fun getSetsInWorkout(workoutId: Int): List<WorkoutSet> {
+        return workoutDao.getSetsInWorkout(workoutId)
+    }
+
+    suspend fun getSetGroupsInWorkout(workoutId: Int): List<WorkoutSetGroup> {
+        return workoutDao.getSetGroupsInWorkout(workoutId)
     }
 
     fun getWorkoutFlow(workoutId: Int): Flow<WorkoutWithSetGroups?> {

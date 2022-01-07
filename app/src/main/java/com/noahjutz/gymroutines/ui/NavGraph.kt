@@ -173,8 +173,8 @@ fun NavGraph(
                     exerciseIdsToAdd = exerciseIdsToAdd ?: emptyList(),
                     navToExercisePicker = { navController.navigate(Screen.exercisePicker.name) },
                     popBackStack = { navController.popBackStack() },
-                    navToWorkoutCompleted = {
-                        navController.navigate("${Screen.workoutCompleted}/$workoutId") {
+                    navToWorkoutCompleted = { workoutId, routineId ->
+                        navController.navigate("${Screen.workoutCompleted}/$workoutId/$routineId") {
                             popUpTo(navController.graph.findStartDestination().id)
                         }
                     }
@@ -221,13 +221,18 @@ fun NavGraph(
                 )
             }
             composable(
-                "${Screen.workoutCompleted.name}/{workoutId}",
-                arguments = listOf(navArgument("workoutId") { type = NavType.IntType })
+                "${Screen.workoutCompleted.name}/{workoutId}/{routineId}",
+                arguments = listOf(
+                    navArgument("workoutId") { type = NavType.IntType },
+                    navArgument("routineId") { type = NavType.IntType }
+                )
             ) { backStackEntry ->
                 val workoutId = backStackEntry.arguments!!.getInt("workoutId")
+                val routineId = backStackEntry.arguments!!.getInt("routineId")
                 WorkoutCompleted(
-                    popBackStack = { navController.popBackStack() },
                     workoutId = workoutId,
+                    routineId = routineId,
+                    popBackStack = { navController.popBackStack() },
                     navToWorkoutInProgress = {
                         navController.navigate("${Screen.workoutInProgress}/$workoutId") {
                             popUpTo(navController.graph.findStartDestination().id)

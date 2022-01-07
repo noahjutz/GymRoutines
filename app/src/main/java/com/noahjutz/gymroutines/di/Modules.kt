@@ -163,7 +163,8 @@ val koinModule = module {
 
     viewModel { params ->
         WorkoutCompletedViewModel(
-            workoutId = params.get(),
+            workoutId = params[0],
+            routineId = params[1],
             preferences = get(),
             routineRepository = get(),
             workoutRepository = get(),

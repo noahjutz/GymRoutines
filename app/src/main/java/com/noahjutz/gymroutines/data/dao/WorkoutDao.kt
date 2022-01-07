@@ -52,6 +52,12 @@ interface WorkoutDao {
     @Query("SELECT * FROM workout_table WHERE workoutId == :id")
     suspend fun getWorkout(id: Int): Workout?
 
+    @Query("SELECT * FROM workout_set_group_table WHERE workoutId == :workoutId")
+    suspend fun getSetGroupsInWorkout(workoutId: Int): List<WorkoutSetGroup>
+
+    @Query("SELECT * FROM workout_set_table WHERE groupId in (SELECT groupId FROM workout_set_group_table WHERE workoutId == :workoutId)")
+    suspend fun getSetsInWorkout(workoutId: Int): List<WorkoutSet>
+
     @Transaction
     @Query("SELECT * FROM workout_table WHERE workoutId == :id")
     fun getWorkoutWithSetGroupsFlow(id: Int): Flow<WorkoutWithSetGroups?>

@@ -62,7 +62,7 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun WorkoutInProgress(
     navToExercisePicker: () -> Unit,
-    navToWorkoutCompleted: () -> Unit,
+    navToWorkoutCompleted: (Int, Int) -> Unit,
     popBackStack: () -> Unit,
     workoutId: Int,
     exerciseIdsToAdd: List<Int>,
@@ -111,13 +111,15 @@ private fun WorkoutInProgressContent(
     viewModel: WorkoutInProgressViewModel,
     popBackStack: () -> Unit,
     navToExercisePicker: () -> Unit,
-    navToWorkoutCompleted: () -> Unit,
+    navToWorkoutCompleted: (Int, Int) -> Unit,
 ) {
     var showFinishWorkoutDialog by remember { mutableStateOf(false) }
     if (showFinishWorkoutDialog) FinishWorkoutDialog(
         onDismiss = { showFinishWorkoutDialog = false },
         finishWorkout = {
-            viewModel.finishWorkout(navToWorkoutCompleted)
+            viewModel.finishWorkout{
+                navToWorkoutCompleted(workout.workout.workoutId, workout.workout.routineId)
+            }
         }
     )
 

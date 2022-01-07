@@ -23,9 +23,10 @@ import org.koin.core.parameter.parametersOf
 @Composable
 fun WorkoutCompleted(
     workoutId: Int,
+    routineId: Int,
     popBackStack: () -> Unit,
     navToWorkoutInProgress: () -> Unit,
-    viewModel: WorkoutCompletedViewModel = getViewModel { parametersOf(workoutId) }
+    viewModel: WorkoutCompletedViewModel = getViewModel { parametersOf(workoutId, routineId) }
 ) {
     Column(
         Modifier.fillMaxSize(),
@@ -56,13 +57,7 @@ fun WorkoutCompleted(
                 Modifier
                     .toggleable(
                         value = isUpdateRoutineChecked,
-                        onValueChange = { checked ->
-                            if (checked) {
-                                viewModel.updateRoutine()
-                            } else {
-                                viewModel.resetRoutine()
-                            }
-                        }
+                        onValueChange = viewModel::setUpdateRoutine
                     )
                     .fillMaxWidth()
                     .padding(16.dp),
@@ -98,8 +93,9 @@ fun WorkoutCompletedPreview() {
         Surface {
             WorkoutCompleted(
                 workoutId = 0,
+                routineId = 0,
                 popBackStack = { },
-                navToWorkoutInProgress = {}
+                navToWorkoutInProgress = { }
             )
         }
     }
