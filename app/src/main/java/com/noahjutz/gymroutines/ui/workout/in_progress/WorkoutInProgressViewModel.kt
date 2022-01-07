@@ -64,7 +64,7 @@ class WorkoutInProgressViewModel(
             launch {
                 while (true) {
                     setEndTime(Calendar.getInstance().time)
-                    delay(60000)
+                    delay(1000)
                 }
             }
         }
