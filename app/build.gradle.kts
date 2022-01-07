@@ -145,8 +145,6 @@ dependencies {
 
     implementation(Libs.ProcessPhoenix.processPhoenix)
 
-    implementation("org.ocpsoft.prettytime:prettytime:5.0.1.Final")
-
     androidTestImplementation(TestLibs.Test.core)
     androidTestImplementation(TestLibs.Test.coreKtx)
 

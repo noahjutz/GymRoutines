@@ -30,9 +30,9 @@ import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.util.formatSimple
 import com.noahjutz.gymroutines.util.pretty
 import com.noahjutz.gymroutines.util.toStringOrBlank
-import kotlin.time.ExperimentalTime
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
+import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
 @Composable
@@ -80,7 +80,7 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                 style = typography.h4,
             )
             Text(
-                text = workout.workout.endTime.pretty(),
+                text = workout.workout.endTime.formatSimple(),
                 modifier = Modifier.padding(horizontal = 24.dp),
             )
             Text(
