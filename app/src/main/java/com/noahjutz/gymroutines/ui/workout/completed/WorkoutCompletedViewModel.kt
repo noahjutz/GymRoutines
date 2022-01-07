@@ -1,5 +1,6 @@
 package com.noahjutz.gymroutines.ui.workout.completed
 
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -8,9 +9,14 @@ import androidx.lifecycle.viewModelScope
 import com.noahjutz.gymroutines.data.AppPrefs
 import com.noahjutz.gymroutines.data.RoutineRepository
 import com.noahjutz.gymroutines.data.WorkoutRepository
-import com.noahjutz.gymroutines.data.domain.*
-import kotlinx.coroutines.*
+import com.noahjutz.gymroutines.data.domain.RoutineSet
+import com.noahjutz.gymroutines.data.domain.RoutineSetGroup
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class WorkoutCompletedViewModel(
     private val workoutId: Int,
@@ -31,6 +37,14 @@ class WorkoutCompletedViewModel(
         it[AppPrefs.UpdateRoutineAfterWorkout.key] ?: false
     }
 
+    init {
+        viewModelScope.launch {
+            if (isUpdateRoutineChecked.first()) {
+                updateRoutine()
+            }
+        }
+    }
+
     fun startWorkout(onCompletion: () -> Unit) {
         viewModelScope.launch {
             preferences.edit {
@@ -45,12 +59,7 @@ class WorkoutCompletedViewModel(
             preferences.edit {
                 it[AppPrefs.UpdateRoutineAfterWorkout.key] = updateRoutine
             }
-            // TODO doesn't automatically run if preference is true initially
-            if (updateRoutine) {
-                updateRoutine()
-            } else {
-                revertRoutine()
-            }
+            if (updateRoutine) updateRoutine() else revertRoutine()
         }
     }
 
