@@ -118,7 +118,7 @@ class GymRoutinesApplication : Application() {
                                     .setSmallIcon(R.drawable.ic_gymroutines)
                                     .setContentTitle("Workout in progress")
                                     .setContentText("Tap to return to your workout")
-                                    .setPriority(NotificationCompat.PRIORITY_MIN)
+                                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                                     .setContentIntent(pending)
                                     .setOngoing(true)
                             with(NotificationManagerCompat.from(applicationContext)) {
@@ -139,7 +139,7 @@ class GymRoutinesApplication : Application() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = getString(R.string.persistent_workout_channel_name)
             val descriptionText = getString(R.string.persistent_workout_channel_description)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val importance = NotificationManager.IMPORTANCE_LOW
             val channel = NotificationChannel(PERSISTENT_WORKOUT_CHANNEL_ID, name, importance).apply {
                 description = descriptionText
             }
