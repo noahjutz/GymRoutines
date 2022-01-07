@@ -31,6 +31,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.material.BottomSheetNavigator
@@ -83,6 +84,7 @@ fun NavGraph(
     navController: NavHostController,
     bottomSheetNavigator: BottomSheetNavigator,
 ) {
+    val uri = "https://gymroutines.com"
     ModalBottomSheetLayout(bottomSheetNavigator = bottomSheetNavigator) {
         AnimatedNavHost(
             navController, startDestination = Screen.routineList.name,
@@ -158,7 +160,8 @@ fun NavGraph(
             }
             composable(
                 "${Screen.workoutInProgress}/{workoutId}",
-                arguments = listOf(navArgument("workoutId") { type = NavType.IntType })
+                arguments = listOf(navArgument("workoutId") { type = NavType.IntType }),
+                deepLinks = listOf(navDeepLink { uriPattern = "$uri/workoutInProgress/{workoutId}" })
             ) { backStackEntry ->
                 val exerciseIdsToAdd by backStackEntry
                     .savedStateHandle

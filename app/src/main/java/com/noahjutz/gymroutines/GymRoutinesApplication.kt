@@ -21,11 +21,16 @@ package com.noahjutz.gymroutines
 import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
+import android.os.Build.VERSION.SDK_INT
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.TaskStackBuilder
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -34,6 +39,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import com.noahjutz.gymroutines.data.AppPrefs
 import com.noahjutz.gymroutines.data.resetAppSettings
 import com.noahjutz.gymroutines.di.koinModule
+import com.noahjutz.gymroutines.ui.MainActivity
 import com.noahjutz.gymroutines.util.isFirstRun
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
@@ -90,6 +96,22 @@ class GymRoutinesApplication : Application() {
 
                 combine(showNotification, currentWorkoutId) { p1, p2 -> Pair(p1, p2) }
                     .collect { (showNotification, currentWorkoutId) ->
+                        val workoutInProgressIntent = Intent(
+                            Intent.ACTION_VIEW,
+                            "https://gymroutines.com/workoutInProgress/$currentWorkoutId".toUri(),
+                            applicationContext,
+                            MainActivity::class.java
+                        )
+
+                        val flag =
+                            if (SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
+                            else PendingIntent.FLAG_UPDATE_CURRENT
+
+                        val pending: PendingIntent =
+                            TaskStackBuilder.create(applicationContext).run {
+                                addNextIntentWithParentStack(workoutInProgressIntent)
+                                getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT or flag)!!
+                            }
                         if (showNotification) {
                             val builder =
                                 NotificationCompat.Builder(applicationContext, "Channel")
@@ -97,6 +119,7 @@ class GymRoutinesApplication : Application() {
                                     .setContentTitle("Workout in progress")
                                     .setContentText("Tap to return to your workout")
                                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                    .setContentIntent(pending)
                                     .setOngoing(true)
                             with(NotificationManagerCompat.from(applicationContext)) {
                                 notify(0, builder.build())
