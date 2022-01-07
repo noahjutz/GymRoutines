@@ -19,16 +19,12 @@ class WorkoutCompletedViewModel(
     private val workoutRepository: WorkoutRepository,
     private val routineRepository: RoutineRepository,
 ) : ViewModel() {
-    private var routineSetGroupsBackup: List<RoutineSetGroup>? = null.also {
-        viewModelScope.launch {
-            routineSetGroupsBackup = routineRepository.getSetGroupsInRoutine(routineId)
-        }
+    private val routineSetGroupsOld = viewModelScope.async {
+        routineRepository.getSetGroupsInRoutine(routineId)
     }
 
-    private var routineSetsBackup: List<RoutineSet>? = null.also {
-        viewModelScope.launch {
-            routineSetsBackup = routineRepository.getSetsInRoutine(routineId)
-        }
+    private val routineSetsOld = viewModelScope.async {
+        routineRepository.getSetsInRoutine(routineId)
     }
 
     val isUpdateRoutineChecked = preferences.data.map {
@@ -58,8 +54,7 @@ class WorkoutCompletedViewModel(
     }
 
     private suspend fun updateRoutine() {
-        check(routineSetGroupsBackup != null)
-        check(routineSetsBackup != null)
+        awaitAll(routineSetGroupsOld, routineSetsOld)
 
         val routineSetGroups = routineRepository.getSetGroupsInRoutine(routineId)
         for (setGroup in routineSetGroups) {
@@ -90,11 +85,8 @@ class WorkoutCompletedViewModel(
     }
 
     private suspend fun revertRoutine() {
-        val routineSetGroupsBackup = routineSetGroupsBackup
-        val routineSetsBackup = routineSetsBackup
-
-        check(routineSetGroupsBackup != null)
-        check(routineSetsBackup != null)
+        val routineSetGroupsBackup = routineSetGroupsOld.await()
+        val routineSetsBackup = routineSetsOld.await()
 
         val currentSetGroups = routineRepository.getSetGroupsInRoutine(routineId)
         for (setGroup in currentSetGroups) {
