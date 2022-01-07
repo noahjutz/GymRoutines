@@ -22,8 +22,8 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
-import com.noahjutz.gymroutines.util.minus
 import java.util.*
+import kotlin.time.Duration.Companion.milliseconds
 
 @Entity(tableName = "workout_table")
 data class Workout(
@@ -44,4 +44,4 @@ data class WorkoutWithSetGroups(
     ) val setGroups: List<WorkoutSetGroupWithSets>
 )
 
-val Workout.duration get() = endTime - startTime
+val Workout.duration get() = (endTime.time - startTime.time).milliseconds
