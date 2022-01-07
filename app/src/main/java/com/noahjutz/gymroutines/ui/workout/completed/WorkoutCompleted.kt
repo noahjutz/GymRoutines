@@ -8,6 +8,7 @@ import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Undo
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -28,59 +29,69 @@ fun WorkoutCompleted(
     navToWorkoutInProgress: () -> Unit,
     viewModel: WorkoutCompletedViewModel = getViewModel { parametersOf(workoutId, routineId) }
 ) {
-    Column(
-        Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceBetween
+    val scaffoldState = rememberScaffoldState()
+    Scaffold(
+        scaffoldState = scaffoldState,
+        snackbarHost = {
+            SnackbarHost(it, Modifier.padding(bottom = 56.dp))
+        }
     ) {
-        Button(
-            onClick = {
-                navToWorkoutInProgress()
-                viewModel.startWorkout()
-            },
-            Modifier
-                .padding(16.dp)
-                .height(40.dp),
-            shape = RoundedCornerShape(percent = 100),
+        Column(
+            Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Icon(Icons.Default.Undo, null)
-            Spacer(Modifier.width(8.dp))
-            Text("Continue Workout")
-        }
-        Spacer(Modifier.height(80.dp))
-        Column(Modifier.fillMaxWidth()) {
-            Column(Modifier.padding(horizontal = 16.dp)) {
-                Text("Nice Work.", style = typography.h2)
-                Text("You've completed your workout.", style = typography.h5)
-            }
-            val isUpdateRoutineChecked by viewModel.isUpdateRoutineChecked.collectAsState(initial = false)
-            Row(
+            Button(
+                onClick = {
+                    navToWorkoutInProgress()
+                    viewModel.startWorkout()
+                },
                 Modifier
-                    .toggleable(
-                        value = isUpdateRoutineChecked,
-                        onValueChange = viewModel::setUpdateRoutine
-                    )
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
+                    .padding(16.dp)
+                    .height(40.dp),
+                shape = RoundedCornerShape(percent = 100),
             ) {
-                Checkbox(
-                    checked = isUpdateRoutineChecked,
-                    onCheckedChange = null
-                )
+                Icon(Icons.Default.Undo, null)
                 Spacer(Modifier.width(8.dp))
-                Text("Update Routine")
+                Text("Continue Workout")
             }
-        }
-        Spacer(Modifier.weight(1f))
-        TextButton(
-            onClick = { popBackStack() },
-            Modifier
-                .padding(16.dp)
-                .height(40.dp)
-                .align(Alignment.CenterHorizontally),
-            shape = RoundedCornerShape(percent = 100),
-        ) {
-            Text("Close")
+            Spacer(Modifier.height(80.dp))
+            Column(Modifier.fillMaxWidth()) {
+                Column(Modifier.padding(horizontal = 16.dp)) {
+                    Text("Nice Work.", style = typography.h2)
+                    Text("You've completed your workout.", style = typography.h5)
+                }
+                val isUpdateRoutineChecked by viewModel.isUpdateRoutineChecked.collectAsState(
+                    initial = false
+                )
+                Row(
+                    Modifier
+                        .toggleable(
+                            value = isUpdateRoutineChecked,
+                            onValueChange = viewModel::setUpdateRoutine
+                        )
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Checkbox(
+                        checked = isUpdateRoutineChecked,
+                        onCheckedChange = null
+                    )
+                    Spacer(Modifier.width(8.dp))
+                    Text("Update Routine")
+                }
+            }
+            Spacer(Modifier.weight(1f))
+            TextButton(
+                onClick = { popBackStack() },
+                Modifier
+                    .padding(16.dp)
+                    .height(40.dp)
+                    .align(Alignment.CenterHorizontally),
+                shape = RoundedCornerShape(percent = 100),
+            ) {
+                Text("Close")
+            }
         }
     }
 }
