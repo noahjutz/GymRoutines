@@ -42,8 +42,7 @@ fun WorkoutCompleted(
         ) {
             Button(
                 onClick = {
-                    navToWorkoutInProgress()
-                    viewModel.startWorkout()
+                    viewModel.startWorkout(navToWorkoutInProgress)
                 },
                 Modifier
                     .padding(16.dp)

@@ -31,12 +31,13 @@ class WorkoutCompletedViewModel(
         it[AppPrefs.UpdateRoutineAfterWorkout.key] ?: false
     }
 
-    fun startWorkout() {
+    fun startWorkout(onCompletion: () -> Unit) {
         viewModelScope.launch {
             preferences.edit {
                 it[AppPrefs.CurrentWorkout.key] = workoutId
             }
-        }
+            revertRoutine()
+        }.invokeOnCompletion { onCompletion() }
     }
 
     fun setUpdateRoutine(updateRoutine: Boolean) {
