@@ -25,11 +25,9 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.os.Build.VERSION.SDK_INT
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.TaskStackBuilder
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.net.toUri
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -47,6 +45,8 @@ import kotlinx.coroutines.flow.*
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+
+const val PERSISTENT_WORKOUT_CHANNEL_ID = "persistent-workout-notification"
 
 class GymRoutinesApplication : Application() {
     private val preferences: DataStore<Preferences> by inject()
@@ -104,7 +104,7 @@ class GymRoutinesApplication : Application() {
                         )
 
                         val flag =
-                            if (SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE
                             else PendingIntent.FLAG_UPDATE_CURRENT
 
                         val pending: PendingIntent =
@@ -114,11 +114,11 @@ class GymRoutinesApplication : Application() {
                             }
                         if (showNotification) {
                             val builder =
-                                NotificationCompat.Builder(applicationContext, "Channel")
+                                NotificationCompat.Builder(applicationContext, PERSISTENT_WORKOUT_CHANNEL_ID)
                                     .setSmallIcon(R.drawable.ic_gymroutines)
                                     .setContentTitle("Workout in progress")
                                     .setContentText("Tap to return to your workout")
-                                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                    .setPriority(NotificationCompat.PRIORITY_MIN)
                                     .setContentIntent(pending)
                                     .setOngoing(true)
                             with(NotificationManagerCompat.from(applicationContext)) {
@@ -137,14 +137,12 @@ class GymRoutinesApplication : Application() {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // TODO save channel id in constant, name and description in string resources
-            val name = "Channel"
-            val descriptionText = "Default Channel"
+            val name = getString(R.string.persistent_workout_channel_name)
+            val descriptionText = getString(R.string.persistent_workout_channel_description)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel("Channel", name, importance).apply {
+            val channel = NotificationChannel(PERSISTENT_WORKOUT_CHANNEL_ID, name, importance).apply {
                 description = descriptionText
             }
-            // Register the channel with the system
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)

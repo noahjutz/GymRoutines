@@ -46,4 +46,6 @@
     <string name="theme_dark">Dark</string>
     <string name="theme_black">Black</string>
     <string name="pop_back">Back</string>
+    <string name="persistent_workout_channel_description">These notifications are shown while you are working out, so you know that your workout is still running.</string>
+    <string name="persistent_workout_channel_name">Ongoing Workout Notification</string>
 </resources>
