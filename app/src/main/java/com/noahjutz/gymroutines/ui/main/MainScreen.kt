@@ -26,10 +26,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
@@ -67,20 +70,26 @@ fun MainScreen(viewModel: MainScreenViewModel = getViewModel()) {
                     ?.route in bottomNavItems.map { it.route }
 
                 if (isCurrentDestinationHomeTab) {
-                    Column {
-                        val currentWorkoutId by viewModel.currentWorkoutId.collectAsState(initial = -1)
-                        val navToWorkoutScreen = {
-                            navController.navigate("${Screen.workoutInProgress}/$currentWorkoutId")
-                        }
-                        if (currentWorkoutId >= 0) {
-                            WorkoutBottomSheet(navToWorkoutScreen)
-                        }
+                    Surface(elevation = 8.dp) {
+                        Column {
+                            val currentWorkoutId by viewModel.currentWorkoutId.collectAsState(
+                                initial = -1
+                            )
+                            val navToWorkoutScreen = {
+                                navController.navigate("${Screen.workoutInProgress}/$currentWorkoutId")
+                            }
+                            if (currentWorkoutId >= 0) {
+                                WorkoutBottomSheet(navToWorkoutScreen)
+                            }
 
-                        val showBottomNavLabels by viewModel.showBottomLabels.collectAsState(initial = true)
-                        BottomBar(
-                            navController = navController,
-                            showLabels = showBottomNavLabels
-                        )
+                            val showBottomNavLabels by viewModel.showBottomLabels.collectAsState(
+                                initial = true
+                            )
+                            BottomBar(
+                                navController = navController,
+                                showLabels = showBottomNavLabels
+                            )
+                        }
                     }
                 }
             }
