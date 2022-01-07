@@ -26,68 +26,58 @@ fun WorkoutCompleted(
     navToWorkoutInProgress: () -> Unit,
     viewModel: WorkoutCompletedViewModel = getViewModel { parametersOf(workoutId, routineId) }
 ) {
-    val scaffoldState = rememberScaffoldState()
-    Scaffold(
-        scaffoldState = scaffoldState,
-        snackbarHost = {
-            SnackbarHost(it, Modifier.padding(bottom = 56.dp))
-        }
+    Column(
+        Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Column(
-            Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween
+        Button(
+            onClick = {
+                viewModel.startWorkout(navToWorkoutInProgress)
+            },
+            Modifier
+                .padding(16.dp)
+                .height(40.dp),
+            shape = RoundedCornerShape(percent = 100),
         ) {
-            Button(
-                onClick = {
-                    viewModel.startWorkout(navToWorkoutInProgress)
-                },
-                Modifier
-                    .padding(16.dp)
-                    .height(40.dp),
-                shape = RoundedCornerShape(percent = 100),
-            ) {
-                Icon(Icons.Default.Undo, null)
-                Spacer(Modifier.width(8.dp))
-                Text("Continue Workout")
+            Icon(Icons.Default.Undo, null)
+            Spacer(Modifier.width(8.dp))
+            Text("Continue Workout")
+        }
+        Spacer(Modifier.height(80.dp))
+        Column(Modifier.fillMaxWidth()) {
+            Column(Modifier.padding(horizontal = 16.dp)) {
+                Text("Nice Work.", style = typography.h2)
+                Text("You've completed your workout.", style = typography.h5)
             }
-            Spacer(Modifier.height(80.dp))
-            Column(Modifier.fillMaxWidth()) {
-                Column(Modifier.padding(horizontal = 16.dp)) {
-                    Text("Nice Work.", style = typography.h2)
-                    Text("You've completed your workout.", style = typography.h5)
-                }
-                val isUpdateRoutineChecked by viewModel.isUpdateRoutineChecked.collectAsState(
-                    initial = false
-                )
-                Row(
-                    Modifier
-                        .toggleable(
-                            value = isUpdateRoutineChecked,
-                            onValueChange = viewModel::setUpdateRoutine
-                        )
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Checkbox(
-                        checked = isUpdateRoutineChecked,
-                        onCheckedChange = null
+            val isUpdateRoutineChecked by viewModel.isUpdateRoutineChecked.collectAsState(initial = false)
+            Row(
+                Modifier
+                    .toggleable(
+                        value = isUpdateRoutineChecked,
+                        onValueChange = viewModel::setUpdateRoutine
                     )
-                    Spacer(Modifier.width(8.dp))
-                    Text("Update Routine")
-                }
-            }
-            Spacer(Modifier.weight(1f))
-            TextButton(
-                onClick = { popBackStack() },
-                Modifier
-                    .padding(16.dp)
-                    .height(40.dp)
-                    .align(Alignment.CenterHorizontally),
-                shape = RoundedCornerShape(percent = 100),
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text("Close")
+                Checkbox(
+                    checked = isUpdateRoutineChecked,
+                    onCheckedChange = null
+                )
+                Spacer(Modifier.width(8.dp))
+                Text("Update Routine")
             }
+        }
+        Spacer(Modifier.weight(1f))
+        TextButton(
+            onClick = { popBackStack() },
+            Modifier
+                .padding(16.dp)
+                .height(40.dp)
+                .align(Alignment.CenterHorizontally),
+            shape = RoundedCornerShape(percent = 100),
+        ) {
+            Text("Close")
         }
     }
 }
