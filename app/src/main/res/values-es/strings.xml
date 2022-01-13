@@ -6,7 +6,6 @@
     <string name="btn_add_set">Añadir conjunto</string>
     <string name="dialog_title_delete">Desea eliminar %1$s \?</string>
     <string name="btn_cancel">Cancelar</string>
-    <string name="yes">Sí</string>
     <string name="unnamed_routine">Sin nombre</string>
     <string name="screen_pick_exercise">Pick Ejercicio</string>
     <string name="checkbox_log_distance">Registro de distancia</string>

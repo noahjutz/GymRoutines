@@ -16,7 +16,6 @@
     <string name="screen_exercise_list">Konditræning</string>
     <string name="screen_settings">Indstilling</string>
     <string name="alert_no_log_value_selected">Vælg mindst valuen værdi.</string>
-    <string name="yes">Ja</string>
     <string name="btn_cancel">Annullere</string>
     <string name="checkbox_log_distance">Afstand log</string>
 </resources>

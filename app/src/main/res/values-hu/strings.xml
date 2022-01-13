@@ -13,7 +13,6 @@
     <string name="column_reps">Ismétlések</string>
     <string name="dialog_title_delete">Törölni szeretné ezt: %1$s \?</string>
     <string name="btn_cancel">Mégsem</string>
-    <string name="yes">Igen</string>
     <string name="checkbox_log_distance">Távolság napló</string>
     <string name="checkbox_log_time">Időnapló</string>
     <string name="checkbox_log_weight">Súlynapló</string>

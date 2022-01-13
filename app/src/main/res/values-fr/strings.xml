@@ -5,7 +5,6 @@
     <string name="screen_exercise_list">Exercies</string>
     <string name="alert_no_log_value_selected">Veuillez sélectionner au moins une valeur.</string>
     <string name="screen_pick_exercise">Exercice de choix</string>
-    <string name="yes">Oui</string>
     <string name="btn_cancel">Annuler</string>
     <string name="dialog_title_delete">Voulez-vous supprimer les %1$s \?</string>
     <string name="btn_add_set">Ajouter une série</string>

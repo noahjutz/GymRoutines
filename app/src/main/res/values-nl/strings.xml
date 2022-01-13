@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="unnamed_routine">Naamloos</string>
-    <string name="yes">Ja</string>
     <string name="btn_cancel">Annuleren</string>
     <string name="dialog_title_delete">Wilt u %1$s verwijderen\?</string>
     <string name="column_weight">Gewicht</string>

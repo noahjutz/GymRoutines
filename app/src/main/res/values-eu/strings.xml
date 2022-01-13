@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="unnamed_routine">Izenik</string>
-    <string name="yes">Bai</string>
     <string name="btn_cancel">Utzi</string>
     <string name="btn_add_set">Gehitu Ezarri</string>
     <string name="column_weight">Pisua</string>

@@ -11,7 +11,6 @@
     <string name="btn_add_set">Aggiungi set</string>
     <string name="dialog_title_delete">Vuoi cancellare %1$s \?</string>
     <string name="btn_cancel">Cancella</string>
-    <string name="yes">Sì</string>
     <string name="checkbox_log_distance">Distanza log</string>
     <string name="checkbox_log_time">Tempo di log</string>
     <string name="checkbox_log_weight">Peso record</string>

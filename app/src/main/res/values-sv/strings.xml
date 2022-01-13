@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="unnamed_routine">Anonym</string>
-    <string name="yes">Ja</string>
     <string name="screen_settings">Inställning</string>
     <string name="screen_workout_history">Historia</string>
     <string name="screen_exercise_list">Övningar</string>

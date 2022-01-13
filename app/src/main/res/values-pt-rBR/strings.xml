@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="yes">Sim</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="column_weight">Peso</string>
     <string name="btn_add_set">Adicionar conjunto</string>
