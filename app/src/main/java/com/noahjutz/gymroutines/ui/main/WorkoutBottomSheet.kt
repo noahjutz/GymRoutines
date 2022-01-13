@@ -8,7 +8,9 @@ import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.noahjutz.gymroutines.R
 
 @ExperimentalMaterialApi
 @Composable
@@ -28,10 +30,14 @@ fun WorkoutBottomSheet(navToWorkoutInProgress: () -> Unit) {
                 modifier = Modifier
                     .padding(horizontal = 12.dp)
                     .weight(1f),
-                text = "Workout in progress",
+                text = stringResource(R.string.sheet_workout_in_progress),
                 style = MaterialTheme.typography.h6
             )
-            Icon(Icons.Default.ExpandLess, "Expand", modifier = Modifier.padding(end = 8.dp))
+            Icon(
+                imageVector = Icons.Default.ExpandLess,
+                contentDescription = stringResource(R.string.btn_expand),
+                modifier = Modifier.padding(end = 8.dp)
+            )
         }
     }
 }

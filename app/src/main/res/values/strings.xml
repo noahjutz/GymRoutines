@@ -58,4 +58,6 @@
     <string name="btn_delete">Delete</string>
     <string name="screen_pick_exercise">Pick Exercise</string>
     <string name="btn_select_exercises">Select</string>
+    <string name="sheet_workout_in_progress">Workout in progress</string>
+    <string name="btn_expand">Expand</string>
 </resources>
