@@ -1,0 +1,8 @@
+Features
+* Added a persistent workout notification that is visible during a workout (48988881..0aaf9afe)
+
+Bug fixes
+* Fixed workout bottom sheet appearance (ad0fc695)
+
+Development
+* Upgrade dependencies (c8637b2c)
