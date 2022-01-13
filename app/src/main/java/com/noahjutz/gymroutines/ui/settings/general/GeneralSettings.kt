@@ -35,7 +35,7 @@ fun GeneralSettings(
         val (isVisible, setIsVisible) = remember { mutableStateOf(false) }
         ListItem(
             modifier = Modifier.clickable { setIsVisible(true) },
-            text = { Text(stringResource(R.string.btn_reset_settings)) },
+            text = { Text(stringResource(R.string.pref_reset_settings)) },
             icon = { Icon(Icons.Default.RestartAlt, null) }
         )
         ResetDialog(

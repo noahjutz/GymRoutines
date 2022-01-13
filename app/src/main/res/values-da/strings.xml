@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="unnamed_routine">Unavngiven</string>
-    <string name="dialog_delete_title">Vil du slette %1$s \?</string>
+    <string name="dialog_title_delete">Vil du slette %1$s \?</string>
     <string name="btn_add_set">Tilføj Sæt</string>
     <string name="screen_pick_exercise">Vælg Øvelse</string>
-    <string name="col_distance">Afstand</string>
-    <string name="col_time">Tid</string>
-    <string name="col_weight">Vægt</string>
+    <string name="column_distance">Afstand</string>
+    <string name="column_time">Tid</string>
+    <string name="column_weight">Vægt</string>
     <string name="checkbox_log_time">Tid log</string>
     <string name="checkbox_log_weight">Vægt log</string>
     <string name="checkbox_log_reps">Gentagelser log</string>
-    <string name="col_reps">Rep</string>
+    <string name="column_reps">Rep</string>
     <string name="screen_routine_list">Rutine</string>
     <string name="screen_workout_history">Historie</string>
     <string name="screen_exercise_list">Konditræning</string>

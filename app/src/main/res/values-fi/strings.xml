@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="screen_pick_exercise">Valitse Harjoitus</string>
-    <string name="col_distance">Matka</string>
-    <string name="col_time">Aika</string>
-    <string name="col_weight">Paino</string>
+    <string name="column_distance">Matka</string>
+    <string name="column_time">Aika</string>
+    <string name="column_weight">Paino</string>
     <string name="btn_add_set">Lisää Sarja</string>
     <string name="btn_cancel">Peruuttaa</string>
     <string name="yes">Kyllä</string>
     <string name="unnamed_routine">Nimetön</string>
-    <string name="col_reps">Rep</string>
+    <string name="column_reps">Rep</string>
     <string name="screen_routine_list">Rutiini</string>
     <string name="checkbox_log_distance">Etäisyysloki</string>
     <string name="checkbox_log_time">Aikaloki</string>
@@ -18,5 +18,5 @@
     <string name="screen_workout_history">Historia</string>
     <string name="screen_exercise_list">Harjoitus</string>
     <string name="alert_no_log_value_selected">Valitse vähintään yksi arvo.</string>
-    <string name="dialog_delete_title">Haluatko poistaa %1$s \?</string>
+    <string name="dialog_title_delete">Haluatko poistaa %1$s \?</string>
 </resources>

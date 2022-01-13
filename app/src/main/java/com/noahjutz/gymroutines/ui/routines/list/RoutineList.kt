@@ -184,7 +184,7 @@ fun RoutineListContent(
                     title = {
                         Text(
                             stringResource(
-                                R.string.dialog_delete_title,
+                                R.string.dialog_title_delete,
                                 routine.name.takeIf { it.isNotBlank() }
                                     ?: stringResource(R.string.unnamed_routine)
                             )

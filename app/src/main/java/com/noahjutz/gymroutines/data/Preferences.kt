@@ -30,9 +30,9 @@ val Context.datastore: DataStore<Preferences> by preferencesDataStore(name = "se
 enum class ColorTheme(
     @StringRes val themeName: Int
 ) {
-    FollowSystem(R.string.theme_follow_system),
-    White(R.string.theme_light),
-    Black(R.string.theme_dark)
+    FollowSystem(R.string.app_theme_follow_system),
+    White(R.string.app_theme_light),
+    Black(R.string.app_theme_dark)
 }
 
 sealed class AppPrefs<T>(val key: Preferences.Key<T>, val defaultValue: T) {

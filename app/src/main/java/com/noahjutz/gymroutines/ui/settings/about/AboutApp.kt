@@ -90,18 +90,18 @@ fun AboutApp(
                 }
 
                 ListItem(
-                    text = { Text(stringResource(R.string.label_app_version)) },
+                    text = { Text(stringResource(R.string.about_app_version)) },
                     secondaryText = { Text(BuildConfig.VERSION_NAME) },
                     icon = { Icon(Icons.Default.Update, null) },
                 )
                 ListItem(
                     modifier = Modifier.clickable(onClick = navToLicenses),
-                    text = { Text(stringResource(R.string.label_app_licenses)) },
+                    text = { Text(stringResource(R.string.screen_licenses)) },
                     icon = { Icon(Icons.Default.ListAlt, null) },
                 )
                 ListItem(
                     modifier = Modifier.clickable { context.openUrl(Urls.sourceCode) },
-                    text = { Text(stringResource(R.string.label_app_source_code)) },
+                    text = { Text(stringResource(R.string.about_app_source_code)) },
                     icon = { Icon(Icons.Default.Code, null) },
                     trailing = { Icon(Icons.Default.Launch, null) },
                 )
@@ -109,7 +109,7 @@ fun AboutApp(
                 Divider()
 
                 ListItem(
-                    text = { Text(stringResource(R.string.label_contact)) },
+                    text = { Text(stringResource(R.string.about_contact)) },
                     secondaryText = { Text("noahjutz@tutanota.de") },
                     icon = { Icon(Icons.Default.ContactMail, null) },
                 )

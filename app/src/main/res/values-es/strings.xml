@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="col_distance">Distancia</string>
-    <string name="col_time">Tiempo</string>
-    <string name="col_weight">Peso</string>
+    <string name="column_distance">Distancia</string>
+    <string name="column_time">Tiempo</string>
+    <string name="column_weight">Peso</string>
     <string name="btn_add_set">Añadir conjunto</string>
-    <string name="dialog_delete_title">Desea eliminar %1$s \?</string>
+    <string name="dialog_title_delete">Desea eliminar %1$s \?</string>
     <string name="btn_cancel">Cancelar</string>
     <string name="yes">Sí</string>
     <string name="unnamed_routine">Sin nombre</string>
@@ -18,5 +18,5 @@
     <string name="screen_exercise_list">Ejercicio</string>
     <string name="screen_routine_list">Rutina</string>
     <string name="alert_no_log_value_selected">Seleccione al menos un valor.</string>
-    <string name="col_reps">Representante</string>
+    <string name="column_reps">Representante</string>
 </resources>

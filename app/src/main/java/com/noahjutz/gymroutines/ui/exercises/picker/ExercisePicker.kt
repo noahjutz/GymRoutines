@@ -63,7 +63,7 @@ fun ExercisePickerSheet(
                     onClick = { onExercisesSelected(selectedExerciseIds) },
                     enabled = selectedExerciseIds.isNotEmpty()
                 ) {
-                    Text(stringResource(R.string.btn_select_exercises))
+                    Text(stringResource(R.string.btn_select_option))
                 }
             }
         )

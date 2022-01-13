@@ -196,7 +196,7 @@ private fun ConfirmDeleteExerciseDialog(
     AlertDialog(
         title = {
             Text(
-                stringResource(R.string.dialog_delete_title, exerciseName)
+                stringResource(R.string.dialog_title_delete, exerciseName)
             )
         },
         confirmButton = {

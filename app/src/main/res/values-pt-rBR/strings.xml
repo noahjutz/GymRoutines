@@ -2,11 +2,11 @@
 <resources>
     <string name="yes">Sim</string>
     <string name="btn_cancel">Cancelar</string>
-    <string name="col_weight">Peso</string>
+    <string name="column_weight">Peso</string>
     <string name="btn_add_set">Adicionar conjunto</string>
-    <string name="col_reps">Repete</string>
+    <string name="column_reps">Repete</string>
     <string name="screen_pick_exercise">Exercício de Escolha</string>
-    <string name="col_distance">Distância</string>
+    <string name="column_distance">Distância</string>
     <string name="screen_settings">Configurações</string>
     <string name="screen_workout_history">História</string>
     <string name="screen_exercise_list">Exercícios</string>
@@ -17,6 +17,6 @@
     <string name="checkbox_log_reps">Repetições de registros</string>
     <string name="unnamed_routine">Sem nome</string>
     <string name="alert_no_log_value_selected">Por favor, selecione pelo menos um valor.</string>
-    <string name="col_time">Hora</string>
-    <string name="dialog_delete_title">Você quer apagar %1$s \?</string>
+    <string name="column_time">Hora</string>
+    <string name="dialog_title_delete">Você quer apagar %1$s \?</string>
 </resources>

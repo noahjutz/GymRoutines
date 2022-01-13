@@ -143,7 +143,7 @@ private fun RowScope.ThemePreview(
                         if (selected) {
                             Icon(
                                 imageVector = Icons.Default.Done,
-                                contentDescription = stringResource(R.string.item_selected),
+                                contentDescription = stringResource(R.string.btn_select_option),
                                 modifier = Modifier
                                     .align(Alignment.Center)
                                     .size(48.dp),

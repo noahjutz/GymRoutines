@@ -274,7 +274,7 @@ private fun RoutineEditorContent(
                                     .weight(1f),
                             ) {
                                 Text(
-                                    stringResource(R.string.col_reps),
+                                    stringResource(R.string.column_reps),
                                     style = headerTextStyle
                                 )
                             }
@@ -284,7 +284,7 @@ private fun RoutineEditorContent(
                                     .weight(1f),
                             ) {
                                 Text(
-                                    stringResource(R.string.col_weight),
+                                    stringResource(R.string.column_weight),
                                     style = headerTextStyle
                                 )
                             }
@@ -294,7 +294,7 @@ private fun RoutineEditorContent(
                                     .weight(1f),
                             ) {
                                 Text(
-                                    stringResource(R.string.col_time),
+                                    stringResource(R.string.column_time),
                                     style = headerTextStyle
                                 )
                             }
@@ -304,7 +304,7 @@ private fun RoutineEditorContent(
                                     .weight(1f),
                             ) {
                                 Text(
-                                    stringResource(R.string.col_distance),
+                                    stringResource(R.string.column_distance),
                                     style = headerTextStyle
                                 )
                             }

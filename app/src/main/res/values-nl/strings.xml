@@ -3,10 +3,10 @@
     <string name="unnamed_routine">Naamloos</string>
     <string name="yes">Ja</string>
     <string name="btn_cancel">Annuleren</string>
-    <string name="dialog_delete_title">Wilt u %1$s verwijderen\?</string>
-    <string name="col_weight">Gewicht</string>
-    <string name="col_time">Tijd</string>
-    <string name="col_distance">Afstand</string>
+    <string name="dialog_title_delete">Wilt u %1$s verwijderen\?</string>
+    <string name="column_weight">Gewicht</string>
+    <string name="column_time">Tijd</string>
+    <string name="column_distance">Afstand</string>
     <string name="screen_pick_exercise">Een taak selecteren</string>
     <string name="checkbox_log_reps">Log herhalingen</string>
     <string name="checkbox_log_weight">Log Gewicht</string>
@@ -18,5 +18,5 @@
     <string name="btn_add_set">Instellen Toevoegen</string>
     <string name="alert_no_log_value_selected">Selecteer minstens één waarde.</string>
     <string name="screen_workout_history">Geschiedenis</string>
-    <string name="col_reps">Wiederholungen</string>
+    <string name="column_reps">Wiederholungen</string>
 </resources>

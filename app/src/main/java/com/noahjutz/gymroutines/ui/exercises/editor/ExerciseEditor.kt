@@ -46,10 +46,10 @@ fun ExerciseEditor(
     if (showDiscardAlert) {
         AlertDialog(
             onDismissRequest = { showDiscardAlert = false },
-            title = { Text(stringResource(R.string.dialog_discard_title)) },
+            title = { Text(stringResource(R.string.dialog_title_discard)) },
             confirmButton = {
                 Button(onClick = popBackStack) {
-                    Text(stringResource(R.string.dialog_discard_confirm))
+                    Text(stringResource(R.string.dialog_confirm_discard))
                 }
             },
             dismissButton = {

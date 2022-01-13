@@ -84,8 +84,8 @@ fun DataSettings(
                         exportDatabaseLauncher.launch("gymroutines_${viewModel.getCurrentTimeIso()}.db")
                     }
                 },
-                text = { Text(stringResource(R.string.btn_back_up_data)) },
-                secondaryText = { Text(stringResource(R.string.btn_back_up_data_description)) },
+                text = { Text(stringResource(R.string.pref_back_up_data)) },
+                secondaryText = { Text(stringResource(R.string.pref_detail_back_up_data)) },
                 icon = { Icon(Icons.Default.SaveAlt, null) },
             )
             ListItem(
@@ -99,8 +99,8 @@ fun DataSettings(
                         importDatabaseLauncher.launch(emptyArray())
                     }
                 },
-                text = { Text(stringResource(R.string.btn_restore_data)) },
-                secondaryText = { Text(stringResource(R.string.btn_restore_data_description)) },
+                text = { Text(stringResource(R.string.pref_restore_data)) },
+                secondaryText = { Text(stringResource(R.string.pref_detail_restore_data)) },
                 icon = { Icon(Icons.Default.SettingsBackupRestore, null) },
             )
         }

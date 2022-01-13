@@ -6,12 +6,12 @@
     <string name="screen_routine_list">Rutinok</string>
     <string name="alert_no_log_value_selected">Kérjük, válasszon legalább egy értéket.</string>
     <string name="screen_pick_exercise">Pick Gyakorlat</string>
-    <string name="col_distance">Távolság</string>
-    <string name="col_time">Idő</string>
-    <string name="col_weight">Tömeg</string>
+    <string name="column_distance">Távolság</string>
+    <string name="column_time">Idő</string>
+    <string name="column_weight">Tömeg</string>
     <string name="btn_add_set">Készlet Hozzáadása</string>
-    <string name="col_reps">Ismétlések</string>
-    <string name="dialog_delete_title">Törölni szeretné ezt: %1$s \?</string>
+    <string name="column_reps">Ismétlések</string>
+    <string name="dialog_title_delete">Törölni szeretné ezt: %1$s \?</string>
     <string name="btn_cancel">Mégsem</string>
     <string name="yes">Igen</string>
     <string name="checkbox_log_distance">Távolság napló</string>

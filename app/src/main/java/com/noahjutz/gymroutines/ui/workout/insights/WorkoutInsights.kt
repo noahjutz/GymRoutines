@@ -195,7 +195,7 @@ private fun DeleteConfirmation(
         title = {
             Text(
                 stringResource(
-                    R.string.dialog_delete_title,
+                    R.string.dialog_title_delete,
                     name
                 )
             )
