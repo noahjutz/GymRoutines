@@ -202,7 +202,7 @@ private fun ConfirmDeleteExerciseDialog(
         confirmButton = {
             Button(
                 onClick = onConfirm,
-                content = { Text(stringResource(R.string.yes)) }
+                content = { Text(stringResource(R.string.btn_delete)) }
             )
         },
         dismissButton = {
