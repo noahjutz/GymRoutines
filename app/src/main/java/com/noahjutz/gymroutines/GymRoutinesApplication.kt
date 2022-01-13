@@ -116,8 +116,8 @@ class GymRoutinesApplication : Application() {
                             val builder =
                                 NotificationCompat.Builder(applicationContext, PERSISTENT_WORKOUT_CHANNEL_ID)
                                     .setSmallIcon(R.drawable.ic_gymroutines)
-                                    .setContentTitle("Workout in progress")
-                                    .setContentText("Tap to return to your workout")
+                                    .setContentTitle(getString(R.string.workout_notification_title))
+                                    .setContentText(getString(R.string.workout_notification_text))
                                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                                     .setContentIntent(pending)
                                     .setOngoing(true)
