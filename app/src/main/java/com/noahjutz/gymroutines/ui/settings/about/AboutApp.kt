@@ -54,10 +54,10 @@ fun AboutApp(
     Scaffold(
         topBar = {
             TopBar(
-                title = "About",
+                title = stringResource(R.string.screen_about),
                 navigationIcon = {
                     IconButton(onClick = popBackStack) {
-                        Icon(Icons.Default.ArrowBack, null)
+                        Icon(Icons.Default.ArrowBack, stringResource(R.string.btn_pop_back))
                     }
                 }
             )
@@ -90,18 +90,18 @@ fun AboutApp(
                 }
 
                 ListItem(
-                    text = { Text("Version") },
+                    text = { Text(stringResource(R.string.label_app_version)) },
                     secondaryText = { Text(BuildConfig.VERSION_NAME) },
                     icon = { Icon(Icons.Default.Update, null) },
                 )
                 ListItem(
                     modifier = Modifier.clickable(onClick = navToLicenses),
-                    text = { Text("Licenses") },
+                    text = { Text(stringResource(R.string.label_app_licenses)) },
                     icon = { Icon(Icons.Default.ListAlt, null) },
                 )
                 ListItem(
                     modifier = Modifier.clickable { context.openUrl(Urls.sourceCode) },
-                    text = { Text("Source Code") },
+                    text = { Text(stringResource(R.string.label_app_source_code)) },
                     icon = { Icon(Icons.Default.Code, null) },
                     trailing = { Icon(Icons.Default.Launch, null) },
                 )
@@ -109,7 +109,7 @@ fun AboutApp(
                 Divider()
 
                 ListItem(
-                    text = { Text("Contact") },
+                    text = { Text(stringResource(R.string.label_contact)) },
                     secondaryText = { Text("noahjutz@tutanota.de") },
                     icon = { Icon(Icons.Default.ContactMail, null) },
                 )

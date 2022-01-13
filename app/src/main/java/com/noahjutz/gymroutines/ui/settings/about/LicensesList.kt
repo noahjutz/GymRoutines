@@ -90,9 +90,14 @@ fun LicensesList(
         topBar = {
             TopBar(
                 navigationIcon = {
-                    IconButton(onClick = popBackStack) { Icon(Icons.Default.ArrowBack, "Back") }
+                    IconButton(onClick = popBackStack) {
+                        Icon(
+                            Icons.Default.ArrowBack,
+                            stringResource(R.string.btn_pop_back)
+                        )
+                    }
                 },
-                title = "Licenses",
+                title = stringResource(R.string.screen_licenses),
             )
         }
     ) {
@@ -107,7 +112,7 @@ fun LicensesList(
                     }
                 }
                 Text(
-                    "Open-Source Dependencies",
+                    stringResource(R.string.title_dependencies_list),
                     style = typography.h4,
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)
                 )
@@ -120,7 +125,7 @@ fun LicensesList(
                     modifier = Modifier.clickable { context.openUrl(dependency.url) },
                     text = { Text(dependency.name) },
                     secondaryText = { Text(dependency.license.fullName) },
-                    trailing = { Icon(Icons.Default.OpenInBrowser, "Open in browser") }
+                    trailing = { Icon(Icons.Default.OpenInBrowser, stringResource(R.string.btn_open_in_browser)) }
                 )
             }
         }
