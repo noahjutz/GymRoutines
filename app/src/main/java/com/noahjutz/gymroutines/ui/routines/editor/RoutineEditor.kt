@@ -85,7 +85,7 @@ fun RoutineEditor(
                         }
                     },
                     icon = { Icon(Icons.Default.PlayArrow, null) },
-                    text = { Text("Start Workout") },
+                    text = { Text(stringResource(R.string.btn_start_workout)) },
                 )
             }
         },
@@ -96,7 +96,7 @@ fun RoutineEditor(
                         Icon(Icons.Default.ArrowBack, stringResource(R.string.btn_pop_back))
                     }
                 },
-                title = "Edit Routine",
+                title = stringResource(R.string.screen_edit_routine),
             )
         }
     ) {
@@ -164,7 +164,7 @@ private fun RoutineEditorContent(
                             ) {
                                 if (routine.name.isEmpty()) {
                                     Text(
-                                        "Unnamed",
+                                        stringResource(R.string.unnamed_routine),
                                         style = typography.h6.copy(
                                             color = colors.onSurface.copy(alpha = 0.12f)
                                         )
@@ -179,7 +179,10 @@ private fun RoutineEditorContent(
                             ) {
                                 Spacer(Modifier.width(8.dp))
                                 IconButton(onClick = { setName("") }) {
-                                    Icon(Icons.Default.Clear, "Clear")
+                                    Icon(
+                                        Icons.Default.Clear,
+                                        stringResource(R.string.btn_clear_text)
+                                    )
                                 }
                             }
                         }
@@ -217,7 +220,7 @@ private fun RoutineEditorContent(
                                     modifier = Modifier.padding(16.dp),
                                     onClick = { expanded = !expanded }
                                 ) {
-                                    Icon(Icons.Default.DragHandle, "More")
+                                    Icon(Icons.Default.DragHandle, stringResource(R.string.btn_more))
                                 }
                                 DropdownMenu(
                                     expanded = expanded,
@@ -236,7 +239,7 @@ private fun RoutineEditorContent(
                                             }
                                         }
                                     ) {
-                                        Text("Move Up")
+                                        Text(stringResource(R.string.btn_move_up))
                                     }
                                     DropdownMenuItem(
                                         onClick = {
@@ -251,7 +254,7 @@ private fun RoutineEditorContent(
                                             }
                                         }
                                     ) {
-                                        Text("Move Down")
+                                        Text(stringResource(R.string.btn_move_down))
                                     }
                                 }
                             }
@@ -271,7 +274,7 @@ private fun RoutineEditorContent(
                                     .weight(1f),
                             ) {
                                 Text(
-                                    "Reps",
+                                    stringResource(R.string.col_reps),
                                     style = headerTextStyle
                                 )
                             }
@@ -281,7 +284,7 @@ private fun RoutineEditorContent(
                                     .weight(1f),
                             ) {
                                 Text(
-                                    "Weight",
+                                    stringResource(R.string.col_weight),
                                     style = headerTextStyle
                                 )
                             }
@@ -291,7 +294,7 @@ private fun RoutineEditorContent(
                                     .weight(1f),
                             ) {
                                 Text(
-                                    "Time",
+                                    stringResource(R.string.col_time),
                                     style = headerTextStyle
                                 )
                             }
@@ -301,7 +304,7 @@ private fun RoutineEditorContent(
                                     .weight(1f),
                             ) {
                                 Text(
-                                    "Distance",
+                                    stringResource(R.string.col_distance),
                                     style = headerTextStyle
                                 )
                             }
@@ -454,7 +457,7 @@ private fun RoutineEditorContent(
                     ) {
                         Icon(Icons.Default.Add, null)
                         Spacer(Modifier.width(12.dp))
-                        Text("Add Set")
+                        Text(stringResource(R.string.btn_add_set))
                     }
                 }
             }
@@ -471,7 +474,7 @@ private fun RoutineEditorContent(
             ) {
                 Icon(Icons.Default.Add, null)
                 Spacer(Modifier.width(12.dp))
-                Text("Add Exercise")
+                Text(stringResource(R.string.btn_add_exercise))
             }
         }
     }

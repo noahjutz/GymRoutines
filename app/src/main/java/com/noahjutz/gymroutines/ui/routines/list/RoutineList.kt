@@ -61,14 +61,14 @@ fun RoutineList(
                     Box {
                         var expanded by remember { mutableStateOf(false) }
                         IconButton(onClick = { expanded = !expanded }) {
-                            Icon(Icons.Default.MoreVert, "More")
+                            Icon(Icons.Default.MoreVert, stringResource(R.string.btn_more))
                         }
                         DropdownMenu(
                             expanded = expanded,
                             onDismissRequest = { expanded = false }
                         ) {
                             DropdownMenuItem(onClick = navToSettings) {
-                                Text("Settings")
+                                Text(stringResource(R.string.screen_settings))
                             }
                         }
                     }
@@ -85,7 +85,7 @@ fun RoutineList(
                     )
                 },
                 icon = { Icon(Icons.Default.Add, null) },
-                text = { Text("New Routine") },
+                text = { Text(stringResource(R.string.btn_new_routine)) },
             )
         },
     ) {
@@ -170,7 +170,7 @@ fun RoutineListContent(
                                             }
                                         }
                                     ) {
-                                        Text("Delete")
+                                        Text(stringResource(R.string.btn_delete))
                                     }
                                 }
                             }

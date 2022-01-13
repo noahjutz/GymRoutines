@@ -60,4 +60,10 @@
     <string name="btn_select_exercises">Select</string>
     <string name="sheet_workout_in_progress">Workout in progress</string>
     <string name="btn_expand">Expand</string>
+    <string name="screen_edit_routine">Edit Routine</string>
+    <string name="btn_start_workout">Start Workout</string>
+    <string name="btn_move_up">Move Up</string>
+    <string name="btn_move_down">Move Down</string>
+    <string name="btn_add_exercise">Add Exercise</string>
+    <string name="btn_new_routine">New Routine</string>
 </resources>
