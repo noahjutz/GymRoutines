@@ -39,12 +39,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import com.noahjutz.gymroutines.data.domain.duration
 import com.noahjutz.gymroutines.ui.components.*
@@ -75,7 +77,7 @@ fun WorkoutInProgress(
     Scaffold(
         topBar = {
             TopBar(
-                title = "Workout",
+                title = stringResource(R.string.screen_perform_workout),
                 navigationIcon = {
                     IconButton(onClick = popBackStack) { Icon(Icons.Default.ArrowBack, null) }
                 }
@@ -104,7 +106,11 @@ fun WorkoutInProgress(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalTime::class, ExperimentalFoundationApi::class)
+@OptIn(
+    ExperimentalMaterialApi::class,
+    ExperimentalTime::class,
+    ExperimentalFoundationApi::class
+)
 @Composable
 private fun WorkoutInProgressContent(
     workout: WorkoutWithSetGroups,
@@ -186,7 +192,7 @@ private fun WorkoutInProgressContent(
                                     modifier = Modifier.padding(16.dp),
                                     onClick = { expanded = !expanded }
                                 ) {
-                                    Icon(Icons.Default.DragHandle, "More")
+                                    Icon(Icons.Default.DragHandle, stringResource(R.string.drag_handle))
                                 }
                                 DropdownMenu(
                                     expanded = expanded,
@@ -205,7 +211,7 @@ private fun WorkoutInProgressContent(
                                             }
                                         }
                                     ) {
-                                        Text("Move Up")
+                                        Text(stringResource(R.string.btn_move_up))
                                     }
                                     DropdownMenuItem(
                                         onClick = {
@@ -220,7 +226,7 @@ private fun WorkoutInProgressContent(
                                             }
                                         }
                                     ) {
-                                        Text("Move Down")
+                                        Text(stringResource(R.string.btn_move_down))
                                     }
                                 }
                             }
@@ -244,7 +250,7 @@ private fun WorkoutInProgressContent(
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    "Reps",
+                                    stringResource(R.string.column_reps),
                                     style = headerTextStyle
                                 )
                             }
@@ -258,7 +264,7 @@ private fun WorkoutInProgressContent(
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    "Weight",
+                                    stringResource(R.string.column_weight),
                                     style = headerTextStyle
                                 )
                             }
@@ -272,7 +278,7 @@ private fun WorkoutInProgressContent(
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    "Time",
+                                    stringResource(R.string.column_time),
                                     style = headerTextStyle
                                 )
                             }
@@ -286,7 +292,7 @@ private fun WorkoutInProgressContent(
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    "Distance",
+                                    stringResource(R.string.column_distance),
                                     style = headerTextStyle
                                 )
                             }
@@ -298,7 +304,7 @@ private fun WorkoutInProgressContent(
                                     .background(colors.primary.copy(alpha = 0.1f)),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Icon(Icons.Default.Check, null)
+                                Icon(Icons.Default.Check, stringResource(R.string.column_set_complete))
                             }
                         }
                         for (set in setGroup.sets) {
@@ -462,7 +468,7 @@ private fun WorkoutInProgressContent(
                                                 ) {
                                                     Icon(
                                                         Icons.Default.Check,
-                                                        "Complete",
+                                                        stringResource(R.string.column_set_complete),
                                                         tint = colors.onSecondary
                                                     )
                                                 }
@@ -481,7 +487,7 @@ private fun WorkoutInProgressContent(
                     ) {
                         Icon(Icons.Default.Add, null)
                         Spacer(Modifier.width(12.dp))
-                        Text("Add Set")
+                        Text(stringResource(R.string.btn_add_set))
                     }
                 }
             }
@@ -498,7 +504,7 @@ private fun WorkoutInProgressContent(
             ) {
                 Icon(Icons.Default.Add, null)
                 Spacer(Modifier.width(12.dp))
-                Text("Add Exercise")
+                Text(stringResource(R.string.btn_add_exercise))
             }
 
             Row(
@@ -512,7 +518,7 @@ private fun WorkoutInProgressContent(
                     shape = RoundedCornerShape(percent = 100),
                     onClick = { showCancelWorkoutDialog = true },
                 ) {
-                    Text("Delete Workout")
+                    Text(stringResource(R.string.btn_discard_workout))
                 }
                 Spacer(Modifier.width(16.dp))
                 Button(
@@ -522,7 +528,7 @@ private fun WorkoutInProgressContent(
                     shape = RoundedCornerShape(percent = 100),
                     onClick = { showFinishWorkoutDialog = true }
                 ) {
-                    Text("Finish Workout")
+                    Text(stringResource(R.string.btn_finish_workout))
                 }
             }
         }
@@ -536,10 +542,9 @@ private fun CancelWorkoutDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Delete Workout?") },
-        text = { Text("Do you really want to delete this workout?") },
-        confirmButton = { Button(onClick = cancelWorkout) { Text("Delete") } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
+        title = { Text(stringResource(R.string.dialog_title_discard_workout)) },
+        confirmButton = { Button(onClick = cancelWorkout) { Text(stringResource(R.string.btn_delete)) } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.btn_cancel)) } },
     )
 }
 
@@ -550,9 +555,8 @@ private fun FinishWorkoutDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Finish Workout?") },
-        text = { Text("Do you want to finish the workout?") },
-        confirmButton = { Button(onClick = finishWorkout) { Text("Finish") } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text("Cancel") } },
+        title = { Text(stringResource(R.string.dialog_title_finish_workout)) },
+        confirmButton = { Button(onClick = finishWorkout) { Text(stringResource(R.string.dialog_confirm_finish_workout)) } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.btn_cancel)) } },
     )
 }

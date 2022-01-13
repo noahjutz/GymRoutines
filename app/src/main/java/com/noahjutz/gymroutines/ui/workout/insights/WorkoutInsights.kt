@@ -63,14 +63,14 @@ fun WorkoutInsights(
                     Box {
                         var expanded by remember { mutableStateOf(false) }
                         IconButton(onClick = { expanded = !expanded }) {
-                            Icon(Icons.Default.MoreVert, "More")
+                            Icon(Icons.Default.MoreVert, stringResource(R.string.btn_more))
                         }
                         DropdownMenu(
                             expanded = expanded,
                             onDismissRequest = { expanded = false }
                         ) {
                             DropdownMenuItem(onClick = navToSettings) {
-                                Text("Settings")
+                                Text(stringResource(R.string.screen_settings))
                             }
                         }
                     }
@@ -83,16 +83,6 @@ fun WorkoutInsights(
         val routineNames by viewModel.routineNames.collectAsState(initial = null)
 
         LazyColumn {
-            stickyHeader {
-                Surface(Modifier.fillMaxWidth()) {
-                    Text(
-                        "Charts",
-                        Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
-                        style = typography.h4
-                    )
-                }
-            }
-
             item {
                 Box(Modifier.padding(16.dp)) {
                     WorkoutCharts(workouts)
@@ -102,7 +92,7 @@ fun WorkoutInsights(
             stickyHeader {
                 Surface(Modifier.fillMaxWidth()) {
                     Text(
-                        "History",
+                        stringResource(R.string.screen_workout_history),
                         Modifier.padding(bottom = 16.dp, start = 16.dp, end = 16.dp),
                         style = typography.h4
                     )
@@ -112,7 +102,8 @@ fun WorkoutInsights(
             if (workouts != null && routineNames != null) {
                 items(workouts ?: emptyList(), { it.workoutId }) { workout ->
                     val dismissState = rememberDismissState()
-                    val routineName = routineNames?.get(workout.workoutId) ?: ""
+                    val routineName = routineNames?.get(workout.workoutId)
+                        ?: stringResource(R.string.unnamed_routine)
 
                     SwipeToDismiss(
                         modifier = Modifier
@@ -154,7 +145,7 @@ fun WorkoutInsights(
                                                     }
                                                 }
                                             ) {
-                                                Text("Delete")
+                                                Text(stringResource(R.string.btn_delete))
                                             }
                                         }
                                     }
@@ -221,7 +212,7 @@ private fun DeleteConfirmation(
 private fun WorkoutCharts(
     workouts: List<Workout>?,
 ) {
-    ChartCard(title = "Workout duration") {
+    ChartCard(title = stringResource(R.string.chart_workout_duration)) {
         when {
             workouts == null -> {
                 Box(
@@ -232,7 +223,10 @@ private fun WorkoutCharts(
             }
             workouts.size < 3 -> {
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("Not enough data.", color = colors.onSurface.copy(alpha = 0.6f))
+                    Text(
+                        stringResource(R.string.chart_insufficient_data),
+                        color = colors.onSurface.copy(alpha = 0.6f)
+                    )
                 }
             }
             else -> {

@@ -12,8 +12,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.noahjutz.gymroutines.R
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -41,13 +43,13 @@ fun WorkoutCompleted(
         ) {
             Icon(Icons.Default.Undo, null)
             Spacer(Modifier.width(8.dp))
-            Text("Continue Workout")
+            Text(stringResource(R.string.btn_continue_workout))
         }
         Spacer(Modifier.height(80.dp))
         Column(Modifier.fillMaxWidth()) {
             Column(Modifier.padding(horizontal = 16.dp)) {
-                Text("Nice Work.", style = typography.h2)
-                Text("You've completed your workout.", style = typography.h5)
+                Text(stringResource(R.string.title_workout_completed), style = typography.h2)
+                Text(stringResource(R.string.body_workout_completed), style = typography.h5)
             }
             val isUpdateRoutineChecked by viewModel.isUpdateRoutineChecked.collectAsState(initial = false)
             Row(
@@ -65,7 +67,7 @@ fun WorkoutCompleted(
                     onCheckedChange = null
                 )
                 Spacer(Modifier.width(8.dp))
-                Text("Update Routine")
+                Text(stringResource(R.string.checkbox_update_routine))
             }
         }
         Spacer(Modifier.weight(1f))
@@ -77,7 +79,7 @@ fun WorkoutCompleted(
                 .align(Alignment.CenterHorizontally),
             shape = RoundedCornerShape(percent = 100),
         ) {
-            Text("Close")
+            Text(stringResource(R.string.btn_close))
         }
     }
 }

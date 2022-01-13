@@ -25,6 +25,7 @@
     <string name="column_weight">Weight</string>
     <string name="column_time">Time</string>
     <string name="column_distance">Distance</string>
+    <string name="column_set_complete">Set Complete</string>
     <string name="alert_no_log_value_selected">Please select at least one value.</string>
     <string name="checkbox_log_reps">Log Reps</string>
     <string name="checkbox_log_weight">Log Weight</string>
@@ -84,4 +85,19 @@
     <string name="pref_reset_settings">Reset all settings</string>
     <string name="dialog_title_reset_settings">Reset all settings?</string>
     <string name="dialog_confirm_reset_settings">Reset</string>
+    <string name="btn_continue_workout">Continue Workout</string>
+    <string name="title_workout_completed">Nice Work.</string>
+    <string name="body_workout_completed">You\'ve completed your workout.</string>
+    <string name="checkbox_update_routine">Update Routine</string>
+    <string name="btn_close">Close</string>
+    <string name="screen_perform_workout">Workout</string>
+    <string name="drag_handle">Rearrange</string>
+    <string name="btn_discard_workout">Discard Workout</string>
+    <string name="btn_finish_workout">Finish Workout</string>
+    <string name="dialog_title_discard_workout">Discard Workout?</string>
+    <string name="dialog_title_finish_workout">Finish Workout?</string>
+    <string name="dialog_confirm_finish_workout">Finish</string>
+    <string name="chart_workout_duration">Workout duration</string>
+    <string name="chart_insufficient_data">Not enough data.</string>
+    <string name="screen_view_workout">View Workout</string>
 </resources>

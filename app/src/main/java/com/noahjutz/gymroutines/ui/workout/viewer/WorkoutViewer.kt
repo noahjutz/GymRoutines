@@ -19,11 +19,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import com.noahjutz.gymroutines.data.domain.duration
 import com.noahjutz.gymroutines.ui.components.TopBar
@@ -44,7 +46,7 @@ fun WorkoutViewer(
     Scaffold(
         topBar = {
             TopBar(
-                title = "View Workout",
+                title = stringResource(R.string.screen_view_workout),
                 navigationIcon = {
                     IconButton(onClick = popBackStack) { Icon(Icons.Default.ArrowBack, null) }
                 }
@@ -101,7 +103,7 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                 shape = RoundedCornerShape(24.dp),
             ) {
                 Column {
-                    Surface(Modifier.fillMaxWidth(), color = MaterialTheme.colors.primary) {
+                    Surface(Modifier.fillMaxWidth(), color = colors.primary) {
                         Row(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
@@ -118,7 +120,7 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                     Column(Modifier.padding(vertical = 16.dp)) {
                         Row(Modifier.padding(horizontal = 4.dp)) {
                             val headerTextStyle = TextStyle(
-                                color = MaterialTheme.colors.onSurface,
+                                color = colors.onSurface,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
                                 textAlign = TextAlign.Center
@@ -129,11 +131,11 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                     .weight(1f)
                                     .height(56.dp)
                                     .clip(RoundedCornerShape(8.dp))
-                                    .background(MaterialTheme.colors.primary.copy(alpha = 0.1f)),
+                                    .background(colors.primary.copy(alpha = 0.1f)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    "Reps",
+                                    stringResource(R.string.column_reps),
                                     style = headerTextStyle
                                 )
                             }
@@ -143,11 +145,11 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                     .weight(1f)
                                     .height(56.dp)
                                     .clip(RoundedCornerShape(8.dp))
-                                    .background(MaterialTheme.colors.primary.copy(alpha = 0.1f)),
+                                    .background(colors.primary.copy(alpha = 0.1f)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    "Weight",
+                                    stringResource(R.string.column_weight),
                                     style = headerTextStyle
                                 )
                             }
@@ -157,11 +159,11 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                     .weight(1f)
                                     .height(56.dp)
                                     .clip(RoundedCornerShape(8.dp))
-                                    .background(MaterialTheme.colors.primary.copy(alpha = 0.1f)),
+                                    .background(colors.primary.copy(alpha = 0.1f)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    "Time",
+                                    stringResource(R.string.column_time),
                                     style = headerTextStyle
                                 )
                             }
@@ -171,11 +173,11 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                     .weight(1f)
                                     .height(56.dp)
                                     .clip(RoundedCornerShape(8.dp))
-                                    .background(MaterialTheme.colors.primary.copy(alpha = 0.1f)),
+                                    .background(colors.primary.copy(alpha = 0.1f)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    "Distance",
+                                    stringResource(R.string.column_distance),
                                     style = headerTextStyle
                                 )
                             }
@@ -201,14 +203,14 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                         ProvideTextStyle(
                                             value = typography.body1.copy(
                                                 textAlign = TextAlign.Center,
-                                                color = MaterialTheme.colors.onSurface
+                                                color = colors.onSurface
                                             )
                                         ) {
                                             Surface(
                                                 modifier = Modifier
                                                     .padding(4.dp)
                                                     .weight(1f),
-                                                color = MaterialTheme.colors.onSurface.copy(
+                                                color = colors.onSurface.copy(
                                                     alpha = 0.1f
                                                 ),
                                                 shape = RoundedCornerShape(8.dp),
@@ -251,7 +253,7 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
                                     if (set.complete) {
                                         Icon(
                                             Icons.Default.Check,
-                                            "Complete",
+                                            stringResource(R.string.column_set_complete),
                                             tint = colors.onSecondary
                                         )
                                     }
