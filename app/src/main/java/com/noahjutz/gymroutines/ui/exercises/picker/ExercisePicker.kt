@@ -52,18 +52,18 @@ fun ExercisePickerSheet(
     val selectedExerciseIds by viewModel.selectedExerciseIds.collectAsState(initial = emptyList())
     Column {
         TopBar(
-            title = "Pick Exercise",
+            title = stringResource(R.string.screen_pick_exercise),
             navigationIcon = {
                 IconButton(
                     onClick = { onExercisesSelected(emptyList()) }
-                ) { Icon(Icons.Default.Close, "close") }
+                ) { Icon(Icons.Default.Close, stringResource(R.string.btn_cancel)) }
             },
             actions = {
                 TextButton(
                     onClick = { onExercisesSelected(selectedExerciseIds) },
                     enabled = selectedExerciseIds.isNotEmpty()
                 ) {
-                    Text("Select")
+                    Text(stringResource(R.string.btn_select_exercises))
                 }
             }
         )

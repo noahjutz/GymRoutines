@@ -61,7 +61,7 @@ fun ExerciseList(
                     Box {
                         var expanded by remember { mutableStateOf(false) }
                         IconButton(onClick = { expanded = !expanded }) {
-                            Icon(Icons.Default.MoreVert, "More")
+                            Icon(Icons.Default.MoreVert, stringResource(R.string.btn_more))
                         }
                         DropdownMenu(
                             expanded = expanded,
@@ -163,7 +163,7 @@ private fun ExerciseListContent(
                                             }
                                         }
                                     ) {
-                                        Text("Delete")
+                                        Text(stringResource(R.string.btn_delete))
                                     }
                                 }
                             }

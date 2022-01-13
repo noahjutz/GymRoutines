@@ -107,7 +107,7 @@ fun ExerciseEditor(
                             .padding(start = 16.dp, end = 16.dp, top = 16.dp),
                         value = name,
                         onValueChange = viewModel::setName,
-                        label = { Text("Exercise name") },
+                        label = { Text(stringResource(R.string.label_exercise_name)) },
                         singleLine = true,
                     )
                     val notes by viewModel.notes.collectAsState()
@@ -117,7 +117,7 @@ fun ExerciseEditor(
                             .padding(16.dp),
                         value = notes,
                         onValueChange = viewModel::setNotes,
-                        label = { Text("Notes") },
+                        label = { Text(stringResource(R.string.label_exercise_notes)) },
                     )
                     val logReps by viewModel.logReps.collectAsState()
                     ListItem(
