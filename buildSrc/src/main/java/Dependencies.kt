@@ -51,7 +51,7 @@ object Libs {
     }
 
     object Room {
-        private const val version = "2.4.0"
+        private const val version = "2.4.1"
         const val room = "androidx.room:room-ktx:$version"
         const val compiler = "androidx.room:room-compiler:$version"
         const val runtime = "androidx.room:room-runtime:$version"
@@ -76,7 +76,7 @@ object Libs {
     }
 
     object Compose {
-        const val version = "1.1.0-rc01"
+        const val version = "1.2.0-alpha01"
         const val ui = "androidx.compose.ui:ui:$version"
         const val tooling = "androidx.compose.ui:ui-tooling:$version"
         const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -141,12 +141,12 @@ object TestLibs {
 
 object GradlePlugins {
     object Android {
-        private const val version = "7.0.3"
+        private const val version = "7.0.4"
         const val classpath = "com.android.tools.build:gradle:$version"
     }
 
     object Kotlin {
-        const val version = "1.6.0"
+        const val version = "1.6.10"
         const val classpath = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
     }
 }
