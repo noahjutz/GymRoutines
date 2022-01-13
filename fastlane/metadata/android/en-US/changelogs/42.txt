@@ -6,3 +6,6 @@ Bug fixes
 
 Development
 * Upgrade dependencies (c8637b2c)
+* Extract all strings to string resources for translation (b1d189b5..75461334)
+* Removed NothingHereYet screen (71fe6236)
+* Removed unused isDark function (502fea73)
