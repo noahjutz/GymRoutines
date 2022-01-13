@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.ui.components.TopBar
 import org.koin.androidx.compose.getViewModel
 
@@ -21,10 +23,10 @@ fun GeneralSettings(
     Scaffold(
         topBar = {
             TopBar(
-                title = "General",
+                title = stringResource(R.string.screen_general_settings),
                 navigationIcon = {
                     IconButton(onClick = popBackStack) {
-                        Icon(Icons.Default.ArrowBack, "Back")
+                        Icon(Icons.Default.ArrowBack, stringResource(R.string.btn_pop_back))
                     }
                 }
             )
@@ -33,12 +35,8 @@ fun GeneralSettings(
         val (isVisible, setIsVisible) = remember { mutableStateOf(false) }
         ListItem(
             modifier = Modifier.clickable { setIsVisible(true) },
-            text = {
-                Text("Reset all settings")
-            },
-            icon = {
-                Icon(Icons.Default.RestartAlt, null)
-            }
+            text = { Text(stringResource(R.string.btn_reset_settings)) },
+            icon = { Icon(Icons.Default.RestartAlt, null) }
         )
         ResetDialog(
             isVisible = isVisible,
@@ -58,22 +56,21 @@ private fun ResetDialog(
         AlertDialog(
             onDismissRequest = onDismiss,
             title = {
-                Text("Reset all settings?")
-            },
-            text = {
-                Text("This will set all settings to their defaults.")
+                Text(stringResource(R.string.dialog_title_reset_settings))
             },
             confirmButton = {
-                Button(onClick = {
-                    onReset()
-                    onDismiss()
-                }) {
-                    Text("Reset")
+                Button(
+                    onClick = {
+                        onReset()
+                        onDismiss()
+                    }
+                ) {
+                    Text(stringResource(R.string.dialog_confirm_reset_settings))
                 }
             },
             dismissButton = {
                 TextButton(onClick = onDismiss) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.btn_cancel))
                 }
             }
         )

@@ -74,4 +74,17 @@
     <string name="screen_licenses">Licenses</string>
     <string name="title_dependencies_list">Open-Source Dependencies</string>
     <string name="btn_open_in_browser">Open in browser</string>
+    <string name="screen_appearance_settings">Appearance</string>
+    <string name="btn_reset">Reset</string>
+    <string name="item_selected">Selected</string>
+    <string name="screen_data_settings">Data</string>
+    <string name="btn_back_up_data">Back up data</string>
+    <string name="btn_restore_data">Restore data</string>
+    <string name="alert_must_finish_workout">Please finish your workout first.</string>
+    <string name="btn_restore_data_description">Import a database file, overriding all data</string>
+    <string name="btn_back_up_data_description">Save routines, exercises and workouts in a file</string>
+    <string name="screen_general_settings">General</string>
+    <string name="btn_reset_settings">Reset all settings</string>
+    <string name="dialog_title_reset_settings">Reset all settings?</string>
+    <string name="dialog_confirm_reset_settings">Reset</string>
 </resources>

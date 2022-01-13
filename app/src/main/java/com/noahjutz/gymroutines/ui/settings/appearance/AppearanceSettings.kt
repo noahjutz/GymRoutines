@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.placeholder.material.placeholder
+import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.ColorTheme
 import com.noahjutz.gymroutines.ui.components.TopBar
 import com.noahjutz.gymroutines.ui.theme.BlackColorPalette
@@ -36,10 +37,10 @@ fun AppearanceSettings(
     Scaffold(
         topBar = {
             TopBar(
-                title = "Appearance",
+                title = stringResource(R.string.screen_appearance_settings),
                 navigationIcon = {
                     IconButton(onClick = popBackStack) {
-                        Icon(Icons.Default.ArrowBack, "Back")
+                        Icon(Icons.Default.ArrowBack, stringResource(R.string.btn_pop_back))
                     }
                 }
             )
@@ -71,7 +72,7 @@ fun AppearanceSettings(
                         modifier = Modifier.height(40.dp),
                         shape = RoundedCornerShape(percent = 100),
                     ) {
-                        Text("Reset")
+                        Text(stringResource(R.string.btn_reset))
                     }
                 }
             }
@@ -90,7 +91,6 @@ fun AppearanceSettings(
                     onClick = { viewModel.setAppTheme(ColorTheme.Black) }
                 )
             }
-            Text("")
         }
     }
 }
@@ -143,7 +143,7 @@ private fun RowScope.ThemePreview(
                         if (selected) {
                             Icon(
                                 imageVector = Icons.Default.Done,
-                                contentDescription = "Selected",
+                                contentDescription = stringResource(R.string.item_selected),
                                 modifier = Modifier
                                     .align(Alignment.Center)
                                     .size(48.dp),
