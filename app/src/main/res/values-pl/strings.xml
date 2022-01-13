@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="yes">Tak</string>
-    <string name="weight">Waga</string>
-    <string name="reps">Powtarza</string>
-    <string name="log_reps">Powtórzenia dziennika</string>
-    <string name="tab_exercises">Ćwiczenia</string>
-    <string name="tab_routines">Procedury</string>
-    <string name="log_weight">Rekordowa waga</string>
-    <string name="log_distance">Odległość dziennika</string>
-    <string name="settings">Ustawienia</string>
+    <string name="col_weight">Waga</string>
+    <string name="col_reps">Powtarza</string>
+    <string name="checkbox_log_reps">Powtórzenia dziennika</string>
+    <string name="screen_exercise_list">Ćwiczenia</string>
+    <string name="screen_routine_list">Procedury</string>
+    <string name="checkbox_log_weight">Rekordowa waga</string>
+    <string name="checkbox_log_distance">Odległość dziennika</string>
+    <string name="screen_settings">Ustawienia</string>
     <string name="unnamed_routine">Nienazwany</string>
-    <string name="tab_workouts">Historia</string>
+    <string name="screen_workout_history">Historia</string>
     <string name="alert_no_log_value_selected">Proszę wybrać co najmniej jedną wartość.</string>
-    <string name="pick_exercise">Wybierz Ćwiczenie</string>
-    <string name="distance">Odległość</string>
-    <string name="time">Czas</string>
-    <string name="add_set">Dodaj zestaw</string>
-    <string name="cancel">Anuluj</string>
-    <string name="confirm_delete">Czy chcesz usunąć %1$s \?</string>
-    <string name="log_time">Czas logowania</string>
+    <string name="screen_pick_exercise">Wybierz Ćwiczenie</string>
+    <string name="col_distance">Odległość</string>
+    <string name="col_time">Czas</string>
+    <string name="btn_add_set">Dodaj zestaw</string>
+    <string name="btn_cancel">Anuluj</string>
+    <string name="dialog_delete_title">Czy chcesz usunąć %1$s \?</string>
+    <string name="checkbox_log_time">Czas logowania</string>
 </resources>

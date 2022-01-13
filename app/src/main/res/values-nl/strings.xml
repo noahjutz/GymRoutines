@@ -2,21 +2,21 @@
 <resources>
     <string name="unnamed_routine">Naamloos</string>
     <string name="yes">Ja</string>
-    <string name="cancel">Annuleren</string>
-    <string name="confirm_delete">Wilt u %1$s verwijderen\?</string>
-    <string name="weight">Gewicht</string>
-    <string name="time">Tijd</string>
-    <string name="distance">Afstand</string>
-    <string name="pick_exercise">Een taak selecteren</string>
-    <string name="log_reps">Log herhalingen</string>
-    <string name="log_weight">Log Gewicht</string>
-    <string name="tab_exercises">Oefeningen</string>
-    <string name="tab_routines">Richtlijnen</string>
-    <string name="log_time">Log tijd</string>
-    <string name="log_distance">Log afstand</string>
-    <string name="settings">Instelling</string>
-    <string name="add_set">Instellen Toevoegen</string>
+    <string name="btn_cancel">Annuleren</string>
+    <string name="dialog_delete_title">Wilt u %1$s verwijderen\?</string>
+    <string name="col_weight">Gewicht</string>
+    <string name="col_time">Tijd</string>
+    <string name="col_distance">Afstand</string>
+    <string name="screen_pick_exercise">Een taak selecteren</string>
+    <string name="checkbox_log_reps">Log herhalingen</string>
+    <string name="checkbox_log_weight">Log Gewicht</string>
+    <string name="screen_exercise_list">Oefeningen</string>
+    <string name="screen_routine_list">Richtlijnen</string>
+    <string name="checkbox_log_time">Log tijd</string>
+    <string name="checkbox_log_distance">Log afstand</string>
+    <string name="screen_settings">Instelling</string>
+    <string name="btn_add_set">Instellen Toevoegen</string>
     <string name="alert_no_log_value_selected">Selecteer minstens één waarde.</string>
-    <string name="tab_workouts">Geschiedenis</string>
-    <string name="reps">Wiederholungen</string>
+    <string name="screen_workout_history">Geschiedenis</string>
+    <string name="col_reps">Wiederholungen</string>
 </resources>

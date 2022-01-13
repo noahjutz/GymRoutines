@@ -26,19 +26,19 @@ sealed class BottomNavItem(
 ) {
     object Routines : BottomNavItem(
         route = Screen.routineList.name,
-        name = R.string.tab_routines,
+        name = R.string.screen_routine_list,
         icon = Icons.Default.ViewAgenda
     )
 
     object Exercises : BottomNavItem(
         route = Screen.exerciseList.name,
-        name = R.string.tab_exercises,
+        name = R.string.screen_exercise_list,
         icon = Icons.Default.FitnessCenter
     )
 
     object Workouts : BottomNavItem(
         route = Screen.insights.name,
-        name = R.string.tab_insights,
+        name = R.string.screen_insights,
         icon = Icons.Default.Insights
     )
 }

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="yes">Sim</string>
-    <string name="cancel">Cancelar</string>
-    <string name="weight">Peso</string>
-    <string name="add_set">Adicionar conjunto</string>
-    <string name="reps">Repete</string>
-    <string name="pick_exercise">Exercício de Escolha</string>
-    <string name="distance">Distância</string>
-    <string name="settings">Configurações</string>
-    <string name="tab_workouts">História</string>
-    <string name="tab_exercises">Exercícios</string>
-    <string name="tab_routines">Rotinas</string>
-    <string name="log_distance">Distância do log</string>
-    <string name="log_time">Tempo de registro</string>
-    <string name="log_weight">Peso recorde</string>
-    <string name="log_reps">Repetições de registros</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="col_weight">Peso</string>
+    <string name="btn_add_set">Adicionar conjunto</string>
+    <string name="col_reps">Repete</string>
+    <string name="screen_pick_exercise">Exercício de Escolha</string>
+    <string name="col_distance">Distância</string>
+    <string name="screen_settings">Configurações</string>
+    <string name="screen_workout_history">História</string>
+    <string name="screen_exercise_list">Exercícios</string>
+    <string name="screen_routine_list">Rotinas</string>
+    <string name="checkbox_log_distance">Distância do log</string>
+    <string name="checkbox_log_time">Tempo de registro</string>
+    <string name="checkbox_log_weight">Peso recorde</string>
+    <string name="checkbox_log_reps">Repetições de registros</string>
     <string name="unnamed_routine">Sem nome</string>
     <string name="alert_no_log_value_selected">Por favor, selecione pelo menos um valor.</string>
-    <string name="time">Hora</string>
-    <string name="confirm_delete">Você quer apagar %1$s \?</string>
+    <string name="col_time">Hora</string>
+    <string name="dialog_delete_title">Você quer apagar %1$s \?</string>
 </resources>

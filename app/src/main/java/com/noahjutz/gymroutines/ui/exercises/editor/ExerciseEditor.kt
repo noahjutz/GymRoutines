@@ -46,15 +46,15 @@ fun ExerciseEditor(
     if (showDiscardAlert) {
         AlertDialog(
             onDismissRequest = { showDiscardAlert = false },
-            title = { Text("Discard changes?") },
+            title = { Text(stringResource(R.string.dialog_discard_title)) },
             confirmButton = {
                 Button(onClick = popBackStack) {
-                    Text("Discard")
+                    Text(stringResource(R.string.dialog_discard_confirm))
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDiscardAlert = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.btn_cancel))
                 }
             }
         )
@@ -78,10 +78,10 @@ fun ExerciseEditor(
                                 popBackStack()
                             }
                         },
-                        content = { Icon(Icons.Default.Close, null) },
+                        content = { Icon(Icons.Default.Close, stringResource(R.string.btn_cancel)) },
                     )
                 },
-                title = "Edit Exercise",
+                title = stringResource(R.string.screen_edit_exercise),
                 actions = {
                     TextButton(
                         modifier = Modifier.padding(end = 8.dp),
@@ -92,7 +92,7 @@ fun ExerciseEditor(
                         },
                         enabled = isSavingEnabled
                     ) {
-                        Text("Save")
+                        Text(stringResource(R.string.btn_save))
                     }
                 }
             )
@@ -109,7 +109,6 @@ fun ExerciseEditor(
                         onValueChange = viewModel::setName,
                         label = { Text("Exercise name") },
                         singleLine = true,
-                        placeholder = { Text(stringResource(R.string.unnamed_exercise)) }
                     )
                     val notes by viewModel.notes.collectAsState()
                     OutlinedTextField(
@@ -126,7 +125,7 @@ fun ExerciseEditor(
                             value = logReps,
                             onValueChange = viewModel::setLogReps
                         ),
-                        text = { Text(stringResource(R.string.log_reps)) },
+                        text = { Text(stringResource(R.string.checkbox_log_reps)) },
                         icon = { Checkbox(checked = logReps, null) },
                     )
                     val logWeight by viewModel.logWeight.collectAsState()
@@ -135,7 +134,7 @@ fun ExerciseEditor(
                             value = logWeight,
                             onValueChange = viewModel::setLogWeight
                         ),
-                        text = { Text(stringResource(R.string.log_weight)) },
+                        text = { Text(stringResource(R.string.checkbox_log_weight)) },
                         icon = { Checkbox(checked = logWeight, null) },
                     )
                     val logTime by viewModel.logTime.collectAsState()
@@ -144,7 +143,7 @@ fun ExerciseEditor(
                             value = logTime,
                             onValueChange = viewModel::setLogTime
                         ),
-                        text = { Text(stringResource(R.string.log_time)) },
+                        text = { Text(stringResource(R.string.checkbox_log_time)) },
                         icon = { Checkbox(checked = logTime, null) },
                     )
                     val logDistance by viewModel.logDistance.collectAsState()
@@ -153,7 +152,7 @@ fun ExerciseEditor(
                             value = logDistance,
                             onValueChange = viewModel::setLogDistance
                         ),
-                        text = { Text(stringResource(R.string.log_distance)) },
+                        text = { Text(stringResource(R.string.checkbox_log_distance)) },
                         icon = { Checkbox(checked = logDistance, null) },
                     )
                 }

@@ -89,10 +89,7 @@ fun ExercisePickerSheet(
                     ),
                     icon = { Checkbox(checked = checked, onCheckedChange = null) },
                 ) {
-                    Text(
-                        exercise.name.takeIf { it.isNotBlank() }
-                            ?: stringResource(R.string.unnamed_exercise)
-                    )
+                    Text(exercise.name)
                 }
             }
 
@@ -102,7 +99,7 @@ fun ExercisePickerSheet(
                     icon = { Icon(Icons.Default.Add, null, tint = colors.primary) },
                     text = {
                         Text(
-                            stringResource(R.string.new_exercise),
+                            stringResource(R.string.btn_new_exercise),
                             color = colors.primary
                         )
                     },

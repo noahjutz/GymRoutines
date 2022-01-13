@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="unnamed_routine">Unavngiven</string>
-    <string name="confirm_delete">Vil du slette %1$s \?</string>
-    <string name="add_set">Tilføj Sæt</string>
-    <string name="pick_exercise">Vælg Øvelse</string>
-    <string name="distance">Afstand</string>
-    <string name="time">Tid</string>
-    <string name="weight">Vægt</string>
-    <string name="log_time">Tid log</string>
-    <string name="log_weight">Vægt log</string>
-    <string name="log_reps">Gentagelser log</string>
-    <string name="reps">Rep</string>
-    <string name="tab_routines">Rutine</string>
-    <string name="tab_workouts">Historie</string>
-    <string name="tab_exercises">Konditræning</string>
-    <string name="settings">Indstilling</string>
+    <string name="dialog_delete_title">Vil du slette %1$s \?</string>
+    <string name="btn_add_set">Tilføj Sæt</string>
+    <string name="screen_pick_exercise">Vælg Øvelse</string>
+    <string name="col_distance">Afstand</string>
+    <string name="col_time">Tid</string>
+    <string name="col_weight">Vægt</string>
+    <string name="checkbox_log_time">Tid log</string>
+    <string name="checkbox_log_weight">Vægt log</string>
+    <string name="checkbox_log_reps">Gentagelser log</string>
+    <string name="col_reps">Rep</string>
+    <string name="screen_routine_list">Rutine</string>
+    <string name="screen_workout_history">Historie</string>
+    <string name="screen_exercise_list">Konditræning</string>
+    <string name="screen_settings">Indstilling</string>
     <string name="alert_no_log_value_selected">Vælg mindst valuen værdi.</string>
     <string name="yes">Ja</string>
-    <string name="cancel">Annullere</string>
-    <string name="log_distance">Afstand log</string>
+    <string name="btn_cancel">Annullere</string>
+    <string name="checkbox_log_distance">Afstand log</string>
 </resources>

@@ -116,8 +116,8 @@ class GymRoutinesApplication : Application() {
                             val builder =
                                 NotificationCompat.Builder(applicationContext, PERSISTENT_WORKOUT_CHANNEL_ID)
                                     .setSmallIcon(R.drawable.ic_gymroutines)
-                                    .setContentTitle(getString(R.string.workout_notification_title))
-                                    .setContentText(getString(R.string.workout_notification_text))
+                                    .setContentTitle(getString(R.string.notification_persistent_title))
+                                    .setContentText(getString(R.string.notification_persistent_text))
                                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                                     .setContentIntent(pending)
                                     .setOngoing(true)
@@ -137,8 +137,8 @@ class GymRoutinesApplication : Application() {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.persistent_workout_channel_name)
-            val descriptionText = getString(R.string.persistent_workout_channel_description)
+            val name = getString(R.string.notification_channel_persistent_name)
+            val descriptionText = getString(R.string.notification_channel_persistent_description)
             val importance = NotificationManager.IMPORTANCE_LOW
             val channel = NotificationChannel(PERSISTENT_WORKOUT_CHANNEL_ID, name, importance).apply {
                 description = descriptionText

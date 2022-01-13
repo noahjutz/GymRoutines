@@ -32,7 +32,7 @@ enum class ColorTheme(
 ) {
     FollowSystem(R.string.theme_follow_system),
     White(R.string.theme_light),
-    Black(R.string.theme_black)
+    Black(R.string.theme_dark)
 }
 
 sealed class AppPrefs<T>(val key: Preferences.Key<T>, val defaultValue: T) {

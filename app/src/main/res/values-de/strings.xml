@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="yes">Ja</string>
-    <string name="cancel">Abbrechen</string>
-    <string name="time">Dauer</string>
-    <string name="weight">Gewicht</string>
-    <string name="distance">Strecke</string>
+    <string name="btn_cancel">Abbrechen</string>
+    <string name="col_time">Dauer</string>
+    <string name="col_weight">Gewicht</string>
+    <string name="col_distance">Strecke</string>
     <string name="alert_no_log_value_selected">Bitte wähle mindestens einen Wert aus.</string>
-    <string name="settings">Einstellungen</string>
+    <string name="screen_settings">Einstellungen</string>
     <string name="unnamed_routine">Unbenannt</string>
-    <string name="confirm_delete">Möchtest du %1$s löschen\?</string>
-    <string name="add_set">Satz hinzufügen</string>
-    <string name="reps">Wiederholungen</string>
-    <string name="log_weight">Gewicht protokollieren</string>
-    <string name="log_reps">Wiederholungen protokollieren</string>
-    <string name="log_distance">Distanz protokollieren</string>
-    <string name="tab_workouts">Historie</string>
-    <string name="pick_exercise">Übung auswählen</string>
-    <string name="tab_exercises">Übungen</string>
-    <string name="tab_routines">Trainingspläne</string>
-    <string name="log_time">Dauer protokollieren</string>
+    <string name="dialog_delete_title">Möchtest du %1$s löschen\?</string>
+    <string name="btn_add_set">Satz hinzufügen</string>
+    <string name="col_reps">Wiederholungen</string>
+    <string name="checkbox_log_weight">Gewicht protokollieren</string>
+    <string name="checkbox_log_reps">Wiederholungen protokollieren</string>
+    <string name="checkbox_log_distance">Distanz protokollieren</string>
+    <string name="screen_workout_history">Historie</string>
+    <string name="screen_pick_exercise">Übung auswählen</string>
+    <string name="screen_exercise_list">Übungen</string>
+    <string name="screen_routine_list">Trainingspläne</string>
+    <string name="checkbox_log_time">Dauer protokollieren</string>
 </resources>

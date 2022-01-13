@@ -58,7 +58,7 @@ fun WorkoutInsights(
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(R.string.tab_insights),
+                title = stringResource(R.string.screen_insights),
                 actions = {
                     Box {
                         var expanded by remember { mutableStateOf(false) }
@@ -195,7 +195,7 @@ private fun DeleteConfirmation(
         title = {
             Text(
                 stringResource(
-                    R.string.confirm_delete,
+                    R.string.dialog_delete_title,
                     name
                 )
             )
@@ -209,7 +209,7 @@ private fun DeleteConfirmation(
         dismissButton = {
             TextButton(
                 onClick = onDismiss,
-                content = { Text(stringResource(R.string.cancel)) }
+                content = { Text(stringResource(R.string.btn_cancel)) }
             )
         },
         onDismissRequest = onDismiss

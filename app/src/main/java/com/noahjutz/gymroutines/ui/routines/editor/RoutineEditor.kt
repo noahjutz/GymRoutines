@@ -93,7 +93,7 @@ fun RoutineEditor(
             TopBar(
                 navigationIcon = {
                     IconButton(onClick = popBackStack) {
-                        Icon(Icons.Default.ArrowBack, stringResource(R.string.pop_back))
+                        Icon(Icons.Default.ArrowBack, stringResource(R.string.btn_pop_back))
                     }
                 },
                 title = "Edit Routine",

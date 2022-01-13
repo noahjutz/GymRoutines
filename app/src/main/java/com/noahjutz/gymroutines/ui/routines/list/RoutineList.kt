@@ -56,7 +56,7 @@ fun RoutineList(
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(R.string.tab_routines),
+                title = stringResource(R.string.screen_routine_list),
                 actions = {
                     Box {
                         var expanded by remember { mutableStateOf(false) }
@@ -184,7 +184,7 @@ fun RoutineListContent(
                     title = {
                         Text(
                             stringResource(
-                                R.string.confirm_delete,
+                                R.string.dialog_delete_title,
                                 routine.name.takeIf { it.isNotBlank() }
                                     ?: stringResource(R.string.unnamed_routine)
                             )
@@ -199,7 +199,7 @@ fun RoutineListContent(
                     dismissButton = {
                         TextButton(
                             onClick = { scope.launch { dismissState.reset() } },
-                            content = { Text(stringResource(R.string.cancel)) }
+                            content = { Text(stringResource(R.string.btn_cancel)) }
                         )
                     },
                     onDismissRequest = { scope.launch { dismissState.reset() } }

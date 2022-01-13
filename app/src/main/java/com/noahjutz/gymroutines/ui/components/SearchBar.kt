@@ -15,7 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.noahjutz.gymroutines.R
 
 @ExperimentalAnimationApi
 @Composable
@@ -50,7 +52,7 @@ fun SearchBar(
                     ) {
                         if (value.isEmpty()) {
                             Text(
-                                "Search",
+                                stringResource(R.string.hint_search),
                                 style = MaterialTheme.typography.h6.copy(
                                     color = MaterialTheme.colors.onSurface.copy(alpha = 0.12f)
                                 )
@@ -65,7 +67,7 @@ fun SearchBar(
                     ) {
                         Spacer(Modifier.width(8.dp))
                         IconButton(onClick = { onValueChange("") }) {
-                            Icon(Icons.Default.Clear, "Clear")
+                            Icon(Icons.Default.Clear, stringResource(R.string.btn_clear_text))
                         }
                     }
                 }

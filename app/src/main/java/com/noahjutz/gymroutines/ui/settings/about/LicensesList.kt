@@ -103,7 +103,7 @@ fun LicensesList(
                     shape = RoundedCornerShape(30.dp)
                 ) {
                     Box(Modifier.padding(20.dp)) {
-                        Text(stringResource(R.string.license_notice), style = typography.body2)
+                        Text(stringResource(R.string.app_license), style = typography.body2)
                     }
                 }
                 Text(

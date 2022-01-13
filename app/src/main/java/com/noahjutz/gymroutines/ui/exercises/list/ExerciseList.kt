@@ -56,7 +56,7 @@ fun ExerciseList(
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(R.string.tab_exercises),
+                title = stringResource(R.string.screen_exercise_list),
                 actions = {
                     Box {
                         var expanded by remember { mutableStateOf(false) }
@@ -79,7 +79,7 @@ fun ExerciseList(
             ExtendedFloatingActionButton(
                 onClick = { navToExerciseEditor(-1) },
                 icon = { Icon(Icons.Default.Add, null) },
-                text = { Text(stringResource(R.string.new_exercise)) },
+                text = { Text(stringResource(R.string.btn_new_exercise)) },
             )
         },
     ) {
@@ -140,8 +140,7 @@ private fun ExerciseListContent(
                         Modifier.clickable { navToExerciseEditor(exercise.exerciseId) },
                         text = {
                             Text(
-                                text = exercise.name.takeIf { it.isNotBlank() }
-                                    ?: stringResource(R.string.unnamed_exercise),
+                                text = exercise.name,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                             )
@@ -197,12 +196,7 @@ private fun ConfirmDeleteExerciseDialog(
     AlertDialog(
         title = {
             Text(
-                stringResource(
-                    R.string.confirm_delete,
-                    exerciseName.takeIf { it.isNotBlank() }
-
-                        ?: stringResource(R.string.unnamed_exercise)
-                )
+                stringResource(R.string.dialog_delete_title, exerciseName)
             )
         },
         confirmButton = {
@@ -214,7 +208,7 @@ private fun ConfirmDeleteExerciseDialog(
         dismissButton = {
             TextButton(
                 onClick = onDismiss,
-                content = { Text(stringResource(R.string.cancel)) }
+                content = { Text(stringResource(R.string.btn_cancel)) }
             )
         },
         onDismissRequest = onDismiss,

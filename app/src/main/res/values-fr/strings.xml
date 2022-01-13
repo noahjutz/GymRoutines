@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="settings">Paramètres</string>
-    <string name="tab_workouts">Historique</string>
-    <string name="tab_exercises">Exercies</string>
+    <string name="screen_settings">Paramètres</string>
+    <string name="screen_workout_history">Historique</string>
+    <string name="screen_exercise_list">Exercies</string>
     <string name="alert_no_log_value_selected">Veuillez sélectionner au moins une valeur.</string>
-    <string name="pick_exercise">Exercice de choix</string>
+    <string name="screen_pick_exercise">Exercice de choix</string>
     <string name="yes">Oui</string>
-    <string name="cancel">Annuler</string>
-    <string name="confirm_delete">Voulez-vous supprimer les %1$s \?</string>
-    <string name="add_set">Ajouter une série</string>
-    <string name="weight">Poids</string>
-    <string name="time">Heure</string>
-    <string name="log_time">Heure du journal</string>
-    <string name="log_weight">Poids record</string>
-    <string name="log_reps">Répétitions du journal</string>
-    <string name="reps">Répétitions</string>
-    <string name="distance">Distante</string>
-    <string name="tab_routines">Règles de routine</string>
+    <string name="btn_cancel">Annuler</string>
+    <string name="dialog_delete_title">Voulez-vous supprimer les %1$s \?</string>
+    <string name="btn_add_set">Ajouter une série</string>
+    <string name="col_weight">Poids</string>
+    <string name="col_time">Heure</string>
+    <string name="checkbox_log_time">Heure du journal</string>
+    <string name="checkbox_log_weight">Poids record</string>
+    <string name="checkbox_log_reps">Répétitions du journal</string>
+    <string name="col_reps">Répétitions</string>
+    <string name="col_distance">Distante</string>
+    <string name="screen_routine_list">Règles de routine</string>
     <string name="unnamed_routine">Non nommé</string>
-    <string name="log_distance">Distance du journal</string>
+    <string name="checkbox_log_distance">Distance du journal</string>
 </resources>

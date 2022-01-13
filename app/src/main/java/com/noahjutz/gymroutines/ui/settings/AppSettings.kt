@@ -44,7 +44,7 @@ fun AppSettings(
     Scaffold(
         topBar = {
             TopBar(
-                title = stringResource(R.string.settings),
+                title = stringResource(R.string.screen_settings),
                 navigationIcon = {
                     IconButton(onClick = popBackStack) {
                         Icon(Icons.Default.ArrowBack, "back")
