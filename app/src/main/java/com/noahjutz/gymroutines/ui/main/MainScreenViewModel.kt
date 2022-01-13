@@ -17,14 +17,6 @@ class MainScreenViewModel(
         } ?: ColorTheme.FollowSystem
     }
 
-    fun isDark(defaultValue: Boolean): Flow<Boolean> = colorTheme.map { colorTheme ->
-        when (colorTheme) {
-            ColorTheme.FollowSystem -> defaultValue
-            ColorTheme.White -> false
-            ColorTheme.Black -> true
-        }
-    }
-
     val currentWorkoutId: Flow<Int> = preferences.data.map { preferences ->
         preferences[AppPrefs.CurrentWorkout.key] ?: -1
     }
