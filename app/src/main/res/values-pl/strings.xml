@@ -3,14 +3,12 @@
     <string name="yes">Tak</string>
     <string name="weight">Waga</string>
     <string name="reps">Powtarza</string>
-    <string name="unnamed_exercise">Nienazwany</string>
     <string name="log_reps">Powtórzenia dziennika</string>
     <string name="tab_exercises">Ćwiczenia</string>
     <string name="tab_routines">Procedury</string>
     <string name="log_weight">Rekordowa waga</string>
     <string name="log_distance">Odległość dziennika</string>
-    <string name="unnamed_workout">Nienazwany</string>
-    <string name="tab_settings">Ustawienia</string>
+    <string name="settings">Ustawienia</string>
     <string name="unnamed_routine">Nienazwany</string>
     <string name="tab_workouts">Historia</string>
     <string name="alert_no_log_value_selected">Proszę wybrać co najmniej jedną wartość.</string>

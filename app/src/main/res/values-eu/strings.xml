@@ -8,13 +8,11 @@
     <string name="time">Denbora</string>
     <string name="distance">Distantzia</string>
     <string name="pick_exercise">Aukeratu Ariketa</string>
-    <string name="unnamed_exercise">Izenik</string>
     <string name="alert_no_log_value_selected">Mesedez, hautatu, gutxienez balio bat.</string>
     <string name="tab_routines">Errutinak</string>
     <string name="tab_exercises">Ariketak</string>
     <string name="tab_workouts">Historia</string>
-    <string name="unnamed_workout">Izenik</string>
-    <string name="tab_settings">Ezarpenak</string>
+    <string name="settings">Ezarpenak</string>
     <string name="log_reps">Errepikapen saioa</string>
     <string name="log_weight">Pisu saioa</string>
     <string name="log_time">Denbora saioa</string>

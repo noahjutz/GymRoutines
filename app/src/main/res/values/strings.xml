@@ -27,7 +27,6 @@
     <string name="time">Time</string>
     <string name="distance">Distance</string>
     <string name="pick_exercise">Pick Exercise</string>
-    <string name="unnamed_exercise">Unnamed</string>
     <string name="alert_no_log_value_selected">Please select at least one value.</string>
     <string name="log_reps">Log Reps</string>
     <string name="log_weight">Log Weight</string>
@@ -36,15 +35,13 @@
     <string name="tab_routines">Routines</string>
     <string name="tab_exercises">Exercises</string>
     <string name="tab_workouts">History</string>
-    <string name="unnamed_workout">Unnamed</string>
-    <string name="tab_settings">Settings</string>
+    <string name="settings">Settings</string>
     <string name="new_exercise">New Exercise</string>
     <string name="tab_insights">Insights</string>
     <string name="license_notice" translatable="false">GymRoutines\nCopyright © 2020  Noah Jutz\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program.  If not, see https://www.gnu.org/licenses/.</string>
     <string name="theme_follow_system">Follow System</string>
-    <string name="theme_light">White</string>
+    <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
-    <string name="theme_black">Black</string>
     <string name="pop_back">Back</string>
     <string name="persistent_workout_channel_description">These notifications are shown while you are working out, so you know that your workout is still running.</string>
     <string name="persistent_workout_channel_name">Ongoing Workout Notification</string>

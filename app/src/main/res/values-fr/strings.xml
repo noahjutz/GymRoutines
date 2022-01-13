@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tab_settings">Paramètres</string>
-    <string name="unnamed_workout">Non nommé</string>
-    <string name="unnamed_exercise">Non nommé</string>
+    <string name="settings">Paramètres</string>
     <string name="tab_workouts">Historique</string>
     <string name="tab_exercises">Exercies</string>
     <string name="alert_no_log_value_selected">Veuillez sélectionner au moins une valeur.</string>

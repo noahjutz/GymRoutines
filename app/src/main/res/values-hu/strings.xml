@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tab_settings">Beállítások</string>
-    <string name="unnamed_workout">Névtelen</string>
+    <string name="settings">Beállítások</string>
     <string name="tab_workouts">Történelem</string>
     <string name="tab_exercises">Gyakorlatok</string>
     <string name="tab_routines">Rutinok</string>
     <string name="alert_no_log_value_selected">Kérjük, válasszon legalább egy értéket.</string>
-    <string name="unnamed_exercise">Névtelen</string>
     <string name="pick_exercise">Pick Gyakorlat</string>
     <string name="distance">Távolság</string>
     <string name="time">Idő</string>

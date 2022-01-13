@@ -7,8 +7,7 @@
     <string name="reps">Repete</string>
     <string name="pick_exercise">Exercício de Escolha</string>
     <string name="distance">Distância</string>
-    <string name="unnamed_workout">Sem nome</string>
-    <string name="tab_settings">Configurações</string>
+    <string name="settings">Configurações</string>
     <string name="tab_workouts">História</string>
     <string name="tab_exercises">Exercícios</string>
     <string name="tab_routines">Rotinas</string>
@@ -16,7 +15,6 @@
     <string name="log_time">Tempo de registro</string>
     <string name="log_weight">Peso recorde</string>
     <string name="log_reps">Repetições de registros</string>
-    <string name="unnamed_exercise">Sem nome</string>
     <string name="unnamed_routine">Sem nome</string>
     <string name="alert_no_log_value_selected">Por favor, selecione pelo menos um valor.</string>
     <string name="time">Hora</string>

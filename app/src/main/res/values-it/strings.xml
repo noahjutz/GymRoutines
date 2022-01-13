@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="unnamed_exercise">Senza nome</string>
     <string name="unnamed_routine">Senza nome</string>
     <string name="tab_workouts">Storia</string>
     <string name="tab_exercises">Esercizi</string>
@@ -17,8 +16,7 @@
     <string name="log_time">Tempo di log</string>
     <string name="log_weight">Peso record</string>
     <string name="reps">Ripete</string>
-    <string name="tab_settings">Impostazioni</string>
-    <string name="unnamed_workout">Senza nome</string>
+    <string name="settings">Impostazioni</string>
     <string name="alert_no_log_value_selected">Seleziona almeno un valore.</string>
     <string name="log_reps">Registrare Ripete</string>
 </resources>

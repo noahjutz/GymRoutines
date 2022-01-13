@@ -14,11 +14,9 @@
     <string name="log_time">Aikaloki</string>
     <string name="log_weight">Painoloki</string>
     <string name="log_reps">Toistojen loki</string>
-    <string name="tab_settings">Asetus</string>
-    <string name="unnamed_workout">Nimetön</string>
+    <string name="settings">Asetus</string>
     <string name="tab_workouts">Historia</string>
     <string name="tab_exercises">Harjoitus</string>
     <string name="alert_no_log_value_selected">Valitse vähintään yksi arvo.</string>
-    <string name="unnamed_exercise">Nimetön</string>
     <string name="confirm_delete">Haluatko poistaa %1$s \?</string>
 </resources>

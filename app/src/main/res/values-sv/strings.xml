@@ -2,13 +2,11 @@
 <resources>
     <string name="unnamed_routine">Anonym</string>
     <string name="yes">Ja</string>
-    <string name="tab_settings">Inställning</string>
-    <string name="unnamed_workout">Anonym</string>
+    <string name="settings">Inställning</string>
     <string name="tab_workouts">Historia</string>
     <string name="tab_exercises">Övningar</string>
     <string name="tab_routines">Rutin</string>
     <string name="alert_no_log_value_selected">Välj minst ett värde.</string>
-    <string name="unnamed_exercise">Anonym</string>
     <string name="pick_exercise">Plocka Motion</string>
     <string name="distance">Avstånd</string>
     <string name="time">Tid</string>
