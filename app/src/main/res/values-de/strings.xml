@@ -18,4 +18,5 @@
     <string name="screen_exercise_list">Übungen</string>
     <string name="screen_routine_list">Trainingspläne</string>
     <string name="checkbox_log_time">Dauer protokollieren</string>
+    <string name="column_set_complete">Satz fertig</string>
 </resources>
