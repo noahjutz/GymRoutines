@@ -7,6 +7,8 @@
 
 # GymRoutines
 
+[![Translation status](https://weblate.bubu1.eu/widgets/gymroutines/-/svg-badge.svg)](https://weblate.bubu1.eu/engage/gymroutines/)
+
 [noahjutz.codeberg.page/gymroutines](https://noahjutz.codeberg.page/gymroutines)
 
 An Open-Source Android app for creating training plans and tracking progress.
