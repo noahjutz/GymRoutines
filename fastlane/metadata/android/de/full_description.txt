@@ -1,0 +1,7 @@
+GymRoutines erleichtert das Erstellen von Übungen und Trainingsplänen die deinen Vorstellungen entsprechen. Du kannst deine bestehenden Traingspläne mühelos in die App übertragen.
+
+Verfolge deinen Fortschritt und sehe dir Diagramme in der App an. Verbessere deine Leistung, indem du Entscheidungen auf Daten gründest.
+
+Unter der GNU GPLv3 Lizenz kann der Quellcode von GymRoutines von jedem betrachtet, bearbeitet und neu verteilt werden (siehe Lizenz). Prüfe den Quellcode selbst auf Codeberg.
+
+Alle Workouts sind lokal gespeichert, sodass deine Daten so sicher und privat wie möglich sind. Darüber hinaus führt die Unabhängingkeit vom Internet zu besserer Leistung.
