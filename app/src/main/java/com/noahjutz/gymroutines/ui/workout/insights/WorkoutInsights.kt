@@ -103,6 +103,7 @@ fun WorkoutInsights(
                 items(workouts ?: emptyList(), { it.workoutId }) { workout ->
                     val dismissState = rememberDismissState()
                     val routineName = routineNames?.get(workout.workoutId)
+                        ?.takeIf { it.isNotBlank() }
                         ?: stringResource(R.string.unnamed_routine)
 
                     SwipeToDismiss(
