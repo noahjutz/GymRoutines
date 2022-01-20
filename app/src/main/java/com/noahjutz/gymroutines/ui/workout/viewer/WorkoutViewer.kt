@@ -77,7 +77,7 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
             val routineName by viewModel.routineName.collectAsState(initial = "")
             Spacer(Modifier.height(24.dp))
             Text(
-                text = routineName,
+                text = routineName.takeIf { it.isNotBlank() } ?: stringResource(R.string.unnamed_routine),
                 modifier = Modifier.padding(horizontal = 24.dp),
                 style = typography.h4,
             )
