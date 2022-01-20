@@ -1,5 +1,6 @@
 Features
 * Added a persistent workout notification that is visible during a workout (48988881..0aaf9afe)
+* Translated entire app to German (08c1d032, eb404a84)
 
 Bug fixes
 * Fixed workout bottom sheet appearance (ad0fc695)
