@@ -3,9 +3,11 @@ Features
 
 Bug fixes
 * Fixed workout bottom sheet appearance (ad0fc695)
+* Show "Unnamed" text in WorkoutViewer and WorkoutInsights if routine is unnamed (e80bde5e, 187cb8f9)
 
 Development
 * Upgrade dependencies (c8637b2c)
 * Extract all strings to string resources for translation (b1d189b5..75461334)
+* Added weblate badge to README (7585d845)
 * Removed NothingHereYet screen (71fe6236)
 * Removed unused isDark function (502fea73)
