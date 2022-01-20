@@ -76,14 +76,12 @@ class GymRoutinesApplication : Application() {
                         }
                     }
 
-                    scope.launch(Dispatchers.Main) {
+                    withContext(Dispatchers.Main) {
                         ProcessLifecycleOwner.get().lifecycle.addObserver(callback)
                     }
 
                     awaitClose {
-                        scope.launch(Dispatchers.Main) {
-                            ProcessLifecycleOwner.get().lifecycle.removeObserver(callback)
-                        }
+                        ProcessLifecycleOwner.get().lifecycle.removeObserver(callback)
                     }
                 }
 
@@ -114,7 +112,10 @@ class GymRoutinesApplication : Application() {
                             }
                         if (showNotification) {
                             val builder =
-                                NotificationCompat.Builder(applicationContext, PERSISTENT_WORKOUT_CHANNEL_ID)
+                                NotificationCompat.Builder(
+                                    applicationContext,
+                                    PERSISTENT_WORKOUT_CHANNEL_ID
+                                )
                                     .setSmallIcon(R.drawable.ic_gymroutines)
                                     .setContentTitle(getString(R.string.notif_title_current_workout))
                                     .setContentText(getString(R.string.notif_text_current_workout))
@@ -140,9 +141,10 @@ class GymRoutinesApplication : Application() {
             val name = getString(R.string.channel_name_current_workout)
             val descriptionText = getString(R.string.channel_description_current_workout)
             val importance = NotificationManager.IMPORTANCE_LOW
-            val channel = NotificationChannel(PERSISTENT_WORKOUT_CHANNEL_ID, name, importance).apply {
-                description = descriptionText
-            }
+            val channel =
+                NotificationChannel(PERSISTENT_WORKOUT_CHANNEL_ID, name, importance).apply {
+                    description = descriptionText
+                }
             val notificationManager: NotificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
