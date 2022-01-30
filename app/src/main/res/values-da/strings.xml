@@ -18,4 +18,13 @@
     <string name="alert_no_log_value_selected">Vælg mindst valuen værdi.</string>
     <string name="btn_cancel">Annullere</string>
     <string name="checkbox_log_distance">Afstand log</string>
+    <string name="column_set_complete">Sæt komplet</string>
+    <string name="screen_insights">Indsigt</string>
+    <string name="app_theme_dark">Mørk</string>
+    <string name="channel_description_current_workout">Disse meddelelser vises, mens du træner, så du ved, at din træning stadig er i gang.</string>
+    <string name="btn_new_exercise">Ny træning</string>
+    <string name="app_theme_follow_system">Følg systemet</string>
+    <string name="app_theme_light">Lys</string>
+    <string name="btn_pop_back">Tilbage</string>
+    <string name="channel_name_current_workout">Meddelelse om løbende træning</string>
 </resources>
