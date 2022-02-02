@@ -1,13 +1,14 @@
 Features
 * Added a persistent workout notification that is visible during a workout (48988881..0aaf9afe)
 * Translated entire app to German (08c1d032, eb404a84)
+* Added translations for danish (8bb5fec3) @mondstern
 
 Bug fixes
 * Fixed workout bottom sheet appearance (ad0fc695)
 * Show "Unnamed" text in WorkoutViewer and WorkoutInsights if routine is unnamed (e80bde5e, 187cb8f9)
 
 Development
-* Upgrade dependencies (c8637b2c)
+* Upgrade dependencies (c8637b2c, e4212761)
 * Extract all strings to string resources for translation (b1d189b5..75461334)
 * Added weblate badge to README (7585d845)
 * Removed NothingHereYet screen (71fe6236)
