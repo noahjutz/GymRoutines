@@ -27,4 +27,9 @@
     <string name="app_theme_light">Lys</string>
     <string name="btn_pop_back">Tilbage</string>
     <string name="channel_name_current_workout">Meddelelse om løbende træning</string>
+    <string name="notif_title_current_workout">Træning undervejs</string>
+    <string name="notif_text_current_workout">Tryk for at vende tilbage til din træning</string>
+    <string name="hint_search">Søg</string>
+    <string name="btn_clear_text">Klar</string>
+    <string name="dialog_title_discard">Ændringer afkast\?</string>
 </resources>
