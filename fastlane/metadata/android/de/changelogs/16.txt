@@ -1,0 +1,5 @@
+* Hinzufügen des Splitfit-Bildschirms
+* Hinzufügen von Build Flavors, um den Richtlinien des App Stores zu entsprechen:
+  * fdroid für F-Droid
+  * googleplay für Google Play
+* README aktualisieren
