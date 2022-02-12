@@ -18,4 +18,13 @@
     <string name="alert_no_log_value_selected">Selecteer minstens één waarde.</string>
     <string name="screen_workout_history">Geschiedenis</string>
     <string name="column_reps">Wiederholungen</string>
+    <string name="column_set_complete">Set compleet</string>
+    <string name="screen_insights">Inzichten</string>
+    <string name="btn_new_exercise">Nieuwe Oefening</string>
+    <string name="app_theme_follow_system">Volg Systeem</string>
+    <string name="app_theme_light">Licht</string>
+    <string name="app_theme_dark">Donker</string>
+    <string name="btn_pop_back">Terug</string>
+    <string name="channel_description_current_workout">Deze meldingen worden getoond terwijl u aan het trainen bent, zodat u weet dat uw workout nog loopt.</string>
+    <string name="channel_name_current_workout">Lopende training melding</string>
 </resources>
