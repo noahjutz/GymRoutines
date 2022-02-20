@@ -66,7 +66,7 @@ object Libs {
     }
 
     object Navigation {
-        private const val version = "2.4.0"
+        private const val version = "2.4.1"
         const val compose = "androidx.navigation:navigation-compose:$version"
     }
 
@@ -76,7 +76,7 @@ object Libs {
     }
 
     object Compose {
-        const val version = "1.2.0-alpha02"
+        const val version = "1.2.0-alpha03"
         const val ui = "androidx.compose.ui:ui:$version"
         const val tooling = "androidx.compose.ui:ui-tooling:$version"
         const val foundation = "androidx.compose.foundation:foundation:$version"
