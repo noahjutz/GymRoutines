@@ -31,7 +31,7 @@ object Libs {
     object Core {
         private const val version = "1.7.0"
         const val core = "androidx.core:core-ktx:$version"
-        private const val versionSplashScreen = "1.0.0-alpha02"
+        private const val versionSplashScreen = "1.0.0-beta01"
         const val splashScreen = "androidx.core:core-splashscreen:$versionSplashScreen"
     }
 
@@ -59,7 +59,7 @@ object Libs {
     }
 
     object Lifecycle {
-        private const val version = "2.4.0"
+        private const val version = "2.4.1"
         const val lifecycle = "androidx.lifecycle:lifecycle-compiler:$version"
         const val livedata = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
         const val process = "androidx.lifecycle:lifecycle-process:$version"
@@ -89,7 +89,7 @@ object Libs {
     }
 
     object Accompanist {
-        private const val version = "0.22.0-rc"
+        private const val version = "0.24.2-alpha"
         const val navigationMaterial =
             "com.google.accompanist:accompanist-navigation-material:$version"
         const val navigationAnimation =
