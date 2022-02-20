@@ -1,0 +1,12 @@
+Features:
+* Added Danish translations (aa548cbf, 75fbe12f) @mondstern
+* Added French translations (854c836e) @twann
+* Added Spanish translations (e8742dc4) @XabMS
+* Added Dutch translations (0fd9fc4b) @mondstern
+* Added German translations (468a32de) @mondstern
+
+Bug fixes:
+* Exercise list is now sorted in a case-insensitive manner (ec863c83) @yamanq
+
+Development:
+* Upgraded dependencies (2d966e3c, b4918d3e, 3ae85e56, 1881c369)
