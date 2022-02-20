@@ -36,7 +36,7 @@ object Libs {
     }
 
     object Coroutines {
-        private const val version = "1.5.2"
+        private const val version = "1.6.0"
         const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
     }
 
@@ -46,7 +46,7 @@ object Libs {
     }
 
     object Serialization {
-        private const val version = "1.3.0"
+        private const val version = "1.3.2"
         const val json = "org.jetbrains.kotlinx:kotlinx-serialization-json:$version"
     }
 
@@ -103,7 +103,7 @@ object Libs {
     }
 
     object Koin {
-        private const val version = "3.1.4"
+        private const val version = "3.1.5"
         const val android = "io.insert-koin:koin-android:$version"
         const val compose = "io.insert-koin:koin-androidx-compose:$version"
         const val test = "io.insert-koin:koin-test:$version"
