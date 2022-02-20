@@ -33,7 +33,7 @@ interface ExerciseDao {
     @Delete
     suspend fun delete(exercise: Exercise)
 
-    @Query("SELECT * FROM exercise_table ORDER BY name")
+    @Query("SELECT * FROM exercise_table ORDER BY name COLLATE NOCASE ASC")
     fun getExercises(): Flow<List<Exercise>>
 
     @Query("SELECT * FROM exercise_table WHERE exerciseId == :id")
