@@ -1,0 +1,5 @@
+* Voeg over splitfit scherm
+* Voeg bouwen smaken om te voldoen aan app store beleid:
+  * fdroid voor F-Droid
+  * googleplay voor Google Play
+* README bijwerken
