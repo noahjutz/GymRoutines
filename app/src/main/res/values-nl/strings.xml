@@ -27,4 +27,21 @@
     <string name="btn_pop_back">Terug</string>
     <string name="channel_description_current_workout">Deze meldingen worden getoond terwijl u aan het trainen bent, zodat u weet dat uw workout nog loopt.</string>
     <string name="channel_name_current_workout">Lopende training melding</string>
+    <string name="notif_title_current_workout">Workout in uitvoering</string>
+    <string name="notif_text_current_workout">Tik om terug te keren naar uw training</string>
+    <string name="hint_search">Zoeken</string>
+    <string name="btn_clear_text">Duidelijk</string>
+    <string name="dialog_title_discard">Wijzigingen weggooien\?</string>
+    <string name="dialog_confirm_discard">Weggooien</string>
+    <string name="screen_edit_exercise">Bewerk oefening</string>
+    <string name="btn_save">Bewaar</string>
+    <string name="label_exercise_name">Naam oefening</string>
+    <string name="label_exercise_notes">Opmerkingen</string>
+    <string name="btn_more">Meer</string>
+    <string name="btn_delete">Verwijder</string>
+    <string name="btn_select_option">Selecteer</string>
+    <string name="sheet_workout_in_progress">Workout in uitvoering</string>
+    <string name="screen_view_workout">Bekijk Training</string>
+    <string name="chart_insufficient_data">Niet genoeg data.</string>
+    <string name="chart_workout_duration">Duur training</string>
 </resources>
