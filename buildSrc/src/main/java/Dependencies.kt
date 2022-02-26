@@ -41,7 +41,7 @@ object Libs {
     }
 
     object Material {
-        private const val version = "1.3.0"
+        private const val version = "1.5.0"
         const val material = "com.google.android.material:material:$version"
     }
 
@@ -51,7 +51,7 @@ object Libs {
     }
 
     object Room {
-        private const val version = "2.4.1"
+        private const val version = "2.4.2"
         const val room = "androidx.room:room-ktx:$version"
         const val compiler = "androidx.room:room-compiler:$version"
         const val runtime = "androidx.room:room-runtime:$version"
@@ -76,7 +76,7 @@ object Libs {
     }
 
     object Compose {
-        const val version = "1.2.0-alpha03"
+        const val version = "1.2.0-alpha04"
         const val ui = "androidx.compose.ui:ui:$version"
         const val tooling = "androidx.compose.ui:ui-tooling:$version"
         const val foundation = "androidx.compose.foundation:foundation:$version"
