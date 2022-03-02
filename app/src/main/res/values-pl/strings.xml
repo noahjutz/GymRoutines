@@ -18,4 +18,25 @@
     <string name="btn_cancel">Anuluj</string>
     <string name="dialog_title_delete">Czy chcesz usunąć %1$s \?</string>
     <string name="checkbox_log_time">Czas logowania</string>
+    <string name="screen_general_settings">Ogólne</string>
+    <string name="pref_detail_back_up_data">Zapisywanie procedur, ćwiczeń i treningów w pliku</string>
+    <string name="pref_detail_restore_data">Importuj plik bazy danych, nadpisując wszystkie dane</string>
+    <string name="pref_reset_settings">Resetuj wszystkie ustawienia</string>
+    <string name="btn_finish_workout">Zakończyć trening</string>
+    <string name="dialog_title_discard_workout">Odrzucić trening\?</string>
+    <string name="btn_discard_workout">Odrzucić trening</string>
+    <string name="drag_handle">Zmień układ</string>
+    <string name="screen_perform_workout">Trening</string>
+    <string name="btn_close">Zamknij</string>
+    <string name="checkbox_update_routine">Aktualizuj rutynę</string>
+    <string name="body_workout_completed">Zakończyłeś trening.</string>
+    <string name="title_workout_completed">Dobra robota.</string>
+    <string name="btn_continue_workout">Kontynuuj trening</string>
+    <string name="dialog_confirm_reset_settings">Resetuj</string>
+    <string name="dialog_title_reset_settings">Zresetować wszystkie ustawienia\?</string>
+    <string name="screen_view_workout">Zobacz trening</string>
+    <string name="chart_insufficient_data">Za mało danych.</string>
+    <string name="chart_workout_duration">Czas trwania ćwiczeń</string>
+    <string name="dialog_confirm_finish_workout">Zakończenie</string>
+    <string name="dialog_title_finish_workout">Zakończyć trening\?</string>
 </resources>
