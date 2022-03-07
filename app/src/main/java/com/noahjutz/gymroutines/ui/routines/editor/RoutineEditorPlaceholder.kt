@@ -19,7 +19,7 @@ fun RoutineEditorPlaceholder() {
                 .fillMaxWidth()
                 .height(60.dp)
                 .clip(RoundedCornerShape(percent = 100))
-                .placeholder(visible = true, highlight = PlaceholderHighlight.shimmer())
+                .placeholder(visible = true)
         )
         Box(
             Modifier
@@ -27,7 +27,7 @@ fun RoutineEditorPlaceholder() {
                 .fillMaxWidth()
                 .height(300.dp)
                 .clip(RoundedCornerShape(30.dp))
-                .placeholder(visible = true, highlight = PlaceholderHighlight.shimmer())
+                .placeholder(visible = true)
         )
     }
 }
