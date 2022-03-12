@@ -18,4 +18,6 @@
     <string name="alert_no_log_value_selected">Por favor, selecione pelo menos um valor.</string>
     <string name="column_time">Hora</string>
     <string name="dialog_title_delete">Você quer apagar %1$s \?</string>
+    <string name="btn_new_exercise">Novo Exercício</string>
+    <string name="btn_new_routine">Nova Rotina</string>
 </resources>
