@@ -1,0 +1,18 @@
+Fehlerbehebungen:
+* Fehler behoben, bei dem Übungen nicht gespeichert wurden (0958922d)
+
+Verbesserungen:
+* Verwendung von erweiterten FAB-Buttons für einfachere Bedienung (d3fb6946)
+
+Neue Funktionen:
+* Hinzufügen von Teilübersetzungen für 13 Sprachen (WIP)
+
+Code-Bereinigung:
+* MainActivity ambient anstelle von util-Klassen verwenden (7000266b, 14aae8d0)
+* Hinzufügen von AboutSplitfitViewModel (14aae8d0)
+* Abbrechen / Beenden des Trainings vom ViewModel aus (dfbe9a5e)
+* Composables entkoppeln (16fe70d6)o
+
+Verschiedenes:
+* README aktualisieren
+* Screenshots aktualisieren

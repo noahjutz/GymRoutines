@@ -1,0 +1,7 @@
+Funktionen:
+* Erlaubt die Suche nach Übungen (#43)
+* Anhängen der aktuellen Zeit an den Dateinamen von Backups (#42)
+* Übersetzungen aktualisiert
+
+Verschiedenes:
+* compose auf v1.0.0-alpha12 aktualisiert (5fcd0645)
