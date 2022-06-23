@@ -1,0 +1,6 @@
+Features:
+* Hinzufügen der Registerkarte "Insights" für Trainingsverlauf und Statistiken
+* Verschieben des Datums in der Verlaufsliste, um längere Namen unterzubringen (#64)
+
+Entwicklung:
+* Aktualisierung von jetpack compose auf v1.0.0-beta03

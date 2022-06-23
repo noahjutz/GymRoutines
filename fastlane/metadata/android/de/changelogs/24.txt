@@ -1,0 +1,8 @@
+Features:
+* Workout-Editor hinzufügen (in Arbeit) (#64)
+
+Entwicklung:
+* Upgrade von jetpack compsose auf v1.0.0-beta04 (16f30cf9)
+* Aktualisierung der Paketstruktur in ui.workout (bb8540df, 2f42fd54)
+* Vereinfachung des "insights" Layouts (7992fce3)
+* Andere kleinere Änderungen (8ec5c36f, 840835ac, 256c4495)

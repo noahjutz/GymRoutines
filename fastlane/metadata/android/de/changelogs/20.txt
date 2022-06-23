@@ -1,0 +1,28 @@
+Merkmale:
+* Datum in der Verlaufsliste anzeigen (73e15e2)
+* Warnung vor dem Löschen eines Sets in einer Routine/Workout anzeigen
+* Verbesserte deutsche Übersetzungen (bf5e19e)
+
+Fehlerbehebungen:
+* Fehler behoben, bei dem der ExercisePicker immer geleert wird (344d49f)
+
+Code-Aufräumarbeiten:
+* Umbenennen und Verschieben von Dateien
+  * Umbenennen von WorkoutsScreen in WorkoutHistory (075aaec)
+  * Umbenennen von PickExerciseScreen in ExercisePicker (f099ff9)
+  * Umbenennen von ExercisesScreen in ExerciseList (ebe209d)
+  * Umbenennen von RoutinesScreen in RoutineList (4b93ccc)
+  * CreateRoutineScreen umbenennen in RoutineEditor (1590457)
+  * CreateWorkoutScreen umbenennen in WorkoutEditor (531c7fd)
+  * ExercisePicker zu exercises.picker verschieben (d570958)
+* Generische zusammensetzbare Komponenten entkoppeln
+  * AppBarTextField (e4d00ed)
+  * SetGroupCard (645af30, 166c0fc, 7845a98)
+  * DataTable für SetGroupCard (c031198, etc.)
+* Entfernen von Verweisen auf veralteten Code (41ed6e9, 23f55ae)
+* NumFormatUtil wieder hinzufügen (84ad68e)
+
+Verschiedenes:
+* Compose auf v1.0.0-beta01 aktualisieren (23f55ae)
+  * Temporärer Workaround für koin hinzugefügt (ab304a3)
+* Andere Abhängigkeiten aktualisieren (0e440c0)

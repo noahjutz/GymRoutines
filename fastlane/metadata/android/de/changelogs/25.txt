@@ -1,0 +1,3 @@
+Entwicklung:
+* Aktualisierung der Navigationsrouten (fd68c512)
+* Upgrade der Abhängigkeiten: room, datastore, koin, compose, activity-compose, navigation, lifecycle, kotlinx.serialization, kotlinx.coroutines, material

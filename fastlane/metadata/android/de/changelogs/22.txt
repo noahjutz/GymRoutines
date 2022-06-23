@@ -1,0 +1,11 @@
+Entwicklung:
+* Entfernen des Ordners .idea/
+* Upgrade der Abhängigkeiten
+  * AGP auf v1.0.0-alpha09
+  * compose auf v1.0.0-beta02
+  * compose-navigation auf v1.0.0-alpha09
+  * activity-compose zu v1.0.0-alpha04
+  * kotlin auf v1.4.31
+  * koin auf v3.0.1-beta-1
+  * datastore auf v1.0.0-alpha08
+  * Navigation auf v2.3.4

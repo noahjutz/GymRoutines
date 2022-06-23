@@ -1,0 +1,7 @@
+Fehlerbehebungen:
+* Fehler behoben, bei dem Trainings nicht beendet werden konnten (#67)
+* Fehler behoben, bei dem sich die Auswahl der Checkbox in der Übungsauswahl geändert hat (#49)
+* Fehler behoben, bei dem das Set im Routine/Workout-Editor verworfen wurde (c883804f)
+
+Code-Bereinigung:
+* Verwendung von activity-compose registerActivityForResult (aa871845)
