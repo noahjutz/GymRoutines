@@ -1,0 +1,14 @@
+Merkmale:
+* Einstellung zum Ausblenden der unteren Navigationsbeschriftungen hinzugefügt (#76)
+* Version im Info-Bildschirm hinzugefügt (209a76f9)
+* WorkoutInProgress-Layout überarbeitet (fca69aef)
+* Buttons im RoutineEditor verschoben (#53)
+
+Fehlerbehebungen:
+* Du kannst jetzt auf eine beliebige Stelle in einer Checkbox-Liste tippen, um sie auszuwählen (#57)
+
+Entwicklung:
+* Umbenennung von CreateExercise in ExerciseEditor (f1664422)
+* Compose, AGP, Kotlin, Gradle wurden aktualisiert (a9907f30)
+* util/Datastore.kt nach data/Preferences.kt verschoben (8eb2fb2d)
+* Ersetzte veraltete Funktionen in build.gradle.kts (39384214)
