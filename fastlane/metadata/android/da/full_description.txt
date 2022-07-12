@@ -1,0 +1,7 @@
+GymRoutines gør det nemmere at oprette tilpassede øvelser og træningsprogrammer, der passer til dine behov. Du kan uden problemer bruge dine eksisterende træningsprogrammer i appen.
+
+Følg dine fremskridt og se statistikker i appen. Forbedr dine præstationer ved at træffe beslutninger baseret på data.
+
+Licenseret under GNU General Public License Version 3, kan kildekoden til GymRoutines inspiceres, ændres og videredistribueres af alle (se licens for mere). Tjek kildekoden på Codeberg.
+
+Alle dine træningsprogrammer gemmes lokalt, hvilket betyder, at dine data er så sikre og private som de kan blive. Ud over det fører GymRoutines' uafhængighed af internetforbindelse til exceptionel ydeevne og stabilitet.
