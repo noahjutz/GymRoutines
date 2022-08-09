@@ -17,9 +17,9 @@
  */
 
 object App {
-    const val compileSdk = 31
+    const val compileSdk = 32
     const val minSdk = 21
-    const val targetSdk = 31
+    const val targetSdk = 32
 }
 
 object Versions {
@@ -76,7 +76,7 @@ object Libs {
     }
 
     object Compose {
-        const val version = "1.2.0-alpha04"
+        const val version = "1.2.0"
         const val ui = "androidx.compose.ui:ui:$version"
         const val tooling = "androidx.compose.ui:ui-tooling:$version"
         const val foundation = "androidx.compose.foundation:foundation:$version"
@@ -89,7 +89,7 @@ object Libs {
     }
 
     object Accompanist {
-        private const val version = "0.24.3-alpha"
+        private const val version = "0.25.0"
         const val navigationMaterial =
             "com.google.accompanist:accompanist-navigation-material:$version"
         const val navigationAnimation =
@@ -141,12 +141,12 @@ object TestLibs {
 
 object GradlePlugins {
     object Android {
-        private const val version = "7.1.1"
+        private const val version = "7.2.2"
         const val classpath = "com.android.tools.build:gradle:$version"
     }
 
     object Kotlin {
-        const val version = "1.6.10"
+        const val version = "1.7.0"
         const val classpath = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
     }
 }
