@@ -29,29 +29,29 @@ object Versions {
 
 object Libs {
     object Core {
-        private const val version = "1.7.0"
+        private const val version = "1.8.0"
         const val core = "androidx.core:core-ktx:$version"
         private const val versionSplashScreen = "1.0.0-beta01"
         const val splashScreen = "androidx.core:core-splashscreen:$versionSplashScreen"
     }
 
     object Coroutines {
-        private const val version = "1.6.0"
+        private const val version = "1.6.4"
         const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
     }
 
     object Material {
-        private const val version = "1.5.0"
+        private const val version = "1.6.1"
         const val material = "com.google.android.material:material:$version"
     }
 
     object Serialization {
-        private const val version = "1.3.2"
+        private const val version = "1.3.3"
         const val json = "org.jetbrains.kotlinx:kotlinx-serialization-json:$version"
     }
 
     object Room {
-        private const val version = "2.4.2"
+        private const val version = "2.4.3"
         const val room = "androidx.room:room-ktx:$version"
         const val compiler = "androidx.room:room-compiler:$version"
         const val runtime = "androidx.room:room-runtime:$version"
@@ -59,19 +59,19 @@ object Libs {
     }
 
     object Lifecycle {
-        private const val version = "2.4.1"
+        private const val version = "2.5.1"
         const val lifecycle = "androidx.lifecycle:lifecycle-compiler:$version"
         const val livedata = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
         const val process = "androidx.lifecycle:lifecycle-process:$version"
     }
 
     object Navigation {
-        private const val version = "2.4.1"
+        private const val version = "2.5.1"
         const val compose = "androidx.navigation:navigation-compose:$version"
     }
 
     object Activity {
-        private const val version = "1.4.0"
+        private const val version = "1.5.1"
         const val compose = "androidx.activity:activity-compose:$version"
     }
 
@@ -103,7 +103,7 @@ object Libs {
     }
 
     object Koin {
-        private const val version = "3.1.5"
+        private const val version = "3.2.0"
         const val android = "io.insert-koin:koin-android:$version"
         const val compose = "io.insert-koin:koin-androidx-compose:$version"
         const val test = "io.insert-koin:koin-test:$version"
