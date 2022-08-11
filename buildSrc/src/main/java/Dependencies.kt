@@ -23,8 +23,7 @@ object App {
 }
 
 object Versions {
-    const val ktlintPlugin = "10.2.0"
-    const val ktlint = "0.43.2"
+    const val ktlintPlugin = "10.3.0"
 }
 
 object Libs {
