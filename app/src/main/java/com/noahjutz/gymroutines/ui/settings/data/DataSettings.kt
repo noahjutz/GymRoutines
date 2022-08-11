@@ -45,7 +45,7 @@ fun DataSettings(
         }
     ) {
         val exportDatabaseLauncher = rememberLauncherForActivityResult(
-            ActivityResultContracts.CreateDocument()
+            ActivityResultContracts.CreateDocument("application/vnd.sqlite3")
         ) { uri ->
             if (uri != null) {
                 viewModel.exportDatabase(uri)
@@ -81,12 +81,14 @@ fun DataSettings(
                             scaffoldState.snackbarHostState.showSnackbar(alertFinishWorkout)
                         }
                     } else {
-                        exportDatabaseLauncher.launch("gymroutines_${viewModel.getCurrentTimeIso()}.db")
+                        exportDatabaseLauncher.launch(
+                            "gymroutines_${viewModel.getCurrentTimeIso()}.db"
+                        )
                     }
                 },
                 text = { Text(stringResource(R.string.pref_back_up_data)) },
                 secondaryText = { Text(stringResource(R.string.pref_detail_back_up_data)) },
-                icon = { Icon(Icons.Default.SaveAlt, null) },
+                icon = { Icon(Icons.Default.SaveAlt, null) }
             )
             ListItem(
                 modifier = Modifier.clickable {
@@ -101,7 +103,7 @@ fun DataSettings(
                 },
                 text = { Text(stringResource(R.string.pref_restore_data)) },
                 secondaryText = { Text(stringResource(R.string.pref_detail_restore_data)) },
-                icon = { Icon(Icons.Default.SettingsBackupRestore, null) },
+                icon = { Icon(Icons.Default.SettingsBackupRestore, null) }
             )
         }
     }
