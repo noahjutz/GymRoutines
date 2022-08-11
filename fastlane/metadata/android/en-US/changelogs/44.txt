@@ -1,0 +1,7 @@
+Features:
+* Updated translations in Dutch, Polish, French, Basque, Finnish, Hungarian, Italian, Portuguese, Swedish, German and Danish (@mondstern, @Hiajen, @ERYpTIOn)
+
+Development:
+* Upgraded dependencies (4591b11f, 7988c9e4, 733b69e6, b1183d25, 23fcec0b)
+* Incremented targetSdk from 31 to 32 (b1183d25)
+* Remove deprecated call to CreateDocument for exporting data (eeee6c69)
