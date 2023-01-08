@@ -57,7 +57,7 @@
     <string name="btn_open_in_browser">Åbn i browser</string>
     <string name="screen_appearance_settings">Udseende</string>
     <string name="btn_reset">Nulstil</string>
-    <string name="screen_data_settings">Dato</string>
+    <string name="screen_data_settings">Data</string>
     <string name="pref_back_up_data">Sikkerhedskopiér data</string>
     <string name="pref_restore_data">Gendan data</string>
     <string name="alert_must_finish_workout">Afslut først din træning.</string>
