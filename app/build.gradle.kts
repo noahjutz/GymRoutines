@@ -144,14 +144,14 @@ dependencies {
     implementation("com.google.accompanist:accompanist-navigation-animation:0.28.0")
     implementation("com.google.accompanist:accompanist-placeholder-material:0.28.0")
 
-    androidTestImplementation("androidx.test:core:1.4.0")
-    androidTestImplementation("androidx.test:core-ktx:1.4.0")
+    androidTestImplementation("androidx.test:core:1.5.0")
+    androidTestImplementation("androidx.test:core-ktx:1.5.0")
 
-    testImplementation("io.mockk:mockk:1.10.2")
-    androidTestImplementation("io.mockk:mockk-android:1.10.2")
+    testImplementation("io.mockk:mockk:1.13.4")
+    androidTestImplementation("io.mockk:mockk-android:1.13.4")
 
-    testImplementation("junit:junit:4.13.1")
-    testImplementation("org.assertj:assertj-core:3.18.1")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.assertj:assertj-core:3.24.2")
 }
 
 ktlint {
