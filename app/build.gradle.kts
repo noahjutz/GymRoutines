@@ -114,7 +114,7 @@ dependencies {
     testImplementation("androidx.room:room-testing:2.5.0")
     androidTestImplementation("androidx.room:room-testing:2.5.0")
 
-    kapt("androidx.lifecycle:lifecycle-compiler:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.5.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
     implementation("androidx.lifecycle:lifecycle-process:2.5.1")
 
