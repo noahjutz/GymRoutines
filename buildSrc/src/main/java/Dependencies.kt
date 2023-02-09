@@ -17,9 +17,9 @@
  */
 
 object App {
-    const val compileSdk = 32
+    const val compileSdk = 33
     const val minSdk = 21
-    const val targetSdk = 32
+    const val targetSdk = 33
 }
 
 object Versions {
@@ -75,16 +75,15 @@ object Libs {
     }
 
     object Compose {
-        const val version = "1.2.0"
-        const val ui = "androidx.compose.ui:ui:$version"
-        const val tooling = "androidx.compose.ui:ui-tooling:$version"
-        const val foundation = "androidx.compose.foundation:foundation:$version"
-        const val material = "androidx.compose.material:material:$version"
-        const val iconsCore = "androidx.compose.material:material-icons-core:$version"
-        const val iconsExtended = "androidx.compose.material:material-icons-extended:$version"
-        const val runtimeLivedata = "androidx.compose.runtime:runtime-livedata:$version"
-        const val test = "androidx.compose.ui:ui-test:$version"
-        const val testJunit4 = "androidx.compose.ui:ui-test-junit4:$version"
+        const val ui = "androidx.compose.ui:ui:1.3.3"
+        const val tooling = "androidx.compose.ui:ui-tooling:1.3.3"
+        const val foundation = "androidx.compose.foundation:foundation:1.3.1"
+        const val material = "androidx.compose.material:material:1.3.1"
+        const val iconsCore = "androidx.compose.material:material-icons-core:1.3.1"
+        const val iconsExtended = "androidx.compose.material:material-icons-extended:1.3.1"
+        const val runtimeLivedata = "androidx.compose.runtime:runtime-livedata:1.3.3"
+        const val test = "androidx.compose.ui:ui-test:1.3.3"
+        const val testJunit4 = "androidx.compose.ui:ui-test-junit4:1.3.3"
     }
 
     object Accompanist {
@@ -145,7 +144,7 @@ object GradlePlugins {
     }
 
     object Kotlin {
-        const val version = "1.7.0"
+        const val version = "1.8.10"
         const val classpath = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
     }
 }
