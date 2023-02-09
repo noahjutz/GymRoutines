@@ -26,7 +26,7 @@ plugins {
 
 android {
     compileSdk = App.compileSdk
-    buildToolsVersion = "30.0.3"
+    buildToolsVersion = "33.0.1"
 
     defaultConfig {
         applicationId = "com.noahjutz.gymroutines"
