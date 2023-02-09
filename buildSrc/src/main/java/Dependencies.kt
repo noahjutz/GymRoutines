@@ -28,10 +28,8 @@ object Versions {
 
 object Libs {
     object Core {
-        private const val version = "1.8.0"
-        const val core = "androidx.core:core-ktx:$version"
-        private const val versionSplashScreen = "1.0.0-beta01"
-        const val splashScreen = "androidx.core:core-splashscreen:$versionSplashScreen"
+        const val core = "androidx.core:core-ktx:1.9.0"
+        const val splashScreen = "androidx.core:core-splashscreen:1.0.0"
     }
 
     object Coroutines {
@@ -45,12 +43,12 @@ object Libs {
     }
 
     object Serialization {
-        private const val version = "1.3.3"
+        private const val version = "1.5.0-RC"
         const val json = "org.jetbrains.kotlinx:kotlinx-serialization-json:$version"
     }
 
     object Room {
-        private const val version = "2.4.3"
+        private const val version = "2.5.0"
         const val room = "androidx.room:room-ktx:$version"
         const val compiler = "androidx.room:room-compiler:$version"
         const val runtime = "androidx.room:room-runtime:$version"
@@ -65,12 +63,12 @@ object Libs {
     }
 
     object Navigation {
-        private const val version = "2.5.1"
+        private const val version = "2.5.3"
         const val compose = "androidx.navigation:navigation-compose:$version"
     }
 
     object Activity {
-        private const val version = "1.5.1"
+        private const val version = "1.6.1"
         const val compose = "androidx.activity:activity-compose:$version"
     }
 
