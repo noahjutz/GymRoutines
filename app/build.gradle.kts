@@ -126,6 +126,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling:1.3.3")
     implementation("androidx.compose.foundation:foundation:1.3.1")
     implementation("androidx.compose.material:material:1.3.1")
+    implementation("androidx.compose.material3:material3:1.0.1")
     implementation("androidx.compose.material:material-icons-core:1.3.1")
     implementation("androidx.compose.material:material-icons-extended:1.3.1")
     implementation("androidx.compose.runtime:runtime-livedata:1.3.3")
