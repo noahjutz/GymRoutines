@@ -20,18 +20,18 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
-    kotlin("plugin.serialization") version GradlePlugins.Kotlin.version
-    id("org.jlleitschuh.gradle.ktlint") version Versions.ktlintPlugin
+    kotlin("plugin.serialization") version "1.8.10"
+    id("org.jlleitschuh.gradle.ktlint") version "11.1.0"
 }
 
 android {
-    compileSdk = App.compileSdk
+    compileSdk = 33
     buildToolsVersion = "33.0.1"
 
     defaultConfig {
         applicationId = "com.noahjutz.gymroutines"
-        minSdk = App.minSdk
-        targetSdk = App.targetSdk
+        minSdk = 21
+        targetSdk = 33
         versionCode = 44
         versionName = "0.1.0-beta12"
 
@@ -99,59 +99,59 @@ android {
 }
 
 dependencies {
-    implementation(Libs.Core.core)
-    implementation(Libs.Core.splashScreen)
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-splashscreen:1.0.0")
 
-    implementation(Libs.Coroutines.android)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
-    implementation(Libs.Material.material)
+    implementation("com.google.android.material:material:1.8.0")
 
-    implementation(Libs.Serialization.json)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0-RC")
 
-    implementation(Libs.Room.room)
-    kapt(Libs.Room.compiler)
-    implementation(Libs.Room.runtime)
-    testImplementation(Libs.Room.testing)
-    androidTestImplementation(Libs.Room.testing)
+    implementation("androidx.room:room-ktx:2.5.0")
+    kapt("androidx.room:room-compiler:2.5.0")
+    implementation("androidx.room:room-runtime:2.5.0")
+    testImplementation("androidx.room:room-testing:2.5.0")
+    androidTestImplementation("androidx.room:room-testing:2.5.0")
 
-    kapt(Libs.Lifecycle.lifecycle)
-    implementation(Libs.Lifecycle.livedata)
-    implementation(Libs.Lifecycle.process)
+    kapt("androidx.lifecycle:lifecycle-compiler:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-process:2.5.1")
 
-    implementation(Libs.Navigation.compose)
+    implementation("androidx.navigation:navigation-compose:2.5.3")
 
-    testImplementation(TestLibs.Junit4.junit4)
-    testImplementation(TestLibs.AssertJ.assertJ)
+    implementation("androidx.activity:activity-compose:1.6.1")
 
-    testImplementation(TestLibs.Mockk.unit)
-    androidTestImplementation(TestLibs.Mockk.instrumented)
+    implementation("androidx.compose.ui:ui:1.3.3")
+    implementation("androidx.compose.ui:ui-tooling:1.3.3")
+    implementation("androidx.compose.foundation:foundation:1.3.1")
+    implementation("androidx.compose.material:material:1.3.1")
+    implementation("androidx.compose.material:material-icons-core:1.3.1")
+    implementation("androidx.compose.material:material-icons-extended:1.3.1")
+    implementation("androidx.compose.runtime:runtime-livedata:1.3.3")
+    androidTestImplementation("androidx.compose.ui:ui-test:1.3.3")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.3.3")
 
-    implementation(Libs.Activity.compose)
+    implementation("io.insert-koin:koin-android:3.3.3")
+    implementation("io.insert-koin:koin-androidx-compose:3.4.1")
+    testImplementation("io.insert-koin:koin-test:3.3.3")
 
-    implementation(Libs.Compose.ui)
-    implementation(Libs.Compose.foundation)
-    implementation(Libs.Compose.iconsCore)
-    implementation(Libs.Compose.iconsExtended)
-    implementation(Libs.Compose.runtimeLivedata)
-    implementation(Libs.Compose.material)
-    implementation(Libs.Compose.tooling)
-    androidTestImplementation(Libs.Compose.test)
-    androidTestImplementation(Libs.Compose.testJunit4)
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
-    implementation(Libs.Koin.android)
-    implementation(Libs.Koin.compose)
-    testImplementation(Libs.Koin.test)
+    implementation("com.jakewharton:process-phoenix:2.1.2")
 
-    implementation(Libs.DataStore.preferences)
+    implementation("com.google.accompanist:accompanist-navigation-material:0.28.0")
+    implementation("com.google.accompanist:accompanist-navigation-animation:0.28.0")
+    implementation("com.google.accompanist:accompanist-placeholder-material:0.28.0")
 
-    implementation(Libs.ProcessPhoenix.processPhoenix)
+    androidTestImplementation("androidx.test:core:1.4.0")
+    androidTestImplementation("androidx.test:core-ktx:1.4.0")
 
-    androidTestImplementation(TestLibs.Test.core)
-    androidTestImplementation(TestLibs.Test.coreKtx)
+    testImplementation("io.mockk:mockk:1.10.2")
+    androidTestImplementation("io.mockk:mockk-android:1.10.2")
 
-    implementation(Libs.Accompanist.navigationAnimation)
-    implementation(Libs.Accompanist.navigationMaterial)
-    implementation(Libs.Accompanist.placeholder)
+    testImplementation("junit:junit:4.13.1")
+    testImplementation("org.assertj:assertj-core:3.18.1")
 }
 
 ktlint {
