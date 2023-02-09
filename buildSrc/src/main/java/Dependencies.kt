@@ -101,9 +101,9 @@ object Libs {
     }
 
     object Koin {
-        private const val version = "3.2.0"
+        private const val version = "3.3.3"
         const val android = "io.insert-koin:koin-android:$version"
-        const val compose = "io.insert-koin:koin-androidx-compose:$version"
+        const val compose = "io.insert-koin:koin-androidx-compose:3.4.1"
         const val test = "io.insert-koin:koin-test:$version"
     }
 
