@@ -96,7 +96,7 @@ fun AutoSelectTextField(
 val durationVisualTransformation = object : VisualTransformation {
     val offsetMap = object : OffsetMapping {
         override fun originalToTransformed(offset: Int) = if (offset == 0) 0 else 5
-        override fun transformedToOriginal(offset: Int) = 5 - offset
+        override fun transformedToOriginal(offset: Int) = if (offset == 0) 0 else 5 - offset
     }
 
     override fun filter(text: AnnotatedString): TransformedText {
