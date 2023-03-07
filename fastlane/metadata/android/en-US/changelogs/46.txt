@@ -1,0 +1,1 @@
+Increased maximum set weight to 9999.
