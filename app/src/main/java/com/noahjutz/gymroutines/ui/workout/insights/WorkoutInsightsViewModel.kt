@@ -27,14 +27,13 @@ import com.noahjutz.gymroutines.data.RoutineRepository
 import com.noahjutz.gymroutines.data.WorkoutRepository
 import com.noahjutz.gymroutines.data.domain.Workout
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class WorkoutInsightsViewModel(
     private val workoutRepository: WorkoutRepository,
     private val routineRepository: RoutineRepository,
-    private val preferences: DataStore<Preferences>,
+    preferences: DataStore<Preferences>,
 ) : ViewModel() {
     val workouts = workoutRepository.workouts.combine(preferences.data) { workouts, prefs ->
         workouts.filter {
@@ -51,7 +50,7 @@ class WorkoutInsightsViewModel(
         workoutRepository.delete(workout)
     }
 
-    suspend fun getRoutineName(routineId: Int): String {
+    private suspend fun getRoutineName(routineId: Int): String {
         val routine = routineRepository.getRoutine(routineId)
         return routine?.name ?: ""
     }

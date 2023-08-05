@@ -13,7 +13,7 @@ import java.util.*
 import kotlinx.coroutines.flow.map
 
 class DataSettingsViewModel(
-    private val preferences: DataStore<Preferences>,
+    preferences: DataStore<Preferences>,
     private val database: AppDatabase,
     private val application: Application
 ) : ViewModel() {

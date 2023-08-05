@@ -22,6 +22,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -52,12 +53,12 @@ fun AppSettings(
                 }
             )
         }
-    ) {
+    ) { paddingValues ->
         Column(
             Modifier.scrollable(
                 orientation = Orientation.Vertical,
                 state = rememberScrollState()
-            )
+            ).padding(paddingValues)
         ) {
             ListItem(
                 modifier = Modifier.clickable(onClick = navToGeneralSettings),

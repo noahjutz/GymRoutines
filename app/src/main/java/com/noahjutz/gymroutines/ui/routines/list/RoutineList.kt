@@ -88,10 +88,10 @@ fun RoutineList(
                 text = { Text(stringResource(R.string.btn_new_routine)) },
             )
         },
-    ) {
+    ) { paddingValues ->
         val routines by viewModel.routines.collectAsState(null)
 
-        Crossfade(routines != null) { isReady ->
+        Crossfade(routines != null, Modifier.padding(paddingValues)) { isReady ->
             if (isReady) {
                 RoutineListContent(
                     routines = routines ?: emptyList(),

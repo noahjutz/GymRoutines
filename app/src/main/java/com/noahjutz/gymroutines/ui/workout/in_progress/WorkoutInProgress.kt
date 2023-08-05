@@ -18,23 +18,54 @@
 
 package com.noahjutz.gymroutines.ui.workout.in_progress
 
-import androidx.compose.animation.*
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Button
+import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.DismissValue
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.MaterialTheme.typography
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.SwipeToDismiss
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.DragHandle
+import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,12 +80,14 @@ import androidx.compose.ui.unit.sp
 import com.noahjutz.gymroutines.R
 import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import com.noahjutz.gymroutines.data.domain.duration
-import com.noahjutz.gymroutines.ui.components.*
+import com.noahjutz.gymroutines.ui.components.AutoSelectTextField
+import com.noahjutz.gymroutines.ui.components.SwipeToDeleteBackground
+import com.noahjutz.gymroutines.ui.components.TopBar
+import com.noahjutz.gymroutines.ui.components.durationVisualTransformation
 import com.noahjutz.gymroutines.util.RegexPatterns
 import com.noahjutz.gymroutines.util.formatSimple
 import com.noahjutz.gymroutines.util.pretty
 import com.noahjutz.gymroutines.util.toStringOrBlank
-import kotlin.time.ExperimentalTime
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -83,10 +116,10 @@ fun WorkoutInProgress(
                 }
             )
         },
-    ) {
+    ) { paddingValues ->
         val workout by viewModel.workout.collectAsState(initial = null)
 
-        Crossfade(workout == null) { isNull ->
+        Crossfade(workout == null, Modifier.padding(paddingValues)) { isNull ->
             if (isNull) {
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
@@ -108,7 +141,6 @@ fun WorkoutInProgress(
 
 @OptIn(
     ExperimentalMaterialApi::class,
-    ExperimentalTime::class,
     ExperimentalFoundationApi::class
 )
 @Composable
@@ -192,7 +224,10 @@ private fun WorkoutInProgressContent(
                                     modifier = Modifier.padding(16.dp),
                                     onClick = { expanded = !expanded }
                                 ) {
-                                    Icon(Icons.Default.DragHandle, stringResource(R.string.drag_handle))
+                                    Icon(
+                                        Icons.Default.DragHandle,
+                                        stringResource(R.string.drag_handle)
+                                    )
                                 }
                                 DropdownMenu(
                                     expanded = expanded,
@@ -304,7 +339,10 @@ private fun WorkoutInProgressContent(
                                     .background(colors.primary.copy(alpha = 0.1f)),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Icon(Icons.Default.Check, stringResource(R.string.column_set_complete))
+                                Icon(
+                                    Icons.Default.Check,
+                                    stringResource(R.string.column_set_complete)
+                                )
                             }
                         }
                         for (set in setGroup.sets) {

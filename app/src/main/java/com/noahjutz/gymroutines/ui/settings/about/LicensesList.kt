@@ -100,8 +100,8 @@ fun LicensesList(
                 title = stringResource(R.string.screen_licenses),
             )
         }
-    ) {
-        LazyColumn {
+    ) { paddingValues ->
+        LazyColumn(contentPadding = paddingValues) {
             item {
                 Card(
                     Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp),
@@ -125,7 +125,12 @@ fun LicensesList(
                     modifier = Modifier.clickable { context.openUrl(dependency.url) },
                     text = { Text(dependency.name) },
                     secondaryText = { Text(dependency.license.fullName) },
-                    trailing = { Icon(Icons.Default.OpenInBrowser, stringResource(R.string.btn_open_in_browser)) }
+                    trailing = {
+                        Icon(
+                            Icons.Default.OpenInBrowser,
+                            stringResource(R.string.btn_open_in_browser)
+                        )
+                    }
                 )
             }
         }

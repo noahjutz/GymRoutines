@@ -78,7 +78,12 @@ fun ExerciseEditor(
                                 popBackStack()
                             }
                         },
-                        content = { Icon(Icons.Default.Close, stringResource(R.string.btn_cancel)) },
+                        content = {
+                            Icon(
+                                Icons.Default.Close,
+                                stringResource(R.string.btn_cancel)
+                            )
+                        },
                     )
                 },
                 title = stringResource(R.string.screen_edit_exercise),
@@ -97,8 +102,8 @@ fun ExerciseEditor(
                 }
             )
         },
-        content = {
-            LazyColumn {
+        content = { paddingValues ->
+            LazyColumn(contentPadding = paddingValues) {
                 item {
                     val name by viewModel.name.collectAsState()
                     TextField(

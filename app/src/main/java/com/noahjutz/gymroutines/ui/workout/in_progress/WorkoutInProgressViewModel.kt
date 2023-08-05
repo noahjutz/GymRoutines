@@ -29,13 +29,17 @@ import com.noahjutz.gymroutines.data.AppPrefs
 import com.noahjutz.gymroutines.data.ExerciseRepository
 import com.noahjutz.gymroutines.data.RoutineRepository
 import com.noahjutz.gymroutines.data.WorkoutRepository
-import com.noahjutz.gymroutines.data.domain.*
-import java.util.*
+import com.noahjutz.gymroutines.data.domain.Exercise
+import com.noahjutz.gymroutines.data.domain.WorkoutSet
+import com.noahjutz.gymroutines.data.domain.WorkoutSetGroup
+import com.noahjutz.gymroutines.data.domain.WorkoutSetGroupWithSets
+import com.noahjutz.gymroutines.data.domain.WorkoutWithSetGroups
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.util.Calendar
+import java.util.Date
 
 class WorkoutInProgressViewModel(
     private val preferences: DataStore<Preferences>,

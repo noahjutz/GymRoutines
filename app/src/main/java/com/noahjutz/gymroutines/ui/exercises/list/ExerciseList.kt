@@ -82,10 +82,10 @@ fun ExerciseList(
                 text = { Text(stringResource(R.string.btn_new_exercise)) },
             )
         },
-    ) {
+    ) { paddingValues ->
         val exercises by viewModel.exercises.collectAsState(null)
 
-        Crossfade(exercises != null) { isReady ->
+        Crossfade(exercises != null, Modifier.padding(paddingValues)) { isReady ->
             if (isReady) {
                 ExerciseListContent(
                     navToExerciseEditor = navToExerciseEditor,

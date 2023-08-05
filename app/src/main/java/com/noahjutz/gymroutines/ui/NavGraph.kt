@@ -124,7 +124,7 @@ fun NavGraph(
                     .getLiveData<List<Int>>("exerciseIdsToAdd")
                     .observeAsState()
                 LaunchedEffect(exerciseIdsToAdd) {
-                    backStackEntry.savedStateHandle.set("exerciseIdsToAdd", null)
+                    backStackEntry.savedStateHandle["exerciseIdsToAdd"] = null
                 }
                 RoutineEditor(
                     routineId = backStackEntry.arguments!!.getInt("routineId"),
@@ -168,7 +168,7 @@ fun NavGraph(
                     .getLiveData<List<Int>>("exerciseIdsToAdd")
                     .observeAsState()
                 LaunchedEffect(exerciseIdsToAdd) {
-                    backStackEntry.savedStateHandle.set("exerciseIdsToAdd", null)
+                    backStackEntry.savedStateHandle["exerciseIdsToAdd"] = null
                 }
                 val workoutId = backStackEntry.arguments!!.getInt("workoutId")
                 WorkoutInProgress(

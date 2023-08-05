@@ -6,6 +6,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
@@ -43,7 +44,7 @@ fun DataSettings(
                 }
             )
         }
-    ) {
+    ) { paddingValues ->
         val exportDatabaseLauncher = rememberLauncherForActivityResult(
             ActivityResultContracts.CreateDocument("application/vnd.sqlite3")
         ) { uri ->
@@ -69,7 +70,11 @@ fun DataSettings(
             }
         }
 
-        Column(Modifier.verticalScroll(rememberScrollState())) {
+        Column(
+            Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(paddingValues)
+        ) {
             val isWorkoutInProgress by viewModel.isWorkoutInProgress.collectAsState(initial = true)
             val scope = rememberCoroutineScope()
             val alertFinishWorkout = stringResource(R.string.alert_must_finish_workout)

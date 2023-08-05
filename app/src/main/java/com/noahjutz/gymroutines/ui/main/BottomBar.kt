@@ -24,19 +24,19 @@ sealed class BottomNavItem(
     @StringRes val name: Int,
     val icon: ImageVector,
 ) {
-    object Routines : BottomNavItem(
+    data object Routines : BottomNavItem(
         route = Screen.routineList.name,
         name = R.string.screen_routine_list,
         icon = Icons.Default.ViewAgenda
     )
 
-    object Exercises : BottomNavItem(
+    data object Exercises : BottomNavItem(
         route = Screen.exerciseList.name,
         name = R.string.screen_exercise_list,
         icon = Icons.Default.FitnessCenter
     )
 
-    object Workouts : BottomNavItem(
+    data object Workouts : BottomNavItem(
         route = Screen.insights.name,
         name = R.string.screen_insights,
         icon = Icons.Default.Insights

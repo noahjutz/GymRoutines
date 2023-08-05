@@ -1,6 +1,8 @@
 package com.noahjutz.gymroutines.ui.settings.general
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -31,18 +33,20 @@ fun GeneralSettings(
                 }
             )
         }
-    ) {
-        val (isVisible, setIsVisible) = remember { mutableStateOf(false) }
-        ListItem(
-            modifier = Modifier.clickable { setIsVisible(true) },
-            text = { Text(stringResource(R.string.pref_reset_settings)) },
-            icon = { Icon(Icons.Default.RestartAlt, null) }
-        )
-        ResetDialog(
-            isVisible = isVisible,
-            onDismiss = { setIsVisible(false) },
-            onReset = { viewModel.resetSettings() }
-        )
+    ) { paddingValues ->
+        Box(Modifier.padding(paddingValues)) {
+            val (isVisible, setIsVisible) = remember { mutableStateOf(false) }
+            ListItem(
+                modifier = Modifier.clickable { setIsVisible(true) },
+                text = { Text(stringResource(R.string.pref_reset_settings)) },
+                icon = { Icon(Icons.Default.RestartAlt, null) }
+            )
+            ResetDialog(
+                isVisible = isVisible,
+                onDismiss = { setIsVisible(false) },
+                onReset = { viewModel.resetSettings() }
+            )
+        }
     }
 }
 

@@ -45,8 +45,11 @@ fun AppearanceSettings(
                 }
             )
         }
-    ) {
-        Column(Modifier.verticalScroll(rememberScrollState())) {
+    ) { paddingValues ->
+        Column(
+            Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(paddingValues)) {
             val appTheme by viewModel.appTheme.collectAsState(initial = ColorTheme.FollowSystem)
             Row(
                 Modifier

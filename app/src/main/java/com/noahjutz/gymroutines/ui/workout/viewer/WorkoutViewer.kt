@@ -52,9 +52,9 @@ fun WorkoutViewer(
                 }
             )
         }
-    ) {
+    ) { paddingValues ->
         val workout by viewModel.workout.collectAsState()
-        Crossfade(workout == null) { isNull ->
+        Crossfade(workout == null, Modifier.padding(paddingValues)) { isNull ->
             if (isNull) {
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator()
@@ -68,7 +68,7 @@ fun WorkoutViewer(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalTime
 @Composable
 fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewerViewModel) {
@@ -77,7 +77,8 @@ fun WorkoutViewerContent(workout: WorkoutWithSetGroups, viewModel: WorkoutViewer
             val routineName by viewModel.routineName.collectAsState(initial = "")
             Spacer(Modifier.height(24.dp))
             Text(
-                text = routineName.takeIf { it.isNotBlank() } ?: stringResource(R.string.unnamed_routine),
+                text = routineName.takeIf { it.isNotBlank() }
+                    ?: stringResource(R.string.unnamed_routine),
                 modifier = Modifier.padding(horizontal = 24.dp),
                 style = typography.h4,
             )

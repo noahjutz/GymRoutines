@@ -99,9 +99,9 @@ fun RoutineEditor(
                 title = stringResource(R.string.screen_edit_routine),
             )
         }
-    ) {
+    ) { paddingValues ->
         val routine by viewModel.routine.collectAsState(initial = null)
-        Crossfade(routine != null) { isReady ->
+        Crossfade(routine != null, Modifier.padding(paddingValues)) { isReady ->
             if (!isReady) {
                 RoutineEditorPlaceholder()
             } else {
@@ -126,7 +126,6 @@ private fun RoutineEditorContent(
     viewModel: RoutineEditorViewModel,
     navToExercisePicker: () -> Unit
 ) {
-    val scope = rememberCoroutineScope()
     LazyColumn(
         Modifier.fillMaxHeight(),
         contentPadding = PaddingValues(bottom = 70.dp)
@@ -220,7 +219,10 @@ private fun RoutineEditorContent(
                                     modifier = Modifier.padding(16.dp),
                                     onClick = { expanded = !expanded }
                                 ) {
-                                    Icon(Icons.Default.DragHandle, stringResource(R.string.btn_more))
+                                    Icon(
+                                        Icons.Default.DragHandle,
+                                        stringResource(R.string.btn_more)
+                                    )
                                 }
                                 DropdownMenu(
                                     expanded = expanded,

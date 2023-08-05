@@ -62,9 +62,9 @@ fun AboutApp(
                 }
             )
         }
-    ) {
+    ) { paddingValues ->
         val context = LocalContext.current.applicationContext
-        LazyColumn {
+        LazyColumn(contentPadding = paddingValues) {
             item {
                 Row(
                     Modifier
