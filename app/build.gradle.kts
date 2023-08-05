@@ -19,14 +19,14 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    kotlin("plugin.serialization") version "1.8.10"
-    id("org.jlleitschuh.gradle.ktlint") version "11.1.0"
+    kotlin("plugin.serialization") version "1.9.0"
+    id("org.jlleitschuh.gradle.ktlint") version "11.5.0"
     id("com.google.devtools.ksp")
 }
 
 android {
     compileSdk = 33
-    buildToolsVersion = "33.0.1"
+    buildToolsVersion = "34.0.0"
 
     defaultConfig {
         applicationId = "com.noahjutz.gymroutines"
