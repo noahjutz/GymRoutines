@@ -36,27 +36,27 @@ enum class ColorTheme(
 }
 
 sealed class AppPrefs<T>(val key: Preferences.Key<T>, val defaultValue: T) {
-    object IsFirstRun : AppPrefs<Boolean>(
+    data object IsFirstRun : AppPrefs<Boolean>(
         key = booleanPreferencesKey("isFirstRun"),
         defaultValue = false
     )
 
-    object CurrentWorkout : AppPrefs<Int>(
+    data object CurrentWorkout : AppPrefs<Int>(
         key = intPreferencesKey("currentWorkout"),
         defaultValue = -1
     )
 
-    object ShowBottomNavLabels : AppPrefs<Boolean>(
+    data object ShowBottomNavLabels : AppPrefs<Boolean>(
         key = booleanPreferencesKey("showBottomNavLabels"),
         defaultValue = true
     )
 
-    object AppTheme : AppPrefs<String>(
+    data object AppTheme : AppPrefs<String>(
         key = stringPreferencesKey("appTheme"),
         defaultValue = ColorTheme.FollowSystem.name
     )
 
-    object UpdateRoutineAfterWorkout : AppPrefs<Boolean>(
+    data object UpdateRoutineAfterWorkout : AppPrefs<Boolean>(
         key = booleanPreferencesKey("updateRoutineAfterWorkout"),
         defaultValue = false
     )

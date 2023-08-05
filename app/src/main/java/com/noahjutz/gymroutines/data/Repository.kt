@@ -166,10 +166,6 @@ class WorkoutRepository(private val workoutDao: WorkoutDao) {
         return workoutDao.getWorkoutWithSetGroups(workoutId)
     }
 
-    suspend fun getWorkout(workoutId: Int): Workout? {
-        return workoutDao.getWorkout(workoutId)
-    }
-
     suspend fun getSetsInWorkout(workoutId: Int): List<WorkoutSet> {
         return workoutDao.getSetsInWorkout(workoutId)
     }
