@@ -19,9 +19,9 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-kapt")
     kotlin("plugin.serialization") version "1.8.10"
     id("org.jlleitschuh.gradle.ktlint") version "11.1.0"
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -37,21 +37,15 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += "room.schemaLocation" to "$projectDir/schemas"
-            }
-        }
-
         sourceSets {
             getByName("androidTest").assets.srcDirs("$projectDir/schemas")
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
+    // compileOptions {
+    //     sourceCompatibility = JavaVersion.VERSION_19
+    //     targetCompatibility = JavaVersion.VERSION_19
+    // }
 
     //kotlinOptions {
     //    jvmTarget = JavaVersion.VERSION_1_8.toString()
@@ -76,7 +70,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.2"
+        kotlinCompilerExtensionVersion = "1.5.1"
     }
 
     packagingOptions {
@@ -102,39 +96,39 @@ android {
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.core:core-splashscreen:1.0.0")
+    implementation("androidx.core:core-ktx:1.10.1")
+    implementation("androidx.core:core-splashscreen:1.0.1")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
-    implementation("com.google.android.material:material:1.8.0")
+    implementation("com.google.android.material:material:1.9.0")
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0-RC")
 
-    implementation("androidx.room:room-ktx:2.5.0")
-    kapt("androidx.room:room-compiler:2.5.0")
-    implementation("androidx.room:room-runtime:2.5.0")
-    testImplementation("androidx.room:room-testing:2.5.0")
-    androidTestImplementation("androidx.room:room-testing:2.5.0")
+    implementation("androidx.room:room-ktx:2.5.2")
+    ksp("androidx.room:room-compiler:2.5.2")
+    implementation("androidx.room:room-runtime:2.5.2")
+    testImplementation("androidx.room:room-testing:2.5.2")
+    androidTestImplementation("androidx.room:room-testing:2.5.2")
 
-    implementation("androidx.lifecycle:lifecycle-common-java8:2.5.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
-    implementation("androidx.lifecycle:lifecycle-process:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-process:2.6.1")
 
-    implementation("androidx.navigation:navigation-compose:2.5.3")
+    implementation("androidx.navigation:navigation-compose:2.6.0")
 
-    implementation("androidx.activity:activity-compose:1.6.1")
+    implementation("androidx.activity:activity-compose:1.7.2")
 
-    implementation("androidx.compose.ui:ui:1.3.3")
-    implementation("androidx.compose.ui:ui-tooling:1.3.3")
-    implementation("androidx.compose.foundation:foundation:1.3.1")
-    implementation("androidx.compose.material:material:1.3.1")
-    implementation("androidx.compose.material3:material3:1.0.1")
-    implementation("androidx.compose.material:material-icons-core:1.3.1")
-    implementation("androidx.compose.material:material-icons-extended:1.3.1")
-    implementation("androidx.compose.runtime:runtime-livedata:1.3.3")
-    androidTestImplementation("androidx.compose.ui:ui-test:1.3.3")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.3.3")
+    implementation("androidx.compose.ui:ui:1.4.3")
+    implementation("androidx.compose.ui:ui-tooling:1.4.3")
+    implementation("androidx.compose.foundation:foundation:1.4.3")
+    implementation("androidx.compose.material:material:1.4.3")
+    implementation("androidx.compose.material3:material3:1.1.1")
+    implementation("androidx.compose.material:material-icons-core:1.4.3")
+    implementation("androidx.compose.material:material-icons-extended:1.4.3")
+    implementation("androidx.compose.runtime:runtime-livedata:1.4.3")
+    androidTestImplementation("androidx.compose.ui:ui-test:1.4.3")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.4.3")
 
     implementation("io.insert-koin:koin-android:3.3.3")
     implementation("io.insert-koin:koin-androidx-compose:3.4.1")
@@ -156,6 +150,23 @@ dependencies {
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.assertj:assertj-core:3.24.2")
+}
+
+ksp {
+    arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
+}
+class RoomSchemaArgProvider(
+    @get:InputDirectory
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    val schemaDir: File
+) : CommandLineArgumentProvider {
+    override fun asArguments(): Iterable<String> {
+        return listOf("room.schemaLocation=${schemaDir.path}")
+    }
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 ktlint {
