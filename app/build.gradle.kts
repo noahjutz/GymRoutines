@@ -42,15 +42,6 @@ android {
         }
     }
 
-    // compileOptions {
-    //     sourceCompatibility = JavaVersion.VERSION_19
-    //     targetCompatibility = JavaVersion.VERSION_19
-    // }
-
-    //kotlinOptions {
-    //    jvmTarget = JavaVersion.VERSION_1_8.toString()
-    //}
-
     lint {
         textReport = true
     }
@@ -59,8 +50,7 @@ android {
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
     }
@@ -73,7 +63,7 @@ android {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
 
-    packagingOptions {
+    packaging {
         resources.excludes.addAll(
             listOf(
                 "META-INF/DEPENDENCIES",
@@ -156,9 +146,7 @@ ksp {
     arg(RoomSchemaArgProvider(File(projectDir, "schemas")))
 }
 class RoomSchemaArgProvider(
-    @get:InputDirectory
-    @get:PathSensitive(PathSensitivity.RELATIVE)
-    val schemaDir: File
+    @get:InputDirectory @get:PathSensitive(PathSensitivity.RELATIVE) val schemaDir: File
 ) : CommandLineArgumentProvider {
     override fun asArguments(): Iterable<String> {
         return listOf("room.schemaLocation=${schemaDir.path}")
@@ -172,5 +160,4 @@ kotlin {
 ktlint {
     android.set(true)
     ignoreFailures.set(true)
-    disabledRules.add("no-wildcard-imports")
 }
